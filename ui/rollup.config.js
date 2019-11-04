@@ -4,6 +4,8 @@ import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
+import typescript from 'rollup-plugin-typescript';
+import preprocess from 'svelte-preprocess';
 import sass from 'node-sass';
 import fs from 'fs';
 
@@ -42,7 +44,14 @@ export default {
 
   plugins: [
 
+    typescript(),
+
     svelte({
+      preprocess: preprocess({
+        typescript: {
+          transpileOnly: false, // true skips type checking
+        },
+      }),
       // enable run-time checks when not in production
       dev: !production,
       // extract component CSS out into a separate file — better for performance
@@ -66,7 +75,7 @@ export default {
             },
             useBuiltIns: false // cannot use babel polyfill due to IE11.  see documentation in index.html for details.
           },
-        ],
+        ]
       ]
     }),
 

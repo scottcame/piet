@@ -1,13 +1,13 @@
 module.exports = {
   "verbose": true,
   "transform": {
-    "^.+\\.js$": [ require.resolve('babel-jest'), { configFile: './test/babel.config.js' } ]
+    "^.+\\.ts$": "ts-jest"
   },
   "globals": {
     "NODE_ENV": "test"
   },
   "moduleFileExtensions": [
-    "js"
+    "js", "ts"
   ],
   "moduleDirectories": [
     "node_modules"

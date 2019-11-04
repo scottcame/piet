@@ -2,10 +2,9 @@
   Top navbar component
 -->
 
-<script>
+<script lang='typescript'>
 
   import { current_view } from '../js/stores.js';
-  import { onMount } from 'svelte';
 
   let navs = [
     {
@@ -22,14 +21,17 @@
     },
   ];
 
-  let selected_nav = $current_view;
+  let count = 0;
+  $: let doubled = count * 2;
 
-	function handleClicks(e) {
-    let new_nav = e.target.id;
-    if (new_nav !== selected_nav) {
-	    current_view.set(new_nav.replace(/btn\-/, ''));
-    }
-	}
+  // let selected_nav = ${current_view};
+  //
+	// function handleClicks(e) {
+  //   let new_nav = e.target.id;
+  //   if (new_nav !== selected_nav) {
+	//     current_view.set(new_nav.replace(/btn\-/, ''));
+  //   }
+	// }
 
 </script>
 
