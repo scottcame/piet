@@ -1,4 +1,4 @@
-<script lang="typescript">
+<script>
   import { Model } from '../js/model/Model';
   let m = new Model();
   let analyses_count = m.analyses.length;

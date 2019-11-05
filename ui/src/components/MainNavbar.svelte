@@ -2,7 +2,7 @@
   Top navbar component
 -->
 
-<script lang='typescript'>
+<script>
 
   import { current_view } from '../js/stores.js';
 
@@ -21,17 +21,10 @@
     },
   ];
 
-  let count = 0;
-  $: let doubled = count * 2;
-
-  // let selected_nav = ${current_view};
-  //
-	// function handleClicks(e) {
-  //   let new_nav = e.target.id;
-  //   if (new_nav !== selected_nav) {
-	//     current_view.set(new_nav.replace(/btn\-/, ''));
-  //   }
-	// }
+	function handleClicks(e) {
+    let new_nav = e.target.id;
+	  current_view.set(new_nav.replace(/btn\-/, ''));
+	}
 
 </script>
 
