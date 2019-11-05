@@ -4,22 +4,27 @@
 
 <script>
 
-  import { current_view } from '../js/stores.js';
+  import { current_view } from '../js/Stores';
 
   let navs = [
     {
       name: "analyses",
-      disabled: false
+      disabled: false,
+      default: true
     },
     {
       name: "dashboards",
-      disabled: true
+      disabled: true,
+      default: false
     },
     {
       name: "datasets",
-      disabled: true
+      disabled: true,
+      default: false
     },
   ];
+
+  current_view.set(navs.filter(nav => nav.default)[0].name);
 
 	function handleClicks(e) {
     let new_nav = e.target.id;

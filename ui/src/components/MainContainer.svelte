@@ -1,5 +1,5 @@
 <script>
-  import { current_view } from '../js/stores.js';
+  import { current_view } from '../js/Stores';
   import AnalysesView from './AnalysesView.svelte';
   import DatasetsView from './DatasetsView.svelte';
   import DashboardsView from './DashboardsView.svelte';
