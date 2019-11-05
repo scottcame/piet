@@ -33,7 +33,7 @@ sass.render({
 
 export default {
 
-  input: 'src/main.js',
+  input: 'src/main.ts',
 
   output: {
     sourcemap: !production,
