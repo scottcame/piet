@@ -39,7 +39,8 @@
     "dev": "run-p start:dev autobuild",
     "start": "sirv public",
     "start:dev": "sirv public --dev",
-    "test": "jest"
+    "test": "jest",
+    "atest": "jest -i"
   },
   "dependencies": {
     "tslib": "^1.10.0"
