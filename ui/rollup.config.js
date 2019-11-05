@@ -6,6 +6,7 @@ import { terser } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
 import typescript from 'rollup-plugin-typescript';
 import preprocess from 'svelte-preprocess';
+import { eslint } from "rollup-plugin-eslint";
 import sass from 'node-sass';
 import fs from 'fs';
 
@@ -43,6 +44,8 @@ export default {
   },
 
   plugins: [
+
+    eslint({"ignorePattern": ["src/components/**/*", "src/App.svelte"]}),
 
     typescript(),
 

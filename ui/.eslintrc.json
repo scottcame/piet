@@ -1,0 +1,12 @@
+{
+  "extends": ["eslint:recommended", "plugin:jest/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "jest"],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+    "jest/globals": true
+  }
+}

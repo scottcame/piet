@@ -22,6 +22,7 @@ export class Logger {
   }
 
   log(message: string): void {
+    /* eslint-disable no-undef, no-console */
     console.log(this.getLogMessage(message));
   }
 
