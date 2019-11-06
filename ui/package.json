@@ -43,7 +43,7 @@
     "dev": "run-p start:dev autobuild",
     "start": "sirv public",
     "start:dev": "sirv public --dev",
-    "lint": "eslint --ext ts src/js/**/* test/**/*",
+    "lint": "eslint --ext ts src/js test",
     "jest": "jest",
     "test": "run-s lint jest",
     "atest": "jest -i"

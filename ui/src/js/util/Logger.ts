@@ -5,7 +5,7 @@ export class Logger {
   private static instance: Logger;
   private pathRegex: RegExp;
   private constructor() {
-    this.pathRegex = new RegExp(".+" + sep + "(.+)\\)")
+    this.pathRegex = new RegExp(".+" + sep + "(.+)\\)");
   }
 
   static getInstance(): Logger {
