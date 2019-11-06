@@ -1,10 +1,11 @@
 import { Dataset } from '../../src/js/model/Dataset';
 import * as metadata from '../_data/test-metadata.json';
-import { Logger } from '../../src/js/util/Logger';
+
+//import { Logger } from '../../src/js/util/Logger';
+//let logger = Logger.getInstance();
 
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
 let dataset = Dataset.loadFromMetadata(metadata, datasetId);
-let logger = Logger.getInstance();
 
 test('dataset', () => {
   expect(dataset.name).toBe(metadata.name);
@@ -44,12 +45,12 @@ test('dimensions', () => {
 
 test('hierarchies', () => {
   metadata.cubes.forEach((mdCube:any, cubeIdx:number):void => {
-    logger.log("Cube: " + dataset.cubes[cubeIdx].name);
+    //logger.log("Cube: " + dataset.cubes[cubeIdx].name);
     mdCube.dimensions.forEach((mdDimension:any, dimensionIdx:number):void => {
-      logger.log("Dimension: " + dataset.cubes[cubeIdx].dimensions[dimensionIdx].name);
+      //logger.log("Dimension: " + dataset.cubes[cubeIdx].dimensions[dimensionIdx].name);
       expect(mdCube.dimensions[dimensionIdx].hierarchies.length).toBe(dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies.length);
       mdDimension.hierarchies.forEach((_:any, idx:number):void => {
-        logger.log("Hierarchy: " + dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name);
+        //logger.log("Hierarchy: " + dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name);
         expect(dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].name);
         expect(dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].caption);
       });
