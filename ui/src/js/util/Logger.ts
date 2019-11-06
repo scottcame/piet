@@ -15,19 +15,19 @@ export class Logger {
     return Logger.instance;
   }
 
-  getLogMessage(message: string): string {
+  getLogMessage(message: string, stackDepth:number=0): string {
     return "[" +
-      this.getSourceLocation() +
+      this.getSourceLocation(3+stackDepth) +
       "] " + message;
   }
 
   log(message: string): void {
     /* eslint-disable no-undef, no-console */
-    console.log(this.getLogMessage(message));
+    console.log(this.getLogMessage(message), 1);
   }
 
-  private getSourceLocation(): string {
-    let ret = new Error().stack.split('\n')[3];
+  private getSourceLocation(stackDepth:number): string {
+    let ret = new Error().stack.split('\n')[stackDepth];
     ret = ret.replace(this.pathRegex, "$1");
     return ret;
   }
