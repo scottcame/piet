@@ -27,6 +27,7 @@
   current_view.set(navs.filter(nav => nav.default)[0].name);
 
 	function handleClicks(e) {
+    console.log("Nav clicked " + e.target.id);
     let new_nav = e.target.id;
 	  current_view.set(new_nav.replace(/btn\-/, ''));
 	}
@@ -34,37 +35,35 @@
 </script>
 
 <style>
-  ul.navitem-margin {
-    /* needed to make nav items align w bottom of search box */
-    margin-bottom: 7px;
-  }
 </style>
 
-<!-- <div uk-sticky="media: 960" class="uk-navbar-container uk-sticky uk-active uk-sticky-below uk-sticky-fixed" style="position: fixed; top: 0px; width: 1813px;">
-  <div class="uk-container uk-container-expand">
-    <nav class="uk-navbar">
-      <div class="uk-navbar-left">
-        <a href="/" class="uk-navbar-item uk-logo">
-          <div><img src='img/piet-logo.jpg' alt='logo'/>
-            <span class='uk-padding-small'>Piet</span>
-          </div>
+<nav class="flex items-center justify-between flex-wrap bg-gray-100 p-4">
+  <div>
+		<a href="/">
+      <div class="flex inline items-center">
+        <img src='img/piet-logo.jpg' alt='logo'/>
+        <span class='text-2xl pl-2 text-grey-800'>Piet</span>
+      </div>
+		</a>
+	</div>
+  <div class="flex flex-inline justify-end text-gray-500">
+    <div>
+      {#each navs as nav}
+        <a
+          class="block inline-block mr-5 cursor-default {nav.disabled ? '' : 'hover:text-gray-900 cursor-pointer'}"
+          on:click={nav.disabled ? () => {} : handleClicks}
+          id="btn-{nav.name}"
+          href="#foo">{nav.name}
         </a>
+      {/each}
+    </div>
+    <div class="flex inline items-center ml-2">
+      <div class="p-1 bg-white h-6 items-center flex">
+        <svg class="h-3 w-3 stroke-current" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  				<path d="M12.9056439,14.3198574 C11.5509601,15.3729184 9.84871145,16 8,16 C3.581722,16 0,12.418278 0,8 C0,3.581722 3.581722,0 8,0 C12.418278,0 16,3.581722 16,8 C16,9.84871145 15.3729184,11.5509601 14.3198574,12.9056439 L19.6568542,18.2426407 L18.2426407,19.6568542 L12.9056439,14.3198574 Z M8,14 C11.3137085,14 14,11.3137085 14,8 C14,4.6862915 11.3137085,2 8,2 C4.6862915,2 2,4.6862915 2,8 C2,11.3137085 4.6862915,14 8,14 Z" id="Combined-Shape"></path>
+  			</svg>
       </div>
-      <div class="uk-navbar-right">
-        <div class="uk-navbar-item">
-          <ul uk-tab class="navitem-margin">
-          {#each navs as nav}
-            <li class="uk-padding uk-padding-remove-vertical uk-margin-small-top {nav.disabled ? 'uk-disabled' : 'uk-active'}" on:click={handleClicks}><a id="btn-{nav.name}" href="#foo">{nav.name}</a></li>
-          {/each}
-          </ul>
-        </div>
-        <div class="uk-navbar-item">
-          <form class="uk-search uk-search-default">
-            <span class="uk-search-icon-flip" uk-search-icon></span>
-            <input class="uk-search-input" type="search" placeholder="Search..." disabled>
-          </form>
-        </div>
-      </div>
-    </nav>
+      <input class="text-sm" type="search" placeholder="Search..." disabled>
+    </div>
   </div>
-</div> -->
+</nav>

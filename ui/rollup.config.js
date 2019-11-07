@@ -42,14 +42,14 @@ sass.render({
 
 let postcssPlugins = [autoprefixer];
 
-if (true) {
+if (production) {
   // to skip purgecss in dev, change if() to check for production
   // experiment found that purge only takes about .4 seconds...
   postcssPlugins.push(purgecss({
     content: [
       './src/**/*.svelte'
     ],
-    defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
+    defaultExtractor: content => content.match(/[A-Za-z0-9:_/\-]+/g) || []
   }));
 }
 
