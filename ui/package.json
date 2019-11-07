@@ -36,6 +36,7 @@
     "svelte-preprocess": "^3.2.2",
     "tailwindcss": "^1.1.3",
     "ts-jest": "^24.1.0",
+    "tslib": "^1.10.0",
     "typescript": "^3.6.4"
   },
   "scripts": {
@@ -52,7 +53,5 @@
     "atest": "jest -i",
     "build:tailwind": "tailwind build tailwind.css -o public/tailwind-gen.css"
   },
-  "dependencies": {
-    "tslib": "^1.10.0"
-  }
+  "dependencies": {}
 }
