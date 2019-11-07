@@ -40,7 +40,7 @@
   }
 </style>
 
-<div uk-sticky="media: 960" class="uk-navbar-container uk-sticky uk-active uk-sticky-below uk-sticky-fixed" style="position: fixed; top: 0px; width: 1813px;">
+<!-- <div uk-sticky="media: 960" class="uk-navbar-container uk-sticky uk-active uk-sticky-below uk-sticky-fixed" style="position: fixed; top: 0px; width: 1813px;">
   <div class="uk-container uk-container-expand">
     <nav class="uk-navbar">
       <div class="uk-navbar-left">
@@ -67,4 +67,4 @@
       </div>
     </nav>
   </div>
-</div>
+</div> -->

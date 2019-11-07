@@ -1,4 +1,4 @@
 public/bundle.*
-public/global-compiled.css
+public/global-compiled.*
+public/tailwind*
 node_modules
-

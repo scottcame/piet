@@ -1,0 +1,11 @@
+/*
+
+  Tailwind "driver" stylesheet. If you change this file, you have to rebuild tailwind-gen.css by running npm run build:tailwind.
+
+*/
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;

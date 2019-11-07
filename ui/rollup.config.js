@@ -10,6 +10,11 @@ import { eslint } from "rollup-plugin-eslint";
 import sass from 'node-sass';
 import fs from 'fs';
 
+import postcss from 'postcss';
+import purgecss from '@fullhuman/postcss-purgecss';
+import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
+
 //import sizes from 'rollup-plugin-sizes';
 
 const production = process.env.DEV!=="true";
@@ -17,20 +22,57 @@ console.log("Performing a " + (production ? "production" : "dev") + " build");
 
 const watch = process.env.ROLLUP_WATCH;
 
+// render scss stylesheet. in reality, we should be putting any global styles in the base (root) tailwind.css and rebuilding
+// tailwind-gen.css, and so this shouldn't be needed. but we can leave it here for now.
+
 sass.render({
   file: 'src/global.scss',
-  outfile: 'public/global-compiled.css'
+  outFile: 'public/global-compiled.css',
+  sourceMap: !production && 'global-compiled.css.map'
 }, function (error, result) {
   if (!error) {
-    fs.writeFile('public/global-compiled.css', result.css, function (err) {
-      if (err) {
-        console.log(err)
-      }
-    });
+    fs.writeFileSync('public/global-compiled.css', result.css);
+    if (result.map) {
+      fs.writeFileSync('public/global-compiled.css.map', result.map, () => true)
+    }
   } else {
     console.log(error)
   }
 });
+
+let postcssPlugins = [autoprefixer];
+
+if (true) {
+  // to skip purgecss in dev, change if() to check for production
+  // experiment found that purge only takes about .4 seconds...
+  postcssPlugins.push(purgecss({
+    content: [
+      './src/**/*.svelte'
+    ],
+    defaultExtractor: content => content.match(/[\w-/:]+(?<!:)/g) || []
+  }));
+}
+
+// minify the css if we're in production
+if (production) postcssPlugins.push(cssnano);
+
+const postcssProcessor = postcss(postcssPlugins);
+
+// post css processing of tailwind stylesheet (no sourcemap if in production)
+
+fs.readFile('public/tailwind-gen.css', (err, css) => {
+  postcssProcessor.process(css, { from: 'public/tailwind-gen.css', to: 'public/tailwind.css', map: !production && { inline: false } })
+    .then(result => {
+      fs.writeFileSync('public/tailwind.css', result.css, () => true);
+      if (result.map) {
+        fs.writeFileSync('public/tailwind.css.map', result.map, () => true)
+      }
+    });
+});
+
+// todo: if we find we have a lot of unused css in global-compiled.css, we can purgecss it too.
+
+// now we move on to export the default object (rollup setup)
 
 export default {
 
@@ -46,7 +88,6 @@ export default {
   plugins: [
 
     eslint({"ignorePattern": ["src/components/**/*", "src/App.svelte"]}),
-
     typescript(),
 
     svelte({
