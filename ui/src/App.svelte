@@ -2,12 +2,27 @@
 
   import MainNavbar from './components/MainNavbar.svelte';
   import MainContainer from './components/MainContainer.svelte';
-  import { current_view } from './js/stores.js';
+  import { currentView } from './js/Stores';
+  import { Model } from './js/model/Model';
+  import { Dataset } from './js/model/Dataset';
+  import { Analysis } from './js/model/Analysis';
 
   // default nav
-  current_view.set("analyses");
+  currentView.set("analyses");
+
+  // for now, get the dataset metadata from static json
+  import * as metadata from '../test/_data/test-metadata.json';
+
+  const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
+  const dataset = Dataset.loadFromMetadata(metadata, datasetId);
+
+  const model = new Model();
+  model.datasets.push(dataset);
+
+  const analysis = new Analysis(dataset);
+  model.analyses.push(analysis);
 
 </script>
 
 <MainNavbar/>
-<MainContainer/>
+<MainContainer model={model}/>

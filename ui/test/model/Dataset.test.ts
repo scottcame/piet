@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Dataset } from '../../src/js/model/Dataset';
 import * as metadata from '../_data/test-metadata.json';
 
@@ -5,7 +7,7 @@ import * as metadata from '../_data/test-metadata.json';
 //let logger = Logger.getInstance();
 
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
-let dataset = Dataset.loadFromMetadata(metadata, datasetId);
+const dataset = Dataset.loadFromMetadata(metadata, datasetId);
 
 test('dataset', () => {
   expect(dataset.name).toBe(metadata.name);
@@ -14,16 +16,16 @@ test('dataset', () => {
 
 test('cubes', () => {
   expect(dataset.cubes.length).toBe(metadata.cubes.length);
-  metadata.cubes.forEach((_:any, idx:number):void => {
+  metadata.cubes.forEach((_: any, idx: number): void => {
     expect(dataset.cubes[idx].name).toBe(metadata.cubes[idx].name);
     expect(dataset.cubes[idx].description).toBe(metadata.cubes[idx].caption);
   });
 });
 
 test('measures', () => {
-  metadata.cubes.forEach((mdCube:any, cubeIdx:number):void => {
+  metadata.cubes.forEach((mdCube: any, cubeIdx: number): void => {
     expect(mdCube.measures.length).toBe(dataset.cubes[cubeIdx].measures.length);
-    mdCube.measures.forEach((_:any, idx:number):void => {
+    mdCube.measures.forEach((_: any, idx: number): void => {
       expect(dataset.cubes[cubeIdx].measures[idx].name).toBe(mdCube.measures[idx].name);
       expect(dataset.cubes[cubeIdx].measures[idx].description).toBe(mdCube.measures[idx].caption);
       expect(dataset.cubes[cubeIdx].measures[idx].visible).toBe(mdCube.measures[idx].visible);
@@ -33,9 +35,9 @@ test('measures', () => {
 });
 
 test('dimensions', () => {
-  metadata.cubes.forEach((mdCube:any, cubeIdx:number):void => {
+  metadata.cubes.forEach((mdCube: any, cubeIdx: number): void => {
     expect(mdCube.dimensions.length).toBe(dataset.cubes[cubeIdx].dimensions.length);
-    mdCube.dimensions.forEach((_:any, idx:number):void => {
+    mdCube.dimensions.forEach((_: any, idx: number): void => {
       expect(dataset.cubes[cubeIdx].dimensions[idx].name).toBe(mdCube.dimensions[idx].name);
       expect(dataset.cubes[cubeIdx].dimensions[idx].description).toBe(mdCube.dimensions[idx].caption);
       expect(dataset.cubes[cubeIdx].dimensions[idx].type).toBe(mdCube.dimensions[idx].type);
@@ -44,12 +46,12 @@ test('dimensions', () => {
 });
 
 test('hierarchies', () => {
-  metadata.cubes.forEach((mdCube:any, cubeIdx:number):void => {
+  metadata.cubes.forEach((mdCube: any, cubeIdx: number): void => {
     //logger.log("Cube: " + dataset.cubes[cubeIdx].name);
-    mdCube.dimensions.forEach((mdDimension:any, dimensionIdx:number):void => {
+    mdCube.dimensions.forEach((mdDimension: any, dimensionIdx: number): void => {
       //logger.log("Dimension: " + dataset.cubes[cubeIdx].dimensions[dimensionIdx].name);
       expect(mdCube.dimensions[dimensionIdx].hierarchies.length).toBe(dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies.length);
-      mdDimension.hierarchies.forEach((_:any, idx:number):void => {
+      mdDimension.hierarchies.forEach((_: any, idx: number): void => {
         //logger.log("Hierarchy: " + dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name);
         expect(dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].name);
         expect(dataset.cubes[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].caption);

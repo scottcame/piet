@@ -1,16 +1,17 @@
 <script>
-  import { current_view } from '../js/Stores';
+  import { currentView } from '../js/Stores';
   import AnalysesView from './AnalysesView.svelte';
   import DatasetsView from './DatasetsView.svelte';
   import DashboardsView from './DashboardsView.svelte';
+  export let model;
 </script>
 
 <div class="uk-container uk-container-expand">
-  {#if $current_view === "analyses"}
-    <AnalysesView/>
-  {:else if $current_view === "dashboards"}
+  {#if $currentView === "analyses"}
+    <AnalysesView model={model}/>
+  {:else if $currentView === "dashboards"}
     <DashboardsView/>
-  {:else if $current_view === "datasets"}
+  {:else if $currentView === "datasets"}
     <DatasetsView/>
   {/if}
 </div>

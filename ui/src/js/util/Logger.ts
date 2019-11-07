@@ -15,7 +15,7 @@ export class Logger {
     return Logger.instance;
   }
 
-  getLogMessage(message: string, stackDepth:number=0): string {
+  getLogMessage(message: string, stackDepth=0): string {
     return "[" +
       this.getSourceLocation(3+stackDepth) +
       "] " + message;
@@ -26,7 +26,7 @@ export class Logger {
     console.log(this.getLogMessage(message), 1);
   }
 
-  private getSourceLocation(stackDepth:number): string {
+  private getSourceLocation(stackDepth: number): string {
     let ret = new Error().stack.split('\n')[stackDepth];
     ret = ret.replace(this.pathRegex, "$1");
     return ret;

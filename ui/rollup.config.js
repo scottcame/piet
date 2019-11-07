@@ -7,6 +7,7 @@ import babel from 'rollup-plugin-babel';
 import typescript from 'rollup-plugin-typescript';
 import preprocess from 'svelte-preprocess';
 import { eslint } from "rollup-plugin-eslint";
+import json from 'rollup-plugin-json';
 import sass from 'node-sass';
 import fs from 'fs';
 
@@ -87,7 +88,8 @@ export default {
 
   plugins: [
 
-    eslint({"ignorePattern": ["src/components/**/*", "src/App.svelte"]}),
+    eslint({"ignorePattern": ["src/components/**/*", "src/App.svelte", "**/*.json"]}),
+    json({ include: "test/_data/**" }),
     typescript(),
 
     svelte({

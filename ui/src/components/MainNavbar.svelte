@@ -4,7 +4,7 @@
 
 <script>
 
-  import { current_view } from '../js/Stores';
+  import { currentView } from '../js/Stores';
 
   let navs = [
     {
@@ -24,12 +24,12 @@
     },
   ];
 
-  current_view.set(navs.filter(nav => nav.default)[0].name);
+  currentView.set(navs.filter(nav => nav.default)[0].name);
 
 	function handleClicks(e) {
     console.log("Nav clicked " + e.target.id);
     let new_nav = e.target.id;
-	  current_view.set(new_nav.replace(/btn\-/, ''));
+	  currentView.set(new_nav.replace(/btn\-/, ''));
 	}
 
 </script>

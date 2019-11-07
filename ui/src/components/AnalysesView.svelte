@@ -1,7 +1,9 @@
 <script>
   import { Model } from '../js/model/Model';
-  let m = new Model();
-  let analyses_count = m.analyses.length;
+  export let model;
+  let analysesCount = model.analyses.length;
 </script>
 
-<div>This is the analyses view. There are currently {analyses_count} analyses.</div>
+<div class="mt-2">
+  <p>There are currently {analysesCount} analyses.</p>
+</div>

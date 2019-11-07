@@ -1,9 +1,14 @@
+import { Dataset } from './Dataset';
+import { Analysis } from './Analysis';
+
 export class Model {
 
-  analyses: string[];
+  datasets: Dataset[];
+  analyses: Analysis[];
 
   constructor() {
-    this.analyses = ['foo'];
+    this.datasets = [];
+    this.analyses = [];
   }
 
 }
