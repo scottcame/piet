@@ -1,3 +1,5 @@
+import { TreeModelContainerNode, TreeModelLeafNode } from "../ui/model/Tree";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 abstract class MetadataObject {
@@ -59,6 +61,7 @@ export class Dataset {
   static loadFromMetadata(metadata: any, mondrianRestMetadataUrl: string): Dataset {
     const dataset = new Dataset(mondrianRestMetadataUrl);
     dataset.name = metadata.name;
+    dataset.description = metadata.name;
     dataset.cubes = metadata.cubes.map((mdCube: any): Cube => {
       const cube = new Cube();
       cube.name = mdCube.name;
@@ -88,6 +91,26 @@ export class Dataset {
       return cube;
     });
     return dataset;
+  }
+
+  get rootTreeModelNode(): TreeModelContainerNode {
+    const ret = new TreeModelContainerNode("Dataset: " + this.description, 'dataset');
+    ret.children = this.cubes.map((cube: Cube) => {
+      const ret = new TreeModelContainerNode("Cube: " + cube.description, 'cube');
+      const measuresChild = new TreeModelContainerNode("Measures", 'measures');
+      measuresChild.children = cube.measures.map((measure: Measure) => {
+        return new TreeModelLeafNode(measure.description);
+      });
+      const dimensionsChild = new TreeModelContainerNode("Dimensions", 'dimensions');
+      dimensionsChild.children = cube.dimensions
+        .filter(dimension => dimension.name !== "Measures")
+        .map((dimension: Dimension) => {
+          return new TreeModelLeafNode(dimension.description);
+        });
+      ret.children = [measuresChild, dimensionsChild];
+      return ret;
+    });
+    return ret;
   }
 
 }

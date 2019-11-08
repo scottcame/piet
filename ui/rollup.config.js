@@ -8,6 +8,7 @@ import typescript from 'rollup-plugin-typescript';
 import preprocess from 'svelte-preprocess';
 import { eslint } from "rollup-plugin-eslint";
 import json from 'rollup-plugin-json';
+import builtins from 'rollup-plugin-node-builtins';
 import sass from 'node-sass';
 import fs from 'fs';
 
@@ -107,6 +108,7 @@ export default {
       }
     }),
 
+    builtins(),
     resolve(),
     commonjs(),
 
