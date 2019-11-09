@@ -91,7 +91,6 @@ export default {
 
     eslint({"ignorePattern": ["src/components/**/*", "src/App.svelte", "**/*.json"]}),
     json({ include: "test/_data/**" }),
-    typescript(),
 
     svelte({
       preprocess: preprocess({
@@ -111,6 +110,7 @@ export default {
     builtins(),
     resolve(),
     commonjs(),
+    typescript(),
 
     babel({
       extensions: ['.js', '.svelte', '.ts', '.mjs'],
@@ -124,7 +124,7 @@ export default {
             useBuiltIns: false // cannot use babel polyfill due to IE11.  see documentation in index.html for details.
           },
         ]
-      ]
+      ],
     }),
 
     // Watch the `public` directory and refresh the browser on changes when not in production

@@ -32,41 +32,31 @@ export class Dimension extends MetadataObject {
 
 }
 
-export class Cube extends MetadataObject {
+export class Dataset {
 
+  readonly id: string;
+  schemaName: string;
+  schemaDescription: string;
+  name: string;
+  description: string;
   measures: Measure[];
   dimensions: Dimension[];
 
-  constructor() {
-    super();
+  constructor(id: string) {
+    this.id = id;
     this.measures = [];
     this.dimensions = [];
   }
 
-}
-
-export class Dataset {
-
-  readonly id: string;
-  name: string;
-  description: string;
-
-  cubes: Cube[];
-
-  constructor(id: string) {
-    this.id = id;
-    this.cubes = [];
-  }
-
-  static loadFromMetadata(metadata: any, mondrianRestMetadataUrl: string): Dataset {
-    const dataset = new Dataset(mondrianRestMetadataUrl);
-    dataset.name = metadata.name;
-    dataset.description = metadata.name;
-    dataset.cubes = metadata.cubes.map((mdCube: any): Cube => {
-      const cube = new Cube();
-      cube.name = mdCube.name;
-      cube.description = mdCube.caption;
-      cube.measures = mdCube.measures.map((mdMeasure: any): Measure => {
+  static loadFromMetadata(metadata: any, mondrianRestMetadataUrl: string): Dataset[] {
+    const ret = [];
+    metadata.cubes.forEach((mdCube: any): void => {
+      const dataset = new Dataset(mondrianRestMetadataUrl);
+      dataset.schemaName = metadata.name;
+      dataset.schemaDescription = metadata.name;
+      dataset.name = mdCube.name;
+      dataset.description = mdCube.caption;
+      dataset.measures = mdCube.measures.map((mdMeasure: any): Measure => {
         const measure = new Measure();
         measure.name = mdMeasure.name;
         measure.description = mdMeasure.caption;
@@ -74,7 +64,7 @@ export class Dataset {
         measure.calculated = mdMeasure.calculated;
         return measure;
       });
-      cube.dimensions = mdCube.dimensions.map((mdDimension: any): Dimension => {
+      dataset.dimensions = mdCube.dimensions.map((mdDimension: any): Dimension => {
         const dimension = new Dimension();
         dimension.name = mdDimension.name;
         dimension.description = mdDimension.caption;
@@ -88,28 +78,24 @@ export class Dataset {
         });
         return dimension;
       });
-      return cube;
+      ret.push(dataset);
     });
-    return dataset;
+    return ret;
   }
 
   get rootTreeModelNode(): TreeModelContainerNode {
-    const ret = new TreeModelContainerNode("Dataset: " + this.description, 'dataset');
-    ret.children = this.cubes.map((cube: Cube) => {
-      const ret = new TreeModelContainerNode("Cube: " + cube.description, 'cube');
-      const measuresChild = new TreeModelContainerNode("Measures", 'measures');
-      measuresChild.children = cube.measures.map((measure: Measure) => {
-        return new TreeModelLeafNode(measure.description);
-      });
-      const dimensionsChild = new TreeModelContainerNode("Dimensions", 'dimensions');
-      dimensionsChild.children = cube.dimensions
-        .filter(dimension => dimension.name !== "Measures")
-        .map((dimension: Dimension) => {
-          return new TreeModelLeafNode(dimension.description);
-        });
-      ret.children = [measuresChild, dimensionsChild];
-      return ret;
+    const ret = new TreeModelContainerNode("Dataset: " + this.description + " [" + this.schemaName + "]", 'dataset');
+    const measuresChild = new TreeModelContainerNode("Measures", 'measures');
+    measuresChild.children = this.measures.map((measure: Measure) => {
+      return new TreeModelLeafNode(measure.description, "measure");
     });
+    const dimensionsChild = new TreeModelContainerNode("Dimensions", 'dimensions');
+    dimensionsChild.children = this.dimensions
+      .filter(dimension => dimension.name !== "Measures")
+      .map((dimension: Dimension) => {
+        return new TreeModelLeafNode(dimension.description, "dimension");
+      });
+    ret.children = [measuresChild, dimensionsChild];
     return ret;
   }
 

@@ -14,13 +14,13 @@
   import * as metadata from '../test/_data/test-metadata.json';
 
   const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
-  const dataset = Dataset.loadFromMetadata(metadata, datasetId);
+  const datasets = Dataset.loadFromMetadata(metadata, datasetId);
 
   const model = new Model();
-  model.datasets.push(dataset);
-
-  const analysis = new Analysis(dataset);
-  model.analyses.push(analysis);
+  model.datasets = datasets;
+  model.analyses = datasets.map((dataset, idx) => {
+    return new Analysis(dataset, "Analysis " + idx);
+  });
 
 </script>
 
