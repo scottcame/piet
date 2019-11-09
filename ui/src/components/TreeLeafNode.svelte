@@ -11,9 +11,6 @@
 
   <div class="items-center flex pl-2">
     <div class="flex inline items-center">
-      <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="stroke-current h-5 w-5">
-        <path d="M9.3 8.7a1 1 0 0 1 1.4-1.4l4 4a1 1 0 0 1 0 1.4l-4 4a1 1 0 0 1-1.4-1.4l3.29-3.3-3.3-3.3z"/>
-      </svg> -->
       <IconSquareBullet/>
       <span class="ml-1">{treeModelNode.label}</span>
     </div>
