@@ -17,6 +17,12 @@ export class Measure extends MetadataObject {
 export class Hierarchy extends MetadataObject {
 
   hasAll: boolean;
+  parent: Dimension;
+
+  constructor(parent: Dimension) {
+    super();
+    this.parent = parent;
+  }
 
 }
 
@@ -70,7 +76,7 @@ export class Dataset {
         dimension.description = mdDimension.caption;
         dimension.type = mdDimension.type;
         dimension.hierarchies = mdDimension.hierarchies.map((mdHierarchy: any): Hierarchy => {
-          const hierarchy = new Hierarchy();
+          const hierarchy = new Hierarchy(dimension);
           hierarchy.name = mdHierarchy.name;
           hierarchy.description = mdHierarchy.caption;
           hierarchy.hasAll = mdHierarchy.hasAll;
@@ -90,10 +96,13 @@ export class Dataset {
       return new TreeModelLeafNode(measure.description, "measure");
     });
     const dimensionsChild = new TreeModelContainerNode("Dimensions", 'dimensions');
-    dimensionsChild.children = this.dimensions
+    dimensionsChild.children = [];
+    this.dimensions
       .filter(dimension => dimension.name !== "Measures")
-      .map((dimension: Dimension) => {
-        return new TreeModelLeafNode(dimension.description, "dimension");
+      .forEach((dimension: Dimension): void => {
+        dimension.hierarchies.forEach((hierarchy: Hierarchy): void => {
+          dimensionsChild.children.push(new TreeModelLeafNode(hierarchy.description, "dimension"));
+        });
       });
     ret.children = [measuresChild, dimensionsChild];
     return ret;
