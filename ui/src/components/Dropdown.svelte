@@ -4,26 +4,23 @@
   import { DefaultListChangeEventListener } from '../js/collections/List';
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
 
-  export let model;
-  let dropdownModel  = new DropdownModel(model.analyses);
+  export let dropdownModel;
   let dropdownLabel;
   let open = false;
   let containerDiv;
 
   function updateSelection() {
-    dropdownModel.selectedIndex = model.analysisSelectedIndex.value;
     dropdownLabel = dropdownModel.selectedItem === null ? "Choose an analysis..." : dropdownModel.selectedItem.getLabel();
   }
 
   updateSelection();
 
-  model.analysisSelectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
+  dropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
     updateSelection();
   }));
 
-
   function selectItem(idx) {
-    model.analysisSelectedIndex.value = idx;
+    dropdownModel.selectedIndex.value = idx;
     open = false;
   }
 

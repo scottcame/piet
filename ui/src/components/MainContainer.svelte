@@ -3,12 +3,12 @@
   import AnalysesView from './AnalysesView.svelte';
   import DatasetsView from './DatasetsView.svelte';
   import DashboardsView from './DashboardsView.svelte';
-  export let model;
+  export let pietModel;
 </script>
 
 <div class="uk-container uk-container-expand">
   {#if $currentView === "analyses"}
-    <AnalysesView model={model}/>
+    <AnalysesView pietModel={pietModel}/>
   {:else if $currentView === "dashboards"}
     <DashboardsView/>
   {:else if $currentView === "datasets"}

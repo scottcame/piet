@@ -9,34 +9,38 @@
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
   import { DefaultListChangeEventListener, ListChangeEvent } from '../js/collections/List';
 
-  export let model;
+  export let pietModel;
+
   let rootTreeModelNode = null;
   let trashEnabled = false;
+  let dropdownModel  = new DropdownModel(pietModel.analyses);
 
   function updateRootTreeModelNode() {
-    const selectedIndex = model.analysisSelectedIndex.value;
-    rootTreeModelNode = selectedIndex === null ? null : model.analyses.get(selectedIndex).dataset.rootTreeModelNode;
+    const selectedIndex = dropdownModel.selectedIndex.value;
+    rootTreeModelNode = selectedIndex === null ? null : pietModel.analyses.get(selectedIndex).dataset.rootTreeModelNode;
   }
 
-  model.analysisSelectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
+  dropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
     updateRootTreeModelNode();
-    trashEnabled = model.analysisSelectedIndex.value !== null;
+    trashEnabled = dropdownModel.selectedIndex.value !== null;
   }));
 
-  model.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
+  /*
+
+    Unresolved philosophical issue...  Not sure whether these ui components should be directly referencing the pietModel, or whether
+    ui components should *only* have reference to ui models, which in turn reference the pietModel. To be determined...
+
+  */
+
+  pietModel.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
     if (e.type === ListChangeEvent.DELETE) {
-      model.analysisSelectedIndex.value = null;
+      dropdownModel.selectedIndex.value = null;
       updateRootTreeModelNode();
     }
   }));
 
-  function selectAnalysis(idx) {
-    rootTreeModelNode = model.analyses.get(idx).dataset.rootTreeModelNode;
-    trashEnabled = true;
-  }
-
   function deleteCurrentAnalysis() {
-    model.analyses.removeAt(model.analysisSelectedIndex.value);
+    pietModel.analyses.removeAt(dropdownModel.selectedIndex.value);
   }
 
 </script>
@@ -44,7 +48,7 @@
 <div class="mt-2 h-screen p-2 bg-gray-100">
   <div class="w-1/4 h-screen bg-gray-100 select-none pt-2 pr-2 border-2">
     <div class="flex flex-inline items-center justify-between mb-2">
-      <Dropdown model={model}/>
+      <Dropdown dropdownModel={dropdownModel}/>
       <div class="h-10 w-10 ml-1 p-1 border items-center flex text-gray-900 border-gray-900">
         <IconNew/>
       </div>

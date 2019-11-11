@@ -1,21 +1,22 @@
 import { List } from "../../collections/List";
+import { Observable } from "../../util/Observable";
 
 export class DropdownModel {
 
   items: List<DropdownItem>;
-  selectedIndex: number;
+  selectedIndex: Observable<number>;
 
   constructor(items: List<DropdownItem>) {
     this.items = items;
-    this.selectedIndex = null;
+    this.selectedIndex = new Observable<number>();
   }
 
   get selectedItem(): DropdownItem {
-    return this.selectedIndex === null ? null : this.items.get(this.selectedIndex);
+    return this.selectedIndex.value === null ? null : this.items.get(this.selectedIndex.value);
   }
 
   removeSelectedItem(): DropdownModel {
-    this.items.removeAt(this.selectedIndex);
+    this.items.removeAt(this.selectedIndex.value);
     this.selectedIndex = null;
     return this;
   }

@@ -17,14 +17,14 @@
   const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
   const datasets = Dataset.loadFromMetadata(metadata, datasetId);
 
-  const model = new Model();
-  model.datasets = datasets;
-  model.analyses = new List();
+  const pietModel = new Model();
+  pietModel.datasets = datasets;
+  pietModel.analyses = new List();
   datasets.forEach((dataset, idx) => {
-    model.analyses.add(new Analysis(dataset, "Analysis " + idx));
+    pietModel.analyses.add(new Analysis(dataset, "Analysis " + idx));
   });
 
 </script>
 
 <MainNavbar/>
-<MainContainer model={model}/>
+<MainContainer pietModel={pietModel}/>
