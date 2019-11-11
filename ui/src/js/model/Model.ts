@@ -1,26 +1,18 @@
 import { Dataset } from './Dataset';
 import { Analysis } from './Analysis';
-import { DropdownModel, DropdownItem } from '../ui/model/Dropdown';
+import { List } from '../collections/List';
+import { Observable } from '../util/Observable';
 
 export class Model {
 
   datasets: Dataset[];
-  analyses: Analysis[];
+  readonly analyses: List<Analysis>;
+  readonly analysisSelectedIndex: Observable<number>;
 
   constructor() {
     this.datasets = [];
-    this.analyses = [];
-  }
-
-  get analysesSelectModel(): DropdownModel {
-    const ret = new DropdownModel();
-    ret.items = this.analyses.map((analysis: Analysis, idx: number): DropdownItem => {
-      const ret = new DropdownItem();
-      ret.label = analysis.name;
-      ret.value = idx;
-      return ret;
-    });
-    return ret;
+    this.analyses = new List<Analysis>();
+    this.analysisSelectedIndex = new Observable<number>();
   }
 
 }

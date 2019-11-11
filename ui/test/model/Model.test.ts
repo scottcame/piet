@@ -2,7 +2,7 @@ import { Model } from '../../src/js/model/Model';
 import * as metadata from '../_data/test-metadata.json';
 import { Dataset } from '../../src/js/model/Dataset';
 import { Analysis } from '../../src/js/model/Analysis';
-import { DropdownItem } from '../../src/js/ui/model/Dropdown';
+import { DropdownItem, DropdownModel } from '../../src/js/ui/model/Dropdown';
 
 const m = new Model();
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
@@ -14,12 +14,12 @@ test('model initialization', () => {
 
 test('analyses select model', () => {
   m.datasets = datasets;
-  m.analyses = datasets.map((dataset, idx) => {
-    return new Analysis(dataset, "Analysis " + idx);
+  datasets.forEach((dataset, idx) => {
+    m.analyses.add(new Analysis(dataset, "Analysis " + idx));
   });
-  const dropdownModel = m.analysesSelectModel;
+  const dropdownModel = new DropdownModel(m.analyses);
   expect(dropdownModel.items).toHaveLength(m.analyses.length);
   dropdownModel.items.forEach((val: DropdownItem, idx: number) => {
-    expect(val.label).toBe(m.analyses[idx].name);
+    expect(val.getLabel()).toBe(m.analyses.get(idx).name);
   });
 });
