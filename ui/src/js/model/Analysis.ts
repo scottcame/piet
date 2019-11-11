@@ -11,6 +11,11 @@ export class Analysis implements DropdownItem {
     this.name = name;
   }
 
+  /*
+    Unresolved philosophical issue: should we create an adapter for Analysis objects? Would be cleaner,
+    but would also be a pain to keep in sync with the underlying pietModel. To be determined...
+  */
+
   getLabel(): string {
     return this.name;
   }

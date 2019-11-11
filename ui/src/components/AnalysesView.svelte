@@ -2,6 +2,7 @@
 
   import { Model } from '../js/model/Model';
   import { DropdownModel } from '../js/ui/model/Dropdown';
+  import { DatasetAdapterFactory } from '../js/ui/adapters/DatasetAdapterFactory';
   import IconTrash from './icons/IconTrash.svelte';
   import IconNew from './icons/IconNew.svelte';
   import TreeContainerNode from './TreeContainerNode.svelte';
@@ -14,10 +15,19 @@
   let rootTreeModelNode = null;
   let trashEnabled = false;
   let dropdownModel  = new DropdownModel(pietModel.analyses);
+  let datasetRootTreeNodes = [];
 
   function updateRootTreeModelNode() {
     const selectedIndex = dropdownModel.selectedIndex.value;
-    rootTreeModelNode = selectedIndex === null ? null : pietModel.analyses.get(selectedIndex).dataset.rootTreeModelNode;
+    if (selectedIndex === null) {
+      rootTreeModelNode = null;
+    } else {
+      // caching these for performance (e.g., the foodmart schema is pretty large)
+      if (!datasetRootTreeNodes[selectedIndex]) {
+        datasetRootTreeNodes[selectedIndex] = DatasetAdapterFactory.getInstance().createRootTreeModelNode(pietModel.analyses.get(selectedIndex).dataset);
+      }
+      rootTreeModelNode = datasetRootTreeNodes[selectedIndex];
+    }
   }
 
   dropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {

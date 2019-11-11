@@ -1,5 +1,3 @@
-import { TreeModelContainerNode, TreeModelLeafNode } from "../ui/model/Tree";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 abstract class MetadataObject {
@@ -86,25 +84,6 @@ export class Dataset {
       });
       ret.push(dataset);
     });
-    return ret;
-  }
-
-  get rootTreeModelNode(): TreeModelContainerNode {
-    const ret = new TreeModelContainerNode("Dataset: " + this.description + " [" + this.schemaName + "]", 'dataset');
-    const measuresChild = new TreeModelContainerNode("Measures", 'measures');
-    measuresChild.children = this.measures.map((measure: Measure) => {
-      return new TreeModelLeafNode(measure.description, "measure");
-    });
-    const dimensionsChild = new TreeModelContainerNode("Dimensions", 'dimensions');
-    dimensionsChild.children = [];
-    this.dimensions
-      .filter(dimension => dimension.name !== "Measures")
-      .forEach((dimension: Dimension): void => {
-        dimension.hierarchies.forEach((hierarchy: Hierarchy): void => {
-          dimensionsChild.children.push(new TreeModelLeafNode(hierarchy.description, "dimension"));
-        });
-      });
-    ret.children = [measuresChild, dimensionsChild];
     return ret;
   }
 
