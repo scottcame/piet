@@ -14,29 +14,33 @@
 
   export let pietModel;
 
-  let rootTreeModelNode = null;
-  let trashEnabled = false;
   let analysesDropdownModel  = new DropdownModel(pietModel.analyses);
-  let datasetsDropdownModel = new DropdownModel(pietModel.datasets);
-  let datasetRootTreeNodes = [];
-  let newAnalysisSelectedDataset;
 
-  function updateRootTreeModelNode() {
+  let datasetRootTreeModelNode = null;
+  let datasetRootTreeNodes = [];
+
+  let analysisDeleteEnabled = false;
+
+  let showNewAnalysisModal = false;
+  let newAnalysisSelectedDataset;
+  let datasetsDropdownModel = new DropdownModel(pietModel.datasets);
+
+  function updateDatasetRootTreeModelNode() {
     const selectedIndex = analysesDropdownModel.selectedIndex.value;
     if (selectedIndex === null) {
-      rootTreeModelNode = null;
+      datasetRootTreeModelNode = null;
     } else {
       // caching these for performance (e.g., the foodmart schema is pretty large)
       if (!datasetRootTreeNodes[selectedIndex]) {
         datasetRootTreeNodes[selectedIndex] = DatasetAdapterFactory.getInstance().createRootTreeModelNode(pietModel.analyses.get(selectedIndex).dataset);
       }
-      rootTreeModelNode = datasetRootTreeNodes[selectedIndex];
+      datasetRootTreeModelNode = datasetRootTreeNodes[selectedIndex];
     }
   }
 
   analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-    updateRootTreeModelNode();
-    trashEnabled = analysesDropdownModel.selectedIndex.value !== null;
+    updateDatasetRootTreeModelNode();
+    analysisDeleteEnabled = analysesDropdownModel.selectedIndex.value !== null;
   }));
 
   /*
@@ -49,15 +53,13 @@
   pietModel.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
     if (e.type === ListChangeEvent.DELETE) {
       analysesDropdownModel.selectedIndex.value = null;
-      updateRootTreeModelNode();
+      updateDatasetRootTreeModelNode();
     }
   }));
 
   function deleteCurrentAnalysis() {
     pietModel.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
   }
-
-  let showNewAnalysisModal = true;
 
   function newAnalysis() {
     showNewAnalysisModal = true;
@@ -84,12 +86,12 @@
       <div class="h-10 w-10 ml-1 p-1 border items-center flex text-gray-900 border-gray-900" on:click="{newAnalysis}">
         <IconNew/>
       </div>
-      <div class={"h-10 w-10 ml-1 p-1 border items-center flex " + (trashEnabled ? 'text-gray-900' : 'text-gray-500') + " " + (trashEnabled ? 'border-gray-900' : 'border-gray-500')}
+      <div class={"h-10 w-10 ml-1 p-1 border items-center flex " + (analysisDeleteEnabled ? 'text-gray-900' : 'text-gray-500') + " " + (analysisDeleteEnabled ? 'border-gray-900' : 'border-gray-500')}
         on:click="{deleteCurrentAnalysis}">
         <IconTrash/>
       </div>
     </div>
-    <TreeContainerNode treeModelNode={rootTreeModelNode}/>
+    <TreeContainerNode treeModelNode={datasetRootTreeModelNode}/>
   </div>
 </div>
 <div class="{showNewAnalysisModal ? null : 'hidden'}">
