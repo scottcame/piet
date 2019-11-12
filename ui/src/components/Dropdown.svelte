@@ -5,12 +5,13 @@
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
 
   export let dropdownModel;
+  export let defaultLabel = "Choose...";
   let dropdownLabel;
   let open = false;
   let containerDiv;
 
   function updateSelection() {
-    dropdownLabel = dropdownModel.selectedItem === null ? "Choose an analysis..." : dropdownModel.selectedItem.getLabel();
+    dropdownLabel = dropdownModel.selectedItem === null ? defaultLabel : dropdownModel.selectedItem.getLabel();
   }
 
   updateSelection();

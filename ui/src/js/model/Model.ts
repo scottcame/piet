@@ -4,11 +4,11 @@ import { List } from '../collections/List';
 
 export class Model {
 
-  datasets: Dataset[];
+  datasets: List<Dataset>;
   readonly analyses: List<Analysis>;
 
   constructor() {
-    this.datasets = [];
+    this.datasets = new List<Dataset>();
     this.analyses = new List<Analysis>();
   }
 

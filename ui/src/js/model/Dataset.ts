@@ -1,3 +1,5 @@
+import { DropdownItem } from "../ui/model/Dropdown";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 abstract class MetadataObject {
@@ -36,7 +38,7 @@ export class Dimension extends MetadataObject {
 
 }
 
-export class Dataset {
+export class Dataset implements DropdownItem {
 
   readonly id: string;
   schemaName: string;
@@ -85,6 +87,15 @@ export class Dataset {
       ret.push(dataset);
     });
     return ret;
+  }
+
+  getLabel(): string {
+    return this.schemaName + " [" + this.name + "]";
+  }
+
+  /* eslint-disable @typescript-eslint/no-explicit-any */
+  getValue(): any {
+    return this;
   }
 
 }

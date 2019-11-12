@@ -18,10 +18,15 @@
   const datasets = Dataset.loadFromMetadata(metadata, datasetId);
 
   const pietModel = new Model();
-  pietModel.datasets = datasets;
+
+  pietModel.datasets = new List();
+  datasets.forEach((dataset, idx) => {
+    pietModel.datasets.add(dataset);
+  });
+
   pietModel.analyses = new List();
   datasets.forEach((dataset, idx) => {
-    pietModel.analyses.add(new Analysis(dataset, "Analysis " + idx));
+    pietModel.analyses.add(new Analysis(dataset, "Analysis " + (idx+1)));
   });
 
 </script>
