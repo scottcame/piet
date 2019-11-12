@@ -38,7 +38,7 @@
 <style>
 </style>
 
-<nav class="flex items-center justify-between flex-wrap bg-gray-100 p-4">
+<nav class="flex items-center justify-between flex-wrap bg-gray-100 p-4 select-none">
   <div>
 		<a href="/">
       <div class="flex inline items-center">
