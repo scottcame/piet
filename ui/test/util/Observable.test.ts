@@ -1,22 +1,11 @@
-import { ObservableChangeEventListener, ObservableChangeEvent, Observable } from "../../src/js/util/Observable";
-
-class TestObservableChangeEventListener implements ObservableChangeEventListener {
-  event: ObservableChangeEvent;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  f: any;
-  constructor() {
-    this.f = jest.fn();
-  }
-  observableChanged(event: ObservableChangeEvent): void {
-    this.event = event;
-    this.f();
-  }
-}
+import { Observable } from "../../src/js/util/Observable";
+import { TestObservableChangeEventListener } from "./TestObservableChangeEventListener";
 
 let o: Observable<number>;
 
 beforeEach(() => {
   o = new Observable<number>();
+  o.value = 1;
 });
 
 test('observation', () => {
@@ -24,6 +13,8 @@ test('observation', () => {
   o.addChangeEventListener(testListener);
   o.value = 10;
   expect(testListener.f).toHaveBeenCalledTimes(1);
+  expect(testListener.event.newValue).toBe(10);
+  expect(testListener.event.oldValue).toBe(1);
   o.removeChangeEventListener(testListener);
   testListener.f.mockClear();
   o.value = 11;

@@ -15,6 +15,7 @@
   export let pietModel;
 
   let analysesDropdownModel  = new DropdownModel(pietModel.analyses);
+  let currentAnalysis = null;
 
   let datasetRootTreeModelNode = null;
   let datasetRootTreeNodes = [];
@@ -25,8 +26,9 @@
   let newAnalysisSelectedDataset;
   let datasetsDropdownModel = new DropdownModel(pietModel.datasets);
 
-  function updateDatasetRootTreeModelNode() {
+  function handleAnalysisSelection() {
     const selectedIndex = analysesDropdownModel.selectedIndex.value;
+    currentAnalysis = analysesDropdownModel.selectedItem; // just to give it a better name; maybe not needed...
     if (selectedIndex === null) {
       datasetRootTreeModelNode = null;
     } else {
@@ -39,7 +41,7 @@
   }
 
   analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-    updateDatasetRootTreeModelNode();
+    handleAnalysisSelection();
     analysisDeleteEnabled = analysesDropdownModel.selectedIndex.value !== null;
   }));
 
@@ -53,12 +55,13 @@
   pietModel.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
     if (e.type === ListChangeEvent.DELETE) {
       analysesDropdownModel.selectedIndex.value = null;
-      updateDatasetRootTreeModelNode();
+      handleAnalysisSelection();
     }
   }));
 
   function deleteCurrentAnalysis() {
-    pietModel.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
+    let removedAnalysis = pietModel.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
+    removedAnalysis.getLabel().clearChangeEventListeners();
   }
 
   function newAnalysis() {
@@ -77,10 +80,14 @@
     analysesDropdownModel.selectedIndex.value = currentAnalysisCount;
   }
 
+  function analysisInput(e) {
+    analysesDropdownModel.selectedItem.getLabel().value = e.target.value;
+  }
+
 </script>
 
-<div class="mt-2 h-screen p-2 bg-gray-100">
-  <div class="w-1/4 h-screen bg-gray-100 select-none pt-2 pr-2 border-2">
+<div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline">
+  <div class="w-1/4 h-screen select-none pt-2 pr-2 border-2">
     <div class="flex flex-inline items-center justify-between mb-2">
       <Dropdown dropdownModel={analysesDropdownModel} defaultLabel="Choose an analysis..."/>
       <div class="h-10 w-10 ml-1 p-1 border items-center flex text-gray-900 border-gray-900" on:click="{newAnalysis}">
@@ -92,6 +99,30 @@
       </div>
     </div>
     <TreeContainerNode treeModelNode={datasetRootTreeModelNode}/>
+  </div>
+  <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {currentAnalysis === null ? 'hidden' : ''}">
+    <div class="w-full flex flex-inline items-center justify-between mb-1">
+      <div class="bg-green-300 w-full mr-1">
+        <div class="flex flex-inline items-center">
+          <label class="block pr-4" for="input-analysis-title">Title:</label>
+          <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
+            id="input-analysis-title" type="text" value="{currentAnalysis === null ? '' : currentAnalysis.name.value}"
+            on:input="{e => analysisInput(e)}">
+        </div>
+        <div class="flex flex-inline items-center pt-1">
+          <label class="block pr-4" for="input-analysis-description">Description:</label>
+          <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
+            id="input-analysis-description" type="text" value="{currentAnalysis === null ? '' : (currentAnalysis.description === null ? '' : currentAnalysis.description)}">
+        </div>
+      </div>
+      <div class="flex flex-inline bg-red-300">
+        <div class="h-10 w-10 flex items-center"><IconTrash/></div>
+        <div class="h-10 w-10 flex items-center"><IconTrash/></div>
+      </div>
+    </div>
+    <div class="flex bg-teal-300">
+      <div>Table for {currentAnalysis === null ? "analyses" : currentAnalysis.name} will go here.</div>
+    </div>
   </div>
 </div>
 <div class="{showNewAnalysisModal ? null : 'hidden'}">

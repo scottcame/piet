@@ -1,14 +1,17 @@
 import { Dataset } from "./Dataset";
 import { DropdownItem } from "../ui/model/Dropdown";
+import { Observable } from "../util/Observable";
 
 export class Analysis implements DropdownItem {
 
   dataset: Dataset;
-  name: string;
+  name: Observable<string>;
+  description: string = null;
 
   constructor(dataset: Dataset, name: string = null) {
     this.dataset = dataset;
-    this.name = name;
+    this.name = new Observable();
+    this.name.value = name;
   }
 
   /*
@@ -16,7 +19,7 @@ export class Analysis implements DropdownItem {
     but would also be a pain to keep in sync with the underlying pietModel. To be determined...
   */
 
-  getLabel(): string {
+  getLabel(): Observable<string> {
     return this.name;
   }
 

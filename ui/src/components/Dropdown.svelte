@@ -10,14 +10,24 @@
   let open = false;
   let containerDiv;
 
-  function updateSelection() {
-    dropdownLabel = dropdownModel.selectedItem === null ? defaultLabel : dropdownModel.selectedItem.getLabel();
+  function updateLabel() {
+    dropdownLabel = dropdownModel.selectedItem === null ? defaultLabel : dropdownModel.selectedItem.getLabel().value;
   }
 
-  updateSelection();
+  updateLabel();
+
+  let dropdownLabelChangeListener = new DefaultObservableChangeEventListener(e => {
+    updateLabel();
+  });
 
   dropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-    updateSelection();
+    if (e.oldValue) {
+      dropdownModel.getItemAt(e.oldValue).getLabel().removeChangeEventListener(dropdownLabelChangeListener);
+    }
+    if (e.newValue) {
+      dropdownModel.getItemAt(e.newValue).getLabel().addChangeEventListener(dropdownLabelChangeListener);
+    }
+    updateLabel();
   }));
 
   function selectItem(idx) {
@@ -50,7 +60,7 @@
   {#if open}
     <div class="absolute w-full mt-1 bg-gray-100 shadow-xl">
       {#each [...dropdownModel.items] as modelItem, idx}
-        <div class="block px-4 py-2 text-gray-800 hover:bg-gray-300" on:click="{e => selectItem(idx)}">{modelItem.getLabel()}</div>
+        <div class="block px-4 py-2 text-gray-800 hover:bg-gray-300" on:click="{e => selectItem(idx)}">{modelItem.getLabel().value}</div>
       {/each}
     </div>
   {/if}

@@ -12,19 +12,25 @@ export class DropdownModel {
   }
 
   get selectedItem(): DropdownItem {
-    return this.selectedIndex.value === null ? null : this.items.get(this.selectedIndex.value);
+    return this.selectedIndex.value === null ? null : this.getItemAt(this.selectedIndex.value);
+  }
+
+  getItemAt(index: number): DropdownItem {
+    return this.items.get(index);
   }
 
   removeSelectedItem(): DropdownModel {
-    this.items.removeAt(this.selectedIndex.value);
-    this.selectedIndex = null;
+    if (this.selectedIndex.value !== null) {
+      this.items.removeAt(this.selectedIndex.value);
+      this.selectedIndex.value = null;
+    }
     return this;
   }
 
 }
 
 export interface DropdownItem {
-  getLabel(): string;
+  getLabel(): Observable<string>;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   getValue(): any;
 }

@@ -1,4 +1,5 @@
 import { DropdownItem } from "../ui/model/Dropdown";
+import { Observable } from "../util/Observable";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -41,9 +42,10 @@ export class Dimension extends MetadataObject {
 export class Dataset implements DropdownItem {
 
   readonly id: string;
-  schemaName: string;
+  private _name: string;
+  private _schemaName: string;
+  private _label: Observable<string>;
   schemaDescription: string;
-  name: string;
   description: string;
   measures: Measure[];
   dimensions: Dimension[];
@@ -52,6 +54,7 @@ export class Dataset implements DropdownItem {
     this.id = id;
     this.measures = [];
     this.dimensions = [];
+    this._label = new Observable();
   }
 
   static loadFromMetadata(metadata: any, mondrianRestMetadataUrl: string): Dataset[] {
@@ -89,8 +92,30 @@ export class Dataset implements DropdownItem {
     return ret;
   }
 
-  getLabel(): string {
-    return this.schemaName + " [" + this.name + "]";
+  set name(name: string) {
+    this._name = name;
+    this.updateLabel();
+  }
+
+  get name(): string {
+    return this._name;
+  }
+
+  set schemaName(schemaName: string) {
+    this._schemaName = schemaName;
+    this.updateLabel();
+  }
+
+  get schemaName(): string {
+    return this._schemaName;
+  }
+
+  private updateLabel(): void {
+    this._label.value = this.schemaName + " [" + this.name + "]";
+  }
+
+  getLabel(): Observable<string> {
+    return this._label;
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
