@@ -22,8 +22,6 @@
   let datasetRootTreeModelNode = null;
   let datasetRootTreeNodes = [];
 
-  let analysisDeleteEnabled = false;
-
   let showNewAnalysisModal = false;
   let newAnalysisSelectedDataset;
   let datasetsDropdownModel = new DropdownModel(pietModel.datasets);
@@ -46,10 +44,7 @@
     }
   }
 
-  analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-    handleAnalysisSelection();
-    analysisDeleteEnabled = analysesDropdownModel.selectedIndex.value !== null;
-  }));
+  analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => handleAnalysisSelection()));
 
   /*
 
@@ -57,13 +52,6 @@
     ui components should *only* have reference to ui models, which in turn reference the pietModel. To be determined...
 
   */
-
-  pietModel.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
-    if (e.type === ListChangeEvent.DELETE) {
-      analysesDropdownModel.selectedIndex.value = null;
-      handleAnalysisSelection();
-    }
-  }));
 
   function deleteCurrentAnalysis() {
     let removedAnalysis = pietModel.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
@@ -94,7 +82,8 @@
     return currentAnalysis === null ? '' : currentAnalysis.name.value;
   }
 
-  $: currentAnalysisDescriptionDisplay = currentAnalysis === null ? '' : (currentAnalysis.description === null ? getCurrentAnalysisTitleDisplay() : currentAnalysis.description)
+  $: currentAnalysisDescriptionDisplay = currentAnalysis === null ? '' :
+    (currentAnalysis.description === null ? (getCurrentAnalysisTitleDisplay() + " [ no description]") : currentAnalysis.description)
 
   let menuItems = [
     { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },

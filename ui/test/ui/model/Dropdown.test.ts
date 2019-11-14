@@ -42,6 +42,8 @@ test('empty model', () => {
 test('add item', () => {
   const item1 = new TestDropdownItem('item1');
   items.add(item1);
+  // adding an item doesn't select it...
+  expect(dropdownModel.selectedIndex).not.toBeNull();
   expect(dropdownModel.selectedIndex.value).toBeNull();
   expect(dropdownModel.selectedItem).toBeNull();
   expect(dropdownModel.getItemAt(0)).not.toBeFalsy();
@@ -82,4 +84,19 @@ test('remove item', () => {
   dropdownModel.removeSelectedItem();
   expect(items).toHaveLength(0);
   expect(dropdownModel.selectedIndex.value).toBeNull();
+});
+
+test('dropdown label', () => {
+  const item1 = new TestDropdownItem('item1');
+  const testListener = new TestObservableChangeEventListener();
+  dropdownModel.label.addChangeEventListener(testListener);
+  expect(dropdownModel.label).not.toBeNull();
+  expect(dropdownModel.label.value).toBeNull();
+  items.add(item1);
+  expect(dropdownModel.label.value).toBeNull();
+  dropdownModel.selectedIndex.value = 0;
+  expect(dropdownModel.label.value).toBe('item1');
+  expect(testListener.f).toHaveBeenCalledTimes(1);
+  expect(testListener.event.newValue).toBe("item1");
+  expect(testListener.event.oldValue).toBeNull();
 });
