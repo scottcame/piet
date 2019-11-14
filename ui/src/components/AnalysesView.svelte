@@ -4,11 +4,12 @@
   import { Analysis } from '../js/model/Analysis';
   import { DropdownModel } from '../js/ui/model/Dropdown';
   import { DatasetAdapterFactory } from '../js/ui/adapters/DatasetAdapterFactory';
-  import IconTrash from './icons/IconTrash.svelte';
   import IconNew from './icons/IconNew.svelte';
+  import IconMenu from './icons/IconMenu.svelte';
   import TreeContainerNode from './TreeContainerNode.svelte';
   import Dropdown from './Dropdown.svelte';
   import Modal from './Modal.svelte';
+  import Menu from './Menu.svelte';
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
   import { DefaultListChangeEventListener, ListChangeEvent } from '../js/collections/List';
 
@@ -16,6 +17,7 @@
 
   let analysesDropdownModel  = new DropdownModel(pietModel.analyses);
   let currentAnalysis = null;
+  let currentAnalysisDescriptionDisplay;
 
   let datasetRootTreeModelNode = null;
   let datasetRootTreeNodes = [];
@@ -25,6 +27,10 @@
   let showNewAnalysisModal = false;
   let newAnalysisSelectedDataset;
   let datasetsDropdownModel = new DropdownModel(pietModel.datasets);
+
+  let showAnalysisMetadataModal = false;
+  let analysisTitleInput;
+  let analysisDescriptionInput;
 
   function handleAnalysisSelection() {
     const selectedIndex = analysesDropdownModel.selectedIndex.value;
@@ -84,6 +90,41 @@
     analysesDropdownModel.selectedItem.getLabel().value = e.target.value;
   }
 
+  function getCurrentAnalysisTitleDisplay() {
+    return currentAnalysis === null ? '' : currentAnalysis.name.value;
+  }
+
+  $: currentAnalysisDescriptionDisplay = currentAnalysis === null ? '' : (currentAnalysis.description === null ? getCurrentAnalysisTitleDisplay() : currentAnalysis.description)
+
+  let menuItems = [
+    { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },
+    { label: "Cancel edits", action: (e) => { console.log(e); }, enabled: false },
+    { label: "Delete analysis...", action: (e) => { deleteCurrentAnalysis(); }, enabled: true },
+  ];
+
+  function closeEditAnalysisMetadataModal() {
+    showAnalysisMetadataModal = false;
+  }
+
+  function openEditAnalysisMetadataModal() {
+    analysisTitleInput.value = currentAnalysis.name.value;
+    analysisDescriptionInput.value = currentAnalysis.description;
+    showAnalysisMetadataModal = true;
+  }
+
+  function confirmEditAnalysisMetadata() {
+    // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
+    currentAnalysis.name.value = analysisTitleInput.value;
+    let newDescription = analysisDescriptionInput.value;
+    if (!newDescription || !newDescription.trim().length) {
+      currentAnalysis.description = null;;
+    } else {
+      currentAnalysis.description = newDescription.trim();
+    }
+    closeEditAnalysisMetadataModal();
+  }
+
+
 </script>
 
 <div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline">
@@ -93,35 +134,16 @@
       <div class="h-10 w-10 ml-1 p-1 border items-center flex text-gray-900 border-gray-900" on:click="{newAnalysis}">
         <IconNew/>
       </div>
-      <div class={"h-10 w-10 ml-1 p-1 border items-center flex " + (analysisDeleteEnabled ? 'text-gray-900' : 'text-gray-500') + " " + (analysisDeleteEnabled ? 'border-gray-900' : 'border-gray-500')}
-        on:click="{deleteCurrentAnalysis}">
-        <IconTrash/>
-      </div>
     </div>
     <TreeContainerNode treeModelNode={datasetRootTreeModelNode}/>
   </div>
   <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {currentAnalysis === null ? 'hidden' : ''}">
-    <div class="w-full flex flex-inline items-center justify-between mb-1">
-      <div class="bg-green-300 w-full mr-1">
-        <div class="flex flex-inline items-center">
-          <label class="block pr-4" for="input-analysis-title">Title:</label>
-          <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
-            id="input-analysis-title" type="text" value="{currentAnalysis === null ? '' : currentAnalysis.name.value}"
-            on:input="{e => analysisInput(e)}">
-        </div>
-        <div class="flex flex-inline items-center pt-1">
-          <label class="block pr-4" for="input-analysis-description">Description:</label>
-          <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
-            id="input-analysis-description" type="text" value="{currentAnalysis === null ? '' : (currentAnalysis.description === null ? '' : currentAnalysis.description)}">
-        </div>
-      </div>
-      <div class="flex flex-inline bg-red-300">
-        <div class="h-10 w-10 flex items-center"><IconTrash/></div>
-        <div class="h-10 w-10 flex items-center"><IconTrash/></div>
-      </div>
+    <div class="w-full flex flex-inline justify-between mb-1">
+      <div class="w-full p-1 text-lg font-medium">{currentAnalysisDescriptionDisplay}</div>
+      <Menu items={menuItems}/>
     </div>
     <div class="flex bg-teal-300">
-      <div>Table for {currentAnalysis === null ? "analyses" : currentAnalysis.name} will go here.</div>
+      <div>Table for {currentAnalysis === null ? "analyses" : currentAnalysis.name.value} will go here.</div>
     </div>
   </div>
 </div>
@@ -135,6 +157,32 @@
       <div class="flex flex-inline justify-center mb-4 flex-none">
         <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={chooseNewAnalysisDataset}>OK</div>
         <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeNewAnalysisModal}>Cancel</div>
+      </div>
+    </div>
+  </Modal>
+</div>
+<div class="{showAnalysisMetadataModal ? null : 'hidden'}">
+  <Modal>
+    <span slot="header">Edit Analysis Metadata</span>
+    <div slot="body">
+      <div class="w-full mr-1 flex flex-col">
+        <div class="flex flex-col mb-1">
+          <label class="block mb-1" for="input-analysis-title">Title:</label>
+          <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
+            id="input-analysis-title" type="text" bind:this={analysisTitleInput}/>
+        </div>
+        <div class="flex flex-col mt-1">
+          <label class="block mb-1" for="input-analysis-description">Description:</label>
+          <textarea class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
+            id="input-analysis-description" type="text" rows="3"
+            bind:this={analysisDescriptionInput}/>
+        </div>
+      </div>
+    </div>
+    <div slot="buttons">
+      <div class="flex flex-inline justify-center mb-4 flex-none">
+        <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmEditAnalysisMetadata}>OK</div>
+        <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeEditAnalysisMetadataModal}>Cancel</div>
       </div>
     </div>
   </Modal>
