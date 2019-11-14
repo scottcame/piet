@@ -6,6 +6,7 @@
 
   export let dropdownModel;
   export let defaultLabel = "Choose...";
+  export let initialSelectionIndex = null;
   let dropdownLabel;
   let open = false;
   let containerDiv;
@@ -21,14 +22,16 @@
   });
 
   dropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-    if (e.oldValue) {
+    if (e.oldValue !== null) {
       dropdownModel.getItemAt(e.oldValue).getLabel().removeChangeEventListener(dropdownLabelChangeListener);
     }
-    if (e.newValue) {
+    if (e.newValue !== null) {
       dropdownModel.getItemAt(e.newValue).getLabel().addChangeEventListener(dropdownLabelChangeListener);
     }
     updateLabel();
   }));
+
+  dropdownModel.selectedIndex.value = initialSelectionIndex;
 
   function selectItem(idx) {
     dropdownModel.selectedIndex.value = idx;
