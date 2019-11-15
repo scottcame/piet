@@ -31,7 +31,7 @@
     },
     {
       name: "dashboards",
-      disabled: false,
+      disabled: true,
       active: false,
       subnav: [
         {
