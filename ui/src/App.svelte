@@ -4,32 +4,24 @@
   import MainContainer from './components/MainContainer.svelte';
   import { currentView } from './js/Stores';
   import { List } from './js/collections/List';
-  import { Model } from './js/model/Model';
-  import { Dataset } from './js/model/Dataset';
-  import { Analysis } from './js/model/Analysis';
+  import { Workspace } from './js/model/Workspace';
+  import { LocalRepository } from './js/model/Repository';
 
   // default nav
   currentView.set("analyses");
 
-  // for now, get the dataset metadata from static json
-  import * as metadata from '../test/_data/test-metadata.json';
+  const workspace = new Workspace();
 
-  const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
-  const datasets = Dataset.loadFromMetadata(metadata, datasetId);
+  // in future this will change to a remote repo
+  const repository = new LocalRepository.loadFromTestMetadata();
 
-  const pietModel = new Model();
+  let navBarController;
 
-  pietModel.datasets = new List();
-  datasets.forEach((dataset, idx) => {
-    pietModel.datasets.add(dataset);
-  });
-
-  pietModel.analyses = new List();
-  datasets.forEach((dataset, idx) => {
-    pietModel.analyses.add(new Analysis(dataset, "Analysis " + (idx+1)));
-  });
+  function newAnalysis(e) {
+    navBarController.handleNewAnalysis(e);
+  }
 
 </script>
 
-<MainNavbar/>
-<MainContainer pietModel={pietModel}/>
+<MainNavbar workspace={workspace} on:nav-new-analysis="{newAnalysis}"/>
+<MainContainer workspace={workspace} repository={repository} bind:navBarController={navBarController}/>

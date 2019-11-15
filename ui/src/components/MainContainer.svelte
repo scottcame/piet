@@ -1,17 +1,29 @@
 <script>
+
   import { currentView } from '../js/Stores';
   import AnalysesView from './AnalysesView.svelte';
   import DatasetsView from './DatasetsView.svelte';
   import DashboardsView from './DashboardsView.svelte';
-  export let pietModel;
+
+  export let workspace;
+  export let repository;
+
+  let analysesNavBarController;
+
+  export const navBarController = {
+    handleNewAnalysis: function(e) {
+      analysesNavBarController.handleNewAnalysis(e);
+    }
+  };
+
 </script>
 
-<div class="uk-container uk-container-expand">
-  {#if $currentView === "analyses"}
-    <AnalysesView pietModel={pietModel}/>
-  {:else if $currentView === "dashboards"}
-    <DashboardsView/>
-  {:else if $currentView === "datasets"}
-    <DatasetsView/>
-  {/if}
+<div class="{$currentView === 'analyses' ? '' : 'hidden'}">
+  <AnalysesView workspace={workspace} repository={repository} bind:navBarController={analysesNavBarController}/>
+</div>
+<div class="{$currentView === 'dashboards' ? '' : 'hidden'}">
+  <DashboardsView/>
+</div>
+<div class="{$currentView === 'datasets' ? '' : 'hidden'}">
+  <DatasetsView/>
 </div>

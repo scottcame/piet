@@ -1,0 +1,18 @@
+{
+  "analyses": [
+    {
+      "name": "Analysis 1",
+      "datasetRef": {
+        "id": "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test",
+        "cube": "Test"
+      }
+    },
+    {
+      "name": "Analysis 2",
+      "datasetRef": {
+        "id": "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test",
+        "cube": "Test_Secure"
+      }
+    }
+  ]
+}

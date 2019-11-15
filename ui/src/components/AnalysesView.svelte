@@ -1,21 +1,28 @@
 <script>
 
-  import { Model } from '../js/model/Model';
-  import { Analysis } from '../js/model/Analysis';
-  import { DropdownModel } from '../js/ui/model/Dropdown';
-  import { DatasetAdapterFactory } from '../js/ui/adapters/DatasetAdapterFactory';
-  import IconNew from './icons/IconNew.svelte';
   import IconMenu from './icons/IconMenu.svelte';
   import TreeContainerNode from './TreeContainerNode.svelte';
   import Dropdown from './Dropdown.svelte';
   import Modal from './Modal.svelte';
   import Menu from './Menu.svelte';
+
+  import { Analysis } from '../js/model/Analysis';
+  import { DropdownModel } from '../js/ui/model/Dropdown';
+  import { DatasetAdapterFactory } from '../js/ui/adapters/DatasetAdapterFactory';
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
   import { DefaultListChangeEventListener, ListChangeEvent } from '../js/collections/List';
 
-  export let pietModel;
+  export let workspace;
+  export let repository;
 
-  let analysesDropdownModel  = new DropdownModel(pietModel.analyses);
+  export const navBarController = {
+    handleNewAnalysis: function(e) {
+      newAnalysis();
+    }
+  };
+
+  let analysesDropdownModel  = new DropdownModel(workspace.analyses);
+  let analysesInWorkspace = workspace.analyses.length;
   let currentAnalysis = null;
   let currentAnalysisDescriptionDisplay;
 
@@ -24,11 +31,16 @@
 
   let showNewAnalysisModal = false;
   let newAnalysisSelectedDataset;
-  let datasetsDropdownModel = new DropdownModel(pietModel.datasets);
+  let datasets = repository.browseDatasets();
+  let datasetsDropdownModel = new DropdownModel(datasets);
 
   let showAnalysisMetadataModal = false;
   let analysisTitleInput;
   let analysisDescriptionInput;
+
+  workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
+    analysesInWorkspace = workspace.analyses.length;
+  }));
 
   function handleAnalysisSelection() {
     const selectedIndex = analysesDropdownModel.selectedIndex.value;
@@ -38,7 +50,7 @@
     } else {
       // caching these for performance (e.g., the foodmart schema is pretty large)
       if (!datasetRootTreeNodes[selectedIndex]) {
-        datasetRootTreeNodes[selectedIndex] = DatasetAdapterFactory.getInstance().createRootTreeModelNode(pietModel.analyses.get(selectedIndex).dataset);
+        datasetRootTreeNodes[selectedIndex] = DatasetAdapterFactory.getInstance().createRootTreeModelNode(workspace.analyses.get(selectedIndex).dataset);
       }
       datasetRootTreeModelNode = datasetRootTreeNodes[selectedIndex];
     }
@@ -46,15 +58,20 @@
 
   analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => handleAnalysisSelection()));
 
+  let datasetSelected = false;
+  datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
+    datasetSelected = e.newValue !== null;
+  }));
+
   /*
 
-    Unresolved philosophical issue...  Not sure whether these ui components should be directly referencing the pietModel, or whether
-    ui components should *only* have reference to ui models, which in turn reference the pietModel. To be determined...
+    Unresolved philosophical issue...  Not sure whether these ui components should be directly referencing the workspace object, or whether
+    ui components should *only* have reference to ui models, which in turn reference the workspace. To be determined...
 
   */
 
   function deleteCurrentAnalysis() {
-    let removedAnalysis = pietModel.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
+    let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
     removedAnalysis.getLabel().clearChangeEventListeners();
   }
 
@@ -68,10 +85,12 @@
   }
 
   function chooseNewAnalysisDataset() {
-    let currentAnalysisCount = pietModel.analyses.length;
-    pietModel.analyses.add(new Analysis(datasetsDropdownModel.selectedItem, "Analysis " + (currentAnalysisCount+1)));
-    closeNewAnalysisModal();
-    analysesDropdownModel.selectedIndex.value = currentAnalysisCount;
+    if (datasetsDropdownModel.selectedItem) {
+      let currentAnalysisCount = workspace.analyses.length;
+      workspace.analyses.add(new Analysis(datasetsDropdownModel.selectedItem, "Analysis " + (currentAnalysisCount+1)));
+      closeNewAnalysisModal();
+      analysesDropdownModel.selectedIndex.value = currentAnalysisCount;
+    }
   }
 
   function analysisInput(e) {
@@ -116,13 +135,14 @@
 
 </script>
 
-<div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline">
+<div class="w-full mt-24 text-center {analysesInWorkspace ? 'hidden' : ''}">
+  No analyses in workspace. Choose "New" or "Browse" from analyses menu above to bring analyses into your workspace.
+</div>
+
+<div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline {analysesInWorkspace ? '' : 'hidden'}">
   <div class="w-1/4 h-screen select-none pt-2 pr-2 border-2">
     <div class="flex flex-inline items-center justify-between mb-2">
-      <Dropdown dropdownModel={analysesDropdownModel} defaultLabel="Choose an analysis..."/>
-      <div class="h-10 w-10 ml-1 p-1 border items-center flex text-gray-900 border-gray-900" on:click="{newAnalysis}">
-        <IconNew/>
-      </div>
+      <Dropdown dropdownModel={analysesDropdownModel} showCaret="true"/>
     </div>
     <TreeContainerNode treeModelNode={datasetRootTreeModelNode}/>
   </div>
@@ -136,43 +156,39 @@
     </div>
   </div>
 </div>
-<div class="{showNewAnalysisModal ? null : 'hidden'}">
-  <Modal>
-    <span slot="header">New Analysis: Choose Dataset</span>
-    <div slot="body">
-      <Dropdown dropdownModel={datasetsDropdownModel} defaultLabel="Choose a dataset..."/>
+<Modal visible={showNewAnalysisModal}>
+  <span slot="header">New Analysis: Choose Dataset</span>
+  <div slot="body">
+    <Dropdown dropdownModel={datasetsDropdownModel} defaultLabel="Choose a dataset..."/>
+  </div>
+  <div slot="buttons">
+    <div class="flex flex-inline justify-center mb-4 flex-none">
+      <div class="border-2 mr-2 p-2 {datasetSelected ? 'hover:bg-gray-200' : ''}" on:click={chooseNewAnalysisDataset}>OK</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeNewAnalysisModal}>Cancel</div>
     </div>
-    <div slot="buttons">
-      <div class="flex flex-inline justify-center mb-4 flex-none">
-        <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={chooseNewAnalysisDataset}>OK</div>
-        <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeNewAnalysisModal}>Cancel</div>
+  </div>
+</Modal>
+<Modal visible={showAnalysisMetadataModal}>
+  <span slot="header">Edit Analysis Metadata</span>
+  <div slot="body">
+    <div class="w-full mr-1 flex flex-col">
+      <div class="flex flex-col mb-1">
+        <label class="block mb-1" for="input-analysis-title">Title:</label>
+        <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
+          id="input-analysis-title" type="text" bind:this={analysisTitleInput}/>
+      </div>
+      <div class="flex flex-col mt-1">
+        <label class="block mb-1" for="input-analysis-description">Description:</label>
+        <textarea class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
+          id="input-analysis-description" type="text" rows="3"
+          bind:this={analysisDescriptionInput}/>
       </div>
     </div>
-  </Modal>
-</div>
-<div class="{showAnalysisMetadataModal ? null : 'hidden'}">
-  <Modal>
-    <span slot="header">Edit Analysis Metadata</span>
-    <div slot="body">
-      <div class="w-full mr-1 flex flex-col">
-        <div class="flex flex-col mb-1">
-          <label class="block mb-1" for="input-analysis-title">Title:</label>
-          <input class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
-            id="input-analysis-title" type="text" bind:this={analysisTitleInput}/>
-        </div>
-        <div class="flex flex-col mt-1">
-          <label class="block mb-1" for="input-analysis-description">Description:</label>
-          <textarea class="bg-gray-200 appearance-none border border-gray-900 rounded w-full py-1 px-2 leading-tight focus:outline-none focus:bg-white"
-            id="input-analysis-description" type="text" rows="3"
-            bind:this={analysisDescriptionInput}/>
-        </div>
-      </div>
+  </div>
+  <div slot="buttons">
+    <div class="flex flex-inline justify-center mb-4 flex-none">
+      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmEditAnalysisMetadata}>OK</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeEditAnalysisMetadataModal}>Cancel</div>
     </div>
-    <div slot="buttons">
-      <div class="flex flex-inline justify-center mb-4 flex-none">
-        <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmEditAnalysisMetadata}>OK</div>
-        <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeEditAnalysisMetadataModal}>Cancel</div>
-      </div>
-    </div>
-  </Modal>
-</div>
+  </div>
+</Modal>

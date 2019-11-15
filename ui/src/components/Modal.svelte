@@ -1,13 +1,12 @@
 <script>
   export let visible = false;
-  let hidden = !visible;
 </script>
 
-<div>
+<div class="{visible ? '' : 'hidden'}">
   <div class="h-screen w-full fixed top-0 left-0 bg-gray-300 opacity-50 z-0">
   </div>
   <div class="h-screen w-full fixed flex items-center justify-center top-0 left-0 z-10">
-    <div class="bg-white rounded shadow w-1/3 max-h-full overflow-y-scroll select-none border border-gray-500">
+    <div class="bg-white rounded shadow w-1/3 max-h-full overflow-visible select-none border border-gray-500">
       <div class="bg-gray-300 p-2 font-semibold">
           <slot name="header">Title</slot>
       </div>

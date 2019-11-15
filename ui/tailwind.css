@@ -9,3 +9,8 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.inset-below {
+  left: 50%;
+  transform: translateX(-50%);
+}
