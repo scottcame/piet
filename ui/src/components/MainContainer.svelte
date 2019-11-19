@@ -13,6 +13,9 @@
   export const navBarController = {
     handleNewAnalysis: function(e) {
       analysesNavBarController.handleNewAnalysis(e);
+    },
+    handleBrowseAnalyses: function(e) {
+      analysesNavBarController.handleBrowseAnalyses(e);
     }
   };
 

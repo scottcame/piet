@@ -1,10 +1,14 @@
-import { Repository, LocalRepository } from "../../src/js/model/Repository";
+import { LocalRepository } from "../../src/js/model/Repository";
+import { List } from "../../src/js/collections/List";
+import { Analysis } from "../../src/js/model/Analysis";
 
-test('local repository', () => {
-  const repo: Repository = LocalRepository.loadFromTestMetadata();
-  expect(repo).not.toBeNull();
-  expect(repo.browseDatasets().length).toBe(2);
-  expect(repo.browseAnalyses().length).toBe(2);
-  expect(repo.searchAnalyses(null).length).toBe(2);
-  // no need to test further, errors will be evident in demo UI
+test('local repository', async () => {
+  const repo: LocalRepository = new LocalRepository();
+  await repo.init().then(async () => {
+    expect(repo).not.toBeNull();
+    expect(repo.browseDatasets().length).toBe(2);
+    await repo.browseAnalyses().then((aa: List<Analysis>) => {
+      expect(aa).toHaveLength(2);
+    });
+  });
 });

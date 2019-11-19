@@ -18,6 +18,9 @@
   export const navBarController = {
     handleNewAnalysis: function(e) {
       newAnalysis();
+    },
+    handleBrowseAnalyses: function(e) {
+      browseAnalyses();
     }
   };
 
@@ -70,13 +73,17 @@
 
   */
 
-  function deleteCurrentAnalysis() {
+  function closeCurrentAnalysis() {
     let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
     removedAnalysis.getLabel().clearChangeEventListeners();
   }
 
   function newAnalysis() {
     showNewAnalysisModal = true;
+  }
+
+  function browseAnalyses() {
+    console.log("browse analyses in AnalysisView");
   }
 
   function closeNewAnalysisModal() {
@@ -102,12 +109,12 @@
   }
 
   $: currentAnalysisDescriptionDisplay = currentAnalysis === null ? '' :
-    (currentAnalysis.description === null ? (getCurrentAnalysisTitleDisplay() + " [ no description]") : currentAnalysis.description)
+    (currentAnalysis.description === null ? (getCurrentAnalysisTitleDisplay() + " [no description]") : currentAnalysis.description)
 
   let menuItems = [
     { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },
     { label: "Cancel edits", action: (e) => { console.log(e); }, enabled: false },
-    { label: "Delete analysis...", action: (e) => { deleteCurrentAnalysis(); }, enabled: true },
+    { label: "Close", action: (e) => { closeCurrentAnalysis(); }, enabled: true },
   ];
 
   function closeEditAnalysisMetadataModal() {

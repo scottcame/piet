@@ -68,7 +68,7 @@
   }
 
   function browseAnalyses() {
-    console.log("Browse analyses");
+    dispatch('nav-browse-analyses', {});
   }
 
   function newDashboard() {

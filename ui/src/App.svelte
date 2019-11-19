@@ -7,21 +7,29 @@
   import { Workspace } from './js/model/Workspace';
   import { LocalRepository } from './js/model/Repository';
 
+  let initialized = false;
+
   // default nav
   currentView.set("analyses");
 
   const workspace = new Workspace();
 
   // in future this will change to a remote repo
-  const repository = new LocalRepository.loadFromTestMetadata();
+  const repository = new LocalRepository();
+  repository.init().then(() => {
+    initialized = true;
+    console.log("Initialization complete");
+  });
 
   let navBarController;
 
-  function newAnalysis(e) {
-    navBarController.handleNewAnalysis(e);
-  }
-
 </script>
 
-<MainNavbar workspace={workspace} on:nav-new-analysis="{newAnalysis}"/>
+{#if {initialized}}
+<MainNavbar
+  workspace={workspace}
+  on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
+  on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
+/>
 <MainContainer workspace={workspace} repository={repository} bind:navBarController={navBarController}/>
+{/if}
