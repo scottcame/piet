@@ -5,7 +5,7 @@ import Dexie from 'dexie';
 
 import * as testDatasetMetadata from '../../../test/_data/test-metadata.json';
 import * as testAnalyses from '../../../test/_data/test-analyses.json';
-import { Ravelable } from "./Persistence";
+import { Serializable } from "./Persistence";
 
 export class RepositoryQuery {
   query: string;
@@ -20,7 +20,7 @@ export interface Repository {
 
 class RepositoryDatabase extends Dexie {
 
-    analyses: Dexie.Table<Ravelable<Analysis>, number>;
+    analyses: Dexie.Table<Serializable, number>;
 
     constructor () {
       super("Piet");
@@ -59,7 +59,7 @@ export class LocalRepository implements Repository {
               }
             });
             return new Promise((resolve, _reject) => {
-              this.db.analyses.add(Analysis.PERSISTENCE_FACTORY.ravel(new Analysis(d, analysis.name)));
+              this.db.analyses.add(Analysis.PERSISTENCE_FACTORY.serialize(new Analysis(d, analysis.name), this));
               resolve();
             });
           });
@@ -85,7 +85,7 @@ export class LocalRepository implements Repository {
     return new Promise((resolve, _reject) => {
       this.db.analyses.toArray().then(dbAnalyses => {
         const analyses: Analysis[] = dbAnalyses.map((dbAnalysis) => {
-          return persistenceFactory.unravel(dbAnalysis, this);
+          return persistenceFactory.deserialize(dbAnalysis, this);
         });
         this.analyses.set(analyses);
         resolve(this.analyses);

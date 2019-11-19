@@ -1,10 +1,12 @@
 import { Dataset } from "./Dataset";
 import { DropdownItem } from "../ui/model/Dropdown";
 import { Observable } from "../util/Observable";
-import { Identifiable, PersistenceFactory, Ravelable } from "./Persistence";
+import { Identifiable, Serializable, PersistenceFactory } from "./Persistence";
 import { Repository } from "./Repository";
 
-class PersistentAnalysis implements Identifiable, Ravelable<Analysis> {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+class PersistentAnalysis implements Identifiable, Serializable {
   id: number;
   datasetRef: {id: string; cube: string};
   name: string;
@@ -20,34 +22,21 @@ class PersistentAnalysis implements Identifiable, Ravelable<Analysis> {
     this.name = analysis.name.value;
     this.description = analysis.description;
   }
-  unravel(repository: Repository): Analysis {
-    let d: Dataset = null;
-    repository.browseDatasets().forEach((dd: Dataset) => {
-      if (dd.id === this.datasetRef.id && dd.name === this.datasetRef.cube) {
-        d = dd;
-      }
-    });
-    /* eslint-disable @typescript-eslint/no-use-before-define */
-    const ret = new Analysis(d, this.name);
-    ret.description = this.description;
-    return ret;
-  }
 }
 
 class AnalysisPersistenceFactory implements PersistenceFactory<Analysis> {
 
-  ravel(analysis: Analysis): Ravelable<Analysis> {
+  serialize(analysis: Analysis, _repository: Repository): any {
     return new PersistentAnalysis(analysis);
   }
 
-  unravel(o: any, repository: Repository): Analysis {
+  deserialize(o: any, repository: Repository): Analysis {
     let d: Dataset = null;
     repository.browseDatasets().forEach((dd: Dataset) => {
       if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
         d = dd;
       }
     });
-    /* eslint-disable @typescript-eslint/no-use-before-define */
     const ret = new Analysis(d, o.name);
     ret.description = o.description;
     return ret;
@@ -55,7 +44,7 @@ class AnalysisPersistenceFactory implements PersistenceFactory<Analysis> {
 
 }
 
-export class Analysis implements DropdownItem, Identifiable {
+export class Analysis implements DropdownItem, Identifiable, Serializable {
 
   readonly id: number;
   dataset: Dataset;
@@ -77,7 +66,6 @@ export class Analysis implements DropdownItem, Identifiable {
     return this.name;
   }
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
   getValue(): any {
     return this;
   }
