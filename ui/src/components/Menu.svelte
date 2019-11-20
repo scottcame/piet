@@ -35,9 +35,9 @@
 </script>
 
 <div class="relative" bind:this="{containerDiv}">
-  <div class="relative h-8 w-8 flex items-center text-black p-1 border border-gray-700 cursor-default" on:click={toggleOpen}><IconMenu/></div>
+  <div class="relative h-8 w-8 flex items-center text-black p-1 rounded border border-gray-700 cursor-pointer" on:click={toggleOpen}><IconMenu/></div>
   {#if open}
-    <div class="absolute right-0 w-48 bg-gray-100 border border-gray-700 shadow-xl cursor-default select-none">
+    <div class="absolute right-0 w-48 bg-gray-100 border border-gray-700 shadow-xl cursor-pointer select-none">
       {#each items as item}
         <div class="block px-4 py-1 text-right {item.enabled ? 'text-gray-800 hover:bg-gray-300' : 'text-gray-500'}"
           on:click={e => handleClick(item, e)}>{item.label}</div>
