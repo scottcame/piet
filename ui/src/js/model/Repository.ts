@@ -12,6 +12,7 @@ export class RepositoryQuery {
 }
 
 export interface Repository {
+  readonly analyses: List<Analysis>;
   init(): void;
   browseDatasets(): List<Dataset>;
   browseAnalyses(): Promise<List<Analysis>>;
@@ -34,17 +35,17 @@ class RepositoryDatabase extends Dexie {
 export class LocalRepository implements Repository {
 
   private datasets: List<Dataset>;
-  private analyses: List<Analysis>;
+  readonly analyses: List<Analysis>;
   private db: RepositoryDatabase;
 
   constructor() {
     this.db = new RepositoryDatabase();
     this.analyses = new List();
+    this.datasets = new List();
   }
 
   init(): Promise<void> {
 
-    this.datasets = new List();
     this.datasets.addAll(Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test"));
 
     return new Promise((resolve, _reject) => {

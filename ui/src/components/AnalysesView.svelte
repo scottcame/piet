@@ -5,10 +5,13 @@
   import Dropdown from './Dropdown.svelte';
   import Modal from './Modal.svelte';
   import Menu from './Menu.svelte';
+  import SelectTable from './SelectTable.svelte';
 
   import { Analysis } from '../js/model/Analysis';
   import { DropdownModel } from '../js/ui/model/Dropdown';
+  import { TableModel } from '../js/ui/model/Table';
   import { DatasetAdapterFactory } from '../js/ui/adapters/DatasetAdapterFactory';
+  import { AnalysisAdapterFactory } from '../js/ui/adapters/AnalysisAdapterFactory';
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
   import { DefaultListChangeEventListener, ListChangeEvent } from '../js/collections/List';
 
@@ -36,6 +39,10 @@
   let newAnalysisSelectedDataset;
   let datasets = repository.browseDatasets();
   let datasetsDropdownModel = new DropdownModel(datasets);
+
+  let showBrowseAnalysisModal = false;
+  let browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(repository.analyses);
+  let browseAnalysesSelectedIndex;
 
   let showAnalysisMetadataModal = false;
   let analysisTitleInput;
@@ -82,13 +89,31 @@
     showNewAnalysisModal = true;
   }
 
-  function browseAnalyses() {
-    console.log("browse analyses in AnalysisView");
-  }
-
   function closeNewAnalysisModal() {
     showNewAnalysisModal = false;
     datasetsDropdownModel.selectedIndex.value = null;
+  }
+
+  function browseAnalyses() {
+    repository.browseAnalyses().then(() => {
+      showBrowseAnalysisModal = true;
+    });
+  }
+
+  browseAnalyses(); // temporary during refinement
+
+  function closeBrowseAnalysisModal() {
+    showBrowseAnalysisModal = false;
+  }
+
+  function browseAnalysesOpenSelection() {
+    if (browseAnalysesSelectedIndex !== null) {
+      console.log("Analysis selected: " + browseAnalysesSelectedIndex);
+      closeBrowseAnalysisModal();
+      workspace.analyses.add(repository.analyses.get(browseAnalysesSelectedIndex));
+      analysesDropdownModel.selectedIndex.value = workspace.analyses.length-1;
+      browseAnalysesSelectedIndex = null;
+    }
   }
 
   function chooseNewAnalysisDataset() {
@@ -172,6 +197,18 @@
     <div class="flex flex-inline justify-center mb-4 flex-none">
       <div class="border-2 mr-2 p-2 {datasetSelected ? 'hover:bg-gray-200' : ''}" on:click={chooseNewAnalysisDataset}>OK</div>
       <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeNewAnalysisModal}>Cancel</div>
+    </div>
+  </div>
+</Modal>
+<Modal visible={showBrowseAnalysisModal}>
+  <span slot="header">Browse Analyses</span>
+  <div slot="body">
+    <SelectTable tableModel={browseAnalysesTableModel} bind:selection={browseAnalysesSelectedIndex}/>
+  </div>
+  <div slot="buttons">
+    <div class="flex flex-inline justify-center mb-4 flex-none">
+      <div class="border-2 mr-2 p-2 { browseAnalysesSelectedIndex === null ? '' : 'hover:bg-gray-200' }" on:click={browseAnalysesOpenSelection}>Open</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeBrowseAnalysisModal}>Cancel</div>
     </div>
   </div>
 </Modal>
