@@ -17,6 +17,7 @@ export interface Repository {
   browseDatasets(): List<Dataset>;
   browseAnalyses(): Promise<List<Analysis>>;
   searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
+  saveAnalysis(analysis: Analysis): Promise<number>;
 }
 
 class RepositoryDatabase extends Dexie {
@@ -92,6 +93,10 @@ export class LocalRepository implements Repository {
         resolve(this.analyses);
       });
     });
+  }
+
+  saveAnalysis(analysis: Analysis): Promise<number> {
+    return this.db.analyses.put(Analysis.PERSISTENCE_FACTORY.serialize(analysis, this));
   }
 
   searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {

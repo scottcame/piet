@@ -30,3 +30,29 @@ test('persistence', () => {
   expect(deserializedAnalysis.description).toBe(analysis.description);
   expect(deserializedAnalysis.id).toBeUndefined();
 });
+
+test('editing', () => {
+  const originalName = "test-name";
+  const originalDescription = "test-description";
+  const analysis = new Analysis(datasets.get(0), originalName, null);
+  analysis.description = originalDescription;
+  analysis.checkpointEdits();
+  expect(analysis.dirty).toBe(false);
+  analysis.name.value = "new-name";
+  expect(analysis.dirty).toBe(true);
+  analysis.cancelEdits();
+  expect(analysis.dirty).toBe(false);
+  expect(analysis.name.value).toBe(originalName);
+  expect(analysis.description).toBe(originalDescription);
+  analysis.description = "new-description";
+  expect(analysis.dirty).toBe(true);
+  analysis.cancelEdits();
+  expect(analysis.dirty).toBe(false);
+  expect(analysis.description).toBe(originalDescription);
+  analysis.name.value = "new-name";
+  analysis.description = "new-description";
+  analysis.checkpointEdits();
+  expect(analysis.dirty).toBe(false);
+  expect(analysis.name.value).toBe("new-name");
+  expect(analysis.description).toBe("new-description");
+});

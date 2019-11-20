@@ -1,7 +1,7 @@
 import { Dataset } from "./Dataset";
 import { DropdownItem } from "../ui/model/Dropdown";
 import { Observable } from "../util/Observable";
-import { Identifiable, Serializable, PersistenceFactory } from "./Persistence";
+import { Identifiable, Serializable, PersistenceFactory, Editable, EditEventListener, EditEvent } from "./Persistence";
 import { Repository } from "./Repository";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -37,30 +37,45 @@ class AnalysisPersistenceFactory implements PersistenceFactory<Analysis> {
         d = dd;
       }
     });
-    const ret = new Analysis(d, o.name);
+    const ret = new Analysis(d, o.name, o.id);
     ret.description = o.description;
+    ret.checkpointEdits();
     return ret;
   }
 
 }
 
-export class Analysis implements DropdownItem, Identifiable, Serializable {
+export class Analysis implements DropdownItem, Identifiable, Serializable, Editable {
 
   readonly id: number;
   dataset: Dataset;
-  name: Observable<string>;
-  description: string = null;
+  private _name: Observable<string>;
+  private _description: string = null;
 
-  constructor(dataset: Dataset, name: string = null) {
+  private editCheckpoint: Analysis;
+  private editEventListeners: EditEventListener[];
+
+  constructor(dataset: Dataset, name: string = null, id: number = undefined) {
+    this.editEventListeners = [];
+    this.editCheckpoint = null;
+    this.id = id;
     this.dataset = dataset;
-    this.name = new Observable();
-    this.name.value = name;
+    this._name = new Observable();
+    this._name.value = name;
   }
 
-  /*
-    Unresolved philosophical issue: should we create an adapter for Analysis objects? Would be cleaner,
-    but would also be a pain to keep in sync with the underlying pietModel. To be determined...
-  */
+  get name(): Observable<string> {
+    return this._name;
+  }
+
+  get description(): string {
+    return this._description;
+  }
+
+  set description(value: string) {
+    this.edit();
+    this._description = value;
+  }
 
   getLabel(): Observable<string> {
     return this.name;
@@ -68,6 +83,59 @@ export class Analysis implements DropdownItem, Identifiable, Serializable {
 
   getValue(): any {
     return this;
+  }
+
+  private edit(): void {
+    if (!this.editCheckpoint) {
+      // name (and other observables) track their own edits, so no need to manage that on the checkpoint
+      // id is readonly, so by definition it cannot be edited, and so we don't need to manage it on the checkpoint, either
+      this.editCheckpoint = new Analysis(this.dataset, null, null);
+      this.editCheckpoint._description = this._description;
+      this.notifyEditEventListeners(EditEvent.EDIT_BEGIN);
+    }
+  }
+
+  private notifyEditEventListeners(type: string): void {
+    this.editEventListeners.forEach((listener: EditEventListener) => {
+      listener.notify(new EditEvent(type));
+    });
+  }
+
+  cancelEdits(): void {
+    if (this.editCheckpoint) {
+      this._description = this.editCheckpoint._description;
+    }
+    this._name.cancelEdits();
+    this.editCheckpoint = null;
+    this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
+  }
+
+  checkpointEdits(): void {
+    this.editCheckpoint = null;
+    this._name.checkpointEdits();
+    this.notifyEditEventListeners(EditEvent.EDIT_CHECKPOINT);
+  }
+
+  get dirty(): boolean {
+    return this.editCheckpoint !== null || this._name.dirty;
+  }
+
+  addEditEventListener(listener: EditEventListener): EditEventListener {
+    this.editEventListeners.push(listener);
+    return listener;
+  }
+
+  removeEditEventListener(listener: EditEventListener): EditEventListener {
+    let ret: EditEventListener = null;
+    this.editEventListeners.forEach((thisListener: EditEventListener, index: number): boolean => {
+      if (listener == thisListener) {
+        this.editEventListeners.splice(index, 1);
+        ret = thisListener;
+        return true;
+      }
+      return false;
+    });
+    return ret;
   }
 
   static readonly PERSISTENCE_FACTORY = new AnalysisPersistenceFactory();

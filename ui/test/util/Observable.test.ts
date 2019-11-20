@@ -20,3 +20,16 @@ test('observation', () => {
   o.value = 11;
   expect(testListener.f).not.toHaveBeenCalled();
 });
+
+test('editing', () => {
+  expect(o.dirty).toBe(false);
+  o.value = 2;
+  expect(o.dirty).toBe(true);
+  o.cancelEdits();
+  expect(o.dirty).toBe(false);
+  expect(o.value).toBe(1);
+  o.value = 2;
+  o.checkpointEdits();
+  expect(o.dirty).toBe(false);
+  expect(o.value).toBe(2);
+});

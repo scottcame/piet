@@ -48,13 +48,37 @@
   let analysisTitleInput;
   let analysisDescriptionInput;
 
+  const cancelEditsMenuItemLabel = "Cancel edits";
+
+  let menuItems = [
+    { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },
+    { label: cancelEditsMenuItemLabel, action: (e) => { console.log(e); }, enabled: false },
+    { label: "Save", action: (e) => { saveCurrentAnalysis(); }, enabled: true },
+    { label: "Close", action: (e) => { closeCurrentAnalysis(); }, enabled: true },
+  ];
+
   workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
     analysesInWorkspace = workspace.analyses.length;
   }));
 
-  function handleAnalysisSelection() {
+  function updateCancelEditsMenuItem() {
+    const cancelItem = menuItems.filter((item) => item.label===cancelEditsMenuItemLabel)[0];
+    if (cancelItem) {
+      cancelItem.enabled = currentAnalysis.dirty;
+    }
+  }
+
+  let currentAnalysisEditListener = {
+    notify(e) {
+      updateCancelEditsMenuItem();
+    }
+  };
+
+  function handleAnalysisSelection(e) {
+    if (currentAnalysis) {
+      currentAnalysis.removeEditEventListener(currentAnalysisEditListener);
+    }
     const selectedIndex = analysesDropdownModel.selectedIndex.value;
-    currentAnalysis = analysesDropdownModel.selectedItem; // just to give it a better name; maybe not needed...
     if (selectedIndex === null) {
       datasetRootTreeModelNode = null;
     } else {
@@ -64,21 +88,19 @@
       }
       datasetRootTreeModelNode = datasetRootTreeNodes[selectedIndex];
     }
+    currentAnalysis = analysesDropdownModel.selectedItem;
+    if (currentAnalysis) {
+      currentAnalysis.addEditEventListener(currentAnalysisEditListener);
+      updateCancelEditsMenuItem();
+    }
   }
 
-  analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => handleAnalysisSelection()));
+  analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => handleAnalysisSelection(e)));
 
   let datasetSelected = false;
   datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
     datasetSelected = e.newValue !== null;
   }));
-
-  /*
-
-    Unresolved philosophical issue...  Not sure whether these ui components should be directly referencing the workspace object, or whether
-    ui components should *only* have reference to ui models, which in turn reference the workspace. To be determined...
-
-  */
 
   function closeCurrentAnalysis() {
     let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
@@ -133,11 +155,12 @@
   $: currentAnalysisDescriptionDisplay = currentAnalysis === null ? '' :
     (currentAnalysis.description === null ? (getCurrentAnalysisTitleDisplay() + " [no description]") : currentAnalysis.description)
 
-  let menuItems = [
-    { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },
-    { label: "Cancel edits", action: (e) => { console.log(e); }, enabled: false },
-    { label: "Close", action: (e) => { closeCurrentAnalysis(); }, enabled: true },
-  ];
+  function saveCurrentAnalysis() {
+    if (currentAnalysis !== null) {
+      repository.saveAnalysis(currentAnalysis);
+      currentAnalysis.checkpointEdits();
+    }
+  }
 
   function closeEditAnalysisMetadataModal() {
     showAnalysisMetadataModal = false;
