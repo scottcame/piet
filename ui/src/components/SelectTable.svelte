@@ -13,19 +13,11 @@
 
   function selectRow(index) {
     selection = index;
-    console.log("Row " + index + " selected")
   }
 
 </script>
 
 <table class="table-auto border w-full">
-  <!-- <thead>
-    <tr>
-      {#each tableModel.columnHeaders as columnHeader}
-      <th class="w-1/4 p-2">{columnHeader}</th>
-      {/each}
-    </tr>
-  </thead> -->
   <tbody>
       {#each modelRows as modelRow, rowIndex}
       <tr class="border">

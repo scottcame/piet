@@ -100,15 +100,12 @@
     });
   }
 
-  browseAnalyses(); // temporary during refinement
-
   function closeBrowseAnalysisModal() {
     showBrowseAnalysisModal = false;
   }
 
   function browseAnalysesOpenSelection() {
     if (browseAnalysesSelectedIndex !== null) {
-      console.log("Analysis selected: " + browseAnalysesSelectedIndex);
       closeBrowseAnalysisModal();
       workspace.analyses.add(repository.analyses.get(browseAnalysesSelectedIndex));
       analysesDropdownModel.selectedIndex.value = workspace.analyses.length-1;
