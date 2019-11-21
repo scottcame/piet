@@ -25,7 +25,10 @@ test('editing', () => {
   expect(o.dirty).toBe(false);
   o.value = 2;
   expect(o.dirty).toBe(true);
+  const testListener = new TestObservableChangeEventListener();
+  o.addChangeEventListener(testListener);
   o.cancelEdits();
+  expect(testListener.f).toHaveBeenCalledTimes(1);
   expect(o.dirty).toBe(false);
   expect(o.value).toBe(1);
   o.value = 2;

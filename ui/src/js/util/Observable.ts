@@ -100,8 +100,10 @@ export class Observable<T> implements Editable {
   }
 
   cancelEdits(): void {
+    const oldValue = this._value;
     this._value = this.checkpointValue;
     this.checkpointValue = null;
+    this.notifyChangeListeners(oldValue);
     this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
   }
 
