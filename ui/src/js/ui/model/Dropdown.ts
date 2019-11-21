@@ -2,24 +2,6 @@ import { List, DefaultListChangeEventListener, ListChangeEvent } from "../../col
 import { Observable, DefaultObservableChangeEventListener } from "../../util/Observable";
 import { Editable, EditEventListener, EditEvent, PropertyEditEvent } from "../../model/Persistence";
 
-interface LabelUpdateEditEventListenerCallback {
-  (): void;
-}
-
-class LabelUpdateEditEventListener implements EditEventListener {
-  readonly callback: LabelUpdateEditEventListenerCallback;
-  constructor(callback: LabelUpdateEditEventListenerCallback) {
-    this.callback = callback;
-  }
-  /* eslint-disable @typescript-eslint/no-empty-function */
-  notifyEdit(_event: EditEvent): void {
-
-  }
-  notifyPropertyEdit(_event: PropertyEditEvent): void {
-    this.callback();
-  }
-}
-
 export class DropdownModel<T extends Editable> {
 
   items: List<T>;
@@ -98,4 +80,22 @@ export class DropdownModel<T extends Editable> {
     return this._label;
   }
 
+}
+
+interface LabelUpdateEditEventListenerCallback {
+  (): void;
+}
+
+class LabelUpdateEditEventListener implements EditEventListener {
+  readonly callback: LabelUpdateEditEventListenerCallback;
+  constructor(callback: LabelUpdateEditEventListenerCallback) {
+    this.callback = callback;
+  }
+  /* eslint-disable @typescript-eslint/no-empty-function */
+  notifyEdit(_event: EditEvent): void {
+
+  }
+  notifyPropertyEdit(_event: PropertyEditEvent): void {
+    this.callback();
+  }
 }
