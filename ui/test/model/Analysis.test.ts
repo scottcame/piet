@@ -26,7 +26,7 @@ test('persistence', () => {
     description: 'test-description'
   });
   const deserializedAnalysis = Analysis.PERSISTENCE_FACTORY.deserialize(serializedAnalysis, repository);
-  expect(deserializedAnalysis.name.value).toBe(analysis.name.value);
+  expect(deserializedAnalysis.name).toBe(analysis.name);
   expect(deserializedAnalysis.description).toBe(analysis.description);
   expect(deserializedAnalysis.id).toBeUndefined();
 });
@@ -38,21 +38,29 @@ test('editing', () => {
   analysis.description = originalDescription;
   analysis.checkpointEdits();
   expect(analysis.dirty).toBe(false);
-  analysis.name.value = "new-name";
+  analysis.name = "new-name";
   expect(analysis.dirty).toBe(true);
   analysis.cancelEdits();
   expect(analysis.dirty).toBe(false);
-  expect(analysis.name.value).toBe(originalName);
+  expect(analysis.name).toBe(originalName);
   expect(analysis.description).toBe(originalDescription);
   analysis.description = "new-description";
   expect(analysis.dirty).toBe(true);
   analysis.cancelEdits();
   expect(analysis.dirty).toBe(false);
   expect(analysis.description).toBe(originalDescription);
-  analysis.name.value = "new-name";
+  analysis.name = "new-name";
   analysis.description = "new-description";
   analysis.checkpointEdits();
   expect(analysis.dirty).toBe(false);
-  expect(analysis.name.value).toBe("new-name");
+  expect(analysis.name).toBe("new-name");
   expect(analysis.description).toBe("new-description");
+});
+
+test('typed get', () => {
+  const analysis = new Analysis(datasets.get(0), "poo", null);
+  const prop = "na" + "me";
+  const foo: string = analysis[prop];
+  console.log(foo);
+  expect(1).toBe(1);
 });

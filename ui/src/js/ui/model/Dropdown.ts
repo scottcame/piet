@@ -1,52 +1,88 @@
 import { List, DefaultListChangeEventListener, ListChangeEvent } from "../../collections/List";
 import { Observable, DefaultObservableChangeEventListener } from "../../util/Observable";
+import { Editable, EditEventListener, EditEvent, PropertyEditEvent } from "../../model/Persistence";
 
-export class DropdownModel {
+interface LabelUpdateEditEventListenerCallback {
+  (): void;
+}
 
-  items: List<DropdownItem>;
+class LabelUpdateEditEventListener implements EditEventListener {
+  readonly callback: LabelUpdateEditEventListenerCallback;
+  constructor(callback: LabelUpdateEditEventListenerCallback) {
+    this.callback = callback;
+  }
+  /* eslint-disable @typescript-eslint/no-empty-function */
+  notifyEdit(_event: EditEvent): void {
+
+  }
+  notifyPropertyEdit(_event: PropertyEditEvent): void {
+    this.callback();
+  }
+}
+
+export class DropdownModel<T extends Editable> {
+
+  items: List<T>;
   private _selectedIndex: Observable<number>;
   private _label: Observable<string>;
+  private boundPropertyName: string;
+  private _labels: string[] = [];
+  private itemPropertyEditListener: LabelUpdateEditEventListener;
 
-  constructor(items: List<DropdownItem>) {
+  constructor(items: List<T>, boundPropertyName: string) {
 
     this.items = items;
     this._selectedIndex = new Observable<number>();
     this._label = new Observable<string>();
+    this.boundPropertyName = boundPropertyName;
 
-    const selectedItemLabelChangeListener = new DefaultObservableChangeEventListener<string>((e) => {
-      this._label.value = e.newValue;
+    this.itemPropertyEditListener = new LabelUpdateEditEventListener(() => {
+      this.updateLabels();
     });
 
-    this._selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener<number>((e) => {
-      const priorSelectedItem = e.oldValue !== null ? this.getItemAt(e.oldValue) : null;
-      if (priorSelectedItem) {
-        priorSelectedItem.getLabel().removeChangeEventListener(selectedItemLabelChangeListener);
-      }
-      if (this.selectedItem) {
-        this._label.value = this.selectedItem.getLabel().value;
-        this.selectedItem.getLabel().addChangeEventListener(selectedItemLabelChangeListener);
-      } else {
-        this._label.value = null;
-      }
+    this._selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener<number>((_e) => {
+      this._label.value = this._selectedIndex.value === null ? null : this._labels[this._selectedIndex.value];
     }));
 
     this.items.addChangeEventListener(new DefaultListChangeEventListener(e => {
       if (e.type === ListChangeEvent.DELETE) {
         this._selectedIndex.value = null;
+      } else if (e.type === ListChangeEvent.ADD) {
+        this._selectedIndex.value = e.index;
       }
+      this.updateLabels();
     }));
+
+    this.updateLabels();
 
   }
 
-  get selectedItem(): DropdownItem {
+  private updateLabels(): void {
+    const newLabels = [];
+    this.items.forEach((item: T): void => {
+      // clumsy and a bit brute force, but will get the job done
+      // if we find later that we need to be more surgical about this, we can
+      item.removeEditEventListener(this.itemPropertyEditListener);
+      item.addEditEventListener(this.itemPropertyEditListener);
+      newLabels.push(item[this.boundPropertyName]);
+    });
+    this._labels = newLabels; // force reactive update
+    this._label.value = this._selectedIndex.value === null ? null : this._labels[this._selectedIndex.value];
+  }
+
+  get labels(): string[] {
+    return this._labels;
+  }
+
+  get selectedItem(): T {
     return this._selectedIndex.value === null ? null : this.getItemAt(this._selectedIndex.value);
   }
 
-  getItemAt(index: number): DropdownItem {
+  getItemAt(index: number): T {
     return this.items.get(index);
   }
 
-  removeSelectedItem(): DropdownModel {
+  removeSelectedItem(): DropdownModel<T> {
     if (this._selectedIndex.value !== null) {
       this._selectedIndex.value = null;
       this.items.removeAt(this._selectedIndex.value);
@@ -62,10 +98,4 @@ export class DropdownModel {
     return this._label;
   }
 
-}
-
-export interface DropdownItem {
-  getLabel(): Observable<string>;
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  getValue(): any;
 }

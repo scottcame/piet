@@ -31,6 +31,16 @@ export class EditEvent {
   }
 }
 
+export class PropertyEditEvent {
+  readonly propertyName: string;
+  readonly target: Editable;
+  constructor(target: Editable, propertyName: string) {
+    this.propertyName = propertyName;
+    this.target = target;
+  }
+}
+
 export interface EditEventListener {
-  notify(event: EditEvent): void;
+  notifyEdit(event: EditEvent): void;
+  notifyPropertyEdit(event: PropertyEditEvent): void;
 }

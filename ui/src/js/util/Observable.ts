@@ -83,7 +83,7 @@ export class Observable<T> implements Editable {
 
   private notifyEditEventListeners(type: string): void {
     this.editEventListeners.forEach((listener: EditEventListener) => {
-      listener.notify(new EditEvent(type));
+      listener.notifyEdit(new EditEvent(type));
     });
   }
 

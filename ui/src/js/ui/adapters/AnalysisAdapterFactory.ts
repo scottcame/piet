@@ -36,7 +36,7 @@ export class AnalysisAdapterFactory {
     analyses.forEach((analysis: Analysis) => {
       newRows.push({
         getValueAt(index: number): string {
-          return [analysis.name.value, analysis.description][index];
+          return [analysis.name, analysis.description][index];
         }
       });
     });

@@ -21,8 +21,8 @@ test('table model construction', async () => {
     await repo.browseAnalyses().then((analyses: List<Analysis>) => {
       expect(analyses).toHaveLength(2);
       expect(tableModel.getRowCount().value).toBe(2);
-      expect(tableModel.getRowAt(0).getValueAt(0)).toBe(analyses.get(0).name.value);
-      expect(tableModel.getRowAt(1).getValueAt(0)).toBe(analyses.get(1).name.value);
+      expect(tableModel.getRowAt(0).getValueAt(0)).toBe(analyses.get(0).name);
+      expect(tableModel.getRowAt(1).getValueAt(0)).toBe(analyses.get(1).name);
       expect(tableModel.getRowAt(0).getValueAt(1)).toBe(analyses.get(0).description);
       expect(tableModel.getRowAt(1).getValueAt(1)).toBe(analyses.get(1).description);
     });

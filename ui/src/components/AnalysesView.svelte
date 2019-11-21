@@ -27,7 +27,7 @@
     }
   };
 
-  let analysesDropdownModel  = new DropdownModel(workspace.analyses);
+  let analysesDropdownModel  = new DropdownModel(workspace.analyses, "name");
   let analysesInWorkspace = workspace.analyses.length;
   let currentAnalysis = null;
   let currentAnalysisDescriptionDisplay;
@@ -38,7 +38,7 @@
   let showNewAnalysisModal = false;
   let newAnalysisSelectedDataset;
   let datasets = repository.browseDatasets();
-  let datasetsDropdownModel = new DropdownModel(datasets);
+  let datasetsDropdownModel = new DropdownModel(datasets, "label");
 
   let showBrowseAnalysisModal = false;
   let browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(repository.analyses);
@@ -73,8 +73,12 @@
   }
 
   let currentAnalysisEditListener = {
-    notify(e) {
+    notifyEdit(e) {
       updateCancelEditsMenuItem();
+    },
+    notifyPropertyEdit(e) {
+      console.log(e);
+      updateCurrentAnalysisDescriptionDisplay();
     }
   };
 
@@ -96,7 +100,12 @@
     if (currentAnalysis) {
       currentAnalysis.addEditEventListener(currentAnalysisEditListener);
       updateCancelEditsMenuItem();
+      updateCurrentAnalysisDescriptionDisplay();
     }
+  }
+
+  function updateCurrentAnalysisDescriptionDisplay() {
+    currentAnalysisDescriptionDisplay = currentAnalysis.description === null ? currentAnalysis.name + " [no description]" : currentAnalysis.description;
   }
 
   analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => handleAnalysisSelection(e)));
@@ -143,7 +152,7 @@
   }
 
   function cancelEdits() {
-    //currentAnalysis.cancelEdits();
+    currentAnalysis.cancelEdits();
     console.log("Cancelled edits");
   }
 
@@ -180,20 +189,8 @@
       let currentAnalysisCount = workspace.analyses.length;
       workspace.analyses.add(new Analysis(datasetsDropdownModel.selectedItem, "Analysis " + (currentAnalysisCount+1)));
       closeNewAnalysisModal();
-      analysesDropdownModel.selectedIndex.value = currentAnalysisCount;
     }
   }
-
-  function analysisInput(e) {
-    analysesDropdownModel.selectedItem.getLabel().value = e.target.value;
-  }
-
-  function getCurrentAnalysisTitleDisplay() {
-    return currentAnalysis === null ? '' : currentAnalysis.name.value;
-  }
-
-  $: currentAnalysisDescriptionDisplay = currentAnalysis === null ? '' :
-    (currentAnalysis.description === null ? (getCurrentAnalysisTitleDisplay() + " [no description]") : currentAnalysis.description)
 
   function saveCurrentAnalysis() {
     if (currentAnalysis !== null) {
@@ -207,14 +204,14 @@
   }
 
   function openEditAnalysisMetadataModal() {
-    analysisTitleInput.value = currentAnalysis.name.value;
+    analysisTitleInput.value = currentAnalysis.name;
     analysisDescriptionInput.value = currentAnalysis.description;
     showAnalysisMetadataModal = true;
   }
 
   function confirmEditAnalysisMetadata() {
     // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
-    currentAnalysis.name.value = analysisTitleInput.value;
+    currentAnalysis.name = analysisTitleInput.value;
     let newDescription = analysisDescriptionInput.value;
     if (!newDescription || !newDescription.trim().length) {
       currentAnalysis.description = null;;
@@ -244,7 +241,7 @@
       <Menu items={menuItems}/>
     </div>
     <div class="flex bg-teal-300">
-      <div>Table for {currentAnalysis === null ? "analyses" : currentAnalysis.name.value} will go here.</div>
+      <div>Table for "{currentAnalysisDescriptionDisplay}" will go here.</div>
     </div>
   </div>
 </div>
@@ -299,7 +296,7 @@
 <Modal visible={showAbandonEditsModal}>
   <span slot="header">Discard edits</span>
   <div slot="body">
-    <p>Closing analysis "{currentAnalysis ? currentAnalysis.name.value : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
+    <p>Closing analysis "{currentAnalysis ? currentAnalysis.name : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
@@ -311,7 +308,7 @@
 <Modal visible={showDeleteConfirmationModal}>
   <span slot="header">Confirm delete</span>
   <div slot="body">
-    <p>You are about to delete analysis "{currentAnalysis ? currentAnalysis.name.value : ''}" from the repository permanently. Do you want to continue?</p>
+    <p>You are about to delete analysis "{currentAnalysis ? currentAnalysis.name : ''}" from the repository permanently. Do you want to continue?</p>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">

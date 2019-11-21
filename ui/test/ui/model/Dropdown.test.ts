@@ -1,34 +1,55 @@
-import { DropdownItem, DropdownModel } from "../../../src/js/ui/model/Dropdown";
-import { Observable } from "../../../src/js/util/Observable";
+import { DropdownModel } from "../../../src/js/ui/model/Dropdown";
 import { List } from "../../../src/js/collections/List";
 import { TestObservableChangeEventListener } from "../../util/TestObservableChangeEventListener";
+import { Editable, EditEventListener, PropertyEditEvent } from "../../../src/js/model/Persistence";
 
-class TestDropdownItem implements DropdownItem {
-  private _value: Observable<string>;
+class TestObject implements Editable {
+  private _value: string;
+  private editEventListeners: EditEventListener[];
+  dirty: boolean;
   constructor(value: string) {
-    this._value = new Observable();
-    this._value.value = value;
+    this._value = value;
+    this.editEventListeners = [];
   }
   set value(value: string) {
-    this._value.value = value;
+    this._value = value;
+    this.editEventListeners.forEach((listener: EditEventListener) => {
+      listener.notifyPropertyEdit(new PropertyEditEvent(this, "value"));
+    });
   }
   get value(): string {
-    return this._value.value;
-  }
-  getLabel(): Observable<string> {
     return this._value;
   }
-  getValue(): string {
-    return this._value.value;
+  cancelEdits(): void {
+    throw new Error("Method not implemented.");
+  }
+  checkpointEdits(): void {
+    throw new Error("Method not implemented.");
+  }
+  addEditEventListener(listener: EditEventListener): EditEventListener {
+    this.editEventListeners.push(listener);
+    return listener;
+  }
+  removeEditEventListener(listener: EditEventListener): EditEventListener {
+    let ret: EditEventListener = null;
+    this.editEventListeners.forEach((thisListener: EditEventListener, index: number): boolean => {
+      if (listener == thisListener) {
+        this.editEventListeners.splice(index, 1);
+        ret = thisListener;
+        return true;
+      }
+      return false;
+    });
+    return ret;
   }
 }
 
-let dropdownModel: DropdownModel;
-let items: List<TestDropdownItem>;
+let dropdownModel: DropdownModel<TestObject>;
+let items: List<TestObject>;
 
 beforeEach(() => {
   items = new List();
-  dropdownModel = new DropdownModel(items);
+  dropdownModel = new DropdownModel(items, "value");
 });
 
 test('empty model', () => {
@@ -40,38 +61,21 @@ test('empty model', () => {
 });
 
 test('add item', () => {
-  const item1 = new TestDropdownItem('item1');
+  const item1 = new TestObject('item1');
   items.add(item1);
-  // adding an item doesn't select it...
   expect(dropdownModel.selectedIndex).not.toBeNull();
-  expect(dropdownModel.selectedIndex.value).toBeNull();
-  expect(dropdownModel.selectedItem).toBeNull();
+  expect(dropdownModel.selectedIndex.value).toBe(0);
+  expect(dropdownModel.selectedItem).not.toBeNull();
   expect(dropdownModel.getItemAt(0)).not.toBeFalsy();
-  expect((dropdownModel.getItemAt(0) as TestDropdownItem).value).toBe('item1');
-  expect(dropdownModel.getItemAt(0).getLabel().value).toBe("item1");
+  expect(dropdownModel.getItemAt(0).value).toBe('item1');
   dropdownModel.selectedIndex.value = 0;
   expect(dropdownModel.selectedIndex.value).not.toBeNull();
   expect(dropdownModel.selectedItem).not.toBeNull();
-  expect(dropdownModel.selectedItem.getLabel().value).toBe("item1");
-});
-
-test('label observation', () => {
-  const testListener = new TestObservableChangeEventListener();
-  const item1 = new TestDropdownItem('item1');
-  item1.getLabel().addChangeEventListener(testListener);
-  items.add(item1);
-  dropdownModel.selectedIndex.value = 0;
-  expect(dropdownModel.selectedItem.getLabel().value).toBe("item1");
-  item1.value = "updated item1";
-  expect(dropdownModel.selectedItem.getLabel().value).toBe("updated item1");
-  expect(testListener.f).toHaveBeenCalledTimes(1);
-  expect(testListener.event.newValue).toBe("updated item1");
-  expect(testListener.event.oldValue).toBe("item1");
 });
 
 test('remove item', () => {
-  const item1 = new TestDropdownItem('item1');
-  const item2 = new TestDropdownItem('item2');
+  const item1 = new TestObject('item1');
+  const item2 = new TestObject('item2');
   items.add(item1);
   items.add(item2);
   expect(items).toHaveLength(2);
@@ -80,23 +84,21 @@ test('remove item', () => {
   expect(items).toHaveLength(1);
   expect(dropdownModel.selectedIndex.value).toBeNull();
   dropdownModel.selectedIndex.value = 0;
-  expect(dropdownModel.selectedItem.getValue()).toBe('item2');
+  expect(dropdownModel.selectedItem.value).toBe('item2');
   dropdownModel.removeSelectedItem();
   expect(items).toHaveLength(0);
   expect(dropdownModel.selectedIndex.value).toBeNull();
 });
 
 test('dropdown label', () => {
-  const item1 = new TestDropdownItem('item1');
+  const item1 = new TestObject('item1');
   const testListener = new TestObservableChangeEventListener();
   dropdownModel.label.addChangeEventListener(testListener);
   expect(dropdownModel.label).not.toBeNull();
   expect(dropdownModel.label.value).toBeNull();
   items.add(item1);
-  expect(dropdownModel.label.value).toBeNull();
-  dropdownModel.selectedIndex.value = 0;
   expect(dropdownModel.label.value).toBe('item1');
-  expect(testListener.f).toHaveBeenCalledTimes(1);
+  // called twice...once for the add, once for the selection after the add
+  expect(testListener.f).toHaveBeenCalledTimes(2);
   expect(testListener.event.newValue).toBe("item1");
-  expect(testListener.event.oldValue).toBeNull();
 });

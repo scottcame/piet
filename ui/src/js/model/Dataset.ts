@@ -1,7 +1,4 @@
-import { DropdownItem } from "../ui/model/Dropdown";
-import { Observable } from "../util/Observable";
-
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Editable, EditEventListener } from "./Persistence";
 
 abstract class MetadataObject {
   name: string;
@@ -39,24 +36,25 @@ export class Dimension extends MetadataObject {
 
 }
 
-export class Dataset implements DropdownItem {
+export class Dataset implements Editable {
 
   readonly id: string;
   private _name: string;
   private _schemaName: string;
-  private _label: Observable<string>;
+  private _label: string;
   schemaDescription: string;
   description: string;
   measures: Measure[];
   dimensions: Dimension[];
+  dirty: boolean;
 
   constructor(id: string) {
     this.id = id;
     this.measures = [];
     this.dimensions = [];
-    this._label = new Observable();
   }
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   static loadFromMetadata(metadata: any, mondrianRestMetadataUrl: string): Dataset[] {
     const ret = [];
     metadata.cubes.forEach((mdCube: any): void => {
@@ -111,16 +109,27 @@ export class Dataset implements DropdownItem {
   }
 
   private updateLabel(): void {
-    this._label.value = this.schemaName + " [" + this.name + "]";
+    this._label = this.schemaName + " [" + this.name + "]";
   }
 
-  getLabel(): Observable<string> {
+  get label(): string {
     return this._label;
   }
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  getValue(): any {
-    return this;
+  cancelEdits(): void {
+    throw new Error("Editing is not currently implemented for Dataset.");
+  }
+  checkpointEdits(): void {
+    throw new Error("Editing is not currently implemented for Dataset.");
+  }
+
+  addEditEventListener(_listener: EditEventListener): EditEventListener {
+    // no-op for now... Datasets do not currently emit edit events
+    return null;
+  }
+  removeEditEventListener(_listener: EditEventListener): EditEventListener {
+    // no-op for now... Datasets do not currently emit edit events
+    return null;
   }
 
 }

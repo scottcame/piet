@@ -1,7 +1,5 @@
 import { Dataset } from "./Dataset";
-import { DropdownItem } from "../ui/model/Dropdown";
-import { Observable } from "../util/Observable";
-import { Identifiable, Serializable, PersistenceFactory, Editable, EditEventListener, EditEvent } from "./Persistence";
+import { Identifiable, Serializable, PersistenceFactory, Editable, EditEventListener, EditEvent, PropertyEditEvent } from "./Persistence";
 import { Repository } from "./Repository";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -19,7 +17,7 @@ class PersistentAnalysis implements Identifiable, Serializable {
       id: analysis.dataset.id,
       cube: analysis.dataset.name
     };
-    this.name = analysis.name.value;
+    this.name = analysis.name;
     this.description = analysis.description;
   }
 }
@@ -45,11 +43,11 @@ class AnalysisPersistenceFactory implements PersistenceFactory<Analysis> {
 
 }
 
-export class Analysis implements DropdownItem, Identifiable, Serializable, Editable {
+export class Analysis implements Identifiable, Serializable, Editable {
 
   readonly id: number;
   dataset: Dataset;
-  private _name: Observable<string>;
+  private _name: string = null;
   private _description: string = null;
 
   private editCheckpoint: Analysis;
@@ -60,12 +58,17 @@ export class Analysis implements DropdownItem, Identifiable, Serializable, Edita
     this.editCheckpoint = null;
     this.id = id;
     this.dataset = dataset;
-    this._name = new Observable();
-    this._name.value = name;
+    this._name = name;
   }
 
-  get name(): Observable<string> {
+  get name(): string {
     return this._name;
+  }
+
+  set name(value: string) {
+    this.initCheckpoint();
+    this._name = value;
+    this.notifyPropertyEditEventListeners("name");
   }
 
   get description(): string {
@@ -73,51 +76,49 @@ export class Analysis implements DropdownItem, Identifiable, Serializable, Edita
   }
 
   set description(value: string) {
-    this.edit();
+    this.initCheckpoint();
     this._description = value;
+    this.notifyPropertyEditEventListeners("description");
   }
 
-  getLabel(): Observable<string> {
-    return this.name;
-  }
-
-  getValue(): any {
-    return this;
-  }
-
-  private edit(): void {
+  private initCheckpoint(): void {
     if (!this.editCheckpoint) {
-      // name (and other observables) track their own edits, so no need to manage that on the checkpoint
       // id is readonly, so by definition it cannot be edited, and so we don't need to manage it on the checkpoint, either
-      this.editCheckpoint = new Analysis(this.dataset, null, null);
+      this.editCheckpoint = new Analysis(this.dataset, this.name, null);
       this.editCheckpoint._description = this._description;
       this.notifyEditEventListeners(EditEvent.EDIT_BEGIN);
     }
   }
 
+  private notifyPropertyEditEventListeners(property: string): void {
+    this.editEventListeners.forEach((listener: EditEventListener) => {
+      listener.notifyPropertyEdit(new PropertyEditEvent(this, property));
+    });
+  }
+
   private notifyEditEventListeners(type: string): void {
     this.editEventListeners.forEach((listener: EditEventListener) => {
-      listener.notify(new EditEvent(type));
+      listener.notifyEdit(new EditEvent(type));
     });
   }
 
   cancelEdits(): void {
     if (this.editCheckpoint) {
-      this._description = this.editCheckpoint._description;
+      // set the properties, not the instance variables
+      this.description = this.editCheckpoint._description;
+      this.name = this.editCheckpoint._name;
     }
-    this._name.cancelEdits();
     this.editCheckpoint = null;
     this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
   }
 
   checkpointEdits(): void {
     this.editCheckpoint = null;
-    this._name.checkpointEdits();
     this.notifyEditEventListeners(EditEvent.EDIT_CHECKPOINT);
   }
 
   get dirty(): boolean {
-    return this.editCheckpoint !== null || this._name.dirty;
+    return this.editCheckpoint !== null;
   }
 
   addEditEventListener(listener: EditEventListener): EditEventListener {

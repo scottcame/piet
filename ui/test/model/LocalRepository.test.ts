@@ -22,7 +22,7 @@ test('local repository save', async () => {
       analysis.description = "test-description";
       await expect(repo.saveAnalysis(analysis)).resolves.toEqual(originalLength + 1);
       await repo.browseAnalyses().then((aa: List<Analysis>) => {
-        expect(aa.get(originalLength).name.value).toBe("test-name");
+        expect(aa.get(originalLength).name).toBe("test-name");
       });
     });
   });
