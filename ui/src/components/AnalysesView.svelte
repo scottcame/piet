@@ -55,7 +55,7 @@
 
   let menuItems = [
     { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },
-    { label: cancelEditsMenuItemLabel, action: (e) => { console.log(e); }, enabled: false },
+    { label: cancelEditsMenuItemLabel, action: (e) => { cancelEdits(); }, enabled: false },
     { label: "Save", action: (e) => { saveCurrentAnalysis(); }, enabled: true },
     { label: "Close", action: (e) => { closeCurrentAnalysis(); }, enabled: true },
     { label: "Delete", action: (e) => { deleteCurrentAnalysis(); }, enabled: true },
@@ -140,6 +140,11 @@
     repository.deleteAnalysis(currentAnalysis);
     confirmCloseCurrentAnalysis();
     showDeleteConfirmationModal = false;
+  }
+
+  function cancelEdits() {
+    //currentAnalysis.cancelEdits();
+    console.log("Cancelled edits");
   }
 
   function newAnalysis() {
