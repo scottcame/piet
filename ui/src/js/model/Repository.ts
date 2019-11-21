@@ -18,6 +18,7 @@ export interface Repository {
   browseAnalyses(): Promise<List<Analysis>>;
   searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
   saveAnalysis(analysis: Analysis): Promise<number>;
+  deleteAnalysis(analysis: Analysis): Promise<number>;
 }
 
 class RepositoryDatabase extends Dexie {
@@ -101,6 +102,14 @@ export class LocalRepository implements Repository {
 
   searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {
     return this.browseAnalyses(); // for now, ignore the query string
+  }
+
+  deleteAnalysis(analysis: Analysis): Promise<number> {
+    return new Promise((resolve, _reject) => {
+      this.db.analyses.delete(analysis.id).then(() => {
+        resolve(analysis.id);
+      });
+    });
   }
 
 }

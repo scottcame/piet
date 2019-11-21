@@ -49,6 +49,7 @@
   let analysisDescriptionInput;
 
   let showAbandonEditsModal = false;
+  let showDeleteConfirmationModal = false;
 
   const cancelEditsMenuItemLabel = "Cancel edits";
 
@@ -57,6 +58,7 @@
     { label: cancelEditsMenuItemLabel, action: (e) => { console.log(e); }, enabled: false },
     { label: "Save", action: (e) => { saveCurrentAnalysis(); }, enabled: true },
     { label: "Close", action: (e) => { closeCurrentAnalysis(); }, enabled: true },
+    { label: "Delete", action: (e) => { deleteCurrentAnalysis(); }, enabled: true },
   ];
 
   workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
@@ -124,6 +126,20 @@
   function confirmCloseCurrentAnalysis() {
     let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
     removedAnalysis.getLabel().clearChangeEventListeners();
+  }
+
+  function deleteCurrentAnalysis() {
+    showDeleteConfirmationModal = true;
+  }
+
+  function confirmDeleteNo() {
+    showDeleteConfirmationModal = false;
+  }
+
+  function confirmDeleteYes() {
+    repository.deleteAnalysis(currentAnalysis);
+    confirmCloseCurrentAnalysis();
+    showDeleteConfirmationModal = false;
   }
 
   function newAnalysis() {
@@ -278,12 +294,24 @@
 <Modal visible={showAbandonEditsModal}>
   <span slot="header">Discard edits</span>
   <div slot="body">
-    <p>Closing "{currentAnalysis ? currentAnalysis.name.value : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
+    <p>Closing analysis "{currentAnalysis ? currentAnalysis.name.value : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
       <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={abandonEditsYes}>Yes</div>
       <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={abandonEditsNo}>No</div>
+    </div>
+  </div>
+</Modal>
+<Modal visible={showDeleteConfirmationModal}>
+  <span slot="header">Confirm delete</span>
+  <div slot="body">
+    <p>You are about to delete analysis "{currentAnalysis ? currentAnalysis.name.value : ''}" from the repository permanently. Do you want to continue?</p>
+  </div>
+  <div slot="buttons">
+    <div class="flex flex-inline justify-center mb-4 flex-none">
+      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmDeleteYes}>Yes</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={confirmDeleteNo}>No</div>
     </div>
   </div>
 </Modal>
