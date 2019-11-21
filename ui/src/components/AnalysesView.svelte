@@ -48,6 +48,8 @@
   let analysisTitleInput;
   let analysisDescriptionInput;
 
+  let showAbandonEditsModal = false;
+
   const cancelEditsMenuItemLabel = "Cancel edits";
 
   let menuItems = [
@@ -103,6 +105,23 @@
   }));
 
   function closeCurrentAnalysis() {
+    if (currentAnalysis.dirty) {
+      showAbandonEditsModal = true;
+    } else {
+      confirmCloseCurrentAnalysis();
+    }
+  }
+
+  function abandonEditsNo() {
+    showAbandonEditsModal = false;
+  }
+
+  function abandonEditsYes() {
+    showAbandonEditsModal = false;
+    confirmCloseCurrentAnalysis();
+  }
+
+  function confirmCloseCurrentAnalysis() {
     let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
     removedAnalysis.getLabel().clearChangeEventListeners();
   }
@@ -253,6 +272,18 @@
     <div class="flex flex-inline justify-center mb-4 flex-none">
       <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmEditAnalysisMetadata}>OK</div>
       <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeEditAnalysisMetadataModal}>Cancel</div>
+    </div>
+  </div>
+</Modal>
+<Modal visible={showAbandonEditsModal}>
+  <span slot="header">Discard edits</span>
+  <div slot="body">
+    <p>Closing "{currentAnalysis ? currentAnalysis.name.value : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
+  </div>
+  <div slot="buttons">
+    <div class="flex flex-inline justify-center mb-4 flex-none">
+      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={abandonEditsYes}>Yes</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={abandonEditsNo}>No</div>
     </div>
   </div>
 </Modal>
