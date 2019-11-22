@@ -134,7 +134,6 @@
 
   function confirmCloseCurrentAnalysis() {
     let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
-    removedAnalysis.getLabel().clearChangeEventListeners();
   }
 
   function deleteCurrentAnalysis() {
@@ -153,7 +152,6 @@
 
   function cancelEdits() {
     currentAnalysis.cancelEdits();
-    console.log("Cancelled edits");
   }
 
   function newAnalysis() {

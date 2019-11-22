@@ -10,11 +10,13 @@ export class DropdownModel<T extends Editable> {
   private boundPropertyName: string;
   private _labels: string[] = [];
   private itemPropertyEditListener: LabelUpdateEditEventListener;
+  private priorIndexStack: number[];
 
   constructor(items: List<T>, boundPropertyName: string) {
 
     this.items = items;
     this._selectedIndex = new Observable<number>();
+    this.priorIndexStack = [];
     this._label = new Observable<string>();
     this.boundPropertyName = boundPropertyName;
 
@@ -22,13 +24,33 @@ export class DropdownModel<T extends Editable> {
       this.updateLabels();
     });
 
-    this._selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener<number>((_e) => {
+    this._selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener<number>((e) => {
+      if (e.oldValue !== null) {
+        const idx = this.priorIndexStack.indexOf(e.oldValue);
+        if (idx !== -1) {
+          this.priorIndexStack.splice(idx, 1);
+        }
+        this.priorIndexStack.push(e.oldValue);
+      }
       this._label.value = this._selectedIndex.value === null ? null : this._labels[this._selectedIndex.value];
     }));
 
     this.items.addChangeEventListener(new DefaultListChangeEventListener(e => {
       if (e.type === ListChangeEvent.DELETE) {
-        this._selectedIndex.value = null;
+        if (this.priorIndexStack.indexOf(e.index) !== -1) {
+          this.priorIndexStack.splice(this.priorIndexStack.indexOf(e.index), 1);
+        }
+        this.priorIndexStack = this.priorIndexStack.map((val: number) => {
+          return val > e.index ? val-1 : val;
+        });
+        if (this._selectedIndex.value > e.index) {
+          this._selectedIndex.value--;
+        }
+        if (this.priorIndexStack.length === 0) {
+          this._selectedIndex.value =  null;
+        } else if (this._selectedIndex.value === e.index) {
+          this._selectedIndex.value =  this.priorIndexStack.pop();
+        }
       } else if (e.type === ListChangeEvent.ADD) {
         this._selectedIndex.value = e.index;
       }
@@ -66,7 +88,6 @@ export class DropdownModel<T extends Editable> {
 
   removeSelectedItem(): DropdownModel<T> {
     if (this._selectedIndex.value !== null) {
-      this._selectedIndex.value = null;
       this.items.removeAt(this._selectedIndex.value);
     }
     return this;

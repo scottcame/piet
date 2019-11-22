@@ -82,7 +82,7 @@ test('remove item', () => {
   dropdownModel.selectedIndex.value = 0;
   dropdownModel.removeSelectedItem();
   expect(items).toHaveLength(1);
-  expect(dropdownModel.selectedIndex.value).toBeNull();
+  expect(dropdownModel.selectedIndex.value).toBe(0);
   dropdownModel.selectedIndex.value = 0;
   expect(dropdownModel.selectedItem.value).toBe('item2');
   dropdownModel.removeSelectedItem();
@@ -101,4 +101,27 @@ test('dropdown label', () => {
   // called twice...once for the add, once for the selection after the add
   expect(testListener.f).toHaveBeenCalledTimes(2);
   expect(testListener.event.newValue).toBe("item1");
+});
+
+test('dropdown selection on list mod', () => {
+  expect(dropdownModel.selectedIndex.value).toBeNull();
+  items.add(new TestObject('item1'));
+  expect(dropdownModel.selectedIndex.value).toBe(0);
+  items.add(new TestObject('item2'));
+  expect(dropdownModel.selectedIndex.value).toBe(1);
+  dropdownModel.selectedIndex.value = 0;
+  expect(dropdownModel.selectedIndex.value).toBe(0);
+  items.add(new TestObject('item3'));
+  expect(dropdownModel.selectedIndex.value).toBe(2);
+  items.add(new TestObject('item4'));
+  expect(dropdownModel.selectedIndex.value).toBe(3);
+  items.removeAt(3);
+  expect(dropdownModel.selectedIndex.value).toBe(2);
+  items.add(new TestObject('item4'));
+  expect(dropdownModel.selectedIndex.value).toBe(3);
+  dropdownModel.selectedIndex.value = 2;
+  items.removeAt(2);
+  expect(dropdownModel.selectedIndex.value).toBe(2);
+  items.removeAt(0);
+  expect(dropdownModel.selectedIndex.value).toBe(1);
 });
