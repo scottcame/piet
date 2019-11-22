@@ -171,14 +171,14 @@
 
   function closeBrowseAnalysisModal() {
     showBrowseAnalysisModal = false;
+    browseAnalysesSelectedIndex = null;
   }
 
   function browseAnalysesOpenSelection() {
     if (browseAnalysesSelectedIndex !== null) {
-      closeBrowseAnalysisModal();
       workspace.analyses.add(repository.analyses.get(browseAnalysesSelectedIndex));
       analysesDropdownModel.selectedIndex.value = workspace.analyses.length-1;
-      browseAnalysesSelectedIndex = null;
+      closeBrowseAnalysisModal();
     }
   }
 
