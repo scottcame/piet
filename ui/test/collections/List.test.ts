@@ -127,4 +127,22 @@ test('iteration', () => {
   ret.forEach((val, idx) => {
     expect(val).toBe(vals[idx]);
   });
+
+});
+
+test('filter', () => {
+  let filteredList = list.filter((item: number): boolean => {
+    return item > 1;
+  });
+  expect(filteredList).toHaveLength(0);
+  list.add(1);
+  list.add(2);
+  list.add(3);
+  filteredList = list.filter((item: number): boolean => {
+    return item > 1;
+  });
+  expect(filteredList).toHaveLength(2);
+  expect(filteredList.includes(1)).toBe(false);
+  expect(filteredList.includes(2)).toBe(true);
+  expect(filteredList.includes(3)).toBe(true);
 });

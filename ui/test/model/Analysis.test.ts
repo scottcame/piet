@@ -56,11 +56,3 @@ test('editing', () => {
   expect(analysis.name).toBe("new-name");
   expect(analysis.description).toBe("new-description");
 });
-
-test('typed get', () => {
-  const analysis = new Analysis(datasets.get(0), "poo", null);
-  const prop = "na" + "me";
-  const foo: string = analysis[prop];
-  console.log(foo);
-  expect(1).toBe(1);
-});

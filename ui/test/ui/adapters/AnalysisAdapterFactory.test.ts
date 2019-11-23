@@ -10,7 +10,7 @@ const adapterFactory = AnalysisAdapterFactory.getInstance();
 test('table model construction', async () => {
 
   const repo: LocalRepository = new LocalRepository();
-  const tableModel: TableModel = adapterFactory.getTableModel(repo.analyses);
+  const tableModel: TableModel<Analysis> = adapterFactory.getTableModel(repo.analyses);
 
   expect(tableModel.getColumnCount().value).toBe(2);
   expect(tableModel.columnHeaders).toContain("Name");
@@ -33,7 +33,7 @@ test('table model construction', async () => {
 test('table model events', async () => {
 
   const repo: LocalRepository = new LocalRepository();
-  const tableModel: TableModel = adapterFactory.getTableModel(repo.analyses);
+  const tableModel: TableModel<Analysis> = adapterFactory.getTableModel(repo.analyses);
 
   expect(tableModel.getRowCount().value).toBe(0);
 
@@ -44,6 +44,28 @@ test('table model events', async () => {
     await repo.browseAnalyses().then((_analyses: List<Analysis>) => {
       // the table will get change events twice...one for the initial setting of the (empty) analysis list, and one when the two-row list is set
       expect(listener.f).toHaveBeenCalledTimes(2);
+    });
+  });
+
+});
+
+test('row filtering', async () => {
+
+  const repo: LocalRepository = new LocalRepository();
+  const excludedAnalyses: List<Analysis> = new List();
+  const tableModel: TableModel<Analysis> = adapterFactory.getTableModel(repo.analyses, excludedAnalyses);
+
+  expect(tableModel.getRowCount().value).toBe(0);
+
+  const listener = new TestTableChangeEventListener();
+  tableModel.addTableChangeEventListener(listener);
+
+  await repo.init().then(async () => {
+    await repo.browseAnalyses().then(async (analyses: List<Analysis>) => {
+      excludedAnalyses.add(analyses.get(0));
+      await repo.browseAnalyses().then((_analyses: List<Analysis>) => {
+        expect(tableModel.getRowCount().value).toBe(1);
+      });
     });
   });
 

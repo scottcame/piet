@@ -73,6 +73,18 @@ export class List<T> implements Iterable<T> {
     return ret;
   }
 
+  filter(f: FilterFunction<T>): List<T> {
+    const ret  = new List<T>();
+    ret.a = this.a.filter((item: T): boolean => {
+      return f(item);
+    });
+    return ret;
+  }
+
+  includes(item: T): boolean {
+    return this.a.includes(item);
+  }
+
   addChangeEventListener(listener: ListChangeEventListener): ListChangeEventListener {
     this.changeListeners.push(listener);
     return listener;
@@ -124,11 +136,15 @@ export class List<T> implements Iterable<T> {
 }
 
 export interface IndexFunction<T> {
-    (item: T, index: number): boolean | void;
+  (item: T, index: number): boolean | void;
 }
 
 export interface MapFunction<T> {
-    (item: T, index: number): T;
+  (item: T, index: number): T;
+}
+
+export interface FilterFunction<T> {
+  (item: T): boolean;
 }
 
 export interface ListChangeEventListener {

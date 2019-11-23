@@ -1,14 +1,14 @@
 import { List, DefaultListChangeEventListener, ListChangeEvent } from "../../collections/List";
 import { Observable } from "../../util/Observable";
 
-export class TableModel {
+export class TableModel<T> {
 
-  private rowList: List<TableRow>;
+  private rowList: List<TableRow<T>>;
   readonly columnHeaders: string[];
   private tableChangeEventListeners: TableChangeEventListener[];
   private rowCount = new Observable<number>();
 
-  constructor(rowList: List<TableRow>, columnHeaders: string[]) {
+  constructor(rowList: List<TableRow<T>>, columnHeaders: string[]) {
     this.rowList = rowList;
     this.rowCount.value = rowList.length;
     this.columnHeaders = columnHeaders;
@@ -19,11 +19,11 @@ export class TableModel {
     }));
   }
 
-  get rows(): Iterable<TableRow> {
+  get rows(): Iterable<TableRow<T>> {
     return this.rowList;
   }
 
-  getRowAt(index: number): TableRow {
+  getRowAt(index: number): TableRow<T> {
     return this.rowList.get(index);
   }
 
@@ -63,8 +63,9 @@ export class TableModel {
 
 }
 
-export interface TableRow {
+export interface TableRow<T> {
   getValueAt(columnIndex: number): string;
+  getItem(): T;
 }
 
 export class TableChangeEvent {

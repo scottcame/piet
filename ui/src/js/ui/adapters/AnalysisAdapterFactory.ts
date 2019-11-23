@@ -16,31 +16,50 @@ export class AnalysisAdapterFactory {
     return AnalysisAdapterFactory.instance;
   }
 
-  getTableModel(analyses: List<Analysis>): TableModel {
+  getTableModel(analyses: List<Analysis>, excludedAnalyses = new List<Analysis>()): TableModel<Analysis> {
 
-    const rowList: List<TableRow> = new List();
+    const rowList: List<TableRow<Analysis>> = new List();
     const columnHeaders = ["Name", "Description"];
 
-    AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList);
+    AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
 
     analyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
-      AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList);
+      AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+    }));
+
+    excludedAnalyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
+      AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
     }));
 
     return new TableModel(rowList, columnHeaders);
 
   }
 
-  private static mapAnalysesToRows(analyses: List<Analysis>, rowList: List<TableRow>): void {
-    const newRows: TableRow[] = [];
-    analyses.forEach((analysis: Analysis) => {
-      newRows.push({
-        getValueAt(index: number): string {
-          return [analysis.name, analysis.description][index];
-        }
+  private static mapAnalysesToRows(analyses: List<Analysis>, rowList: List<TableRow<Analysis>>, excludedAnalyses: List<Analysis>): void {
+    const newRows: TableRow<Analysis>[] = [];
+    analyses.filter((item: Analysis): boolean => {
+      let ret = true;
+      excludedAnalyses.forEach((excludedItem: Analysis): void => {
+        ret = ret && item.id !== excludedItem.id;
       });
+      return ret;
+    }).forEach((analysis: Analysis) => {
+      newRows.push(new AnalysisTableRow(analysis));
     });
     rowList.set(newRows);
   }
 
+}
+
+class AnalysisTableRow implements TableRow<Analysis> {
+  private analysis: Analysis;
+  constructor(analysis: Analysis) {
+    this.analysis = analysis;
+  }
+  getValueAt(columnIndex: number): string {
+    return [this.analysis.name, this.analysis.description][columnIndex];
+  }
+  getItem(): Analysis {
+    return this.analysis;
+  }
 }

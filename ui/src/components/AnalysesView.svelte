@@ -41,7 +41,7 @@
   let datasetsDropdownModel = new DropdownModel(datasets, "label");
 
   let showBrowseAnalysisModal = false;
-  let browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(repository.analyses);
+  let browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(repository.analyses, workspace.analyses);
   let browseAnalysesSelectedIndex;
 
   let showAnalysisMetadataModal = false;
@@ -176,7 +176,7 @@
 
   function browseAnalysesOpenSelection() {
     if (browseAnalysesSelectedIndex !== null) {
-      workspace.analyses.add(repository.analyses.get(browseAnalysesSelectedIndex));
+      workspace.analyses.add(browseAnalysesTableModel.getRowAt(browseAnalysesSelectedIndex).getItem());
       analysesDropdownModel.selectedIndex.value = workspace.analyses.length-1;
       closeBrowseAnalysisModal();
     }
@@ -258,7 +258,7 @@
 <Modal visible={showBrowseAnalysisModal}>
   <span slot="header">Browse Analyses</span>
   <div slot="body">
-    <SelectTable tableModel={browseAnalysesTableModel} bind:selection={browseAnalysesSelectedIndex}/>
+    <SelectTable tableModel={browseAnalysesTableModel} bind:selectedIndex={browseAnalysesSelectedIndex}/>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
