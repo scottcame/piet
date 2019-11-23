@@ -52,7 +52,7 @@ export class DropdownModel<T extends Editable> {
           this._selectedIndex.value =  this.priorIndexStack.pop();
         }
       } else if (e.type === ListChangeEvent.ADD) {
-        this._selectedIndex.value = e.index;
+        this._selectedIndex.value = e.index === -1 ? null : e.index;
       }
       this.updateLabels();
     }));

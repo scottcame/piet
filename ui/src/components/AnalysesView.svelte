@@ -15,7 +15,6 @@
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
   import { DefaultListChangeEventListener, ListChangeEvent } from '../js/collections/List';
 
-  export let workspace;
   export let repository;
 
   export const navBarController = {
@@ -26,6 +25,8 @@
       browseAnalyses();
     }
   };
+
+  const workspace = repository.workspace;
 
   let analysesDropdownModel  = new DropdownModel(workspace.analyses, "name");
   let analysesInWorkspace = workspace.analyses.length;

@@ -5,7 +5,6 @@
   import DatasetsView from './DatasetsView.svelte';
   import DashboardsView from './DashboardsView.svelte';
 
-  export let workspace;
   export let repository;
 
   let analysesNavBarController;
@@ -22,7 +21,7 @@
 </script>
 
 <div class="{$currentView === 'analyses' ? '' : 'hidden'}">
-  <AnalysesView workspace={workspace} repository={repository} bind:navBarController={analysesNavBarController}/>
+  <AnalysesView repository={repository} bind:navBarController={analysesNavBarController}/>
 </div>
 <div class="{$currentView === 'dashboards' ? '' : 'hidden'}">
   <DashboardsView/>

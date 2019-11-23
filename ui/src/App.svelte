@@ -12,8 +12,6 @@
   // default nav
   currentView.set("analyses");
 
-  const workspace = new Workspace();
-
   // in future this will change to a remote repo
   const repository = new LocalRepository();
   repository.init().then(() => {
@@ -27,9 +25,9 @@
 
 {#if {initialized}}
 <MainNavbar
-  workspace={workspace}
+  workspace={repository.workspace}
   on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
   on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
 />
-<MainContainer workspace={workspace} repository={repository} bind:navBarController={navBarController}/>
+<MainContainer repository={repository} bind:navBarController={navBarController}/>
 {/if}

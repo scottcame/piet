@@ -37,6 +37,10 @@ export class List<T> implements Iterable<T> {
     return this.length;
   }
 
+  setFromList(list: List<T>): number {
+    return this.set(list.a);
+  }
+
   clear(): number {
     const ret = this.a.length;
     this.a = [];
