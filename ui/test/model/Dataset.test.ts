@@ -3,9 +3,6 @@
 import { Dataset } from '../../src/js/model/Dataset';
 import * as metadata from '../_data/test-metadata.json';
 
-//import { Logger } from '../../src/js/util/Logger';
-//let logger = Logger.getInstance();
-
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
 const datasets = Dataset.loadFromMetadata(metadata, datasetId);
 
