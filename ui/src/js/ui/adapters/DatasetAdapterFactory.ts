@@ -5,7 +5,6 @@ export class DatasetAdapterFactory {
 
   private static instance: DatasetAdapterFactory;
 
-  /* eslint-disable @typescript-eslint/no-empty-function */
   private constructor() {}
 
   static getInstance(): DatasetAdapterFactory {

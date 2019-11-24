@@ -6,7 +6,6 @@ export class AnalysisAdapterFactory {
 
   private static instance: AnalysisAdapterFactory;
 
-  /* eslint-disable @typescript-eslint/no-empty-function */
   private constructor() {}
 
   static getInstance(): AnalysisAdapterFactory {

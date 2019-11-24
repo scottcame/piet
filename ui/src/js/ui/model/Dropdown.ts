@@ -115,7 +115,6 @@ class LabelUpdateEditEventListener implements EditEventListener {
   constructor(callback: LabelUpdateEditEventListenerCallback) {
     this.callback = callback;
   }
-  /* eslint-disable @typescript-eslint/no-empty-function */
   notifyEdit(_event: EditEvent): void {
 
   }
