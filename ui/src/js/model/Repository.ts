@@ -55,15 +55,17 @@ class WorkspaceDatabase extends Dexie {
 
 export class LocalRepository implements Repository {
 
-  private _workspace: Workspace;
-  private datasets: List<Dataset>;
-  readonly analyses: List<Analysis>;
+  // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
+
+  private readonly _workspace: Workspace;
+  private readonly datasets: List<Dataset>;
+  private readonly _analyses: List<Analysis>;
   private db: RepositoryDatabase;
   private workspaceDb: WorkspaceDatabase;
 
   constructor() {
     this.db = new RepositoryDatabase();
-    this.analyses = new List();
+    this._analyses = new List();
     this.datasets = new List();
     this._workspace = new Workspace(this);
     this.workspaceDb = new WorkspaceDatabase();
@@ -71,6 +73,10 @@ export class LocalRepository implements Repository {
 
   get workspace(): Workspace {
     return this._workspace;
+  }
+
+  get analyses(): List<Analysis> {
+    return this._analyses;
   }
 
   saveWorkspace(): Promise<void> {
@@ -132,15 +138,15 @@ export class LocalRepository implements Repository {
   }
 
   browseAnalyses(): Promise<List<Analysis>> {
-    this.analyses.clear();
+    this._analyses.clear();
     const persistenceFactory = Analysis.PERSISTENCE_FACTORY;
     return new Promise((resolve, _reject) => {
       this.db.analyses.toArray().then(dbAnalyses => {
         const analyses: Analysis[] = dbAnalyses.map((dbAnalysis) => {
           return persistenceFactory.deserialize(dbAnalysis, this);
         });
-        this.analyses.set(analyses);
-        resolve(this.analyses);
+        this._analyses.set(analyses);
+        resolve(this._analyses);
       });
     });
   }
