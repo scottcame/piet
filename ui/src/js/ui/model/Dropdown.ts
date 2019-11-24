@@ -51,6 +51,9 @@ export class DropdownModel<T extends Editable> {
         } else if (this._selectedIndex.value === e.index) {
           this._selectedIndex.value =  this.priorIndexStack.pop();
         }
+        if (this.items.length == 1) {
+          this._selectedIndex.value = 0;
+        }
       } else if (e.type === ListChangeEvent.ADD) {
         this._selectedIndex.value = e.index === -1 ? null : e.index;
       }

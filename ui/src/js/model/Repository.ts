@@ -1,12 +1,15 @@
 import { Analysis } from "./Analysis";
 import { Dataset } from "./Dataset";
 import { List } from "../collections/List";
+import { Serializable } from "./Persistence";
+import { Workspace } from "./Workspace";
 import Dexie from 'dexie';
 
 import * as testDatasetMetadata from '../../../test/_data/test-metadata.json';
 import * as testAnalyses from '../../../test/_data/test-analyses.json';
-import { Serializable } from "./Persistence";
-import { Workspace } from "./Workspace";
+
+const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
+const WORKSPACE_INDEXEDDB_NAME = "PietWorkspace";
 
 export class RepositoryQuery {
   query: string;
@@ -21,6 +24,7 @@ export interface Repository {
   searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
   saveAnalysis(analysis: Analysis): Promise<number>;
   deleteAnalysis(analysis: Analysis): Promise<number>;
+  saveWorkspace(): Promise<void>;
 }
 
 class RepositoryDatabase extends Dexie {
@@ -28,7 +32,7 @@ class RepositoryDatabase extends Dexie {
   analyses: Dexie.Table<Serializable, number>;
 
   constructor() {
-    super("PietLocalRepository");
+    super(LOCAL_REPOSITORY_INDEXEDDB_NAME);
     this.version(1).stores({
       analyses: '++id',
     });
@@ -39,21 +43,12 @@ class RepositoryDatabase extends Dexie {
 class WorkspaceDatabase extends Dexie {
 
   workspaces: Dexie.Table<Serializable, string>;
-  private repository: Repository;
 
-  constructor(repository: Repository) {
-    super("PietWorkspace");
-    this.repository = repository;
+  constructor() {
+    super(WORKSPACE_INDEXEDDB_NAME);
     this.version(1).stores({
       workspaces: 'name',
     });
-  }
-
-  start(sleep: number): void {
-    setInterval(() => {
-      //console.log("Auto-saving workspace");
-      this.workspaces.put(Workspace.PERSISTENCE_FACTORY.serialize(this.repository.workspace, this.repository));
-    }, sleep);
   }
 
 }
@@ -70,34 +65,42 @@ export class LocalRepository implements Repository {
     this.db = new RepositoryDatabase();
     this.analyses = new List();
     this.datasets = new List();
-    this._workspace = new Workspace();
-    this.workspaceDb = new WorkspaceDatabase(this);
+    this._workspace = new Workspace(this);
+    this.workspaceDb = new WorkspaceDatabase();
   }
 
   get workspace(): Workspace {
     return this._workspace;
   }
 
+  saveWorkspace(): Promise<void> {
+    return new Promise((resolve, _reject) => {
+      console.log("Saving workspace");
+      this.workspaceDb.workspaces.put(Workspace.PERSISTENCE_FACTORY.serialize(this.workspace, this)).then(() => {
+        resolve();
+      });
+    });
+  }
+
   async init(): Promise<void> {
 
     this.datasets.addAll(Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test"));
 
-    await Dexie.exists("PietWorkspace").then(async exists => {
+    await Dexie.exists(WORKSPACE_INDEXEDDB_NAME).then(async exists => {
       // this works for now because the datasets are statically populated. once that's no longer true, you'll have to wait until the repository is
       // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
       if (exists) {
-        console.log("Restoring workspace from existing db");
+        console.log("Restoring workspace...");
         await this.workspaceDb.workspaces.toArray().then(workspaces => {
           const savedWorkspace = Workspace.PERSISTENCE_FACTORY.deserialize(workspaces[0], this);
+          console.log("...restored " + savedWorkspace.analyses.length + " analyses");
           this._workspace.analyses.setFromList(savedWorkspace.analyses);
         });
       }
     });
 
-    this.workspaceDb.start(10000);
-
     return new Promise((resolve, _reject) => {
-      Dexie.exists("PietLocalRepository").then(exists => {
+      Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
         if (!exists) {
           console.log("No Piet database found, creating and populating...");
           const promises: Promise<void>[] = testAnalyses.analyses.map((analysis: { datasetRef: {id: string; cube: string}; name: string; description: string }) => {

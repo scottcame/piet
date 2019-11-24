@@ -78,7 +78,6 @@
       updateCancelEditsMenuItem();
     },
     notifyPropertyEdit(e) {
-      console.log(e);
       updateCurrentAnalysisDescriptionDisplay();
     }
   };
