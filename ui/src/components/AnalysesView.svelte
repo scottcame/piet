@@ -7,267 +7,107 @@
   import Menu from './Menu.svelte';
   import SelectTable from './SelectTable.svelte';
 
-  import { Analysis } from '../js/model/Analysis';
-  import { DropdownModel } from '../js/ui/model/Dropdown';
-  import { TableModel } from '../js/ui/model/Table';
-  import { DatasetAdapterFactory } from '../js/ui/adapters/DatasetAdapterFactory';
-  import { AnalysisAdapterFactory } from '../js/ui/adapters/AnalysisAdapterFactory';
-  import { DefaultObservableChangeEventListener } from '../js/util/Observable';
-  import { DefaultListChangeEventListener, ListChangeEvent } from '../js/collections/List';
+  import { AnalysesController } from '../js/controller/AnalysesController';
 
   export let repository;
 
-  export const navBarController = {
-    handleNewAnalysis: function(e) {
-      newAnalysis();
-    },
-    handleBrowseAnalyses: function(e) {
-      browseAnalyses();
-    }
+  // reactive properties updated by the controller
+  let viewProperties = {
+    showNewAnalysisModal: false,
+    analysesInWorkspace: 0,
+    datasetSelected: false,
+    datasetRootTreeModelNode: null,
+    currentAnalysis: null,
+    showBrowseAnalysisModal: false,
+    showAnalysisMetadataModal: false,
+    showAbandonEditsModal: false,
+    showDeleteConfirmationModal: false
   };
 
-  const workspace = repository.workspace;
-
-  let analysesDropdownModel  = new DropdownModel(workspace.analyses, "name");
-  let analysesInWorkspace = workspace.analyses.length;
-  let currentAnalysis = null;
-  let currentAnalysisDescriptionDisplay;
-
-  let datasetRootTreeModelNode = null;
-  let datasetRootTreeNodes = [];
-
-  let showNewAnalysisModal = false;
-  let newAnalysisSelectedDataset;
-  let datasets = repository.browseDatasets();
-  let datasetsDropdownModel = new DropdownModel(datasets, "label");
-
-  let showBrowseAnalysisModal = false;
-  let browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(repository.analyses, workspace.analyses);
-  let browseAnalysesSelectedIndex;
-
-  let showAnalysisMetadataModal = false;
+  // properties that are only referenced within the view
   let analysisTitleInput;
   let analysisDescriptionInput;
+  let browseAnalysesSelectedIndex;
+  let currentAnalysisDescriptionDisplay;
 
-  let showAbandonEditsModal = false;
-  let showDeleteConfirmationModal = false;
-
-  const cancelEditsMenuItemLabel = "Cancel edits";
-
-  let menuItems = [
-    { label: "Edit metadata...", action: (e) => { openEditAnalysisMetadataModal(); }, enabled: true },
-    { label: cancelEditsMenuItemLabel, action: (e) => { cancelEdits(); }, enabled: false },
-    { label: "Save", action: (e) => { saveCurrentAnalysis(); }, enabled: true },
-    { label: "Close", action: (e) => { closeCurrentAnalysis(); }, enabled: true },
-    { label: "Delete", action: (e) => { deleteCurrentAnalysis(); }, enabled: true },
-  ];
-
-  workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(e => {
-    analysesInWorkspace = workspace.analyses.length;
-  }));
-
-  function updateCancelEditsMenuItem() {
-    const cancelItem = menuItems.filter((item) => item.label===cancelEditsMenuItemLabel)[0];
-    if (cancelItem) {
-      cancelItem.enabled = currentAnalysis.dirty;
-    }
+  $: {
+    currentAnalysisDescriptionDisplay = viewProperties.currentAnalysis ? (viewProperties.currentAnalysis.description === null ? viewProperties.currentAnalysis.name + " [no description]" : viewProperties.currentAnalysis.description) : null;
+    if (analysisTitleInput) analysisTitleInput.value = viewProperties.currentAnalysis ? viewProperties.currentAnalysis.name : null;
+    if (analysisDescriptionInput) analysisDescriptionInput.value = viewProperties.currentAnalysis ? viewProperties.currentAnalysis.description : null;
   }
 
-  let currentAnalysisEditListener = {
-    notifyEdit(e) {
-      updateCancelEditsMenuItem();
+  // create the controller and pass it the required property updater
+  let controller = new AnalysesController(repository, {
+    update(field, value) {
+      if (viewProperties[field] === undefined) {
+        throw new Error('Field ' + field + ' does not exist in analyses view properties')
+      }
+      viewProperties[field] = value; // this is the key assignment that actually forces the reactivity (controller calls back here to force view updates)
+    }
+  });
+
+  // note that models (dropdown models, table models, tree nodes, etc.) manage their own reactive properties with their own (explicit or implicit) controllers
+
+  controller.init();
+
+  export const navBarController = {
+    handleNewAnalysis: function(e) {
+      controller.newAnalysis();
     },
-    notifyPropertyEdit(e) {
-      updateCurrentAnalysisDescriptionDisplay();
+    handleBrowseAnalyses: function(e) {
+      controller.browseAnalyses();
     }
   };
-
-  function handleAnalysisSelection(e) {
-    if (currentAnalysis) {
-      currentAnalysis.removeEditEventListener(currentAnalysisEditListener);
-    }
-    const selectedIndex = analysesDropdownModel.selectedIndex.value;
-    if (selectedIndex === null) {
-      datasetRootTreeModelNode = null;
-    } else {
-      // caching these for performance (e.g., the foodmart schema is pretty large)
-      if (!datasetRootTreeNodes[selectedIndex]) {
-        datasetRootTreeNodes[selectedIndex] = DatasetAdapterFactory.getInstance().createRootTreeModelNode(workspace.analyses.get(selectedIndex).dataset);
-      }
-      datasetRootTreeModelNode = datasetRootTreeNodes[selectedIndex];
-    }
-    currentAnalysis = analysesDropdownModel.selectedItem;
-    if (currentAnalysis) {
-      currentAnalysis.addEditEventListener(currentAnalysisEditListener);
-      updateCancelEditsMenuItem();
-      updateCurrentAnalysisDescriptionDisplay();
-    }
-  }
-
-  function updateCurrentAnalysisDescriptionDisplay() {
-    currentAnalysisDescriptionDisplay = currentAnalysis.description === null ? currentAnalysis.name + " [no description]" : currentAnalysis.description;
-  }
-
-  analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => handleAnalysisSelection(e)));
-
-  let datasetSelected = false;
-  datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-    datasetSelected = e.newValue !== null;
-  }));
-
-  function closeCurrentAnalysis() {
-    if (currentAnalysis.dirty) {
-      showAbandonEditsModal = true;
-    } else {
-      confirmCloseCurrentAnalysis();
-    }
-  }
-
-  function abandonEditsNo() {
-    showAbandonEditsModal = false;
-  }
-
-  function abandonEditsYes() {
-    showAbandonEditsModal = false;
-    confirmCloseCurrentAnalysis();
-  }
-
-  function confirmCloseCurrentAnalysis() {
-    let removedAnalysis = workspace.analyses.removeAt(analysesDropdownModel.selectedIndex.value);
-  }
-
-  function deleteCurrentAnalysis() {
-    showDeleteConfirmationModal = true;
-  }
-
-  function confirmDeleteNo() {
-    showDeleteConfirmationModal = false;
-  }
-
-  function confirmDeleteYes() {
-    repository.deleteAnalysis(currentAnalysis);
-    confirmCloseCurrentAnalysis();
-    showDeleteConfirmationModal = false;
-  }
-
-  function cancelEdits() {
-    currentAnalysis.cancelEdits();
-  }
-
-  function newAnalysis() {
-    showNewAnalysisModal = true;
-  }
-
-  function closeNewAnalysisModal() {
-    showNewAnalysisModal = false;
-    datasetsDropdownModel.selectedIndex.value = null;
-  }
-
-  function browseAnalyses() {
-    repository.browseAnalyses().then(() => {
-      showBrowseAnalysisModal = true;
-    });
-  }
-
-  function closeBrowseAnalysisModal() {
-    showBrowseAnalysisModal = false;
-    browseAnalysesSelectedIndex = null;
-  }
-
-  function browseAnalysesOpenSelection() {
-    if (browseAnalysesSelectedIndex !== null) {
-      workspace.analyses.add(browseAnalysesTableModel.getRowAt(browseAnalysesSelectedIndex).getItem());
-      analysesDropdownModel.selectedIndex.value = workspace.analyses.length-1;
-      closeBrowseAnalysisModal();
-    }
-  }
-
-  function chooseNewAnalysisDataset() {
-    if (datasetsDropdownModel.selectedItem) {
-      let currentAnalysisCount = workspace.analyses.length;
-      workspace.analyses.add(new Analysis(datasetsDropdownModel.selectedItem, "Analysis " + (currentAnalysisCount+1)));
-      closeNewAnalysisModal();
-    }
-  }
-
-  function saveCurrentAnalysis() {
-    if (currentAnalysis !== null) {
-      repository.saveAnalysis(currentAnalysis);
-      currentAnalysis.checkpointEdits();
-    }
-  }
-
-  function closeEditAnalysisMetadataModal() {
-    showAnalysisMetadataModal = false;
-  }
-
-  function openEditAnalysisMetadataModal() {
-    analysisTitleInput.value = currentAnalysis.name;
-    analysisDescriptionInput.value = currentAnalysis.description;
-    showAnalysisMetadataModal = true;
-  }
-
-  function confirmEditAnalysisMetadata() {
-    // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
-    currentAnalysis.name = analysisTitleInput.value;
-    let newDescription = analysisDescriptionInput.value;
-    if (!newDescription || !newDescription.trim().length) {
-      currentAnalysis.description = null;;
-    } else {
-      currentAnalysis.description = newDescription.trim();
-    }
-    closeEditAnalysisMetadataModal();
-  }
-
 
 </script>
 
-<div class="w-full mt-24 text-center {analysesInWorkspace ? 'hidden' : ''}">
+<div class="w-full mt-24 text-center {viewProperties.analysesInWorkspace ? 'hidden' : ''}">
   No analyses in workspace. Choose "New" or "Browse" from analyses menu above to bring analyses into your workspace.
 </div>
 
-<div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline {analysesInWorkspace ? '' : 'hidden'}">
+<div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
   <div class="w-1/4 h-screen select-none pt-2 pr-2 border-2">
     <div class="flex flex-inline items-center justify-between mb-2">
-      <Dropdown dropdownModel={analysesDropdownModel} showCaret="true"/>
+      <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true"/>
     </div>
-    <TreeContainerNode treeModelNode={datasetRootTreeModelNode}/>
+    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode}/>
   </div>
-  <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {currentAnalysis === null ? 'hidden' : ''}">
+  <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1">
       <div class="w-full p-1 text-lg font-medium">{currentAnalysisDescriptionDisplay}</div>
-      <Menu items={menuItems}/>
+      <Menu items={controller.menuItems}/>
     </div>
     <div class="flex bg-teal-300">
       <div>Table for "{currentAnalysisDescriptionDisplay}" will go here.</div>
     </div>
   </div>
 </div>
-<Modal visible={showNewAnalysisModal}>
+<Modal visible={viewProperties.showNewAnalysisModal}>
   <span slot="header">New Analysis: Choose Dataset</span>
   <div slot="body">
-    <Dropdown dropdownModel={datasetsDropdownModel} defaultLabel="Choose a dataset..."/>
+    <Dropdown dropdownModel={controller.datasetsDropdownModel} defaultLabel="Choose a dataset..."/>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
-      <div class="border-2 mr-2 p-2 {datasetSelected ? 'hover:bg-gray-200' : ''}" on:click={chooseNewAnalysisDataset}>OK</div>
-      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeNewAnalysisModal}>Cancel</div>
+      <div class="border-2 mr-2 p-2 {viewProperties.datasetSelected ? 'hover:bg-gray-200' : ''}" on:click={e => {controller.chooseNewAnalysisDataset()}}>OK</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={e => {controller.closeNewAnalysisModal()}}>Cancel</div>
     </div>
   </div>
 </Modal>
-<Modal visible={showBrowseAnalysisModal}>
+<Modal visible={viewProperties.showBrowseAnalysisModal}>
   <span slot="header">Browse Analyses</span>
   <div slot="body">
-    <SelectTable tableModel={browseAnalysesTableModel} bind:selectedIndex={browseAnalysesSelectedIndex}/>
+    <SelectTable tableModel={controller.browseAnalysesTableModel} bind:selectedIndex={browseAnalysesSelectedIndex}/>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
-      <div class="border-2 mr-2 p-2 { browseAnalysesSelectedIndex === null ? '' : 'hover:bg-gray-200' }" on:click={browseAnalysesOpenSelection}>Open</div>
-      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeBrowseAnalysisModal}>Cancel</div>
+      <div class="border-2 mr-2 p-2 { browseAnalysesSelectedIndex === null ? '' : 'hover:bg-gray-200' }"
+        on:click={e => {controller.browseAnalysesOpenSelection(browseAnalysesSelectedIndex); browseAnalysesSelectedIndex=null;}}>Open</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={e => {browseAnalysesSelectedIndex=null; controller.closeBrowseAnalysisModal()}}>Cancel</div>
     </div>
   </div>
 </Modal>
-<Modal visible={showAnalysisMetadataModal}>
+<Modal visible={viewProperties.showAnalysisMetadataModal}>
   <span slot="header">Edit Analysis Metadata</span>
   <div slot="body">
     <div class="w-full mr-1 flex flex-col">
@@ -286,32 +126,32 @@
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
-      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmEditAnalysisMetadata}>OK</div>
-      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={closeEditAnalysisMetadataModal}>Cancel</div>
+      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={e => {controller.confirmEditAnalysisMetadata(analysisTitleInput.value, analysisDescriptionInput.value)}}>OK</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={e => {controller.closeEditAnalysisMetadataModal()}}>Cancel</div>
     </div>
   </div>
 </Modal>
-<Modal visible={showAbandonEditsModal}>
+<Modal visible={viewProperties.showAbandonEditsModal}>
   <span slot="header">Discard edits</span>
   <div slot="body">
-    <p>Closing analysis "{currentAnalysis ? currentAnalysis.name : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
+    <p>Closing analysis "{viewProperties.currentAnalysis ? viewProperties.currentAnalysis.name : ''}" without saving will discard the edits you have made. Do you want to continue?</p>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
-      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={abandonEditsYes}>Yes</div>
-      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={abandonEditsNo}>No</div>
+      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={e => {controller.abandonEdits(true)}}>Yes</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={e => {controller.abandonEdits(false)}}>No</div>
     </div>
   </div>
 </Modal>
-<Modal visible={showDeleteConfirmationModal}>
+<Modal visible={viewProperties.showDeleteConfirmationModal}>
   <span slot="header">Confirm delete</span>
   <div slot="body">
-    <p>You are about to delete analysis "{currentAnalysis ? currentAnalysis.name : ''}" from the repository permanently. Do you want to continue?</p>
+    <p>You are about to delete analysis "{viewProperties.currentAnalysis ? viewProperties.currentAnalysis.name : ''}" from the repository permanently. Do you want to continue?</p>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
-      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={confirmDeleteYes}>Yes</div>
-      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={confirmDeleteNo}>No</div>
+      <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={e => {controller.confirmDelete(true)}}>Yes</div>
+      <div class="border-2 ml-2 p-2 hover:bg-gray-200" on:click={e => {controller.confirmDelete(false)}}>No</div>
     </div>
   </div>
 </Modal>
