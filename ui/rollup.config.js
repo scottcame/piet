@@ -89,7 +89,7 @@ export default {
 
   plugins: [
 
-    eslint({"ignorePattern": ["src/components/**/*", "src/App.svelte", "**/*.json"]}),
+    eslint(),
     json({ include: "test/_data/**" }),
 
     svelte({
