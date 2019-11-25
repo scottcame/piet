@@ -3,7 +3,7 @@ import { List } from "../../../src/js/collections/List";
 import { TestTableChangeEventListener } from "./TestTableChangeEventListener";
 import { TestObservableChangeEventListener } from "../../util/TestObservableChangeEventListener";
 
-class TestTableRow implements TableRow {
+class TestTableRow implements TableRow<string[]> {
   values: string[];
   constructor(values: string[]=[]) {
     this.values = values;
@@ -11,9 +11,12 @@ class TestTableRow implements TableRow {
   getValueAt(columnIndex: number): string {
     return this.values[columnIndex];
   }
+  getItem(): string[] {
+    return this.values;
+  }
 }
 
-const tableRows = new List<TableRow>();
+const tableRows = new List<TestTableRow>();
 tableRows.add(new TestTableRow(["r0c0","r0c1"]));
 tableRows.add(new TestTableRow(["r1c0","r1c1"]));
 const tableModel = new TableModel(tableRows, ["c0","c1"]);
