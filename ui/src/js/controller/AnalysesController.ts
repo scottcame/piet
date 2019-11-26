@@ -14,6 +14,7 @@ import { DefaultObservableChangeEventListener, ObservableChangeEvent } from "../
 export class AnalysesController {
 
   private static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
+  private static SAVE_MENU_ITEM_LABEL = "Save";
 
   readonly repository: Repository;
   private readonly workspace: Workspace;
@@ -32,7 +33,7 @@ export class AnalysesController {
   menuItems = [
     { label: "Edit metadata...", action: (_e: MouseEvent): void => { this.openEditAnalysisMetadataModal(); }, enabled: true },
     { label: AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.cancelEdits(); }, enabled: false },
-    { label: "Save", action: (_e: MouseEvent): void => { this.saveCurrentAnalysis(); }, enabled: true },
+    { label: AnalysesController.SAVE_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.saveCurrentAnalysis(); }, enabled: false },
     { label: "Close", action: (_e: MouseEvent): void => { this.closeCurrentAnalysis(); }, enabled: true },
     { label: "Delete", action: (_e: MouseEvent): void => { this.deleteCurrentAnalysis(); }, enabled: true },
   ];
@@ -78,6 +79,13 @@ export class AnalysesController {
     }
   }
 
+  updateSaveAnalysisMenuItem(): void {
+    const item = this.menuItems.filter((item) => item.label===AnalysesController.SAVE_MENU_ITEM_LABEL)[0];
+    if (item) {
+      item.enabled = this.currentAnalysis.dirty || !this.currentAnalysis.inRepository();
+    }
+  }
+
   handleAnalysisSelection(_event: ObservableChangeEvent<number>): void {
     if (this.currentAnalysis) {
       this.currentAnalysis.removeEditEventListener(this.currentAnalysisEditListener);
@@ -97,6 +105,7 @@ export class AnalysesController {
     if (this.currentAnalysis) {
       this.currentAnalysis.addEditEventListener(this.currentAnalysisEditListener);
       this.updateCancelEditsMenuItem();
+      this.updateSaveAnalysisMenuItem();
     }
   }
 
@@ -174,11 +183,18 @@ export class AnalysesController {
     }
   }
 
-  saveCurrentAnalysis(): void {
-    if (this.currentAnalysis !== null) {
-      this.repository.saveAnalysis(this.currentAnalysis);
-      this.currentAnalysis.checkpointEdits();
-    }
+  saveCurrentAnalysis(): Promise<void> {
+    return new Promise((resolve, _reject) => {
+      if (this.currentAnalysis !== null) {
+        this.repository.saveAnalysis(this.currentAnalysis).then((newId) => {
+          if (this.currentAnalysis.id === undefined) {
+            this.currentAnalysis.id = newId;
+          }
+          this.currentAnalysis.checkpointEdits();
+        });
+      }
+      resolve();
+    });
   }
 
   closeEditAnalysisMetadataModal(): void {
@@ -211,6 +227,7 @@ class CurrentAnalysisEditListener implements EditEventListener {
   }
   notifyEdit(_event: EditEvent): void {
     this.controller.updateCancelEditsMenuItem();
+    this.controller.updateSaveAnalysisMenuItem();
   }
   notifyPropertyEdit(_event: PropertyEditEvent): void {
     this.viewPropertyUpdater.update("currentAnalysis", this.controller.currentAnalysis);

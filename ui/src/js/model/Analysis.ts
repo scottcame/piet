@@ -45,7 +45,7 @@ class AnalysisPersistenceFactory implements PersistenceFactory<Analysis> {
 
 export class Analysis implements Identifiable, Serializable, Editable {
 
-  readonly id: number;
+  id: number;
   dataset: Dataset;
   private _name: string = null;
   private _description: string = null;
@@ -59,6 +59,10 @@ export class Analysis implements Identifiable, Serializable, Editable {
     this.id = id;
     this.dataset = dataset;
     this._name = name;
+  }
+
+  inRepository(): boolean {
+    return this.id !== undefined;
   }
 
   get name(): string {
