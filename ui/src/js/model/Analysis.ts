@@ -1,49 +1,10 @@
 import { Dataset } from "./Dataset";
-import { Identifiable, Serializable, PersistenceFactory, Editable, EditEventListener, EditEvent, PropertyEditEvent } from "./Persistence";
+import { Identifiable, Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent } from "./Persistence";
 import { Repository } from "./Repository";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-class PersistentAnalysis implements Identifiable, Serializable {
-  id: number;
-  datasetRef: {id: string; cube: string};
-  name: string;
-  description: string;
-  constructor(analysis: Analysis) {
-    if (analysis.id) {
-      this.id = analysis.id;
-    }
-    this.datasetRef = {
-      id: analysis.dataset.id,
-      cube: analysis.dataset.name
-    };
-    this.name = analysis.name;
-    this.description = analysis.description;
-  }
-}
-
-class AnalysisPersistenceFactory implements PersistenceFactory<Analysis> {
-
-  serialize(analysis: Analysis, _repository: Repository): any {
-    return new PersistentAnalysis(analysis);
-  }
-
-  deserialize(o: any, repository: Repository): Analysis {
-    let d: Dataset = null;
-    repository.browseDatasets().forEach((dd: Dataset) => {
-      if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
-        d = dd;
-      }
-    });
-    const ret = new Analysis(d, o.name, o.id);
-    ret.description = o.description;
-    ret.checkpointEdits();
-    return ret;
-  }
-
-}
-
-export class Analysis implements Identifiable, Serializable, Editable {
+export class Analysis implements Identifiable, Serializable<Analysis>, Editable {
 
   id: number;
   dataset: Dataset;
@@ -53,12 +14,47 @@ export class Analysis implements Identifiable, Serializable, Editable {
   private editCheckpoint: Analysis;
   private editEventListeners: EditEventListener[];
 
-  constructor(dataset: Dataset, name: string = null, id: number = undefined) {
+  constructor(dataset: Dataset = null, name: string = null, id: number = undefined) {
     this.editEventListeners = [];
     this.editCheckpoint = null;
     this.id = id;
     this.dataset = dataset;
     this._name = name;
+  }
+
+  serialize(repository: Repository): any {
+    const ret = {
+      id: undefined,
+      name: this._name,
+      description: this._description,
+      datasetRef: {
+        id: this.dataset.id,
+        cube: this.dataset.name
+      },
+      editCheckpoint: this.editCheckpoint ? this.editCheckpoint.serialize(repository) : null
+    };
+    if (this.id !== undefined) {
+      ret.id = this.id;
+    }
+    return ret;
+  }
+
+  deserialize(o: any, repository: Repository): Analysis {
+    let d: Dataset = null;
+    repository.browseDatasets().forEach((dd: Dataset) => {
+      if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
+        d = dd;
+      }
+    });
+    this.name = o.name;
+    this.id = o.id;
+    this.dataset = d;
+    this.description = o.description;
+    this.editCheckpoint = o.editCheckpoint ? new Analysis().deserialize(o.editCheckpoint, repository) : null;
+    if (this.editCheckpoint === null) {
+      this.checkpointEdits();
+    }
+    return this;
   }
 
   inRepository(): boolean {
@@ -142,7 +138,5 @@ export class Analysis implements Identifiable, Serializable, Editable {
     });
     return ret;
   }
-
-  static readonly PERSISTENCE_FACTORY = new AnalysisPersistenceFactory();
 
 }

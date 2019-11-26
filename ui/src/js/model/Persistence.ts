@@ -6,11 +6,9 @@ export interface Identifiable {
   readonly id: number;
 }
 
-export interface Serializable {}
-
-export interface PersistenceFactory<S extends Serializable> {
-  serialize(o: S, repository: Repository): any;
-  deserialize(o: any, repository: Repository): S;
+export interface Serializable<T> {
+  serialize(repository: Repository): any;
+  deserialize(o: any, repository: Repository): T;
 }
 
 export interface Editable {

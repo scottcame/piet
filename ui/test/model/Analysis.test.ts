@@ -13,10 +13,9 @@ beforeEach(async () => {
 });
 
 test('persistence', () => {
-  const persistenceFactory = Analysis.PERSISTENCE_FACTORY;
   const analysis = new Analysis(datasets.get(0), "test-name");
   analysis.description = "test-description";
-  const serializedAnalysis = persistenceFactory.serialize(analysis, repository);
+  const serializedAnalysis = analysis.serialize(repository);
   expect(serializedAnalysis).toMatchObject({
     datasetRef: {
       id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
@@ -25,7 +24,7 @@ test('persistence', () => {
     name: 'test-name',
     description: 'test-description'
   });
-  const deserializedAnalysis = Analysis.PERSISTENCE_FACTORY.deserialize(serializedAnalysis, repository);
+  const deserializedAnalysis = new Analysis().deserialize(serializedAnalysis, repository);
   expect(deserializedAnalysis.name).toBe(analysis.name);
   expect(deserializedAnalysis.description).toBe(analysis.description);
   expect(deserializedAnalysis.id).toBeUndefined();

@@ -1,7 +1,6 @@
 import { Analysis } from "./Analysis";
 import { Dataset } from "./Dataset";
 import { List } from "../collections/List";
-import { Serializable } from "./Persistence";
 import { Workspace } from "./Workspace";
 import Dexie from 'dexie';
 
@@ -27,9 +26,11 @@ export interface Repository {
   saveWorkspace(): Promise<void>;
 }
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 class RepositoryDatabase extends Dexie {
 
-  analyses: Dexie.Table<Serializable, number>;
+  analyses: Dexie.Table<any, number>;
 
   constructor() {
     super(LOCAL_REPOSITORY_INDEXEDDB_NAME);
@@ -42,7 +43,7 @@ class RepositoryDatabase extends Dexie {
 
 class WorkspaceDatabase extends Dexie {
 
-  workspaces: Dexie.Table<Serializable, string>;
+  workspaces: Dexie.Table<any, string>;
 
   constructor() {
     super(WORKSPACE_INDEXEDDB_NAME);
@@ -82,7 +83,7 @@ export class LocalRepository implements Repository {
   saveWorkspace(): Promise<void> {
     return new Promise((resolve, _reject) => {
       console.log("Saving workspace");
-      this.workspaceDb.workspaces.put(Workspace.PERSISTENCE_FACTORY.serialize(this.workspace, this)).then(() => {
+      this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
         resolve();
       });
     });
@@ -98,7 +99,7 @@ export class LocalRepository implements Repository {
       if (exists) {
         console.log("Restoring workspace...");
         await this.workspaceDb.workspaces.toArray().then(workspaces => {
-          const savedWorkspace = Workspace.PERSISTENCE_FACTORY.deserialize(workspaces[0], this);
+          const savedWorkspace = new Workspace(this).deserialize(workspaces[0], this);
           console.log("...restored " + savedWorkspace.analyses.length + " analyses");
           this._workspace.analyses.setFromList(savedWorkspace.analyses);
         });
@@ -117,7 +118,7 @@ export class LocalRepository implements Repository {
               }
             });
             return new Promise((resolve, _reject) => {
-              this.db.analyses.add(Analysis.PERSISTENCE_FACTORY.serialize(new Analysis(d, analysis.name), this));
+              this.db.analyses.add(new Analysis(d, analysis.name).serialize(this));
               resolve();
             });
           });
@@ -139,11 +140,10 @@ export class LocalRepository implements Repository {
 
   browseAnalyses(): Promise<List<Analysis>> {
     this._analyses.clear();
-    const persistenceFactory = Analysis.PERSISTENCE_FACTORY;
     return new Promise((resolve, _reject) => {
       this.db.analyses.toArray().then(dbAnalyses => {
         const analyses: Analysis[] = dbAnalyses.map((dbAnalysis) => {
-          return persistenceFactory.deserialize(dbAnalysis, this);
+          return new Analysis().deserialize(dbAnalysis, this);
         });
         this._analyses.set(analyses);
         resolve(this._analyses);
@@ -152,7 +152,7 @@ export class LocalRepository implements Repository {
   }
 
   saveAnalysis(analysis: Analysis): Promise<number> {
-    return this.db.analyses.put(Analysis.PERSISTENCE_FACTORY.serialize(analysis, this));
+    return this.db.analyses.put(analysis.serialize(this));
   }
 
   searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {
