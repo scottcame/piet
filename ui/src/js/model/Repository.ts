@@ -99,9 +99,11 @@ export class LocalRepository implements Repository {
       if (exists) {
         console.log("Restoring workspace...");
         await this.workspaceDb.workspaces.toArray().then(workspaces => {
-          const savedWorkspace = new Workspace(this).deserialize(workspaces[0], this);
-          console.log("...restored " + savedWorkspace.analyses.length + " analyses");
-          this._workspace.analyses.setFromList(savedWorkspace.analyses);
+          if (workspaces[0]) {
+            const savedWorkspace = new Workspace(this).deserialize(workspaces[0], this);
+            console.log("...restored " + savedWorkspace.analyses.length + " analyses");
+            this._workspace.analyses.setFromList(savedWorkspace.analyses);
+          }
         });
       }
     });

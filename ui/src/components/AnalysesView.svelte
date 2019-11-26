@@ -12,17 +12,7 @@
   export let repository;
 
   // reactive properties updated by the controller
-  let viewProperties = {
-    showNewAnalysisModal: false,
-    analysesInWorkspace: 0,
-    datasetSelected: false,
-    datasetRootTreeModelNode: null,
-    currentAnalysis: null,
-    showBrowseAnalysisModal: false,
-    showAnalysisMetadataModal: false,
-    showAbandonEditsModal: false,
-    showDeleteConfirmationModal: false
-  };
+  let viewProperties = AnalysesController.VIEW_PROPERTIES;
 
   // properties that are only referenced within the view
   let analysisTitleInput;
@@ -40,7 +30,7 @@
   let controller = new AnalysesController(repository, {
     update(field, value) {
       if (viewProperties[field] === undefined) {
-        throw new Error('Field ' + field + ' does not exist in analyses view properties')
+        throw new Error('Field ' + field + ' does not exist in analyses view properties');
       }
       viewProperties[field] = value; // this is the key assignment that actually forces the reactivity (controller calls back here to force view updates)
     }

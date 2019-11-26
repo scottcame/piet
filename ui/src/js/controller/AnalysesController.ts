@@ -13,6 +13,18 @@ import { DefaultObservableChangeEventListener, ObservableChangeEvent } from "../
 
 export class AnalysesController {
 
+  static VIEW_PROPERTIES = {
+    showNewAnalysisModal: false,
+    analysesInWorkspace: 0,
+    datasetSelected: false,
+    datasetRootTreeModelNode: null,
+    currentAnalysis: null,
+    showBrowseAnalysisModal: false,
+    showAnalysisMetadataModal: false,
+    showAbandonEditsModal: false,
+    showDeleteConfirmationModal: false
+  };
+
   private static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
   private static SAVE_MENU_ITEM_LABEL = "Save";
   private static DELETE_MENU_ITEM_LABEL = "Delete";
@@ -23,7 +35,7 @@ export class AnalysesController {
   currentAnalysis: Analysis;
 
   analysesDropdownModel: DropdownModel<Analysis>;
-  datasetRootTreeNodes: TreeModelContainerNode[];
+  datasetRootTreeNode: TreeModelContainerNode;
   datasetsDropdownModel: DropdownModel<Dataset>;
   browseAnalysesTableModel: TableModel<Analysis>;
 
@@ -45,7 +57,7 @@ export class AnalysesController {
     this.viewPropertyUpdater = viewPropertyUpdater;
     this.repository = repository;
     this.workspace = repository.workspace;
-    this.datasetRootTreeNodes = [];
+    this.datasetRootTreeNode = null;
     this.currentAnalysisEditListener = new CurrentAnalysisEditListener(this, viewPropertyUpdater);
   }
 
@@ -102,11 +114,9 @@ export class AnalysesController {
     if (selectedIndex === null) {
       this.viewPropertyUpdater.update("datasetRootTreeModelNode", null);
     } else {
-      // caching these for performance (e.g., the foodmart schema is pretty large)
-      if (!this.datasetRootTreeNodes[selectedIndex]) {
-        this.datasetRootTreeNodes[selectedIndex] = DatasetAdapterFactory.getInstance().createRootTreeModelNode(this.workspace.analyses.get(selectedIndex).dataset);
-      }
-      this.viewPropertyUpdater.update("datasetRootTreeModelNode", this.datasetRootTreeNodes[selectedIndex]);
+      // may need to look at caching these in the future; some datasets have a long and deep metadata tree...
+      this.datasetRootTreeNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(this.workspace.analyses.get(selectedIndex).dataset);
+      this.viewPropertyUpdater.update("datasetRootTreeModelNode", this.datasetRootTreeNode);
     }
     this.currentAnalysis = this.analysesDropdownModel.selectedItem;
     this.viewPropertyUpdater.update("currentAnalysis", this.currentAnalysis);

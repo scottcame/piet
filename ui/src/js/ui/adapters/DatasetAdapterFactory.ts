@@ -15,7 +15,7 @@ export class DatasetAdapterFactory {
   }
 
   createRootTreeModelNode(dataset: Dataset): TreeModelContainerNode {
-    const ret = new TreeModelContainerNode("Dataset: " + dataset.description + " [" + dataset.schemaName + "]", 'dataset');
+    const ret = new TreeModelContainerNode(DatasetAdapterFactory.buildRootLabel(dataset.label), 'dataset');
     const measuresChild = new TreeModelContainerNode("Measures", 'measures');
     measuresChild.children = dataset.measures.map((measure: Measure) => {
       return new TreeModelLeafNode(measure.description, "measure");
@@ -31,6 +31,10 @@ export class DatasetAdapterFactory {
       });
     ret.children = [measuresChild, dimensionsChild];
     return ret;
+  }
+
+  static buildRootLabel(datasetLabel: string): string {
+    return "Dataset: " + datasetLabel;
   }
 
 }

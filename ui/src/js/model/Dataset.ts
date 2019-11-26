@@ -90,6 +90,10 @@ export class Dataset implements Editable {
     return ret;
   }
 
+  get uniqueId(): string {
+    return this.id + "+++" + this.name;
+  }
+
   set name(name: string) {
     this._name = name;
     this.updateLabel();
