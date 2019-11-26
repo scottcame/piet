@@ -15,6 +15,7 @@ export class AnalysesController {
 
   private static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
   private static SAVE_MENU_ITEM_LABEL = "Save";
+  private static DELETE_MENU_ITEM_LABEL = "Delete";
 
   readonly repository: Repository;
   private readonly workspace: Workspace;
@@ -35,7 +36,7 @@ export class AnalysesController {
     { label: AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.cancelEdits(); }, enabled: false },
     { label: AnalysesController.SAVE_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.saveCurrentAnalysis(); }, enabled: false },
     { label: "Close", action: (_e: MouseEvent): void => { this.closeCurrentAnalysis(); }, enabled: true },
-    { label: "Delete", action: (_e: MouseEvent): void => { this.deleteCurrentAnalysis(); }, enabled: true },
+    { label: AnalysesController.DELETE_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.deleteCurrentAnalysis(); }, enabled: false },
   ];
 
   private viewPropertyUpdater: ViewPropertyUpdater;
@@ -86,6 +87,13 @@ export class AnalysesController {
     }
   }
 
+  updateDeleteAnalysisMenuItem(): void {
+    const item = this.menuItems.filter((item) => item.label===AnalysesController.DELETE_MENU_ITEM_LABEL)[0];
+    if (item) {
+      item.enabled = this.currentAnalysis.inRepository();
+    }
+  }
+
   handleAnalysisSelection(_event: ObservableChangeEvent<number>): void {
     if (this.currentAnalysis) {
       this.currentAnalysis.removeEditEventListener(this.currentAnalysisEditListener);
@@ -106,6 +114,7 @@ export class AnalysesController {
       this.currentAnalysis.addEditEventListener(this.currentAnalysisEditListener);
       this.updateCancelEditsMenuItem();
       this.updateSaveAnalysisMenuItem();
+      this.updateDeleteAnalysisMenuItem();
     }
   }
 
@@ -228,6 +237,7 @@ class CurrentAnalysisEditListener implements EditEventListener {
   notifyEdit(_event: EditEvent): void {
     this.controller.updateCancelEditsMenuItem();
     this.controller.updateSaveAnalysisMenuItem();
+    this.controller.updateDeleteAnalysisMenuItem();
   }
   notifyPropertyEdit(_event: PropertyEditEvent): void {
     this.viewPropertyUpdater.update("currentAnalysis", this.controller.currentAnalysis);
