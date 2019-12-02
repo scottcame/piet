@@ -23,8 +23,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   }
 
   serialize(repository: Repository): any {
-    const ret = {
-      id: undefined,
+    const ret: any = {
       name: this._name,
       description: this._description,
       datasetRef: {

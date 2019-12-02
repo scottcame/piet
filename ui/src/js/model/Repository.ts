@@ -112,19 +112,7 @@ export class LocalRepository implements Repository {
       Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
         if (!exists) {
           console.log("No Piet database found, creating and populating...");
-          const promises: Promise<void>[] = testAnalyses.analyses.map((analysis: { datasetRef: {id: string; cube: string}; name: string; description: string }) => {
-            let d: Dataset = null;
-            this.datasets.forEach((dd: Dataset) => {
-              if (dd.id === analysis.datasetRef.id && dd.name === analysis.datasetRef.cube) {
-                d = dd;
-              }
-            });
-            return new Promise((resolve, _reject) => {
-              this.db.analyses.add(new Analysis(d, analysis.name).serialize(this));
-              resolve();
-            });
-          });
-          Promise.all(promises).then(_values => {
+          this.refreshDatabase().then(() => {
             resolve();
           });
         } else {
@@ -134,6 +122,43 @@ export class LocalRepository implements Repository {
       });
     });
 
+  }
+
+  // these refresh methods would not exist on a real repository; they are just here to support easily restoring the repo
+  // to a known good state for unit testing and demos
+
+  refreshWorkspace(): Promise<void> {
+    return new Promise((resolve, _reject) => {
+      this.workspaceDb.workspaces.toCollection().delete().then(() => {
+        this.workspace.analyses.clear();
+        resolve();
+      });
+    });
+  }
+
+  refreshDatabase(): Promise<void> {
+    return new Promise((resolve, _reject) => {
+      this.workspaceDb.workspaces.toCollection().delete().then(() => {
+        this.db.analyses.toCollection().delete().then(() => {
+          const promises: Promise<void>[] = testAnalyses.analyses.map((analysis: { datasetRef: {id: string; cube: string}; name: string; description: string }) => {
+            let d: Dataset = null;
+            this.datasets.forEach((dd: Dataset) => {
+              if (dd.id === analysis.datasetRef.id && dd.name === analysis.datasetRef.cube) {
+                d = dd;
+              }
+            });
+            return new Promise((resolve, _reject) => {
+              const newAnalysis = new Analysis(d, analysis.name).serialize(this);
+              this.db.analyses.add(newAnalysis);
+              resolve();
+            });
+          });
+          Promise.all(promises).then(_values => {
+            resolve();
+          });
+        });
+      });
+    });
   }
 
   browseDatasets(): List<Dataset> {

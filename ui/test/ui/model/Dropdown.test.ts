@@ -124,4 +124,13 @@ test('dropdown selection on list mod', () => {
   expect(dropdownModel.selectedIndex.value).toBe(2);
   items.removeAt(0);
   expect(dropdownModel.selectedIndex.value).toBe(1);
+  items.clear();
+  expect(dropdownModel.selectedIndex.value).toBeNull();
+  items.add(new TestObject('item1'));
+  expect(dropdownModel.selectedIndex.value).toBe(0);
+  items.add(new TestObject('item2'));
+  expect(dropdownModel.selectedIndex.value).toBe(1);
+  dropdownModel.selectedIndex.value = 0;
+  items.removeAt(0);
+  expect(dropdownModel.selectedIndex.value).toBe(0);
 });

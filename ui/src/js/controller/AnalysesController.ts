@@ -25,9 +25,11 @@ export class AnalysesController {
     showDeleteConfirmationModal: false
   };
 
-  private static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
-  private static SAVE_MENU_ITEM_LABEL = "Save";
-  private static DELETE_MENU_ITEM_LABEL = "Delete";
+  static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
+  static SAVE_MENU_ITEM_LABEL = "Save";
+  static DELETE_MENU_ITEM_LABEL = "Delete";
+  static EDIT_METADATA_MENU_ITEM_LABEL = "Edit metadata...";
+  static CLOSE_MENU_ITEM_LABEL = "Edit metadata...";
 
   readonly repository: Repository;
   private readonly workspace: Workspace;
@@ -44,10 +46,10 @@ export class AnalysesController {
   private currentAnalysisEditListener: EditEventListener;
 
   menuItems = [
-    { label: "Edit metadata...", action: (_e: MouseEvent): void => { this.openEditAnalysisMetadataModal(); }, enabled: true },
+    { label: AnalysesController.EDIT_METADATA_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.openEditAnalysisMetadataModal(); }, enabled: true },
     { label: AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.cancelEdits(); }, enabled: false },
     { label: AnalysesController.SAVE_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.saveCurrentAnalysis(); }, enabled: false },
-    { label: "Close", action: (_e: MouseEvent): void => { this.closeCurrentAnalysis(); }, enabled: true },
+    { label: AnalysesController.CLOSE_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.closeCurrentAnalysis(); }, enabled: true },
     { label: AnalysesController.DELETE_MENU_ITEM_LABEL, action: (_e: MouseEvent): void => { this.deleteCurrentAnalysis(); }, enabled: false },
   ];
 
@@ -86,24 +88,33 @@ export class AnalysesController {
   }
 
   updateCancelEditsMenuItem(): void {
-    const cancelItem = this.menuItems.filter((item) => item.label===AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL)[0];
-    if (cancelItem) {
-      cancelItem.enabled = this.currentAnalysis.dirty;
+    const item = this.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL);
+    if (item) {
+      item.enabled = this.currentAnalysis.dirty;
     }
   }
 
   updateSaveAnalysisMenuItem(): void {
-    const item = this.menuItems.filter((item) => item.label===AnalysesController.SAVE_MENU_ITEM_LABEL)[0];
+    const item = this.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL);
     if (item) {
       item.enabled = this.currentAnalysis.dirty || !this.currentAnalysis.inRepository();
     }
   }
 
   updateDeleteAnalysisMenuItem(): void {
-    const item = this.menuItems.filter((item) => item.label===AnalysesController.DELETE_MENU_ITEM_LABEL)[0];
+    const item = this.getMenuItemForLabel(AnalysesController.DELETE_MENU_ITEM_LABEL);
     if (item) {
       item.enabled = this.currentAnalysis.inRepository();
     }
+  }
+
+  getMenuItemForLabel(label: string): { label: string; action: (e: MouseEvent) => void; enabled: boolean } {
+    const items = this.menuItems.filter((item) => item.label===label);
+    let ret = null;
+    if (items.length) {
+      ret = items[0];
+    }
+    return ret;
   }
 
   handleAnalysisSelection(_event: ObservableChangeEvent<number>): void {
