@@ -1,3 +1,5 @@
 src/components/**/*
 src/App.svelte
 **/*.json
+rollup.config.js
+package.json
