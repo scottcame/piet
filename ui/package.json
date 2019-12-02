@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "license": "UNLICENSED",
   "private": true,
-  "repository": null,
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
