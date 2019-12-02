@@ -11,8 +11,6 @@
 
 	const dispatch = createEventDispatcher();
 
-  export let workspace;
-
   let navs = [
     {
       name: "analyses",
