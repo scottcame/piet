@@ -1,4 +1,4 @@
 {
   "include": ["src/**/*.ts", "test/**/*.ts"],
-  "compilerOptions": { "resolveJsonModule": true, "moduleResolution": "node", "downlevelIteration": true, "target": "es6", "esModuleInterop": true }
+  "compilerOptions": { "resolveJsonModule": true, "moduleResolution": "node", "downlevelIteration": true }
 }
