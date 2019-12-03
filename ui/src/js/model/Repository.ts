@@ -132,27 +132,20 @@ export class LocalRepository implements Repository {
     });
   }
 
-  refreshDatabase(): Promise<void> {
-    return new Promise((resolve, _reject) => {
-      this.workspaceDb.workspaces.toCollection().delete().then(() => {
-        this.db.analyses.toCollection().delete().then(() => {
-          const promises: Promise<void>[] = testAnalyses.analyses.map((analysis: { datasetRef: {id: string; cube: string}; name: string; description: string }) => {
-            let d: Dataset = null;
-            this.datasets.forEach((dd: Dataset) => {
-              if (dd.id === analysis.datasetRef.id && dd.name === analysis.datasetRef.cube) {
-                d = dd;
-              }
-            });
-            return new Promise((resolve, _reject) => {
-              const newAnalysis = new Analysis(d, analysis.name).serialize(this);
-              this.db.analyses.add(newAnalysis);
-              resolve();
-            });
+  async refreshDatabase(): Promise<void> {
+    return this.workspaceDb.workspaces.toCollection().delete().then(() => {
+      return this.db.analyses.toCollection().delete().then((): Promise<void> => {
+        const promises: Promise<void>[] = testAnalyses.analyses.map(async (analysis: { datasetRef: {id: string; cube: string}; name: string; description: string }) => {
+          let d: Dataset = null;
+          this.datasets.forEach((dd: Dataset) => {
+            if (dd.id === analysis.datasetRef.id && dd.name === analysis.datasetRef.cube) {
+              d = dd;
+            }
           });
-          Promise.all(promises).then(_values => {
-            resolve();
-          });
+          const newAnalysis = new Analysis(d, analysis.name).serialize(this);
+          return this.db.analyses.add(newAnalysis).then(_number => {});
         });
+        return Promise.all(promises).then();
       });
     });
   }
