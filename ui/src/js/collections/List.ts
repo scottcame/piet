@@ -49,11 +49,12 @@ export class List<T> implements Iterable<T> {
     return ret;
   }
 
-  removeAt(index: number): T {
+  async removeAt(index: number): Promise<T> {
     const ret = this.a[index];
     this.a.splice(index, 1);
-    this.notifyListeners(new ListChangeEvent(index, ListChangeEvent.DELETE));
-    return ret;
+    return this.notifyListeners(new ListChangeEvent(index, ListChangeEvent.DELETE)).then(() => {
+      return ret;
+    });
   }
 
   get(index: number): T {

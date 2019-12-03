@@ -149,3 +149,33 @@ test('workspace persistence', async () => {
   });
 
 });
+
+/* eslint-disable jest/no-focused-tests */
+
+test('Basic browse', async () => {
+  await controller.browseAnalyses().then(async () => {
+    expect(viewProperties.showBrowseAnalysisModal).toBe(true);
+    await controller.browseAnalysesOpenSelection(0).then(async () => {
+      expect(controller.currentAnalysis.name).toBe("Analysis 1");
+      await controller.currentAnalysis.setDescription("A new description...").then(async () => {
+        expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(true);
+        await controller.saveCurrentAnalysis().then(async () => {
+          expect(controller.currentAnalysis.dirty).toBe(false);
+          await controller.confirmCloseCurrentAnalysis().then(async () => {
+            expect(workspace.analyses).toHaveLength(0);
+            expect(viewProperties.analysesInWorkspace).toEqual(0);
+            await controller.browseAnalyses().then(async () => {
+              expect(viewProperties.showBrowseAnalysisModal).toBe(true);
+              await controller.browseAnalysesOpenSelection(0).then(async () => {
+                expect(controller.currentAnalysis.description).toBe("A new description...");
+                expect(controller.currentAnalysis.dirty).toBe(false);
+              });
+            });
+          });
+        });
+      });
+    }); 
+  });
+
+});
+

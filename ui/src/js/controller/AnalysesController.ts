@@ -145,25 +145,25 @@ export class AnalysesController {
     }
   }
 
-  closeCurrentAnalysis(): void {
+  async closeCurrentAnalysis(): Promise<Analysis> {
     if (this.currentAnalysis.dirty) {
       this.viewPropertyUpdater.update('showAbandonEditsModal', true);
     } else {
-      this.confirmCloseCurrentAnalysis();
+      return this.confirmCloseCurrentAnalysis();
     }
   }
 
-  abandonEdits(confirm: boolean): void {
+  async abandonEdits(confirm: boolean): Promise<Analysis> {
     if (confirm) {
       this.viewPropertyUpdater.update('showAbandonEditsModal', false);
-      this.confirmCloseCurrentAnalysis();
+      return this.confirmCloseCurrentAnalysis();
     } else {
       this.viewPropertyUpdater.update('showAbandonEditsModal', false);
     }
   }
 
-  confirmCloseCurrentAnalysis(): void {
-    this.workspace.analyses.removeAt(this.analysesDropdownModel.selectedIndex.value);
+  async confirmCloseCurrentAnalysis(): Promise<Analysis> {
+    return this.workspace.analyses.removeAt(this.analysesDropdownModel.selectedIndex.value);
   }
 
   deleteCurrentAnalysis(): void {
@@ -193,8 +193,8 @@ export class AnalysesController {
     this.datasetsDropdownModel.selectedIndex.value = null;
   }
 
-  browseAnalyses(): void {
-    this.repository.browseAnalyses().then(() => {
+  async browseAnalyses(): Promise<void> {
+    return this.repository.browseAnalyses().then(() => {
       this.viewPropertyUpdater.update('showBrowseAnalysisModal', true);
     });
   }
@@ -203,12 +203,14 @@ export class AnalysesController {
     this.viewPropertyUpdater.update('showBrowseAnalysisModal', false);
   }
 
-  browseAnalysesOpenSelection(browseAnalysesSelectedIndex: number): void {
+  async browseAnalysesOpenSelection(browseAnalysesSelectedIndex: number): Promise<void> {
     if (browseAnalysesSelectedIndex !== null) {
-      this.workspace.analyses.add(this.browseAnalysesTableModel.getRowAt(browseAnalysesSelectedIndex).getItem());
-      this.analysesDropdownModel.selectedIndex.value = this.workspace.analyses.length-1;
-      this.closeBrowseAnalysisModal();
+      return this.workspace.analyses.add(this.browseAnalysesTableModel.getRowAt(browseAnalysesSelectedIndex).getItem()).then(() => {
+        this.analysesDropdownModel.selectedIndex.value = this.workspace.analyses.length-1;
+        this.closeBrowseAnalysisModal();
+      });
     }
+    return;
   }
 
   async chooseNewAnalysisDataset(): Promise<void> {
@@ -224,11 +226,11 @@ export class AnalysesController {
   async saveCurrentAnalysis(): Promise<void> {
     let ret: Promise<void>;
     if (this.currentAnalysis !== null) {
-      ret = this.repository.saveAnalysis(this.currentAnalysis).then((newId) => {
+      ret = this.currentAnalysis.checkpointEdits().then(async () => {
+        const newId = await this.repository.saveAnalysis(this.currentAnalysis);
         if (this.currentAnalysis.id === undefined) {
           this.currentAnalysis.id = newId;
         }
-        return this.currentAnalysis.checkpointEdits();
       });
     } else {
       ret = new Promise<void>(() => {});

@@ -39,18 +39,18 @@ test('set', () => {
   expect(list.get(0)).toBe(100);
 });
 
-test('remove at', () => {
+test('remove at', async () => {
   list.addAll([10,20,30]);
-  const removed = list.removeAt(1);
+  const removed = await list.removeAt(1);
   expect(removed).toBe(20);
   expect(list).toHaveLength(2);
-  list.removeAt(0);
-  list.removeAt(0);
+  await list.removeAt(0);
+  await list.removeAt(0);
   expect(list).toHaveLength(0);
-  expect(() => {
+  expect(async () => {
     // just like array, it's ok if we try to remove stuff at nonexistent indices
-    list.removeAt(0);
-    list.removeAt(1);
+    await list.removeAt(0);
+    await list.removeAt(1);
   }).not.toThrow();
 });
 
@@ -93,9 +93,10 @@ class TestListChangeEventListener implements ListChangeEventListener {
   constructor() {
     this.f = jest.fn();
   }
-  listChanged(event: ListChangeEvent): void {
+  listChanged(event: ListChangeEvent): Promise<void> {
     this.event = event;
     this.f();
+    return;
   }
 }
 
