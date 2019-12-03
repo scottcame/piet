@@ -105,14 +105,14 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     return Promise.all(promises).then();
   }
 
-  cancelEdits(): void {
+  cancelEdits(): Promise<void> {
     if (this.editCheckpoint) {
       // set the properties, not the instance variables
       this.setDescription(this.editCheckpoint._description);
       this.setName(this.editCheckpoint._name);
     }
     this.editCheckpoint = null;
-    this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
+    return this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
   }
 
   checkpointEdits(): Promise<void> {

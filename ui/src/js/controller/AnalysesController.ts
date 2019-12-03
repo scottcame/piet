@@ -170,18 +170,21 @@ export class AnalysesController {
     this.viewPropertyUpdater.update('showDeleteConfirmationModal', true);
   }
 
-  confirmDelete(confirm: boolean): void {
+  async confirmDelete(confirm: boolean): Promise<void> {
     if (confirm) {
-      this.repository.deleteAnalysis(this.currentAnalysis);
-      this.confirmCloseCurrentAnalysis();
-      this.viewPropertyUpdater.update('showDeleteConfirmationModal', false);
+      return this.repository.deleteAnalysis(this.currentAnalysis).then(() => {
+        return this.confirmCloseCurrentAnalysis().then(() => {
+          this.viewPropertyUpdater.update('showDeleteConfirmationModal', false);
+        });
+      });
     } else {
       this.viewPropertyUpdater.update('showDeleteConfirmationModal', false);
+      return;
     }
   }
 
-  cancelEdits(): void {
-    this.currentAnalysis.cancelEdits();
+  async cancelEdits(): Promise<void> {
+    return this.currentAnalysis.cancelEdits();
   }
 
   newAnalysis(): void {
@@ -246,14 +249,16 @@ export class AnalysesController {
     this.viewPropertyUpdater.update('showAnalysisMetadataModal', true);
   }
 
-  confirmEditAnalysisMetadata(analysisTitle: string, analysisDescription: string): void {
+  async confirmEditAnalysisMetadata(analysisTitle: string, analysisDescription: string): Promise<void> {
     // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
-    this.currentAnalysis.setName(analysisTitle);
+    const promises: Promise<void>[] = [];
+    promises.push(this.currentAnalysis.setName(analysisTitle));
     if (!analysisDescription || !analysisDescription.trim().length) {
-      this.currentAnalysis.setDescription(null);
+      promises.push(this.currentAnalysis.setDescription(null));
     } else {
-      this.currentAnalysis.setDescription(analysisDescription.trim());
+      promises.push(this.currentAnalysis.setDescription(analysisDescription.trim()));
     }
+    await Promise.all(promises);
     this.closeEditAnalysisMetadataModal();
   }
 
