@@ -1,15 +1,15 @@
 <script>
 
-  import { DefaultTableChangeEventListener } from '../js/ui/model/Table';
-
   export let tableModel;
   export let selectedIndex = null;
 
   let modelRows = [];
 
-  tableModel.addTableChangeEventListener(new DefaultTableChangeEventListener(event => {
-    modelRows = [...tableModel.rows];
-  }));
+  tableModel.addTableChangeEventListener({
+    tableChanged(event) {
+      modelRows = [...tableModel.rows];
+    }
+  });
 
   function selectRow(index) {
     selectedIndex = index;

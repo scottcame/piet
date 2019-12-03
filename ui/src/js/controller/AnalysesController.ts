@@ -72,9 +72,6 @@ export class AnalysesController {
       this.browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(this.repository.analyses, this.workspace.analyses);
 
       this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-      // this.workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(_e => {
-      //   this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-      // }));
 
       /* eslint-disable @typescript-eslint/no-this-alias */
       const self = this;

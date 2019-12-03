@@ -77,36 +77,6 @@ export class DropdownModel<T extends Editable> {
       }
     });
 
-    // this.items.addChangeEventListener(new DefaultListChangeEventListener(e => {
-    //   if (e.type === ListChangeEvent.DELETE) {
-    //     if (this.priorIndexStack.indexOf(e.index) !== -1) {
-    //       this.priorIndexStack.splice(this.priorIndexStack.indexOf(e.index), 1);
-    //     }
-    //     this.priorIndexStack = this.priorIndexStack.map((val: number) => {
-    //       return val > e.index ? val-1 : val;
-    //     });
-    //     if (this.items.length == 1) {
-    //       this._selectedIndex.value = 0;
-    //       this.priorIndexStack = [0];
-    //     } else if (this.items.length === 0) {
-    //       this._selectedIndex.value = null;
-    //       this.priorIndexStack = [];
-    //     } else {
-    //       if (this._selectedIndex.value > e.index) {
-    //         this._selectedIndex.value--;
-    //       }
-    //       if (this.priorIndexStack.length === 0) {
-    //         this._selectedIndex.value =  null;
-    //       } else if (this._selectedIndex.value === e.index) {
-    //         this._selectedIndex.value =  this.priorIndexStack.pop();
-    //       }
-    //     }
-    //   } else if (e.type === ListChangeEvent.ADD) {
-    //     this._selectedIndex.value = e.index === -1 ? null : e.index;
-    //   }
-    //   this.updateLabels();
-    // }));
-
     this.updateLabels();
 
   }

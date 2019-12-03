@@ -9,17 +9,12 @@ export class TableModel<T> {
   private rowCount = new Observable<number>();
 
   constructor(rowList: List<TableRow<T>>, columnHeaders: string[]) {
-    
+
     this.rowList = rowList;
     this.rowCount.value = rowList.length;
     this.columnHeaders = columnHeaders;
     this.tableChangeEventListeners = [];
 
-    // this.rowList.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent) => {
-    //   this.notifyListeners(new TableChangeEvent());
-    //   this.rowCount.value = rowList.length;
-    // }));
-    
     /* eslint-disable @typescript-eslint/no-this-alias */
     const self = this;
 
@@ -87,18 +82,4 @@ export class TableChangeEvent {
 
 export interface TableChangeEventListener {
   tableChanged(event: TableChangeEvent): void;
-}
-
-interface TableChangeEventCallback {
-  (event: TableChangeEvent): void;
-}
-
-export class DefaultTableChangeEventListener implements TableChangeEventListener {
-  private callback: TableChangeEventCallback;
-  constructor(callback: TableChangeEventCallback) {
-    this.callback = callback;
-  }
-  tableChanged(event: TableChangeEvent): void {
-    this.callback(event);
-  }
 }

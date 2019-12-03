@@ -161,14 +161,3 @@ export interface ListChangeEventListener {
 interface ListEventChangeCallback {
   (event: ListChangeEvent): void;
 }
-
-// export class DefaultListChangeEventListener implements ListChangeEventListener {
-//   private callback: ListEventChangeCallback;
-//   constructor(callback: ListEventChangeCallback) {
-//     this.callback = callback;
-//   }
-//   listChanged(event: ListChangeEvent): void {
-//     this.callback(event);
-//   }
-
-// }

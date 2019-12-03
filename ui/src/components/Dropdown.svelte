@@ -1,7 +1,6 @@
 <script>
 
   import { DropdownModel } from '../js/ui/model/Dropdown';
-  import { DefaultListChangeEventListener } from '../js/collections/List';
   import { DefaultObservableChangeEventListener } from '../js/util/Observable';
 
   export let dropdownModel;

@@ -22,10 +22,6 @@ export class AnalysisAdapterFactory {
 
     AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
 
-    // analyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
-    //   AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-    // }));
-
     analyses.addChangeEventListener({
       listChanged(_event: ListChangeEvent): Promise<void> {
         AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
@@ -39,10 +35,6 @@ export class AnalysisAdapterFactory {
         return;
       }
     });
-
-    // excludedAnalyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
-    //   AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-    // }));
 
     return new TableModel(rowList, columnHeaders);
 
