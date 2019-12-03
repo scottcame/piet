@@ -82,7 +82,7 @@ export class LocalRepository implements Repository {
 
   async saveWorkspace(): Promise<void> {
     return this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
-        console.log("Saved workspace");
+      console.log("Saved workspace");
     });
   }
 
@@ -97,9 +97,11 @@ export class LocalRepository implements Repository {
         console.log("Restoring workspace...");
         await this.workspaceDb.workspaces.toArray().then(workspaces => {
           if (workspaces[0]) {
-            const savedWorkspace = new Workspace(this).deserialize(workspaces[0], this);
+            const savedWorkspace = new Workspace(this, false).deserialize(workspaces[0], this);
             console.log("...restored " + savedWorkspace.analyses.length + " analyses");
+            this._workspace.autosaveChanges = false;
             this._workspace.analyses.setFromList(savedWorkspace.analyses);
+            this._workspace.autosaveChanges = true;
           }
         });
       }
