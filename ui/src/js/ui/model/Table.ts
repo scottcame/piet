@@ -1,4 +1,4 @@
-import { List, DefaultListChangeEventListener, ListChangeEvent } from "../../collections/List";
+import { List, ListChangeEvent } from "../../collections/List";
 import { Observable } from "../../util/Observable";
 
 export class TableModel<T> {
@@ -9,14 +9,28 @@ export class TableModel<T> {
   private rowCount = new Observable<number>();
 
   constructor(rowList: List<TableRow<T>>, columnHeaders: string[]) {
+    
     this.rowList = rowList;
     this.rowCount.value = rowList.length;
     this.columnHeaders = columnHeaders;
     this.tableChangeEventListeners = [];
-    this.rowList.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent) => {
-      this.notifyListeners(new TableChangeEvent());
-      this.rowCount.value = rowList.length;
-    }));
+
+    // this.rowList.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent) => {
+    //   this.notifyListeners(new TableChangeEvent());
+    //   this.rowCount.value = rowList.length;
+    // }));
+    
+    /* eslint-disable @typescript-eslint/no-this-alias */
+    const self = this;
+
+    this.rowList.addChangeEventListener({
+      listChanged(_e: ListChangeEvent): Promise<void> {
+        self.notifyListeners(new TableChangeEvent());
+        self.rowCount.value = rowList.length;
+        return;
+      }
+    });
+
   }
 
   get rows(): Iterable<TableRow<T>> {

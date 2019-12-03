@@ -39,6 +39,6 @@ export class PropertyEditEvent {
 }
 
 export interface EditEventListener {
-  notifyEdit(event: EditEvent): void;
-  notifyPropertyEdit(event: PropertyEditEvent): void;
+  notifyEdit(event: EditEvent): Promise<void>;
+  notifyPropertyEdit(event: PropertyEditEvent): Promise<void>;
 }

@@ -1,4 +1,4 @@
-import { List, ListChangeEvent, DefaultListChangeEventListener } from "../../collections/List";
+import { List, ListChangeEvent } from "../../collections/List";
 import { Analysis } from "../../model/Analysis";
 import { TableModel, TableRow } from "../model/Table";
 
@@ -22,13 +22,27 @@ export class AnalysisAdapterFactory {
 
     AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
 
-    analyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
-      AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-    }));
+    // analyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
+    //   AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+    // }));
 
-    excludedAnalyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
-      AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-    }));
+    analyses.addChangeEventListener({
+      listChanged(_event: ListChangeEvent): Promise<void> {
+        AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+        return;
+      }
+    });
+
+    excludedAnalyses.addChangeEventListener({
+      listChanged(_event: ListChangeEvent): Promise<void> {
+        AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+        return;
+      }
+    });
+
+    // excludedAnalyses.addChangeEventListener(new DefaultListChangeEventListener((_event: ListChangeEvent): void => {
+    //   AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+    // }));
 
     return new TableModel(rowList, columnHeaders);
 

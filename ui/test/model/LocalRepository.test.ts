@@ -19,7 +19,7 @@ test('local repository save', async () => {
     await repo.browseAnalyses().then(async (aa: List<Analysis>) => {
       const originalLength = aa.length;
       const analysis = new Analysis(repo.browseDatasets().get(0), "test-name");
-      analysis.description = "test-description";
+      analysis.setDescription("test-description");
       await expect(repo.saveAnalysis(analysis)).resolves.toEqual(originalLength + 1);
       await repo.browseAnalyses().then((aa: List<Analysis>) => {
         expect(aa.get(originalLength).name).toBe("test-name");

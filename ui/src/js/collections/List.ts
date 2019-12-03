@@ -19,10 +19,11 @@ export class List<T> implements Iterable<T> {
     this.a = [];
   }
 
-  add(item: T): T {
+  async add(item: T): Promise<T> {
     this.a.push(item);
-    this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD));
-    return item;
+    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD)).then(() => {
+      return item;
+    });
   }
 
   addAll(items: T[]): number {
@@ -131,10 +132,12 @@ export class List<T> implements Iterable<T> {
 
   }
 
-  private notifyListeners(event: ListChangeEvent): void {
+  private async notifyListeners(event: ListChangeEvent): Promise<void> {
+    const promises: Promise<void>[] = [];
     this.changeListeners.forEach((listener: ListChangeEventListener) => {
-      listener.listChanged(event);
+      promises.push(listener.listChanged(event));
     });
+    return Promise.all(promises).then();
   }
 
 }
@@ -152,20 +155,20 @@ export interface FilterFunction<T> {
 }
 
 export interface ListChangeEventListener {
-  listChanged(event: ListChangeEvent): void;
+  listChanged(event: ListChangeEvent): Promise<void>;
 }
 
 interface ListEventChangeCallback {
   (event: ListChangeEvent): void;
 }
 
-export class DefaultListChangeEventListener implements ListChangeEventListener {
-  private callback: ListEventChangeCallback;
-  constructor(callback: ListEventChangeCallback) {
-    this.callback = callback;
-  }
-  listChanged(event: ListChangeEvent): void {
-    this.callback(event);
-  }
+// export class DefaultListChangeEventListener implements ListChangeEventListener {
+//   private callback: ListEventChangeCallback;
+//   constructor(callback: ListEventChangeCallback) {
+//     this.callback = callback;
+//   }
+//   listChanged(event: ListChangeEvent): void {
+//     this.callback(event);
+//   }
 
-}
+// }

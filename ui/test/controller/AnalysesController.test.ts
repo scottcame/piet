@@ -1,6 +1,7 @@
 import { LocalRepository } from "../../src/js/model/Repository";
 import { AnalysesController } from "../../src/js/controller/AnalysesController";
 import { DatasetAdapterFactory } from "../../src/js/ui/adapters/DatasetAdapterFactory";
+import { Workspace } from "../../src/js/model/Workspace";
 
 let controller: AnalysesController;
 const viewProperties = AnalysesController.VIEW_PROPERTIES;
@@ -39,75 +40,100 @@ test('initial state', () => {
   expect(controller.datasetRootTreeNode).toBeNull();
 });
 
-test('new analysis', () => {
+test('new analysis', async () => {
   controller.newAnalysis();
   expect(viewProperties.showNewAnalysisModal).toBe(true);
   controller.datasetsDropdownModel.selectedIndex.value = 0;
-  controller.chooseNewAnalysisDataset();
-  expect(viewProperties.showNewAnalysisModal).toBe(false);
-  expect(workspace.analyses).toHaveLength(1);
-  expect(workspace.analyses.get(0).name).toBe("Analysis 1");
-  expect(controller.analysesDropdownModel.selectedIndex.value).toBe(0);
-  expect(controller.getMenuItemForLabel(AnalysesController.CLOSE_MENU_ITEM_LABEL).enabled).toBe(true);
-  expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(false);
-  expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(true);
-  expect(controller.getMenuItemForLabel(AnalysesController.DELETE_MENU_ITEM_LABEL).enabled).toBe(false);
+  await controller.chooseNewAnalysisDataset().then(() => {
+    expect(viewProperties.showNewAnalysisModal).toBe(false);
+    expect(workspace.analyses).toHaveLength(1);
+    expect(workspace.analyses.get(0).name).toBe("Analysis 1");
+    expect(controller.analysesDropdownModel.selectedIndex.value).toBe(0);
+    expect(controller.getMenuItemForLabel(AnalysesController.CLOSE_MENU_ITEM_LABEL).enabled).toBe(true);
+    expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(false);
+    expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(true);
+    expect(controller.getMenuItemForLabel(AnalysesController.DELETE_MENU_ITEM_LABEL).enabled).toBe(false);
+  });
 });
 
-test('correct dataset root tree node', () => {
+test('correct dataset root tree node', async () => {
   const datasets = repository.browseDatasets();
   expect(workspace.analyses).toHaveLength(0);
   controller.newAnalysis();
   controller.datasetsDropdownModel.selectedIndex.value = 0;
-  controller.chooseNewAnalysisDataset();
-  controller.newAnalysis();
-  controller.datasetsDropdownModel.selectedIndex.value = 1;
-  controller.chooseNewAnalysisDataset();
-  expect(workspace.analyses).toHaveLength(2);
-  expect(workspace.analyses.get(0).dataset).toBe(datasets.get(0));
-  expect(workspace.analyses.get(1).dataset).toBe(datasets.get(1));
-  expect(controller.analysesDropdownModel.selectedIndex.value).toBe(1);
-  controller.analysesDropdownModel.selectedIndex.value = 0;
-  controller.closeCurrentAnalysis();
-  expect(workspace.analyses).toHaveLength(1);
-  controller.analysesDropdownModel.selectedIndex.value = 0;
-  expect(workspace.analyses.get(0).dataset).toBe(datasets.get(1));
-  expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets.get(1).label));
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    controller.newAnalysis();
+    controller.datasetsDropdownModel.selectedIndex.value = 1;
+    await controller.chooseNewAnalysisDataset().then(() => {
+      expect(workspace.analyses).toHaveLength(2);
+      expect(workspace.analyses.get(0).dataset).toBe(datasets.get(0));
+      expect(workspace.analyses.get(1).dataset).toBe(datasets.get(1));
+      expect(controller.analysesDropdownModel.selectedIndex.value).toBe(1);
+      controller.analysesDropdownModel.selectedIndex.value = 0;
+      controller.closeCurrentAnalysis();
+      expect(workspace.analyses).toHaveLength(1);
+      controller.analysesDropdownModel.selectedIndex.value = 0;
+      expect(workspace.analyses.get(0).dataset).toBe(datasets.get(1));
+      expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets.get(1).label));
+    });
+  });
 });
 
 test('close analysis', async () => {
   controller.newAnalysis();
   expect(viewProperties.showNewAnalysisModal).toBe(true);
   controller.datasetsDropdownModel.selectedIndex.value = 0;
-  controller.chooseNewAnalysisDataset();
-  expect(workspace.analyses).toHaveLength(1);
-  controller.closeCurrentAnalysis();
-  expect(workspace.analyses).toHaveLength(0);
-  expect(viewProperties.analysesInWorkspace).toBe(0);
-  controller.newAnalysis();
-  controller.datasetsDropdownModel.selectedIndex.value = 0;
-  controller.chooseNewAnalysisDataset();
-  controller.newAnalysis();
-  controller.datasetsDropdownModel.selectedIndex.value = 0;
-  controller.chooseNewAnalysisDataset();
-  expect(workspace.analyses).toHaveLength(2);
-  controller.analysesDropdownModel.selectedIndex.value = 0;
-  controller.closeCurrentAnalysis();
-  expect(workspace.analyses).toHaveLength(1);
-  expect(controller.analysesDropdownModel.selectedIndex.value).toBe(0);
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    expect(workspace.analyses).toHaveLength(1);
+    controller.closeCurrentAnalysis();
+    expect(workspace.analyses).toHaveLength(0);
+    expect(viewProperties.analysesInWorkspace).toBe(0);
+    controller.newAnalysis();
+    controller.datasetsDropdownModel.selectedIndex.value = 0;
+    await controller.chooseNewAnalysisDataset().then(async () => {
+      controller.newAnalysis();
+      controller.datasetsDropdownModel.selectedIndex.value = 0;
+      await controller.chooseNewAnalysisDataset().then(() => {
+        expect(workspace.analyses).toHaveLength(2);
+        controller.analysesDropdownModel.selectedIndex.value = 0;
+        controller.closeCurrentAnalysis();
+        expect(workspace.analyses).toHaveLength(1);
+        expect(controller.analysesDropdownModel.selectedIndex.value).toBe(0);
+      });
+    });
+  });
 });
 
 test('cancel edits', async () => {
   controller.newAnalysis();
   expect(viewProperties.showNewAnalysisModal).toBe(true);
   controller.datasetsDropdownModel.selectedIndex.value = 0;
-  controller.chooseNewAnalysisDataset();
-  expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(false);
-  expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(true);
-  expect(controller.currentAnalysis.description).toBeNull();
-  controller.currentAnalysis.description = "X";
-  expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(true);
-  controller.cancelEdits();
-  expect(controller.currentAnalysis.description).toBeNull();
-  expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(false);
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(false);
+    expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(true);
+    expect(controller.currentAnalysis.description).toBeNull();
+    await controller.currentAnalysis.setDescription("X").then(() => {
+      expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(true);
+      controller.cancelEdits();
+      expect(controller.currentAnalysis.description).toBeNull();
+      expect(controller.getMenuItemForLabel(AnalysesController.CANCEL_EDITS_MENU_ITEM_LABEL).enabled).toBe(false);
+    });
+  });
+});
+
+test('workspace persistence', async () => {
+  controller.newAnalysis();
+  controller.datasetsDropdownModel.selectedIndex.value = 0;
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    await controller.currentAnalysis.setDescription('A description...').then(async () => {
+      expect(controller.currentAnalysis.dirty).toBe(true);
+      await controller.saveCurrentAnalysis().then(() => {
+        expect(repository.workspace.analyses.get(0).description).toEqual('A description...');
+        return repository.getPersistedWorkspace().then((w: Workspace) => {
+          expect(w.analyses.get(0).description).toEqual('A description...');
+        });
+      });
+    });
+  });
+
 });

@@ -80,12 +80,9 @@ export class LocalRepository implements Repository {
     return this._analyses;
   }
 
-  saveWorkspace(): Promise<void> {
-    return new Promise((resolve, _reject) => {
-      console.log("Saving workspace");
-      this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
-        resolve();
-      });
+  async saveWorkspace(): Promise<void> {
+    return this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
+        console.log("Saved workspace");
     });
   }
 
@@ -127,12 +124,9 @@ export class LocalRepository implements Repository {
   // these refresh methods would not exist on a real repository; they are just here to support easily restoring the repo
   // to a known good state for unit testing and demos
 
-  refreshWorkspace(): Promise<void> {
-    return new Promise((resolve, _reject) => {
-      this.workspaceDb.workspaces.toCollection().delete().then(() => {
-        this.workspace.analyses.clear();
-        resolve();
-      });
+  async refreshWorkspace(): Promise<void> {
+    return this.workspaceDb.workspaces.toCollection().delete().then(() => {
+      this.workspace.analyses.clear();
     });
   }
 
@@ -161,36 +155,42 @@ export class LocalRepository implements Repository {
     });
   }
 
+  async getPersistedWorkspace(): Promise<Workspace> {
+    return this.workspaceDb.workspaces.toArray().then(workspaces => {
+      if (workspaces[0]) {
+        return new Workspace(this).deserialize(workspaces[0], this);
+      } else {
+        return null;
+      }
+    });
+  }
+
   browseDatasets(): List<Dataset> {
     return this.datasets;
   }
 
-  browseAnalyses(): Promise<List<Analysis>> {
+  async browseAnalyses(): Promise<List<Analysis>> {
     this._analyses.clear();
-    return new Promise((resolve, _reject) => {
-      this.db.analyses.toArray().then(dbAnalyses => {
-        const analyses: Analysis[] = dbAnalyses.map((dbAnalysis) => {
-          return new Analysis().deserialize(dbAnalysis, this);
-        });
-        this._analyses.set(analyses);
-        resolve(this._analyses);
+    return this.db.analyses.toArray().then(dbAnalyses => {
+      const analyses: Analysis[] = dbAnalyses.map((dbAnalysis) => {
+        return new Analysis().deserialize(dbAnalysis, this);
       });
+      this._analyses.set(analyses);
+      return this._analyses;
     });
   }
 
-  saveAnalysis(analysis: Analysis): Promise<number> {
+  async saveAnalysis(analysis: Analysis): Promise<number> {
     return this.db.analyses.put(analysis.serialize(this));
   }
 
-  searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {
+  async searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {
     return this.browseAnalyses(); // for now, ignore the query string
   }
 
-  deleteAnalysis(analysis: Analysis): Promise<number> {
-    return new Promise((resolve, _reject) => {
-      this.db.analyses.delete(analysis.id).then(() => {
-        resolve(analysis.id);
-      });
+  async deleteAnalysis(analysis: Analysis): Promise<number> {
+    return this.db.analyses.delete(analysis.id).then(() => {
+      return analysis.id;
     });
   }
 

@@ -5,7 +5,7 @@ import { Analysis } from "../model/Analysis";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
 import { TreeModelContainerNode } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
-import { List, DefaultListChangeEventListener } from "../collections/List";
+import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
 import { TableModel } from "../ui/model/Table";
 import { EditEventListener, EditEvent, PropertyEditEvent } from "../model/Persistence";
@@ -29,7 +29,7 @@ export class AnalysesController {
   static SAVE_MENU_ITEM_LABEL = "Save";
   static DELETE_MENU_ITEM_LABEL = "Delete";
   static EDIT_METADATA_MENU_ITEM_LABEL = "Edit metadata...";
-  static CLOSE_MENU_ITEM_LABEL = "Edit metadata...";
+  static CLOSE_MENU_ITEM_LABEL = "Close";
 
   readonly repository: Repository;
   private readonly workspace: Workspace;
@@ -72,9 +72,18 @@ export class AnalysesController {
       this.browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(this.repository.analyses, this.workspace.analyses);
 
       this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-      this.workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(_e => {
-        this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-      }));
+      // this.workspace.analyses.addChangeEventListener(new DefaultListChangeEventListener(_e => {
+      //   this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
+      // }));
+
+      /* eslint-disable @typescript-eslint/no-this-alias */
+      const self = this;
+      this.workspace.analyses.addChangeEventListener({
+        listChanged(_event: ListChangeEvent): Promise<void> {
+          self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
+          return;
+        }
+      });
 
       this.analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => this.handleAnalysisSelection(e)));
 
@@ -205,26 +214,29 @@ export class AnalysesController {
     }
   }
 
-  chooseNewAnalysisDataset(): void {
+  async chooseNewAnalysisDataset(): Promise<void> {
     if (this.datasetsDropdownModel.selectedItem) {
       const currentAnalysisCount = this.workspace.analyses.length;
-      this.workspace.analyses.add(new Analysis(this.datasetsDropdownModel.selectedItem, "Analysis " + (currentAnalysisCount+1)));
-      this.closeNewAnalysisModal();
+      return this.workspace.analyses.add(new Analysis(this.datasetsDropdownModel.selectedItem, "Analysis " + (currentAnalysisCount+1))).then(() => {
+        this.closeNewAnalysisModal();
+      });
     }
+    return;
   }
 
-  saveCurrentAnalysis(): Promise<void> {
-    return new Promise((resolve, _reject) => {
-      if (this.currentAnalysis !== null) {
-        this.repository.saveAnalysis(this.currentAnalysis).then((newId) => {
-          if (this.currentAnalysis.id === undefined) {
-            this.currentAnalysis.id = newId;
-          }
-          this.currentAnalysis.checkpointEdits();
-        });
-      }
-      resolve();
-    });
+  async saveCurrentAnalysis(): Promise<void> {
+    let ret: Promise<void>;
+    if (this.currentAnalysis !== null) {
+      ret = this.repository.saveAnalysis(this.currentAnalysis).then((newId) => {
+        if (this.currentAnalysis.id === undefined) {
+          this.currentAnalysis.id = newId;
+        }
+        return this.currentAnalysis.checkpointEdits();
+      });
+    } else {
+      ret = new Promise<void>(() => {});
+    }
+    return ret;
   }
 
   closeEditAnalysisMetadataModal(): void {
@@ -239,9 +251,9 @@ export class AnalysesController {
     // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
     this.currentAnalysis.name = analysisTitle;
     if (!analysisDescription || !analysisDescription.trim().length) {
-      this.currentAnalysis.description = null;
+      this.currentAnalysis.setDescription(null);
     } else {
-      this.currentAnalysis.description = analysisDescription.trim();
+      this.currentAnalysis.setDescription(analysisDescription.trim());
     }
     this.closeEditAnalysisMetadataModal();
   }
@@ -255,13 +267,15 @@ class CurrentAnalysisEditListener implements EditEventListener {
     this.controller = controller;
     this.viewPropertyUpdater = viewPropertyUpdater;
   }
-  notifyEdit(_event: EditEvent): void {
+  notifyEdit(_event: EditEvent): Promise<void> {
     this.controller.updateCancelEditsMenuItem();
     this.controller.updateSaveAnalysisMenuItem();
     this.controller.updateDeleteAnalysisMenuItem();
+    return;
   }
-  notifyPropertyEdit(_event: PropertyEditEvent): void {
+  notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
     this.viewPropertyUpdater.update("currentAnalysis", this.controller.currentAnalysis);
+    return;
   }
 }
 

@@ -1,4 +1,4 @@
-import { List, DefaultListChangeEventListener, ListChangeEvent } from "../../collections/List";
+import { List, ListChangeEvent } from "../../collections/List";
 import { Observable, DefaultObservableChangeEventListener } from "../../util/Observable";
 import { Editable, EditEventListener, EditEvent, PropertyEditEvent } from "../../model/Persistence";
 
@@ -9,7 +9,7 @@ export class DropdownModel<T extends Editable> {
   private _label: Observable<string>;
   private boundPropertyName: string;
   private _labels: string[] = [];
-  private itemPropertyEditListener: LabelUpdateEditEventListener;
+  private itemPropertyEditListener: EditEventListener;
   private priorIndexStack: number[];
 
   constructor(items: List<T>, boundPropertyName: string) {
@@ -20,9 +20,18 @@ export class DropdownModel<T extends Editable> {
     this._label = new Observable<string>();
     this.boundPropertyName = boundPropertyName;
 
-    this.itemPropertyEditListener = new LabelUpdateEditEventListener(() => {
-      this.updateLabels();
-    });
+    /* eslint-disable @typescript-eslint/no-this-alias */
+    const self = this;
+
+    this.itemPropertyEditListener = {
+      notifyEdit(_event: EditEvent): Promise<void> {
+        return;
+      },
+      notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
+        self.updateLabels();
+        return;
+      }
+    };
 
     this._selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener<number>((e) => {
       if (e.oldValue !== null) {
@@ -35,35 +44,68 @@ export class DropdownModel<T extends Editable> {
       this._label.value = this._selectedIndex.value === null ? null : this._labels[this._selectedIndex.value];
     }));
 
-    this.items.addChangeEventListener(new DefaultListChangeEventListener(e => {
-      if (e.type === ListChangeEvent.DELETE) {
-        if (this.priorIndexStack.indexOf(e.index) !== -1) {
-          this.priorIndexStack.splice(this.priorIndexStack.indexOf(e.index), 1);
-        }
-        this.priorIndexStack = this.priorIndexStack.map((val: number) => {
-          return val > e.index ? val-1 : val;
-        });
-        if (this.items.length == 1) {
-          this._selectedIndex.value = 0;
-          this.priorIndexStack = [0];
-        } else if (this.items.length === 0) {
-          this._selectedIndex.value = null;
-          this.priorIndexStack = [];
-        } else {
-          if (this._selectedIndex.value > e.index) {
-            this._selectedIndex.value--;
+    this.items.addChangeEventListener({
+      async listChanged(e: ListChangeEvent): Promise<void> {
+        if (e.type === ListChangeEvent.DELETE) {
+          if (self.priorIndexStack.indexOf(e.index) !== -1) {
+            self.priorIndexStack.splice(self.priorIndexStack.indexOf(e.index), 1);
           }
-          if (this.priorIndexStack.length === 0) {
-            this._selectedIndex.value =  null;
-          } else if (this._selectedIndex.value === e.index) {
-            this._selectedIndex.value =  this.priorIndexStack.pop();
+          self.priorIndexStack = self.priorIndexStack.map((val: number) => {
+            return val > e.index ? val-1 : val;
+          });
+          if (self.items.length == 1) {
+            self._selectedIndex.value = 0;
+            self.priorIndexStack = [0];
+          } else if (self.items.length === 0) {
+            self._selectedIndex.value = null;
+            self.priorIndexStack = [];
+          } else {
+            if (self._selectedIndex.value > e.index) {
+              self._selectedIndex.value--;
+            }
+            if (self.priorIndexStack.length === 0) {
+              self._selectedIndex.value =  null;
+            } else if (self._selectedIndex.value === e.index) {
+              self._selectedIndex.value =  self.priorIndexStack.pop();
+            }
           }
+        } else if (e.type === ListChangeEvent.ADD) {
+          self._selectedIndex.value = e.index === -1 ? null : e.index;
         }
-      } else if (e.type === ListChangeEvent.ADD) {
-        this._selectedIndex.value = e.index === -1 ? null : e.index;
+        self.updateLabels();
+        return;
       }
-      this.updateLabels();
-    }));
+    });
+
+    // this.items.addChangeEventListener(new DefaultListChangeEventListener(e => {
+    //   if (e.type === ListChangeEvent.DELETE) {
+    //     if (this.priorIndexStack.indexOf(e.index) !== -1) {
+    //       this.priorIndexStack.splice(this.priorIndexStack.indexOf(e.index), 1);
+    //     }
+    //     this.priorIndexStack = this.priorIndexStack.map((val: number) => {
+    //       return val > e.index ? val-1 : val;
+    //     });
+    //     if (this.items.length == 1) {
+    //       this._selectedIndex.value = 0;
+    //       this.priorIndexStack = [0];
+    //     } else if (this.items.length === 0) {
+    //       this._selectedIndex.value = null;
+    //       this.priorIndexStack = [];
+    //     } else {
+    //       if (this._selectedIndex.value > e.index) {
+    //         this._selectedIndex.value--;
+    //       }
+    //       if (this.priorIndexStack.length === 0) {
+    //         this._selectedIndex.value =  null;
+    //       } else if (this._selectedIndex.value === e.index) {
+    //         this._selectedIndex.value =  this.priorIndexStack.pop();
+    //       }
+    //     }
+    //   } else if (e.type === ListChangeEvent.ADD) {
+    //     this._selectedIndex.value = e.index === -1 ? null : e.index;
+    //   }
+    //   this.updateLabels();
+    // }));
 
     this.updateLabels();
 
@@ -113,17 +155,4 @@ export class DropdownModel<T extends Editable> {
 
 interface LabelUpdateEditEventListenerCallback {
   (): void;
-}
-
-class LabelUpdateEditEventListener implements EditEventListener {
-  readonly callback: LabelUpdateEditEventListenerCallback;
-  constructor(callback: LabelUpdateEditEventListenerCallback) {
-    this.callback = callback;
-  }
-  notifyEdit(_event: EditEvent): void {
-
-  }
-  notifyPropertyEdit(_event: PropertyEditEvent): void {
-    this.callback();
-  }
 }

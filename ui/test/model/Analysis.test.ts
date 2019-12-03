@@ -14,7 +14,7 @@ beforeEach(async () => {
 
 test('persistence', () => {
   const analysis = new Analysis(datasets.get(0), "test-name");
-  analysis.description = "test-description";
+  analysis.setDescription("test-description");
   const serializedAnalysis = analysis.serialize(repository);
   expect(serializedAnalysis).toMatchObject({
     datasetRef: {
@@ -34,7 +34,7 @@ test('editing', () => {
   const originalName = "test-name";
   const originalDescription = "test-description";
   const analysis = new Analysis(datasets.get(0), originalName, null);
-  analysis.description = originalDescription;
+  analysis.setDescription(originalDescription);
   analysis.checkpointEdits();
   expect(analysis.dirty).toBe(false);
   analysis.name = "new-name";
@@ -43,13 +43,13 @@ test('editing', () => {
   expect(analysis.dirty).toBe(false);
   expect(analysis.name).toBe(originalName);
   expect(analysis.description).toBe(originalDescription);
-  analysis.description = "new-description";
+  analysis.setDescription("new-description");
   expect(analysis.dirty).toBe(true);
   analysis.cancelEdits();
   expect(analysis.dirty).toBe(false);
   expect(analysis.description).toBe(originalDescription);
   analysis.name = "new-name";
-  analysis.description = "new-description";
+  analysis.setDescription("new-description");
   analysis.checkpointEdits();
   expect(analysis.dirty).toBe(false);
   expect(analysis.name).toBe("new-name");

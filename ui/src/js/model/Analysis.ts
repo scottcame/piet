@@ -45,10 +45,10 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
         d = dd;
       }
     });
-    this.name = o.name;
+    this._name = o.name;
     this.id = o.id;
     this.dataset = d;
-    this.description = o.description;
+    this._description = o.description;
     this.editCheckpoint = o.editCheckpoint ? new Analysis().deserialize(o.editCheckpoint, repository) : null;
     if (this.editCheckpoint === null) {
       this.checkpointEdits();
@@ -74,10 +74,10 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     return this._description;
   }
 
-  set description(value: string) {
+  async setDescription(value: string): Promise<void> {
     this.initCheckpoint();
     this._description = value;
-    this.notifyPropertyEditEventListeners("description");
+    return this.notifyPropertyEditEventListeners("description").then();
   }
 
   private initCheckpoint(): void {
@@ -89,31 +89,35 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     }
   }
 
-  private notifyPropertyEditEventListeners(property: string): void {
+  private async notifyPropertyEditEventListeners(property: string): Promise<void> {
+    const promises: Promise<void>[] = [];
     this.editEventListeners.forEach((listener: EditEventListener) => {
-      listener.notifyPropertyEdit(new PropertyEditEvent(this, property));
+      promises.push(listener.notifyPropertyEdit(new PropertyEditEvent(this, property)));
     });
+    return Promise.all(promises).then();
   }
 
-  private notifyEditEventListeners(type: string): void {
+  private async notifyEditEventListeners(type: string): Promise<void> {
+    const promises: Promise<void>[] = [];
     this.editEventListeners.forEach((listener: EditEventListener) => {
-      listener.notifyEdit(new EditEvent(type));
+      promises.push(listener.notifyEdit(new EditEvent(type)));
     });
+    return Promise.all(promises).then();
   }
 
   cancelEdits(): void {
     if (this.editCheckpoint) {
       // set the properties, not the instance variables
-      this.description = this.editCheckpoint._description;
+      this.setDescription(this.editCheckpoint._description);
       this.name = this.editCheckpoint._name;
     }
     this.editCheckpoint = null;
     this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
   }
 
-  checkpointEdits(): void {
+  checkpointEdits(): Promise<void> {
     this.editCheckpoint = null;
-    this.notifyEditEventListeners(EditEvent.EDIT_CHECKPOINT);
+    return this.notifyEditEventListeners(EditEvent.EDIT_CHECKPOINT);
   }
 
   get dirty(): boolean {
