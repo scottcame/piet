@@ -56,6 +56,17 @@ test('new analysis', async () => {
   });
 });
 
+test('rename analysis', async () => {
+  controller.newAnalysis();
+  controller.datasetsDropdownModel.selectedIndex.value = 0;
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    expect(workspace.analyses.get(0).name).toBe("Analysis 1");
+    return workspace.analyses.get(0).setName("A different name...").then(() => {
+      expect(workspace.analyses.get(0).name).toBe("A different name...");
+    });
+  });
+});
+
 test('correct dataset root tree node', async () => {
   const datasets = repository.browseDatasets();
   expect(workspace.analyses).toHaveLength(0);
@@ -124,10 +135,11 @@ test('cancel edits', async () => {
 test('workspace persistence', async () => {
   controller.newAnalysis();
   controller.datasetsDropdownModel.selectedIndex.value = 0;
+  const newDescription = 'A description...';
   await controller.chooseNewAnalysisDataset().then(async () => {
-    await controller.currentAnalysis.setDescription('A description...').then(async () => {
+    await controller.currentAnalysis.setDescription(newDescription).then(async () => {
       expect(controller.currentAnalysis.dirty).toBe(true);
-      await controller.saveCurrentAnalysis().then(() => {
+      await controller.saveCurrentAnalysis().then(async () => {
         expect(repository.workspace.analyses.get(0).description).toEqual('A description...');
         return repository.getPersistedWorkspace().then((w: Workspace) => {
           expect(w.analyses.get(0).description).toEqual('A description...');

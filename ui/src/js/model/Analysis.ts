@@ -64,10 +64,10 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     return this._name;
   }
 
-  set name(value: string) {
+  async setName(value: string): Promise<void> {
     this.initCheckpoint();
     this._name = value;
-    this.notifyPropertyEditEventListeners("name");
+    return this.notifyPropertyEditEventListeners("name");
   }
 
   get description(): string {
@@ -109,7 +109,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     if (this.editCheckpoint) {
       // set the properties, not the instance variables
       this.setDescription(this.editCheckpoint._description);
-      this.name = this.editCheckpoint._name;
+      this.setName(this.editCheckpoint._name);
     }
     this.editCheckpoint = null;
     this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);

@@ -37,7 +37,7 @@ test('editing', () => {
   analysis.setDescription(originalDescription);
   analysis.checkpointEdits();
   expect(analysis.dirty).toBe(false);
-  analysis.name = "new-name";
+  analysis.setName("new-name");
   expect(analysis.dirty).toBe(true);
   analysis.cancelEdits();
   expect(analysis.dirty).toBe(false);
@@ -48,7 +48,7 @@ test('editing', () => {
   analysis.cancelEdits();
   expect(analysis.dirty).toBe(false);
   expect(analysis.description).toBe(originalDescription);
-  analysis.name = "new-name";
+  analysis.setName("new-name");
   analysis.setDescription("new-description");
   analysis.checkpointEdits();
   expect(analysis.dirty).toBe(false);

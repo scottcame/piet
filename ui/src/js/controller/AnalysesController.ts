@@ -246,7 +246,7 @@ export class AnalysesController {
 
   confirmEditAnalysisMetadata(analysisTitle: string, analysisDescription: string): void {
     // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
-    this.currentAnalysis.name = analysisTitle;
+    this.currentAnalysis.setName(analysisTitle);
     if (!analysisDescription || !analysisDescription.trim().length) {
       this.currentAnalysis.setDescription(null);
     } else {
