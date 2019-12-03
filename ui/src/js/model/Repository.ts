@@ -107,18 +107,14 @@ export class LocalRepository implements Repository {
       }
     });
 
-    return new Promise((resolve, _reject) => {
-      Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
-        if (!exists) {
-          console.log("No Piet database found, creating and populating...");
-          this.refreshDatabase().then(() => {
-            resolve();
-          });
-        } else {
-          console.log("Piet database exists, skipping population.");
-          resolve();
-        }
-      });
+    return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
+      if (!exists) {
+        console.log("No Piet database found, creating and populating...");
+        return this.refreshDatabase();
+      } else {
+        console.log("Piet database exists, skipping population.");
+        return;
+      }
     });
 
   }
