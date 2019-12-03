@@ -26,27 +26,30 @@ export class List<T> implements Iterable<T> {
     });
   }
 
-  addAll(items: T[]): number {
+  async addAll(items: T[]): Promise<number> {
     this.a = this.a.concat(items);
-    this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD));
-    return items.length;
+    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD)).then(() => {
+      return items.length;
+    });
   }
 
-  set(items: T[]): number {
+  async set(items: T[]): Promise<number> {
     this.a = [].concat(items);
-    this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD));
-    return this.length;
+    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD)).then(() => {
+      return this.length;
+    });
   }
 
-  setFromList(list: List<T>): number {
+  async setFromList(list: List<T>): Promise<number> {
     return this.set(list.a);
   }
 
-  clear(): number {
+  async clear(): Promise<number> {
     const ret = this.a.length;
     this.a = [];
-    this.notifyListeners(new ListChangeEvent(0, ListChangeEvent.DELETE));
-    return ret;
+    return this.notifyListeners(new ListChangeEvent(0, ListChangeEvent.DELETE)).then(() => {
+      return ret;
+    });
   }
 
   async removeAt(index: number): Promise<T> {
@@ -157,8 +160,4 @@ export interface FilterFunction<T> {
 
 export interface ListChangeEventListener {
   listChanged(event: ListChangeEvent): Promise<void>;
-}
-
-interface ListEventChangeCallback {
-  (event: ListChangeEvent): void;
 }

@@ -24,16 +24,16 @@ test('add all', () => {
   expect(list.get(1)).toBe(20);
 });
 
-test('clear', () => {
+test('clear', async () => {
   list.add(10);
-  const removed = list.clear();
+  const removed = await list.clear();
   expect(list).toHaveLength(0);
   expect(removed).toBe(1);
 });
 
-test('set', () => {
+test('set', async () => {
   list.add(10);
-  const added = list.set([100]);
+  const added = await list.set([100]);
   expect(list).toHaveLength(1);
   expect(added).toBe(1);
   expect(list.get(0)).toBe(100);
