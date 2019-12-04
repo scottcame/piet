@@ -1,23 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Dataset } from '../../src/js/model/Dataset';
-import * as metadata from '../_data/test-metadata.json';
+import { TestData } from '../_data/TestData';
 
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
-const datasets = Dataset.loadFromMetadata(metadata, datasetId);
+const datasets = Dataset.loadFromMetadata(TestData.TEST_METADATA, datasetId);
 
 test('dataset', () => {
   expect(datasets).toHaveLength(2);
   datasets.forEach((dataset: Dataset, idx: number) => {
-    expect(dataset.schemaName).toBe(metadata.name);
+    expect(dataset.schemaName).toBe(TestData.TEST_METADATA.name);
     expect(dataset.id).toBe(datasetId);
-    expect(dataset.name).toBe(metadata.cubes[idx].name);
-    expect(dataset.description).toBe(metadata.cubes[idx].caption);
+    expect(dataset.name).toBe(TestData.TEST_METADATA.cubes[idx].name);
+    expect(dataset.description).toBe(TestData.TEST_METADATA.cubes[idx].caption);
   });
 });
 
 test('measures', () => {
-  metadata.cubes.forEach((mdCube: any, cubeIdx: number): void => {
+  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
     expect(mdCube.measures.length).toBe(datasets[cubeIdx].measures.length);
     mdCube.measures.forEach((_: any, idx: number): void => {
       expect(datasets[cubeIdx].measures[idx].name).toBe(mdCube.measures[idx].name);
@@ -29,7 +29,7 @@ test('measures', () => {
 });
 
 test('dimensions', () => {
-  metadata.cubes.forEach((mdCube: any, cubeIdx: number): void => {
+  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
     expect(mdCube.dimensions.length).toBe(datasets[cubeIdx].dimensions.length);
     mdCube.dimensions.forEach((_: any, idx: number): void => {
       expect(datasets[cubeIdx].dimensions[idx].name).toBe(mdCube.dimensions[idx].name);
@@ -40,7 +40,7 @@ test('dimensions', () => {
 });
 
 test('hierarchies', () => {
-  metadata.cubes.forEach((mdCube: any, cubeIdx: number): void => {
+  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
     //logger.log("Cube: " + datasets[cubeIdx].name);
     mdCube.dimensions.forEach((mdDimension: any, dimensionIdx: number): void => {
       //logger.log("Dimension: " + datasets[cubeIdx].dimensions[dimensionIdx].name);
@@ -52,4 +52,9 @@ test('hierarchies', () => {
       });
     });
   });
+});
+
+test('big', () => {
+  const md = TestData.FOODMART_METADATA;
+  expect(md).not.toBeNull();
 });

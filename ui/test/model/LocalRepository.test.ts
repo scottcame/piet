@@ -4,8 +4,6 @@ import { Analysis } from "../../src/js/model/Analysis";
 
 const repo: LocalRepository = new LocalRepository();
 
-/* eslint-disable jest/no-focused-tests */
-
 test('local repository browse', async () => {
   await repo.init().then(async () => {
     expect(repo).not.toBeNull();

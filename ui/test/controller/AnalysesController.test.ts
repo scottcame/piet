@@ -150,8 +150,6 @@ test('workspace persistence', async () => {
 
 });
 
-/* eslint-disable jest/no-focused-tests */
-
 test('Basic browse', async () => {
   await controller.browseAnalyses().then(async () => {
     expect(viewProperties.showBrowseAnalysisModal).toBe(true);

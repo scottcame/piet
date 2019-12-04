@@ -1,11 +1,12 @@
 import { TreeModelContainerNode, TreeModelLeafNode } from '../../../src/js/ui/model/Tree';
 
 import { Dataset } from '../../../src/js/model/Dataset';
-import * as metadata from '../../_data/test-metadata.json';
 import { DatasetAdapterFactory } from '../../../src/js/ui/adapters/DatasetAdapterFactory';
+import { TestData } from '../../_data/TestData';
 
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
-const datasets = Dataset.loadFromMetadata(metadata, datasetId);
+const datasets = Dataset.loadFromMetadata(TestData.TEST_METADATA, datasetId);
+
 test('tree model', () => {
   const ds = datasets[0];
   const rootTreeModelNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(ds);
