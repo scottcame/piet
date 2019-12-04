@@ -38,7 +38,7 @@
 
   // note that models (dropdown models, table models, tree nodes, etc.) manage their own reactive properties with their own (explicit or implicit) controllers
 
-  controller.init();
+  let initPromise = controller.init();
 
   export const navBarController = {
     handleNewAnalysis: function(e) {
@@ -51,6 +51,9 @@
 
 </script>
 
+{#await initPromise}
+<div></div>
+{:then _x}
 <div class="w-full mt-24 text-center {viewProperties.analysesInWorkspace ? 'hidden' : ''}">
   No analyses in workspace. Choose "New" or "Browse" from analyses menu above to bring analyses into your workspace.
 </div>
@@ -145,3 +148,4 @@
     </div>
   </div>
 </Modal>
+{/await}

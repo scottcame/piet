@@ -13,15 +13,17 @@ test('model initialization', () => {
   expect(workspace.analyses.length).toBe(0);
 });
 
-test('minimizing workspace saves', () => {
+/* eslint-disable jest/no-focused-tests */
+
+test('minimizing workspace saves', async () => {
   const mock = new MockRepository();
   mock.init();
   expect(mock.init).toHaveBeenCalledTimes(1);
-  mock.workspace.analyses.add(new Analysis(null, "Analysis 1"));
+  await mock.workspace.analyses.add(new Analysis(null, "Analysis 1"));
   expect(mock.saveWorkspace).toHaveBeenCalledTimes(1);
   mock.saveWorkspace.mockClear();
   mock.workspace.autosaveChanges = false;
-  mock.workspace.analyses.add(new Analysis(null, "Analysis 2"));
+  await mock.workspace.analyses.add(new Analysis(null, "Analysis 2"));
   expect(mock.saveWorkspace).toHaveBeenCalledTimes(0);
   const a: Analysis = mock.workspace.analyses.get(1);
   expect(a.name).toBe("Analysis 2");

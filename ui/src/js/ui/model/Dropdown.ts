@@ -1,4 +1,4 @@
-import { List, ListChangeEvent } from "../../collections/List";
+import { List, ListChangeEvent, ListChangeEventType } from "../../collections/List";
 import { Observable, DefaultObservableChangeEventListener } from "../../util/Observable";
 import { Editable, EditEventListener, EditEvent, PropertyEditEvent } from "../../model/Persistence";
 
@@ -46,7 +46,7 @@ export class DropdownModel<T extends Editable> {
 
     this.items.addChangeEventListener({
       async listChanged(e: ListChangeEvent): Promise<void> {
-        if (e.type === ListChangeEvent.DELETE) {
+        if (e.type === ListChangeEventType.DELETE) {
           if (self.priorIndexStack.indexOf(e.index) !== -1) {
             self.priorIndexStack.splice(self.priorIndexStack.indexOf(e.index), 1);
           }
@@ -69,10 +69,13 @@ export class DropdownModel<T extends Editable> {
               self._selectedIndex.value =  self.priorIndexStack.pop();
             }
           }
-        } else if (e.type === ListChangeEvent.ADD) {
+        } else if (e.type === ListChangeEventType.ADD) {
           self._selectedIndex.value = e.index === -1 ? null : e.index;
         }
         self.updateLabels();
+        return;
+      },
+      listWillChange(_event: ListChangeEvent): Promise<void> {
         return;
       }
     });
@@ -106,9 +109,9 @@ export class DropdownModel<T extends Editable> {
     return this.items.get(index);
   }
 
-  removeSelectedItem(): DropdownModel<T> {
+  async removeSelectedItem(): Promise<DropdownModel<T>> {
     if (this._selectedIndex.value !== null) {
-      this.items.removeAt(this._selectedIndex.value);
+      await this.items.removeAt(this._selectedIndex.value);
     }
     return this;
   }

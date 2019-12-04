@@ -1,14 +1,21 @@
-import { Editable, EditEventListener } from "./Persistence";
+import { Editable, EditEventListener, Cloneable } from "./Persistence";
 
 abstract class MetadataObject {
   name: string;
   description: string;
 }
 
-export class Measure extends MetadataObject {
+export class Measure extends MetadataObject implements Cloneable<Measure> {
 
   visible: boolean;
   calculated: boolean;
+
+  clone(): Measure {
+    const ret = new Measure();
+    ret.visible = this.visible;
+    ret.calculated = this.calculated;
+    return ret;
+  }
 
 }
 

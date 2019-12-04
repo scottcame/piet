@@ -15,23 +15,27 @@ export class AnalysisAdapterFactory {
     return AnalysisAdapterFactory.instance;
   }
 
-  getTableModel(analyses: List<Analysis>, excludedAnalyses = new List<Analysis>()): TableModel<Analysis> {
+  async getTableModel(analyses: List<Analysis>, excludedAnalyses = new List<Analysis>()): Promise<TableModel<Analysis>> {
 
     const rowList: List<TableRow<Analysis>> = new List();
     const columnHeaders = ["Name", "Description"];
 
-    AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+    await AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
 
     analyses.addChangeEventListener({
       listChanged(_event: ListChangeEvent): Promise<void> {
-        AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+        return AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+      },
+      listWillChange(_event: ListChangeEvent): Promise<void> {
         return;
       }
     });
 
     excludedAnalyses.addChangeEventListener({
       listChanged(_event: ListChangeEvent): Promise<void> {
-        AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+        return AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
+      },
+      listWillChange(_event: ListChangeEvent): Promise<void> {
         return;
       }
     });
@@ -40,7 +44,7 @@ export class AnalysisAdapterFactory {
 
   }
 
-  private static mapAnalysesToRows(analyses: List<Analysis>, rowList: List<TableRow<Analysis>>, excludedAnalyses: List<Analysis>): void {
+  private static async mapAnalysesToRows(analyses: List<Analysis>, rowList: List<TableRow<Analysis>>, excludedAnalyses: List<Analysis>): Promise<void> {
     const newRows: TableRow<Analysis>[] = [];
     analyses.filter((item: Analysis): boolean => {
       let ret = true;
@@ -51,7 +55,9 @@ export class AnalysisAdapterFactory {
     }).forEach((analysis: Analysis) => {
       newRows.push(new AnalysisTableRow(analysis));
     });
-    rowList.set(newRows);
+    return rowList.set(newRows).then(_index => {
+      return;
+    });
   }
 
 }

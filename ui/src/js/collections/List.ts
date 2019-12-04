@@ -1,17 +1,29 @@
+import { Cloneable } from "../model/Persistence";
+
 export class ListChangeEvent {
-  static readonly ADD = "add";
-  static readonly DELETE = "delete";
   readonly index: number;
-  readonly type: string;
-  constructor(index: number, type: string) {
+  readonly type: ListChangeEventType;
+  readonly timing: ListChangeEventTiming;
+  constructor(index: number, type: ListChangeEventType, timing: ListChangeEventTiming) {
     this.index = index;
     this.type = type;
+    this.timing = timing;
   }
+}
+
+export enum ListChangeEventType {
+  ADD = "add",
+  DELETE = "delete"
+}
+
+export enum ListChangeEventTiming {
+  PRE = "pre",
+  POST = "post"
 }
 
 export class List<T> implements Iterable<T> {
 
-  private a: T[];
+  protected a: T[];
   private changeListeners: ListChangeEventListener[];
 
   constructor() {
@@ -20,23 +32,29 @@ export class List<T> implements Iterable<T> {
   }
 
   async add(item: T): Promise<T> {
-    this.a.push(item);
-    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD)).then(() => {
-      return item;
+    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEventType.ADD, ListChangeEventTiming.PRE)).then(async () => {
+      this.a.push(item);
+      return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEventType.ADD, ListChangeEventTiming.POST)).then(() => {
+        return item;
+      });
     });
   }
 
   async addAll(items: T[]): Promise<number> {
-    this.a = this.a.concat(items);
-    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD)).then(() => {
-      return items.length;
+    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEventType.ADD, ListChangeEventTiming.PRE)).then(async () => {
+      this.a = this.a.concat(items);
+      return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEventType.ADD, ListChangeEventTiming.POST)).then(() => {
+        return items.length;
+      });
     });
   }
 
   async set(items: T[]): Promise<number> {
-    this.a = [].concat(items);
-    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEvent.ADD)).then(() => {
-      return this.length;
+    return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEventType.ADD, ListChangeEventTiming.PRE)).then(async () => {
+      this.a = [].concat(items);
+      return this.notifyListeners(new ListChangeEvent(this.a.length-1, ListChangeEventType.ADD, ListChangeEventTiming.POST)).then(() => {
+        return this.length;
+      });
     });
   }
 
@@ -46,17 +64,21 @@ export class List<T> implements Iterable<T> {
 
   async clear(): Promise<number> {
     const ret = this.a.length;
-    this.a = [];
-    return this.notifyListeners(new ListChangeEvent(0, ListChangeEvent.DELETE)).then(() => {
-      return ret;
+    return this.notifyListeners(new ListChangeEvent(0, ListChangeEventType.DELETE, ListChangeEventTiming.PRE)).then(async () => {
+      this.a = [];
+      return this.notifyListeners(new ListChangeEvent(0, ListChangeEventType.DELETE, ListChangeEventTiming.POST)).then(() => {
+        return ret;
+      });
     });
   }
 
   async removeAt(index: number): Promise<T> {
     const ret = this.a[index];
-    this.a.splice(index, 1);
-    return this.notifyListeners(new ListChangeEvent(index, ListChangeEvent.DELETE)).then(() => {
-      return ret;
+    return this.notifyListeners(new ListChangeEvent(index, ListChangeEventType.DELETE, ListChangeEventTiming.PRE)).then(async () => {
+      this.a.splice(index, 1);
+      return this.notifyListeners(new ListChangeEvent(index, ListChangeEventType.DELETE, ListChangeEventTiming.POST)).then(() => {
+        return ret;
+      });
     });
   }
 
@@ -74,12 +96,17 @@ export class List<T> implements Iterable<T> {
     });
   }
 
-  map(f: MapFunction<T>): List<T> {
+  async map(f: MapFunction<T>): Promise<List<T>> {
     const ret  = new List<T>();
-    this.a.forEach((item: T, index: number): void => {
-      ret.add(f(item, index));
+    const promises: Promise<void>[] = [];
+    this.a.forEach(async (item: T, index: number): Promise<void> => {
+      promises.push(ret.add(f(item, index)).then(() => {
+        return;
+      }));
     });
-    return ret;
+    return Promise.all(promises).then(() => {
+      return ret;
+    });
   }
 
   filter(f: FilterFunction<T>): List<T> {
@@ -139,7 +166,7 @@ export class List<T> implements Iterable<T> {
   private async notifyListeners(event: ListChangeEvent): Promise<void> {
     const promises: Promise<void>[] = [];
     this.changeListeners.forEach((listener: ListChangeEventListener) => {
-      promises.push(listener.listChanged(event));
+      promises.push(event.timing === ListChangeEventTiming.POST ? listener.listChanged(event) : listener.listWillChange(event));
     });
     return Promise.all(promises).then();
   }
@@ -159,5 +186,16 @@ export interface FilterFunction<T> {
 }
 
 export interface ListChangeEventListener {
+  listWillChange(event: ListChangeEvent): Promise<void>;
   listChanged(event: ListChangeEvent): Promise<void>;
+}
+
+export class CloneableList<T extends Cloneable<T>> extends List<T> implements Cloneable<List<T>> {
+  clone(): CloneableList<T> {
+    const ret = new CloneableList<T>();
+    ret.a = this.a.map((item: T): T => {
+      return item.clone();
+    });
+    return ret;
+  }
 }

@@ -23,6 +23,9 @@ export class TableModel<T> {
         self.notifyListeners(new TableChangeEvent());
         self.rowCount.value = rowList.length;
         return;
+      },
+      listWillChange(_e: ListChangeEvent): Promise<void> {
+        return;
       }
     });
 

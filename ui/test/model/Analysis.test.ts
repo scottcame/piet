@@ -1,6 +1,6 @@
 import { LocalRepository } from "../../src/js/model/Repository";
 import { Analysis } from "../../src/js/model/Analysis";
-import { Dataset } from "../../src/js/model/Dataset";
+import { Dataset, Measure } from "../../src/js/model/Dataset";
 import { List } from "../../src/js/collections/List";
 
 let repository: LocalRepository;
@@ -12,7 +12,7 @@ beforeEach(async () => {
   datasets = repository.browseDatasets();
 });
 
-test('persistence', () => {
+test('persistence', async () => {
   const analysis = new Analysis(datasets.get(0), "test-name");
   analysis.setDescription("test-description");
   const serializedAnalysis = analysis.serialize(repository);
@@ -24,7 +24,7 @@ test('persistence', () => {
     name: 'test-name',
     description: 'test-description'
   });
-  const deserializedAnalysis = new Analysis().deserialize(serializedAnalysis, repository);
+  const deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
   expect(deserializedAnalysis.name).toBe(analysis.name);
   expect(deserializedAnalysis.description).toBe(analysis.description);
   expect(deserializedAnalysis.id).toBeUndefined();
@@ -54,4 +54,17 @@ test('editing', () => {
   expect(analysis.dirty).toBe(false);
   expect(analysis.name).toBe("new-name");
   expect(analysis.description).toBe("new-description");
+});
+
+test('measures', async () => {
+  const analysis = new Analysis(datasets.get(0), "test-name");
+  expect(analysis.query).not.toBeNull();
+  expect(analysis.query.measures).toHaveLength(0);
+  await analysis.query.measures.add(new Measure()).then(async () => {
+    expect(analysis.query.measures).toHaveLength(1);
+    expect(analysis.dirty).toBe(true);
+    await analysis.cancelEdits().then(() => {
+      expect(analysis.query.measures).toHaveLength(0);
+    });
+  });
 });

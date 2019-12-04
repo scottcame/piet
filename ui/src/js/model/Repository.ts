@@ -95,9 +95,9 @@ export class LocalRepository implements Repository {
       // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
       if (exists) {
         console.log("Restoring workspace...");
-        await this.workspaceDb.workspaces.toArray().then(workspaces => {
+        await this.workspaceDb.workspaces.toArray().then(async workspaces => {
           if (workspaces[0]) {
-            const savedWorkspace = new Workspace(this, false).deserialize(workspaces[0], this);
+            const savedWorkspace = await new Workspace(this, false).deserialize(workspaces[0], this);
             console.log("...restored " + savedWorkspace.analyses.length + " analyses");
             this._workspace.autosaveChanges = false;
             this._workspace.analyses.setFromList(savedWorkspace.analyses);
@@ -161,13 +161,17 @@ export class LocalRepository implements Repository {
   }
 
   async browseAnalyses(): Promise<List<Analysis>> {
-    this._analyses.clear();
-    return this.db.analyses.toArray().then(dbAnalyses => {
-      const analyses: Analysis[] = dbAnalyses.map((dbAnalysis) => {
-        return new Analysis().deserialize(dbAnalysis, this);
+    await this._analyses.clear();
+    return this.db.analyses.toArray().then(async dbAnalyses => {
+      const promises: Promise<Analysis>[] = [];
+      dbAnalyses.forEach(dbAnalysis => {
+        promises.push(new Analysis().deserialize(dbAnalysis, this));
       });
-      this._analyses.set(analyses);
-      return this._analyses;
+      return Promise.all(promises).then(analyses => {
+        return this._analyses.set(analyses).then(() => {
+          return this._analyses;
+        });
+      });
     });
   }
 

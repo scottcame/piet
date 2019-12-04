@@ -36,19 +36,19 @@ test('rows', () => {
   expect(tableModel.getRowAt(1).getValueAt(1)).toBe("r1c1");
 });
 
-test('events', () => {
+test('events', async () => {
   const tableListener = new TestTableChangeEventListener();
   tableModel.addTableChangeEventListener(tableListener);
   const rowCountListener = new TestObservableChangeEventListener();
   tableModel.getRowCount().addChangeEventListener(rowCountListener);
-  tableRows.add(new TestTableRow(["r2c0","r2c1"]));
+  await tableRows.add(new TestTableRow(["r2c0","r2c1"]));
   expect(rowCountListener.f).toHaveBeenCalledTimes(1);
   expect(rowCountListener.event.oldValue).toBe(2);
   expect(rowCountListener.event.newValue).toBe(3);
   expect(tableListener.f).toHaveBeenCalledTimes(1);
   tableListener.f.mockClear();
   rowCountListener.f.mockClear();
-  tableRows.removeAt(0);
+  await tableRows.removeAt(0);
   expect(rowCountListener.f).toHaveBeenCalledTimes(1);
   expect(rowCountListener.event.oldValue).toBe(3);
   expect(rowCountListener.event.newValue).toBe(2);

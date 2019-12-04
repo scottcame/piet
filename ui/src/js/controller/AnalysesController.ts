@@ -63,21 +63,26 @@ export class AnalysesController {
     this.currentAnalysisEditListener = new CurrentAnalysisEditListener(this, viewPropertyUpdater);
   }
 
-  init(): Promise<void> {
-    return new Promise((resolve, _reject) => {
+  async init(): Promise<void> {
 
-      this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
-      this.datasets = this.repository.browseDatasets(); // todo: this will have to change when browse returns a promise (i.e. datasets aren't statically populated)
-      this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
-      this.browseAnalysesTableModel = AnalysisAdapterFactory.getInstance().getTableModel(this.repository.analyses, this.workspace.analyses);
+    this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
+    this.datasets = this.repository.browseDatasets(); // todo: this will have to change when browse returns a promise (i.e. datasets aren't statically populated)
+    this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
 
+    /* eslint-disable @typescript-eslint/no-this-alias */
+    const self = this;
+
+    return AnalysisAdapterFactory.getInstance().getTableModel(this.repository.analyses, this.workspace.analyses).then(tableModel => {
+
+      this.browseAnalysesTableModel = tableModel;
       this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
 
-      /* eslint-disable @typescript-eslint/no-this-alias */
-      const self = this;
       this.workspace.analyses.addChangeEventListener({
         listChanged(_event: ListChangeEvent): Promise<void> {
           self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
+          return;
+        },
+        listWillChange(_event: ListChangeEvent): Promise<void> {
           return;
         }
       });
@@ -88,9 +93,8 @@ export class AnalysesController {
         this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
       }));
 
-      resolve();
-
     });
+
   }
 
   updateCancelEditsMenuItem(): void {

@@ -40,14 +40,19 @@ export class Workspace implements Serializable<Workspace> {
     };
   }
 
-  deserialize(o: any, repository: Repository): Workspace {
+  async deserialize(o: any, repository: Repository): Promise<Workspace> {
     const ret = new Workspace(repository);
     ret.workspaceChangeListener.emitNotifications = false;
+    const promises: Promise<Analysis>[] = [];
     o.analyses.forEach((analysis: any): void => {
-      ret.analyses.add(new Analysis().deserialize(analysis, repository));
+      new Analysis().deserialize(analysis, repository).then(analysis => {
+        promises.push(ret.analyses.add(analysis));
+      });
     });
-    ret.workspaceChangeListener.emitNotifications = true;
-    return ret;
+    return Promise.all(promises).then(() => {
+      ret.workspaceChangeListener.emitNotifications = true;
+      return ret;
+    });
   }
 
 }
@@ -63,23 +68,26 @@ class WorkspaceChangeListener implements ListChangeEventListener, EditEventListe
     if (this.emitNotifications) {
       return this.repository.saveWorkspace();
     }
+    return;
   }
   notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
     if (this.emitNotifications) {
       return this.repository.saveWorkspace();
     }
+    return;
   }
   listChanged(_event: ListChangeEvent): Promise<void> {
     let ret: Promise<void> = null;
     if (this.emitNotifications) {
       ret = this.repository.saveWorkspace();
-    } else {
-      ret = new Promise<void>(() => {});
     }
     this.repository.workspace.analyses.forEach((analysis: Analysis): void => {
       analysis.removeEditEventListener(this);
       analysis.addEditEventListener(this);
     });
     return ret;
+  }
+  listWillChange(_event: ListChangeEvent): Promise<void> {
+    return;
   }
 }

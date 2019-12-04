@@ -1,4 +1,5 @@
-import { List, ListChangeEventListener, ListChangeEvent } from '../../src/js/collections/List';
+import { List, ListChangeEventListener, ListChangeEvent, CloneableList, ListChangeEventType } from '../../src/js/collections/List';
+import { Cloneable } from '../../src/js/model/Persistence';
 
 let list: List<number>;
 
@@ -12,27 +13,29 @@ test('init', () => {
 });
 
 test('add', () => {
-  list.add(10);
-  expect(list).toHaveLength(1);
-  expect(list.get(0)).toBe(10);
+  return list.add(10).then(() => {
+    expect(list).toHaveLength(1);
+    expect(list.get(0)).toBe(10);
+  });
 });
 
 test('add all', () => {
-  list.addAll([10,20,30]);
-  expect(list).toHaveLength(3);
-  expect(list.get(0)).toBe(10);
-  expect(list.get(1)).toBe(20);
+  return list.addAll([10,20,30]).then(() => {
+    expect(list).toHaveLength(3);
+    expect(list.get(0)).toBe(10);
+    expect(list.get(1)).toBe(20);
+  });
 });
 
 test('clear', async () => {
-  list.add(10);
+  await list.add(10); // different style of async/await...
   const removed = await list.clear();
   expect(list).toHaveLength(0);
   expect(removed).toBe(1);
 });
 
 test('set', async () => {
-  list.add(10);
+  await list.add(10);
   const added = await list.set([100]);
   expect(list).toHaveLength(1);
   expect(added).toBe(1);
@@ -40,7 +43,7 @@ test('set', async () => {
 });
 
 test('remove at', async () => {
-  list.addAll([10,20,30]);
+  await list.addAll([10,20,30]);
   const removed = await list.removeAt(1);
   expect(removed).toBe(20);
   expect(list).toHaveLength(2);
@@ -61,9 +64,9 @@ test('get at nonexistent index', () => {
   }).not.toThrow();
 });
 
-test('for each', () => {
+test('for each', async () => {
   const vals = [10,20,30];
-  list.addAll(vals);
+  await list.addAll(vals);
   const f = jest.fn();
   list.forEach(f);
   expect(f).toHaveBeenCalledTimes(3);
@@ -72,13 +75,13 @@ test('for each', () => {
   });
 });
 
-test('map', () => {
+test('map', async () => {
   const vals = [10,20,30];
-  list.addAll(vals);
+  await list.addAll(vals);
   const f = jest.fn((val, _idx) => {
     return val;
-  });
-  const ret = list.map(f);
+  }); 
+  const ret = await list.map(f);
   expect(f).toHaveBeenCalledTimes(3);
   vals.forEach((val, idx) => {
     expect(f).toHaveBeenNthCalledWith(idx+1, val, idx);
@@ -89,32 +92,39 @@ test('map', () => {
 class TestListChangeEventListener implements ListChangeEventListener {
   event: ListChangeEvent;
   /* eslint-disable @typescript-eslint/no-explicit-any */
-  f: any;
+  fpost: any;
+  fpre: any;
   constructor() {
-    this.f = jest.fn();
+    this.fpost = jest.fn();
+    this.fpre = jest.fn();
   }
   listChanged(event: ListChangeEvent): Promise<void> {
     this.event = event;
-    this.f();
+    this.fpost();
+    return;
+  }
+  listWillChange(event: ListChangeEvent): Promise<void> {
+    this.event = event;
+    this.fpre();
     return;
   }
 }
 
-test('observation', () => {
+test('observation', async () => {
   const testListener = new TestListChangeEventListener();
   list.addChangeEventListener(testListener);
-  list.add(1);
-  expect(testListener.f).toHaveBeenCalledTimes(1);
-  expect(testListener.event.type).toBe(ListChangeEvent.ADD);
+  await list.add(1);
+  expect(testListener.fpost).toHaveBeenCalledTimes(1);
+  expect(testListener.event.type).toBe(ListChangeEventType.ADD);
   expect(testListener.event.index).toBe(0);
   list.removeChangeEventListener(testListener);
-  testListener.f.mockClear();
-  list.add(1);
-  expect(testListener.f).not.toHaveBeenCalled();
+  testListener.fpost.mockClear();
+  await list.add(1);
+  expect(testListener.fpost).not.toHaveBeenCalled();
   list.addChangeEventListener(testListener);
-  list.removeAt(0);
-  expect(testListener.f).toHaveBeenCalledTimes(1);
-  expect(testListener.event.type).toBe(ListChangeEvent.DELETE);
+  await list.removeAt(0);
+  expect(testListener.fpost).toHaveBeenCalledTimes(1);
+  expect(testListener.event.type).toBe(ListChangeEventType.DELETE);
   expect(testListener.event.index).toBe(0);
 });
 
@@ -131,14 +141,16 @@ test('iteration', () => {
 
 });
 
-test('filter', () => {
+test('filter', async () => {
   let filteredList = list.filter((item: number): boolean => {
     return item > 1;
   });
   expect(filteredList).toHaveLength(0);
-  list.add(1);
-  list.add(2);
-  list.add(3);
+  await Promise.all([
+    list.add(1),
+    list.add(2),
+    list.add(3)
+  ]);
   filteredList = list.filter((item: number): boolean => {
     return item > 1;
   });
@@ -147,3 +159,24 @@ test('filter', () => {
   expect(filteredList.includes(2)).toBe(true);
   expect(filteredList.includes(3)).toBe(true);
 });
+
+test('cloneable', async () => {
+  const list: CloneableList<CloneableString> = new CloneableList();
+  await list.add(new CloneableString("foo"));
+  const list2 = list.clone();
+  expect(Object.is(list, list2)).toBe(false);
+  expect(Object.is(list.get(0), list2.get(0))).toBe(false);
+  expect(list.get(0).s).toEqual(list2.get(0).s);
+});
+
+class CloneableString implements Cloneable<CloneableString> {
+  s: string;
+  constructor(s: string = null) {
+    this.s = s;
+  }
+  clone(): CloneableString {
+    const ret = new CloneableString();
+    ret.s = this.s;
+    return ret;
+  }
+}

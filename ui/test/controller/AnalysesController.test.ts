@@ -75,17 +75,18 @@ test('correct dataset root tree node', async () => {
   await controller.chooseNewAnalysisDataset().then(async () => {
     controller.newAnalysis();
     controller.datasetsDropdownModel.selectedIndex.value = 1;
-    await controller.chooseNewAnalysisDataset().then(() => {
+    await controller.chooseNewAnalysisDataset().then(async () => {
       expect(workspace.analyses).toHaveLength(2);
       expect(workspace.analyses.get(0).dataset).toBe(datasets.get(0));
       expect(workspace.analyses.get(1).dataset).toBe(datasets.get(1));
       expect(controller.analysesDropdownModel.selectedIndex.value).toBe(1);
       controller.analysesDropdownModel.selectedIndex.value = 0;
-      controller.closeCurrentAnalysis();
-      expect(workspace.analyses).toHaveLength(1);
-      controller.analysesDropdownModel.selectedIndex.value = 0;
-      expect(workspace.analyses.get(0).dataset).toBe(datasets.get(1));
-      expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets.get(1).label));
+      await controller.closeCurrentAnalysis().then(() => {
+        expect(workspace.analyses).toHaveLength(1);
+        controller.analysesDropdownModel.selectedIndex.value = 0;
+        expect(workspace.analyses.get(0).dataset).toBe(datasets.get(1));
+        expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets.get(1).label));
+      });
     });
   });
 });
@@ -96,22 +97,23 @@ test('close analysis', async () => {
   controller.datasetsDropdownModel.selectedIndex.value = 0;
   await controller.chooseNewAnalysisDataset().then(async () => {
     expect(workspace.analyses).toHaveLength(1);
-    controller.closeCurrentAnalysis();
-    expect(workspace.analyses).toHaveLength(0);
-    expect(viewProperties.analysesInWorkspace).toBe(0);
-    controller.newAnalysis();
-    controller.datasetsDropdownModel.selectedIndex.value = 0;
-    await controller.chooseNewAnalysisDataset().then(async () => {
+    await controller.closeCurrentAnalysis().then(async () => {
+      expect(workspace.analyses).toHaveLength(0);
+      expect(viewProperties.analysesInWorkspace).toBe(0);
       controller.newAnalysis();
       controller.datasetsDropdownModel.selectedIndex.value = 0;
-      await controller.chooseNewAnalysisDataset().then(() => {
-        expect(workspace.analyses).toHaveLength(2);
-        controller.analysesDropdownModel.selectedIndex.value = 0;
-        controller.closeCurrentAnalysis();
-        expect(workspace.analyses).toHaveLength(1);
-        expect(controller.analysesDropdownModel.selectedIndex.value).toBe(0);
+      await controller.chooseNewAnalysisDataset().then(async () => {
+        controller.newAnalysis();
+        controller.datasetsDropdownModel.selectedIndex.value = 0;
+        await controller.chooseNewAnalysisDataset().then(async () => {
+          expect(workspace.analyses).toHaveLength(2);
+          controller.analysesDropdownModel.selectedIndex.value = 0;
+          await controller.closeCurrentAnalysis();
+          expect(workspace.analyses).toHaveLength(1);
+          expect(controller.analysesDropdownModel.selectedIndex.value).toBe(0);
+        });
       });
-    });
+      });
   });
 });
 
@@ -141,7 +143,7 @@ test('workspace persistence', async () => {
       expect(controller.currentAnalysis.dirty).toBe(true);
       await controller.saveCurrentAnalysis().then(async () => {
         expect(repository.workspace.analyses.get(0).description).toEqual('A description...');
-        return repository.getPersistedWorkspace().then((w: Workspace) => {
+        return repository.getPersistedWorkspace().then((w: Workspace) => { 
           expect(w.analyses.get(0).description).toEqual('A description...');
         });
       });

@@ -8,7 +8,7 @@ export interface Identifiable {
 
 export interface Serializable<T> {
   serialize(repository: Repository): any;
-  deserialize(o: any, repository: Repository): T;
+  deserialize(o: any, repository: Repository): Promise<T>;
 }
 
 export interface Editable {
@@ -41,4 +41,8 @@ export class PropertyEditEvent {
 export interface EditEventListener {
   notifyEdit(event: EditEvent): Promise<void>;
   notifyPropertyEdit(event: PropertyEditEvent): Promise<void>;
+}
+
+export interface Cloneable<T> {
+  clone(): T;
 }
