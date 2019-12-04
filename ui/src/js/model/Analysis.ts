@@ -1,4 +1,4 @@
-import { Dataset, Measure } from "./Dataset";
+import { Dataset, Measure, Hierarchy, MetadataObject } from "./Dataset";
 import { Identifiable, Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent, Cloneable } from "./Persistence";
 import { Repository } from "./Repository";
 import { ListChangeEventListener, ListChangeEvent, List, CloneableList } from "../collections/List";
@@ -164,28 +164,37 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 export class Query implements Cloneable<Query> {
 
   private _measures: CloneableList<Measure>;
+  private _hierarchies: CloneableList<Hierarchy>;
   private _parentListener: QueryComponentListChangeEventListener;
 
   constructor() {
     this._measures = new CloneableList();
+    this._hierarchies = new CloneableList();
     this._parentListener = null;
   }
 
   set componentListChangeEventListener(listener: QueryComponentListChangeEventListener) {
-    if (this._parentListener !== null) {
-      this._measures.removeChangeEventListener(this._parentListener);
-    }
+    [this._measures, this._hierarchies].forEach((list: CloneableList<Cloneable<MetadataObject>>): void => {
+      if (this._parentListener !== null) {
+        list.removeChangeEventListener(this._parentListener);
+      }
+      list.addChangeEventListener(listener);
+    });
     this._parentListener = listener;
-    this._measures.addChangeEventListener(listener);
   }
 
   get measures(): List<Measure> {
     return this._measures;
   }
 
+  get hierarchies(): List<Hierarchy> {
+    return this._hierarchies;
+  }
+
   clone(): Query {
     const ret = new Query();
     ret._measures = this._measures.clone();
+    ret._hierarchies = this._hierarchies.clone();
     return ret;
   }
 

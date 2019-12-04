@@ -1,8 +1,9 @@
 import { Editable, EditEventListener, Cloneable } from "./Persistence";
 
-abstract class MetadataObject {
+export abstract class MetadataObject implements Cloneable<MetadataObject> {
   name: string;
   description: string;
+  abstract clone(): MetadataObject;
 }
 
 export class Measure extends MetadataObject implements Cloneable<Measure> {

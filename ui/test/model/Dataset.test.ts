@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Dataset } from '../../src/js/model/Dataset';
+import { Dataset, Measure, Dimension } from '../../src/js/model/Dataset';
 import * as metadata from '../_data/test-metadata.json';
 
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
@@ -50,6 +50,19 @@ test('hierarchies', () => {
         expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].name);
         expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].caption);
       });
+    });
+  });
+});
+
+test('cloning', () => {
+  datasets.forEach((d: Dataset): void => {
+    d.measures.forEach((m: Measure): void => {
+      expect(m).toStrictEqual(m.clone());
+    });
+  });
+  datasets.forEach((d: Dataset): void => {
+    d.dimensions.forEach((dim: Dimension): void => {
+      expect(dim).toStrictEqual(dim.clone());
     });
   });
 });

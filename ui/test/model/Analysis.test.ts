@@ -1,6 +1,6 @@
 import { LocalRepository } from "../../src/js/model/Repository";
 import { Analysis } from "../../src/js/model/Analysis";
-import { Dataset, Measure, Dimension } from "../../src/js/model/Dataset";
+import { Dataset, Measure, Hierarchy } from "../../src/js/model/Dataset";
 import { List } from "../../src/js/collections/List";
 
 let repository: LocalRepository;
@@ -56,7 +56,7 @@ test('editing', () => {
   expect(analysis.description).toBe("new-description");
 });
 
-test('measures', async () => {
+test('query measures', async () => {
   const analysis = new Analysis(datasets.get(0), "test-name");
   expect(analysis.query).not.toBeNull();
   expect(analysis.query.measures).toHaveLength(0);
@@ -69,15 +69,14 @@ test('measures', async () => {
   });
 });
 
-test('cloning', () => {
-  datasets.forEach((d: Dataset): void => {
-    d.measures.forEach((m: Measure): void => {
-      expect(m).toStrictEqual(m.clone());
-    });
-  });
-  datasets.forEach((d: Dataset): void => {
-    d.dimensions.forEach((dim: Dimension): void => {
-      expect(dim).toStrictEqual(dim.clone());
+test('query hierarchies', async () => {
+  const analysis = new Analysis(datasets.get(0), "test-name");
+  expect(analysis.query.hierarchies).toHaveLength(0);
+  await analysis.query.hierarchies.add(new Hierarchy(datasets.get(0).dimensions[0])).then(async () => {
+    expect(analysis.query.hierarchies).toHaveLength(1);
+    expect(analysis.dirty).toBe(true);
+    await analysis.cancelEdits().then(() => {
+      expect(analysis.query.hierarchies).toHaveLength(0);
     });
   });
 });
