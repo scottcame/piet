@@ -1,6 +1,6 @@
 import { LocalRepository } from "../../src/js/model/Repository";
 import { Analysis } from "../../src/js/model/Analysis";
-import { Dataset, Measure } from "../../src/js/model/Dataset";
+import { Dataset, Measure, Dimension } from "../../src/js/model/Dataset";
 import { List } from "../../src/js/collections/List";
 
 let repository: LocalRepository;
@@ -65,6 +65,19 @@ test('measures', async () => {
     expect(analysis.dirty).toBe(true);
     await analysis.cancelEdits().then(() => {
       expect(analysis.query.measures).toHaveLength(0);
+    });
+  });
+});
+
+test('cloning', () => {
+  datasets.forEach((d: Dataset): void => {
+    d.measures.forEach((m: Measure): void => {
+      expect(m).toStrictEqual(m.clone());
+    });
+  });
+  datasets.forEach((d: Dataset): void => {
+    d.dimensions.forEach((dim: Dimension): void => {
+      expect(dim).toStrictEqual(dim.clone());
     });
   });
 });
