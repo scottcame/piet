@@ -1,0 +1,540 @@
+{
+  "cells": [
+    {
+      "formattedValue": "23,112",
+      "value": 23112.0,
+      "ordinal": 0,
+      "coordinates": [
+        0,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "16,418",
+      "value": 16418.0,
+      "ordinal": 1,
+      "coordinates": [
+        1,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 2,
+      "coordinates": [
+        2,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 3,
+      "coordinates": [
+        3,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "34,452",
+      "value": 34452.0,
+      "ordinal": 4,
+      "coordinates": [
+        4,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "27,463",
+      "value": 27463.0,
+      "ordinal": 5,
+      "coordinates": [
+        5,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 6,
+      "coordinates": [
+        6,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 7,
+      "coordinates": [
+        7,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 8,
+      "coordinates": [
+        8,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 9,
+      "coordinates": [
+        9,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "61,381",
+      "value": 61381.0,
+      "ordinal": 10,
+      "coordinates": [
+        0,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "42,079",
+      "value": 42079.0,
+      "ordinal": 11,
+      "coordinates": [
+        1,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,759",
+      "value": 23759.0,
+      "ordinal": 12,
+      "coordinates": [
+        2,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "16,844",
+      "value": 16844.0,
+      "ordinal": 13,
+      "coordinates": [
+        3,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "74,891",
+      "value": 74891.0,
+      "ordinal": 14,
+      "coordinates": [
+        4,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "52,801",
+      "value": 52801.0,
+      "ordinal": 15,
+      "coordinates": [
+        5,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "24,597",
+      "value": 24597.0,
+      "ordinal": 16,
+      "coordinates": [
+        6,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "15,012",
+      "value": 15012.0,
+      "ordinal": 17,
+      "coordinates": [
+        7,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "58,384",
+      "value": 58384.0,
+      "ordinal": 18,
+      "coordinates": [
+        8,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "43,829",
+      "value": 43829.0,
+      "ordinal": 19,
+      "coordinates": [
+        9,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "61,552",
+      "value": 61552.0,
+      "ordinal": 20,
+      "coordinates": [
+        0,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "40,793",
+      "value": 40793.0,
+      "ordinal": 21,
+      "coordinates": [
+        1,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,688",
+      "value": 23688.0,
+      "ordinal": 22,
+      "coordinates": [
+        2,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "15,337",
+      "value": 15337.0,
+      "ordinal": 23,
+      "coordinates": [
+        3,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 24,
+      "coordinates": [
+        4,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 25,
+      "coordinates": [
+        5,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "50,684",
+      "value": 50684.0,
+      "ordinal": 26,
+      "coordinates": [
+        6,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "37,592",
+      "value": 37592.0,
+      "ordinal": 27,
+      "coordinates": [
+        7,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "135,096",
+      "value": 135096.0,
+      "ordinal": 28,
+      "coordinates": [
+        8,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "90,200",
+      "value": 90200.0,
+      "ordinal": 29,
+      "coordinates": [
+        9,
+        2
+      ],
+      "error": null
+    }
+  ],
+  "axes": [
+    {
+      "ordinal": 0,
+      "name": "COLUMNS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Deluxe Supermarket",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Deluxe Supermarket",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Gourmet Supermarket",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Gourmet Supermarket",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Mid-Size Grocery",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Mid-Size Grocery",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Small Grocery",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Small Grocery",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Supermarket",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Supermarket",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Measures].[MeasuresLevel]"
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 1,
+      "name": "ROWS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "memberDimensionValues": [
+            "Canada"
+          ],
+          "memberLevelNames": [
+            "[Store].[Stores].[Store Country]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "memberDimensionValues": [
+            "Mexico"
+          ],
+          "memberLevelNames": [
+            "[Store].[Stores].[Store Country]"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "memberDimensionValues": [
+            "USA"
+          ],
+          "memberLevelNames": [
+            "[Store].[Stores].[Store Country]"
+          ]
+        }
+      ]
+    }
+  ]
+}
