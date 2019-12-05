@@ -10,6 +10,12 @@ export class Measure extends MetadataObject implements Cloneable<Measure> {
 
   visible: boolean;
   calculated: boolean;
+  parentName: string;
+
+  constructor(parentName: string = null) {
+    super();
+    this.parentName = parentName;
+  }
 
   clone(): Measure {
     const ret = new Measure();
@@ -17,6 +23,40 @@ export class Measure extends MetadataObject implements Cloneable<Measure> {
     ret.description = this.description;
     ret.visible = this.visible;
     ret.calculated = this.calculated;
+    ret.parentName = this.parentName;
+    return ret;
+  }
+
+  asMdxString(): string {
+    return "[Measures].[" + this.name + "]";
+  }
+
+}
+
+export class Level extends MetadataObject implements Cloneable<Level> {
+
+  depth: number;
+  parent: Hierarchy;
+
+  constructor(parent: Hierarchy = null) {
+    super();
+    this.parent = parent;
+  }
+
+  clone(): Level {
+    const ret = new Level();
+    // let the parent hierarchy set itself
+    ret.name = this.name;
+    ret.description = this.description;
+    ret.depth = this.depth;
+    return ret;
+  }
+
+  asMdxString(includeMembers = true): string {
+    let ret = "[" + this.parent.parent.name + "].[" + this.parent.name + "].[" + this.name + "]";
+    if (includeMembers) {
+      ret = ret + ".Members";
+    }
     return ret;
   }
 
@@ -26,10 +66,12 @@ export class Hierarchy extends MetadataObject implements Cloneable<Hierarchy> {
 
   hasAll: boolean;
   parent: Dimension;
+  levels: Level[];
 
   constructor(parent: Dimension = null) {
     super();
     this.parent = parent;
+    this.levels = [];
   }
 
   clone(): Hierarchy {
@@ -38,6 +80,11 @@ export class Hierarchy extends MetadataObject implements Cloneable<Hierarchy> {
     ret.name = this.name;
     ret.description = this.description;
     ret.hasAll = this.hasAll;
+    ret.levels = this.levels.map((l: Level): Level => {
+      const newLevel = l.clone();
+      newLevel.parent = ret;
+      return newLevel;
+    });
     return ret;
   }
 
@@ -47,10 +94,12 @@ export class Dimension extends MetadataObject implements Cloneable<Dimension> {
 
   type: string;
   hierarchies: Hierarchy[];
+  parentName: string;
 
-  constructor() {
+  constructor(parentName: string = null) {
     super();
     this.hierarchies = [];
+    this.parentName = parentName;
   }
 
   clone(): Dimension {
@@ -63,6 +112,7 @@ export class Dimension extends MetadataObject implements Cloneable<Dimension> {
       newHierarchy.parent = ret;
       return newHierarchy;
     });
+    ret.parentName = this.parentName;
     return ret;
   }
 
@@ -96,7 +146,7 @@ export class Dataset implements Editable {
       dataset.name = mdCube.name;
       dataset.description = mdCube.caption;
       dataset.measures = mdCube.measures.map((mdMeasure: any): Measure => {
-        const measure = new Measure();
+        const measure = new Measure(dataset.name);
         measure.name = mdMeasure.name;
         measure.description = mdMeasure.caption;
         measure.visible = mdMeasure.visible;
@@ -104,7 +154,7 @@ export class Dataset implements Editable {
         return measure;
       });
       dataset.dimensions = mdCube.dimensions.map((mdDimension: any): Dimension => {
-        const dimension = new Dimension();
+        const dimension = new Dimension(dataset.name);
         dimension.name = mdDimension.name;
         dimension.description = mdDimension.caption;
         dimension.type = mdDimension.type;
@@ -113,6 +163,13 @@ export class Dataset implements Editable {
           hierarchy.name = mdHierarchy.name;
           hierarchy.description = mdHierarchy.caption;
           hierarchy.hasAll = mdHierarchy.hasAll;
+          hierarchy.levels = mdHierarchy.levels.map((mdLevel: any): Level => {
+            const level = new Level(hierarchy);
+            level.name = mdLevel.name;
+            level.description = mdLevel.caption;
+            level.depth = mdLevel.depth;
+            return level;
+          });
           return hierarchy;
         });
         return dimension;

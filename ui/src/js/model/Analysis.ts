@@ -1,4 +1,4 @@
-import { Dataset, Measure, Hierarchy, MetadataObject } from "./Dataset";
+import { Dataset, Measure, MetadataObject, Level } from "./Dataset";
 import { Identifiable, Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent, Cloneable } from "./Persistence";
 import { Repository } from "./Repository";
 import { ListChangeEventListener, ListChangeEvent, List, CloneableList } from "../collections/List";
@@ -164,17 +164,19 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 export class Query implements Cloneable<Query> {
 
   private _measures: CloneableList<Measure>;
-  private _hierarchies: CloneableList<Hierarchy>;
+  private _rowLevels: CloneableList<Level>;
   private _parentListener: QueryComponentListChangeEventListener;
+  nonEmpty: boolean;
 
   constructor() {
     this._measures = new CloneableList();
-    this._hierarchies = new CloneableList();
+    this._rowLevels = new CloneableList();
     this._parentListener = null;
+    this.nonEmpty = true;
   }
 
   set componentListChangeEventListener(listener: QueryComponentListChangeEventListener) {
-    [this._measures, this._hierarchies].forEach((list: CloneableList<Cloneable<MetadataObject>>): void => {
+    [this._measures, this._rowLevels].forEach((list: CloneableList<Cloneable<MetadataObject>>): void => {
       if (this._parentListener !== null) {
         list.removeChangeEventListener(this._parentListener);
       }
@@ -187,14 +189,55 @@ export class Query implements Cloneable<Query> {
     return this._measures;
   }
 
-  get hierarchies(): List<Hierarchy> {
-    return this._hierarchies;
+  get rowLevels(): List<Level> {
+    return this._rowLevels;
   }
 
   clone(): Query {
     const ret = new Query();
     ret._measures = this._measures.clone();
-    ret._hierarchies = this._hierarchies.clone();
+    ret._rowLevels = this._rowLevels.clone();
+    return ret;
+  }
+
+  private static levelsString(levelsList: List<Level>): string {
+    let ret = null;
+    if (levelsList.length === 1) {
+      ret = "{" + levelsList.get(0).asMdxString() + "}";
+    } else if (levelsList.length > 1) {
+      const levelStrings: string[] = [];
+      levelsList.forEach((level: Level): void => {
+        levelStrings.push("{" + level.asMdxString() + "}");
+      });
+      ret = "CrossJoin(" + levelStrings.join() + ")";
+    }
+    return ret;
+  }
+
+  private measuresString(): string {
+    let ret = null;
+    if (this._measures.length) {
+      const measuresStrings: string[] = [];
+      this._measures.forEach((measure: Measure): void => {
+        measuresStrings.push(measure.asMdxString());
+      });
+      ret = "{" + measuresStrings.join() + "}";
+    }
+    return ret;
+  }
+
+  asMDX(): string {
+    let ret = null;
+    if (this._measures.length && this._rowLevels.length) {
+      const cubeName = this._measures.get(0).parentName; // there has to be at least one measure, and the cube for all dims and measures in an analysis is by def the same
+      ret = "SELECT " +
+      (this.nonEmpty ? "NON EMPTY " : "") +
+      this.measuresString() + " ON COLUMNS, " +
+      (this.nonEmpty ? "NON EMPTY " : "") +
+      Query.levelsString(this._rowLevels) + " ON ROWS " +
+      "FROM [" + cubeName + "]"
+      ;
+    }
     return ret;
   }
 

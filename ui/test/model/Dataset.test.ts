@@ -39,19 +39,30 @@ test('dimensions', () => {
   });
 });
 
-test('hierarchies', () => {
+test('hierarchies and levels', () => {
   TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
-    //logger.log("Cube: " + datasets[cubeIdx].name);
     mdCube.dimensions.forEach((mdDimension: any, dimensionIdx: number): void => {
-      //logger.log("Dimension: " + datasets[cubeIdx].dimensions[dimensionIdx].name);
       expect(mdCube.dimensions[dimensionIdx].hierarchies.length).toBe(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies.length);
-      mdDimension.hierarchies.forEach((_: any, idx: number): void => {
-        //logger.log("Hierarchy: " + datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name);
-        expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].name);
-        expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[idx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[idx].caption);
+      mdDimension.hierarchies.forEach((mdHierarchy: any, hierarchyIdx: number): void => {
+        expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].name);
+        expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].caption);
+        mdHierarchy.levels.forEach((_: any, levelIdx: number): void => {
+          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].name);
+          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].caption);
+          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].depth).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].depth);
+        });
       });
     });
   });
+});
+
+test('level mdx string', () => {
+  expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString()).toBe("[D1].[D1].[D1_DESCRIPTION].Members"); 
+  expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString(false)).toBe("[D1].[D1].[D1_DESCRIPTION]"); 
+});
+
+test('measures mdx string', () => {
+  expect(datasets[0].measures[0].asMdxString()).toBe("[Measures].[F1_M1]");
 });
 
 test('cloning', () => {
@@ -68,7 +79,12 @@ test('cloning', () => {
 
 });
 
-test('big', () => {
-  const md = TestData.FOODMART_METADATA;
-  expect(md).not.toBeNull();
+test('foodmart (big)', () => {
+  const datasets = Dataset.loadFromMetadata(TestData.FOODMART_METADATA, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
+  expect(datasets).not.toBeNull();
+  expect(datasets.length).toBe(6);
+  const storeDataset = datasets[3];
+  expect(storeDataset.name).toBe("Store");
+  expect(storeDataset.measures).toHaveLength(2);
+  expect(storeDataset.dimensions).toHaveLength(4);
 });
