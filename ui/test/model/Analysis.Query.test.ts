@@ -85,3 +85,74 @@ test('query MDX 1 measure 2 row dims', async () => {
     });
   });
 });
+
+test('query MDX no measures -> null', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  await q.rowLevels.add(analysis.dataset.dimensions[2].hierarchies[0].levels[1]).then(() => {
+    expect(q.asMDX()).toBeNull();
+  });
+});
+
+test('query MDX no row levels -> null MDX string', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  await q.measures.add(analysis.dataset.measures[0]).then(async () => {
+    expect(q.asMDX()).toBeNull();
+    await q.columnLevels.add(analysis.dataset.dimensions[2].hierarchies[0].levels[1]).then(async () => {
+      expect(q.asMDX()).toBeNull();
+    });
+  });
+});
+
+test('query MDX 1 measure 1 row dim 1 col dim', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  await q.measures.add(analysis.dataset.measures[0]).then(async () => {
+    expect(q.measures.get(0).name).toBe("Store Sqft");
+    await q.rowLevels.add(analysis.dataset.dimensions[2].hierarchies[0].levels[1]).then(async () => {
+      expect(q.rowLevels.get(0).name).toBe("Store Country");
+      await q.columnLevels.add(analysis.dataset.dimensions[1].hierarchies[0].levels[1]).then(() => {
+        expect(q.columnLevels.get(0).name).toBe("Store Type");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+      });
+    });
+  });
+});
+
+test('query MDX 1 measure 1 row dim 2 col dim', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  await q.measures.add(analysis.dataset.measures[0]).then(async () => {
+    expect(q.measures.get(0).name).toBe("Store Sqft");
+    await q.rowLevels.add(analysis.dataset.dimensions[2].hierarchies[0].levels[1]).then(async () => {
+      expect(q.rowLevels.get(0).name).toBe("Store Country");
+      await q.columnLevels.add(analysis.dataset.dimensions[1].hierarchies[0].levels[1]).then(async () => {
+        expect(q.columnLevels.get(0).name).toBe("Store Type");
+        await q.columnLevels.add(analysis.dataset.dimensions[3].hierarchies[0].levels[1]).then(() => {
+          expect(q.columnLevels.get(1).name).toBe("Has coffee bar");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY CrossJoin(CrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members}),{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+        });
+      });
+    });
+  });
+});
+
+test('query MDX 2 measures 1 row dim 1 col dim', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  await q.measures.add(analysis.dataset.measures[0]).then(async () => {
+    expect(q.measures.get(0).name).toBe("Store Sqft");
+    await q.rowLevels.add(analysis.dataset.dimensions[2].hierarchies[0].levels[1]).then(async () => {
+      expect(q.rowLevels.get(0).name).toBe("Store Country");
+      await q.columnLevels.add(analysis.dataset.dimensions[1].hierarchies[0].levels[1]).then(async () => {
+        expect(q.columnLevels.get(0).name).toBe("Store Type");
+        await q.measures.add(analysis.dataset.measures[1]).then(async () => {
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Measures].[Store Sqft],[Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+        });
+      });
+    });
+  });
+});
+
+

@@ -165,12 +165,14 @@ export class Query implements Cloneable<Query> {
 
   private _measures: CloneableList<Measure>;
   private _rowLevels: CloneableList<Level>;
+  private _columnLevels: CloneableList<Level>;
   private _parentListener: QueryComponentListChangeEventListener;
   nonEmpty: boolean;
 
   constructor() {
     this._measures = new CloneableList();
     this._rowLevels = new CloneableList();
+    this._columnLevels = new CloneableList();
     this._parentListener = null;
     this.nonEmpty = true;
   }
@@ -193,10 +195,15 @@ export class Query implements Cloneable<Query> {
     return this._rowLevels;
   }
 
+  get columnLevels(): List<Level> {
+    return this._columnLevels;
+  }
+
   clone(): Query {
     const ret = new Query();
     ret._measures = this._measures.clone();
     ret._rowLevels = this._rowLevels.clone();
+    ret._columnLevels = this._columnLevels.clone();
     return ret;
   }
 
@@ -230,9 +237,13 @@ export class Query implements Cloneable<Query> {
     let ret = null;
     if (this._measures.length && this._rowLevels.length) {
       const cubeName = this._measures.get(0).parentName; // there has to be at least one measure, and the cube for all dims and measures in an analysis is by def the same
+      let colsString = this.measuresString();
+      if (this._columnLevels.length) {
+        colsString = "CrossJoin(" + Query.levelsString(this._columnLevels) + "," + this.measuresString() + ")";
+      }
       ret = "SELECT " +
       (this.nonEmpty ? "NON EMPTY " : "") +
-      this.measuresString() + " ON COLUMNS, " +
+      colsString + " ON COLUMNS, " +
       (this.nonEmpty ? "NON EMPTY " : "") +
       Query.levelsString(this._rowLevels) + " ON ROWS " +
       "FROM [" + cubeName + "]"
