@@ -21,6 +21,12 @@ import cssnano from 'cssnano';
 const production = process.env.DEV!=="true";
 console.log("Performing a " + (production ? "production" : "dev") + " build");
 
+let playground = false;
+if (process.env.PLAYGROUND === "true") {
+  console.log("Running the playground app, not main.ts");
+  playground = true;
+}
+
 const watch = process.env.ROLLUP_WATCH;
 
 // render scss stylesheet. in reality, we should be putting any global styles in the base (root) tailwind.css and rebuilding
@@ -77,7 +83,7 @@ fs.readFile('public/tailwind-gen.css', (err, css) => {
 
 export default {
 
-  input: 'src/main.ts',
+  input: playground ? 'src/playground-main.ts' : 'src/main.ts',
 
   output: {
     sourcemap: !production,
@@ -130,6 +136,9 @@ export default {
     // uncomment to display bundle component sizes
     //sizes({ details: true})
 
-  ]
+  ],
+  watch: {
+		clearScreen: false
+	}
 
 };
