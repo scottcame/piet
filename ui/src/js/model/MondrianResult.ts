@@ -3,14 +3,26 @@
   export class MondrianResult {
     cells: MondrianResultCell[];
     axes: MondrianResultAxis[];
+    columnAxis: MondrianResultAxis;
+    rowAxis: MondrianResultAxis;
+    columnCaptions: string[];
+    rowCaptions: string[];
     static fromJSON(rawResult: any): MondrianResult {
       const ret = new MondrianResult();
       ret.cells = rawResult.cells.map((rawCell: any): MondrianResultCell => {
         return MondrianResultCell.fromJSON(rawCell);
       });
       ret.axes = rawResult.axes.map((rawAxis: any): MondrianResultAxis => {
-        return MondrianResultAxis.fromJSON(rawAxis);
+        const axis = MondrianResultAxis.fromJSON(rawAxis);
+        if (axis.name === "COLUMNS") {
+          ret.columnAxis = axis;
+        } else if (axis.name === "ROWS") {
+          ret.rowAxis = axis;
+        }
+        return axis;
       });
+      ret.columnCaptions = ret.columnAxis.positions[0].memberLevelCaptions;
+      ret.rowCaptions = ret.rowAxis.positions[0].memberLevelCaptions;
       return ret;
     }
 }
@@ -52,12 +64,14 @@ export class MondrianResultAxisPosition {
   memberDimensionCaptions: string[];
   memberDimensionValues: string[];
   memberLevelNames: string[];
+  memberLevelCaptions: string[];
   static fromJSON(rawObject: any): MondrianResultAxisPosition {
     const ret = new MondrianResultAxisPosition();
     ret.memberDimensionNames = rawObject.memberDimensionNames;
     ret.memberDimensionCaptions = rawObject.memberDimensionCaptions;
     ret.memberDimensionValues = rawObject.memberDimensionValues;
     ret.memberLevelNames = rawObject.memberLevelNames;
+    ret.memberLevelCaptions = rawObject.memberLevelCaptions;
     return ret;
   }
 }

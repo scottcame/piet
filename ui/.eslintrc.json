@@ -19,7 +19,8 @@
         "argsIgnorePattern": "^_.+",
         "varsIgnorePattern": "^_.+"
       }],
-      "jest/no-focused-tests": "off"
+      "jest/no-focused-tests": "off",
+      "jest/no-disabled-tests": "off"
   },
   "env": {
     "browser": true,

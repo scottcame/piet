@@ -41,8 +41,8 @@
       "error": null
     },
     {
-      "formattedValue": "34,452",
-      "value": 34452.0,
+      "formattedValue": "",
+      "value": null,
       "ordinal": 4,
       "coordinates": [
         4,
@@ -51,8 +51,8 @@
       "error": null
     },
     {
-      "formattedValue": "27,463",
-      "value": 27463.0,
+      "formattedValue": "",
+      "value": null,
       "ordinal": 5,
       "coordinates": [
         5,
@@ -61,8 +61,8 @@
       "error": null
     },
     {
-      "formattedValue": "",
-      "value": null,
+      "formattedValue": "34,452",
+      "value": 34452.0,
       "ordinal": 6,
       "coordinates": [
         6,
@@ -71,8 +71,8 @@
       "error": null
     },
     {
-      "formattedValue": "",
-      "value": null,
+      "formattedValue": "27,463",
+      "value": 27463.0,
       "ordinal": 7,
       "coordinates": [
         7,
@@ -101,9 +101,49 @@
       "error": null
     },
     {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 10,
+      "coordinates": [
+        10,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 11,
+      "coordinates": [
+        11,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 12,
+      "coordinates": [
+        12,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 13,
+      "coordinates": [
+        13,
+        0
+      ],
+      "error": null
+    },
+    {
       "formattedValue": "61,381",
       "value": 61381.0,
-      "ordinal": 10,
+      "ordinal": 14,
       "coordinates": [
         0,
         1
@@ -113,7 +153,7 @@
     {
       "formattedValue": "42,079",
       "value": 42079.0,
-      "ordinal": 11,
+      "ordinal": 15,
       "coordinates": [
         1,
         1
@@ -123,7 +163,7 @@
     {
       "formattedValue": "23,759",
       "value": 23759.0,
-      "ordinal": 12,
+      "ordinal": 16,
       "coordinates": [
         2,
         1
@@ -133,7 +173,7 @@
     {
       "formattedValue": "16,844",
       "value": 16844.0,
-      "ordinal": 13,
+      "ordinal": 17,
       "coordinates": [
         3,
         1
@@ -143,7 +183,7 @@
     {
       "formattedValue": "74,891",
       "value": 74891.0,
-      "ordinal": 14,
+      "ordinal": 18,
       "coordinates": [
         4,
         1
@@ -153,7 +193,7 @@
     {
       "formattedValue": "52,801",
       "value": 52801.0,
-      "ordinal": 15,
+      "ordinal": 19,
       "coordinates": [
         5,
         1
@@ -161,9 +201,9 @@
       "error": null
     },
     {
-      "formattedValue": "24,597",
-      "value": 24597.0,
-      "ordinal": 16,
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 20,
       "coordinates": [
         6,
         1
@@ -171,9 +211,9 @@
       "error": null
     },
     {
-      "formattedValue": "15,012",
-      "value": 15012.0,
-      "ordinal": 17,
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 21,
       "coordinates": [
         7,
         1
@@ -181,9 +221,9 @@
       "error": null
     },
     {
-      "formattedValue": "58,384",
-      "value": 58384.0,
-      "ordinal": 18,
+      "formattedValue": "24,597",
+      "value": 24597.0,
+      "ordinal": 22,
       "coordinates": [
         8,
         1
@@ -191,9 +231,9 @@
       "error": null
     },
     {
-      "formattedValue": "43,829",
-      "value": 43829.0,
-      "ordinal": 19,
+      "formattedValue": "15,012",
+      "value": 15012.0,
+      "ordinal": 23,
       "coordinates": [
         9,
         1
@@ -201,9 +241,49 @@
       "error": null
     },
     {
+      "formattedValue": "58,384",
+      "value": 58384.0,
+      "ordinal": 24,
+      "coordinates": [
+        10,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "43,829",
+      "value": 43829.0,
+      "ordinal": 25,
+      "coordinates": [
+        11,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 26,
+      "coordinates": [
+        12,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 27,
+      "coordinates": [
+        13,
+        1
+      ],
+      "error": null
+    },
+    {
       "formattedValue": "61,552",
       "value": 61552.0,
-      "ordinal": 20,
+      "ordinal": 28,
       "coordinates": [
         0,
         2
@@ -213,7 +293,7 @@
     {
       "formattedValue": "40,793",
       "value": 40793.0,
-      "ordinal": 21,
+      "ordinal": 29,
       "coordinates": [
         1,
         2
@@ -223,7 +303,7 @@
     {
       "formattedValue": "23,688",
       "value": 23688.0,
-      "ordinal": 22,
+      "ordinal": 30,
       "coordinates": [
         2,
         2
@@ -233,7 +313,7 @@
     {
       "formattedValue": "15,337",
       "value": 15337.0,
-      "ordinal": 23,
+      "ordinal": 31,
       "coordinates": [
         3,
         2
@@ -243,7 +323,7 @@
     {
       "formattedValue": "",
       "value": null,
-      "ordinal": 24,
+      "ordinal": 32,
       "coordinates": [
         4,
         2
@@ -253,7 +333,7 @@
     {
       "formattedValue": "",
       "value": null,
-      "ordinal": 25,
+      "ordinal": 33,
       "coordinates": [
         5,
         2
@@ -261,9 +341,9 @@
       "error": null
     },
     {
-      "formattedValue": "50,684",
-      "value": 50684.0,
-      "ordinal": 26,
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 34,
       "coordinates": [
         6,
         2
@@ -271,9 +351,9 @@
       "error": null
     },
     {
-      "formattedValue": "37,592",
-      "value": 37592.0,
-      "ordinal": 27,
+      "formattedValue": "",
+      "value": null,
+      "ordinal": 35,
       "coordinates": [
         7,
         2
@@ -281,9 +361,9 @@
       "error": null
     },
     {
-      "formattedValue": "135,096",
-      "value": 135096.0,
-      "ordinal": 28,
+      "formattedValue": "50,684",
+      "value": 50684.0,
+      "ordinal": 36,
       "coordinates": [
         8,
         2
@@ -291,11 +371,51 @@
       "error": null
     },
     {
-      "formattedValue": "90,200",
-      "value": 90200.0,
-      "ordinal": 29,
+      "formattedValue": "37,592",
+      "value": 37592.0,
+      "ordinal": 37,
       "coordinates": [
         9,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "113,881",
+      "value": 113881.0,
+      "ordinal": 38,
+      "coordinates": [
+        10,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "76,895",
+      "value": 76895.0,
+      "ordinal": 39,
+      "coordinates": [
+        11,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "21,215",
+      "value": 21215.0,
+      "ordinal": 40,
+      "coordinates": [
+        12,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "13,305",
+      "value": 13305.0,
+      "ordinal": 41,
+      "coordinates": [
+        13,
         2
       ],
       "error": null
@@ -309,220 +429,378 @@
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Deluxe Supermarket",
+            "1",
             "Store Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Deluxe Supermarket",
+            "1",
             "Grocery Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Gourmet Supermarket",
+            "1",
             "Store Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Gourmet Supermarket",
+            "1",
             "Grocery Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Mid-Size Grocery",
+            "0",
             "Store Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Mid-Size Grocery",
+            "0",
             "Grocery Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
-            "Small Grocery",
+            "Mid-Size Grocery",
+            "1",
             "Store Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Mid-Size Grocery",
+            "1",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+            "[Measures].[MeasuresLevel]"
+          ],
+          "memberLevelCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "MeasuresLevel"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
             "Small Grocery",
-            "Grocery Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
-          ]
-        },
-        {
-          "memberDimensionNames": [
-            "Store Type",
-            "Measures"
-          ],
-          "memberDimensionCaptions": [
-            "Store Type",
-            "Measures"
-          ],
-          "memberDimensionValues": [
-            "Supermarket",
+            "1",
             "Store Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         },
         {
           "memberDimensionNames": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionCaptions": [
             "Store Type",
+            "Has coffee bar",
             "Measures"
           ],
           "memberDimensionValues": [
-            "Supermarket",
+            "Small Grocery",
+            "1",
             "Grocery Sqft"
           ],
           "memberLevelNames": [
             "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
             "[Measures].[MeasuresLevel]"
           ],
           "memberLevelCaptions": [
             "Store Type",
+            "Has coffee bar",
+            "MeasuresLevel"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Supermarket",
+            "0",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+            "[Measures].[MeasuresLevel]"
+          ],
+          "memberLevelCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "MeasuresLevel"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Supermarket",
+            "0",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+            "[Measures].[MeasuresLevel]"
+          ],
+          "memberLevelCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "MeasuresLevel"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Supermarket",
+            "1",
+            "Store Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+            "[Measures].[MeasuresLevel]"
+          ],
+          "memberLevelCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "MeasuresLevel"
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Store Type",
+            "Has coffee bar",
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Supermarket",
+            "1",
+            "Grocery Sqft"
+          ],
+          "memberLevelNames": [
+            "[Store Type].[Store Type].[Store Type]",
+            "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+            "[Measures].[MeasuresLevel]"
+          ],
+          "memberLevelCaptions": [
+            "Store Type",
+            "Has coffee bar",
             "MeasuresLevel"
           ]
         }
