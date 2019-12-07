@@ -30,7 +30,7 @@
             <th class="border bg-gray-200 border-gray-500 { rowHeaderIndex === tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : '' }">{rowHeader}</th>
           {/each}
           {#each columnIterator as columnIndex}
-            <td class="border text-right bg-gray-100">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
+            <td class="border text-right bg-gray-100 pr-1">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
           {/each}
         </tr>
       {/each}
