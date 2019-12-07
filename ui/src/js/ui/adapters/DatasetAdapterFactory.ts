@@ -1,4 +1,4 @@
-import { Dataset, Hierarchy, Dimension, Measure } from "../../model/Dataset";
+import { Dataset, Hierarchy, Dimension, Measure, Level } from "../../model/Dataset";
 import { TreeModelContainerNode, TreeModelLeafNode } from "../model/Tree";
 
 export class DatasetAdapterFactory {
@@ -25,8 +25,20 @@ export class DatasetAdapterFactory {
     dataset.dimensions
       .filter(dimension => dimension.name !== "Measures")
       .forEach((dimension: Dimension): void => {
+        const dimensionChild = new TreeModelContainerNode(dimension.name, "dimension");
+        dimensionChild.children = [];
+        dimensionsChild.children.push(dimensionChild);
         dimension.hierarchies.forEach((hierarchy: Hierarchy): void => {
-          dimensionsChild.children.push(new TreeModelLeafNode(hierarchy.description, "dimension"));
+          const hierarchyChild = new TreeModelContainerNode(hierarchy.name, "hierarchy");
+          hierarchyChild.children = [];
+          dimensionChild.children.push(hierarchyChild);
+          hierarchy.levels
+            .filter((level: Level): boolean => {
+              return level.name !== "(All)";
+            })
+            .forEach((level: Level): void => {
+              hierarchyChild.children.push(new TreeModelLeafNode(level.name, "level"));
+            });
         });
       });
     ret.children = [measuresChild, dimensionsChild];

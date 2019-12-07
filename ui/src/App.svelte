@@ -24,10 +24,12 @@
 </script>
 
 {#if {initialized}}
-<MainNavbar
-  workspace={repository.workspace}
-  on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
-  on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
-/>
-<MainContainer repository={repository} bind:navBarController={navBarController}/>
+  <div class="text-sm">
+    <MainNavbar
+      workspace={repository.workspace}
+      on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
+      on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
+    />
+    <MainContainer repository={repository} bind:navBarController={navBarController}/>
+  </div>
 {/if}

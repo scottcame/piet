@@ -50,10 +50,10 @@
 </script>
 
 <div class="relative ml-2 w-full border border-gray-700" bind:this="{containerDiv}">
-  <button type="button" class="w-full flex flex-inline items-center bg-gray-300 font-semibold rounded py-1 focus:outline-none cursor-default" on:click={toggleOpen}>
+  <button type="button" class="w-full flex flex-inline items-center bg-gray-300 font-semibold rounded focus:outline-none cursor-default" on:click={toggleOpen}>
     <div class="w-full">{dropdownLabel}</div>
-    <div class="w-8 h-8 items-center {showCaret ? '' : 'hidden'}">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <div class="w-8 h-8 items-center mr-1 {showCaret ? '' : 'hidden'}">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="mt-1">
         <path d="M15.3 9.3a1 1 0 0 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 1.4-1.4l3.3 3.29 3.3-3.3z"/>
       </svg>
     </div>

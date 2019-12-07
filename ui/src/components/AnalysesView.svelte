@@ -63,14 +63,14 @@
     <div class="flex flex-inline items-center justify-between mb-2">
       <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true"/>
     </div>
-    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode}/>
+    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false}/>
   </div>
   <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
-    <div class="w-full flex flex-inline justify-between mb-1">
-      <div class="w-full p-1 text-lg font-medium">{currentAnalysisDescriptionDisplay}</div>
+    <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
+      <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
       <Menu items={controller.menuItems}/>
     </div>
-    <div class="flex bg-teal-300">
+    <div class="flex bg-gray-300 p-2 border border-black">
       <div>Table for "{currentAnalysisDescriptionDisplay}" will go here.</div>
     </div>
   </div>
