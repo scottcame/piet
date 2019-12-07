@@ -14,3 +14,7 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.text-xxs {
+  font-size: .625rem;
+}

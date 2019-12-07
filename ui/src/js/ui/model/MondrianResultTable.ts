@@ -17,6 +17,12 @@ export class MondrianResultTableModel {
     return this._headerRows;
   }
 
+  get rowHeaders(): string[][] {
+    return this._mondrianResult.rowAxis.positions.map((rowPosition: MondrianResultAxisPosition): string[] => {
+      return rowPosition.memberDimensionValues;
+    });
+  }
+
   get columnCount(): number {
     return this._headerRows[0].length;
   }

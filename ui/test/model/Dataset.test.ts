@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { Dataset, Measure, Dimension } from '../../src/js/model/Dataset';
-import { TestData } from '../_data/TestData';
+import { TestData, FoodmartMetadata } from '../_data/TestData';
 
 const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test";
 const datasets = Dataset.loadFromMetadata(TestData.TEST_METADATA, datasetId);
@@ -79,12 +79,15 @@ test('cloning', () => {
 
 });
 
-test('foodmart (big)', () => {
-  const datasets = Dataset.loadFromMetadata(TestData.FOODMART_METADATA, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
-  expect(datasets).not.toBeNull();
-  expect(datasets.length).toBe(6);
-  const storeDataset = datasets[3];
-  expect(storeDataset.name).toBe("Store");
-  expect(storeDataset.measures).toHaveLength(2);
-  expect(storeDataset.dimensions).toHaveLength(4);
+test('foodmart (big)', async () => {
+  const fmd = FoodmartMetadata.getInstance();
+  await fmd.getMetadata().then((metadata): any => {
+    const datasets = Dataset.loadFromMetadata(metadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
+    expect(datasets).not.toBeNull();
+    expect(datasets.length).toBe(6);
+    const storeDataset = datasets[3];
+    expect(storeDataset.name).toBe("Store");
+    expect(storeDataset.measures).toHaveLength(2);
+    expect(storeDataset.dimensions).toHaveLength(4);
+  });
 });

@@ -11,10 +11,10 @@
     "@types/bson": "^4.0.1",
     "@types/jest": "^24.0.23",
     "@types/json-stringify-safe": "^5.0.0",
+    "@types/jsonstream": "^0.8.30",
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "autoprefixer": "^9.7.3",
-    "bson": "^4.0.2",
     "cssnano": "^4.1.10",
     "dexie": "^2.0.4",
     "eslint-plugin-jest": "^23.1.1",
@@ -44,7 +44,8 @@
     "tailwindcss": "^1.1.4",
     "ts-jest": "^24.2.0",
     "tslib": "^1.10.0",
-    "typescript": "^3.7.2"
+    "typescript": "^3.7.2",
+    "zlib": "^1.0.5"
   },
   "scripts": {
     "clean": "rm public/bundle.*",
