@@ -167,7 +167,7 @@ export class Query implements Cloneable<Query> {
   private _levels: CloneableList<QueryLevel>;
   private _parentListener: QueryComponentListChangeEventListener;
   nonEmpty: boolean;
-  private datasetName;
+  private datasetName: string;
 
   constructor(datasetName = null) {
     this._measures = new CloneableList();
