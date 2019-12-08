@@ -1,4 +1,4 @@
-import { Dataset, Measure, MetadataObject, Level } from "./Dataset";
+import { Dataset } from "./Dataset";
 import { Identifiable, Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent, Cloneable } from "./Persistence";
 import { Repository } from "./Repository";
 import { ListChangeEventListener, ListChangeEvent, List, CloneableList } from "../collections/List";
@@ -23,7 +23,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this.id = id;
     this.dataset = dataset;
     this._name = name;
-    this._query = new Query();
+    this._query = dataset ? new Query(dataset.name) : new Query();
 
     this._query.componentListChangeEventListener = new QueryComponentListChangeEventListener((_event: ListChangeEvent): Promise<void> => {
       return this.initCheckpoint();
@@ -163,22 +163,22 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 
 export class Query implements Cloneable<Query> {
 
-  private _measures: CloneableList<Measure>;
-  private _rowLevels: CloneableList<Level>;
-  private _columnLevels: CloneableList<Level>;
+  private _measures: CloneableList<QueryMeasure>;
+  private _levels: CloneableList<QueryLevel>;
   private _parentListener: QueryComponentListChangeEventListener;
   nonEmpty: boolean;
+  private datasetName;
 
-  constructor() {
+  constructor(datasetName = null) {
     this._measures = new CloneableList();
-    this._rowLevels = new CloneableList();
-    this._columnLevels = new CloneableList();
+    this._levels = new CloneableList();
     this._parentListener = null;
     this.nonEmpty = true;
+    this.datasetName = datasetName;
   }
 
   set componentListChangeEventListener(listener: QueryComponentListChangeEventListener) {
-    [this._measures, this._rowLevels].forEach((list: CloneableList<Cloneable<MetadataObject>>): void => {
+    [this._measures, this._levels].forEach((list: CloneableList<QueryLevel|QueryMeasure>): void => {
       if (this._parentListener !== null) {
         list.removeChangeEventListener(this._parentListener);
       }
@@ -187,34 +187,30 @@ export class Query implements Cloneable<Query> {
     this._parentListener = listener;
   }
 
-  get measures(): List<Measure> {
+  get measures(): List<QueryMeasure> {
     return this._measures;
   }
 
-  get rowLevels(): List<Level> {
-    return this._rowLevels;
-  }
-
-  get columnLevels(): List<Level> {
-    return this._columnLevels;
+  get levels(): List<QueryLevel> {
+    return this._levels;
   }
 
   clone(): Query {
     const ret = new Query();
     ret._measures = this._measures.clone();
-    ret._rowLevels = this._rowLevels.clone();
-    ret._columnLevels = this._columnLevels.clone();
+    ret._levels = this._levels.clone();
+    ret.datasetName = this.datasetName;
     return ret;
   }
 
-  private static levelsString(levelsList: List<Level>): string {
+  private static levelsString(levelsList: List<QueryLevel>): string {
     let ret = null;
     if (levelsList.length === 1) {
-      ret = "{" + levelsList.get(0).asMdxString() + "}";
+      ret = "{" + levelsList.get(0).uniqueName + ".Members}";
     } else if (levelsList.length > 1) {
       const levelStrings: string[] = [];
-      levelsList.forEach((level: Level): void => {
-        levelStrings.push("{" + level.asMdxString() + "}");
+      levelsList.forEach((level: QueryLevel): void => {
+        levelStrings.push("{" + level.uniqueName + ".Members}");
       });
       ret = "CrossJoin(" + levelStrings.join() + ")";
     }
@@ -225,8 +221,8 @@ export class Query implements Cloneable<Query> {
     let ret = null;
     if (this._measures.length) {
       const measuresStrings: string[] = [];
-      this._measures.forEach((measure: Measure): void => {
-        measuresStrings.push(measure.asMdxString());
+      this._measures.forEach((measure: QueryMeasure): void => {
+        measuresStrings.push(measure.uniqueName);
       });
       ret = "{" + measuresStrings.join() + "}";
     }
@@ -234,35 +230,66 @@ export class Query implements Cloneable<Query> {
   }
 
   asMDX(): string {
+
     let ret = null;
-    if (this._measures.length && this._rowLevels.length) {
-      const cubeName = this._measures.get(0).parentName; // there has to be at least one measure, and the cube for all dims and measures in an analysis is by def the same
+
+    if (this._measures.length) {
+
+      const cubeName = this.datasetName;
       let colsString = this.measuresString();
-      if (this._columnLevels.length) {
-        colsString = "CrossJoin(" + Query.levelsString(this._columnLevels) + "," + this.measuresString() + ")";
+
+      const columnLevels = this._levels.filter((level: QueryLevel): boolean => {
+        return !level.rowOrientation;
+      });
+
+      if (columnLevels.length) {
+        colsString = "CrossJoin(" + Query.levelsString(columnLevels) + "," + this.measuresString() + ")";
       }
+
       ret = "SELECT " +
       (this.nonEmpty ? "NON EMPTY " : "") +
-      colsString + " ON COLUMNS, " +
-      (this.nonEmpty ? "NON EMPTY " : "") +
-      Query.levelsString(this._rowLevels) + " ON ROWS " +
-      "FROM [" + cubeName + "]"
-      ;
+      colsString + " ON COLUMNS";
+      
+      const rowLevels = this._levels.filter((level: QueryLevel): boolean => {
+        return level.rowOrientation;
+      });
+
+      if (rowLevels.length) {
+        ret += ((this.nonEmpty ? ", NON EMPTY " : "") + Query.levelsString(rowLevels) + " ON ROWS");
+      }
+      
+      ret += " FROM [" + cubeName + "]";
+
     }
+
     return ret;
+
   }
 
 }
 
-export class QueryLevel {
+export class QueryLevel implements Cloneable<QueryLevel> {
   uniqueName: string;
   sumSelected: boolean;
   filterSelected: boolean;
   rowOrientation: boolean;
+  clone(): QueryLevel {
+    const ret = new QueryLevel();
+    ret.uniqueName = this.uniqueName;
+    ret.sumSelected = this.sumSelected;
+    ret.filterSelected = this.filterSelected;
+    ret.rowOrientation = this.rowOrientation;
+    return ret;
+  }
 }
 
-export class QueryMeasure {
+export class QueryMeasure implements Cloneable<QueryMeasure> {
   uniqueName: string;
+  clone(): QueryMeasure {
+    const ret = new QueryMeasure();
+    ret.uniqueName = this.uniqueName;
+    return ret;
+  }
 }
 
 class QueryComponentListChangeEventListener implements ListChangeEventListener {
