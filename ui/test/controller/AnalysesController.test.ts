@@ -2,6 +2,7 @@ import { LocalRepository } from "../../src/js/model/Repository";
 import { AnalysesController } from "../../src/js/controller/AnalysesController";
 import { DatasetAdapterFactory } from "../../src/js/ui/adapters/DatasetAdapterFactory";
 import { Workspace } from "../../src/js/model/Workspace";
+import { TreeModelMeasureNodeEvent, TreeModelLevelNodeEvent } from "../../src/js/ui/model/Tree";
 
 let controller: AnalysesController;
 const viewProperties = AnalysesController.VIEW_PROPERTIES;
@@ -179,3 +180,43 @@ test('Basic browse', async () => {
 
 });
 
+test('Dataset tree model query test: measure events', async () => {
+  controller.newAnalysis();
+  controller.datasetsDropdownModel.selectedIndex.value = 0;
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    const event = new TreeModelMeasureNodeEvent("[Measures].[F1_M1]", true);
+    await controller.handleDatasetTreeNodeEvent(event).then(async () => {
+      expect(controller.currentAnalysis.query.measures).toHaveLength(1);
+      expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY {[Measures].[F1_M1]} ON COLUMNS FROM [Test]");
+      event.selected = false;
+      await controller.handleDatasetTreeNodeEvent(event).then(async () => {
+        expect(controller.currentAnalysis.query.measures).toHaveLength(0);
+        expect(controller.currentAnalysis.query.asMDX()).toBeNull();
+      });
+    });
+  });
+});
+
+test('Dataset tree model query test: level events', async () => {
+  controller.newAnalysis();
+  controller.datasetsDropdownModel.selectedIndex.value = 0;
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    const measureEvent = new TreeModelMeasureNodeEvent("[Measures].[F1_M1]", true);
+    await controller.handleDatasetTreeNodeEvent(measureEvent).then(async () => {
+      const levelEvent = new TreeModelLevelNodeEvent("[D1].[D1].[D1_DESCRIPTION]", true, true, false, false);
+      await controller.handleDatasetTreeNodeEvent(levelEvent).then(async () => {
+        expect(controller.currentAnalysis.query.levels).toHaveLength(1);
+        expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY {[Measures].[F1_M1]} ON COLUMNS, NON EMPTY {[D1].[D1].[D1_DESCRIPTION].Members} ON ROWS FROM [Test]");
+        levelEvent.rowOrientation = false;
+        await controller.handleDatasetTreeNodeEvent(levelEvent).then(async () => {
+          expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY CrossJoin({[D1].[D1].[D1_DESCRIPTION].Members},{[Measures].[F1_M1]}) ON COLUMNS FROM [Test]");
+          levelEvent.selected = false;
+          await controller.handleDatasetTreeNodeEvent(levelEvent).then(async () => {
+            expect(controller.currentAnalysis.query.levels).toHaveLength(0);
+            expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY {[Measures].[F1_M1]} ON COLUMNS FROM [Test]");
+          });
+        });
+      });
+    });
+  });
+});

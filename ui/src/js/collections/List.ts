@@ -82,6 +82,14 @@ export class List<T> implements Iterable<T> {
     });
   }
 
+  async remove(item: T): Promise<T> {
+    const idx: number = this.a.indexOf(item);
+    if (idx !== -1) {
+      return this.removeAt(idx);
+    }
+    return new Promise<T>(null);
+  }
+
   get(index: number): T {
     return this.a[index];
   }

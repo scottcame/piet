@@ -1,9 +1,9 @@
 import { Repository } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
-import { Analysis } from "../model/Analysis";
+import { Analysis, QueryMeasure, QueryLevel } from "../model/Analysis";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
-import { TreeModelContainerNode, TreeModelEvent } from "../ui/model/Tree";
+import { TreeModelContainerNode, TreeModelEvent, TreeModelEventType, TreeModelLevelNodeEvent } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
 import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
@@ -268,9 +268,62 @@ export class AnalysesController {
 
   async handleDatasetTreeNodeEvent(event: TreeModelEvent): Promise<void> {
 
-    console.log(event);
-    // todo: add/remove appropriate objects from currentAnalysis.query
+    let ret: Promise<void> = new Promise((resolve, _reject) => {
+      resolve();
+    });
 
+    if (event.type === TreeModelEventType.MEASURE) {
+      if (event.selected) {
+        const queryMeasure = new QueryMeasure();
+        queryMeasure.uniqueName = event.uniqueName;
+        ret = this.currentAnalysis.query.measures.add(queryMeasure).then();
+      } else {
+        const existingMeasures = this.currentAnalysis.query.measures.filter((measure: QueryMeasure): boolean => {
+          return measure.uniqueName === event.uniqueName;
+        });
+        if (existingMeasures.length) {
+          ret = this.currentAnalysis.query.measures.remove(existingMeasures.get(0)).then();
+        }
+      }
+    } else {
+      const treeModelLevelNodeEvent = event as TreeModelLevelNodeEvent;
+      if (event.selected) {
+        const existingLevels = this.currentAnalysis.query.levels.filter((level: QueryLevel): boolean => {
+          return level.uniqueName === treeModelLevelNodeEvent.uniqueName;
+        });
+        let queryLevel: QueryLevel = null;
+        if (existingLevels.length) {
+          queryLevel = existingLevels.get(0);
+        } else {
+          queryLevel = new QueryLevel();
+          queryLevel.uniqueName = treeModelLevelNodeEvent.uniqueName;
+          ret = this.currentAnalysis.query.levels.add(queryLevel).then();
+        }
+        queryLevel.filterSelected = treeModelLevelNodeEvent.filterSelected;
+        queryLevel.rowOrientation = treeModelLevelNodeEvent.rowOrientation;
+        queryLevel.sumSelected = treeModelLevelNodeEvent.sumSelected;
+      } else {
+        const existingLevels = this.currentAnalysis.query.levels.filter((level: QueryLevel): boolean => {
+          return level.uniqueName === treeModelLevelNodeEvent.uniqueName;
+        });
+        if (existingLevels.length) {
+          ret = this.currentAnalysis.query.levels.remove(existingLevels.get(0)).then();
+        }
+      }
+    }
+
+    return ret.then(() => {
+      return this.executeQuery();
+    });
+
+  }
+
+  async executeQuery(): Promise<void> {
+    // todo: execute the query on the repository and render the results
+    // console.log(this.currentAnalysis.query.asMDX());
+    return new Promise((resolve, _reject) => {
+      resolve();
+    });
   }
 
 }
