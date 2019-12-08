@@ -254,6 +254,17 @@ export class Query implements Cloneable<Query> {
 
 }
 
+export class QueryLevel {
+  uniqueName: string;
+  sumSelected: boolean;
+  filterSelected: boolean;
+  rowOrientation: boolean;
+}
+
+export class QueryMeasure {
+  uniqueName: string;
+}
+
 class QueryComponentListChangeEventListener implements ListChangeEventListener {
   callback: QueryComponentListChangeEventCallback;
   constructor(callback: QueryComponentListChangeEventCallback) {

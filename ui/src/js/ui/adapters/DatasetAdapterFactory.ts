@@ -15,21 +15,21 @@ export class DatasetAdapterFactory {
   }
 
   createRootTreeModelNode(dataset: Dataset): TreeModelContainerNode {
-    const ret = new TreeModelContainerNode(DatasetAdapterFactory.buildRootLabel(dataset.label), 'dataset');
-    const measuresChild = new TreeModelContainerNode("Measures", 'measures');
+    const ret = new TreeModelContainerNode("Dataset", DatasetAdapterFactory.buildRootLabel(dataset.label), 'dataset');
+    const measuresChild = new TreeModelContainerNode("Measures", "Measures", 'measures');
     measuresChild.children = dataset.measures.map((measure: Measure) => {
-      return new TreeModelLeafNode(measure.description, "measure");
+      return new TreeModelLeafNode(measure.uniqueName, measure.description, "measure");
     });
-    const dimensionsChild = new TreeModelContainerNode("Dimensions", 'dimensions');
+    const dimensionsChild = new TreeModelContainerNode("Dimensions", "Dimensions", 'dimensions');
     dimensionsChild.children = [];
     dataset.dimensions
       .filter(dimension => dimension.name !== "Measures")
       .forEach((dimension: Dimension): void => {
-        const dimensionChild = new TreeModelContainerNode(dimension.name, "dimension");
+        const dimensionChild = new TreeModelContainerNode(dimension.uniqueName, dimension.name, "dimension");
         dimensionChild.children = [];
         dimensionsChild.children.push(dimensionChild);
         dimension.hierarchies.forEach((hierarchy: Hierarchy): void => {
-          const hierarchyChild = new TreeModelContainerNode(hierarchy.name, "hierarchy");
+          const hierarchyChild = new TreeModelContainerNode(hierarchy.uniqueName, hierarchy.name, "hierarchy");
           hierarchyChild.children = [];
           dimensionChild.children.push(hierarchyChild);
           hierarchy.levels
@@ -37,7 +37,7 @@ export class DatasetAdapterFactory {
               return level.name !== "(All)";
             })
             .forEach((level: Level): void => {
-              hierarchyChild.children.push(new TreeModelLeafNode(level.name, "level"));
+              hierarchyChild.children.push(new TreeModelLeafNode(level.uniqueName, level.name, "level"));
             });
         });
       });

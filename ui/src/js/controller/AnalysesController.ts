@@ -3,7 +3,7 @@ import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
 import { Analysis } from "../model/Analysis";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
-import { TreeModelContainerNode } from "../ui/model/Tree";
+import { TreeModelContainerNode, TreeModelEvent } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
 import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
@@ -264,6 +264,13 @@ export class AnalysesController {
     }
     await Promise.all(promises);
     this.closeEditAnalysisMetadataModal();
+  }
+
+  async handleDatasetTreeNodeEvent(event: TreeModelEvent): Promise<void> {
+
+    console.log(event);
+    // todo: add/remove appropriate objects from currentAnalysis.query
+
   }
 
 }

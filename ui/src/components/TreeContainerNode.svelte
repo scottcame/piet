@@ -1,11 +1,14 @@
 <script>
 
-	import TreeLeafNode from './TreeLeafNode.svelte';
+	import QueryLevelTreeLeafNode from './QueryLevelTreeLeafNode.svelte';
+	import QueryMeasureTreeLeafNode from './QueryMeasureTreeLeafNode.svelte';
 	import { TreeModelNode, TreeModelLeafNode, TreeModelContainerNode } from '../js/ui/model/Tree';
+	import { createEventDispatcher } from 'svelte';
 
 	export let treeModelNode;
 	export let collapsable = true;
 	let expanded = true;
+	const dispatch = createEventDispatcher();
 
 	if (collapsable === "false") {
 		collapsable = false;
@@ -27,6 +30,10 @@
 		return ret;
 	}
 
+	function dispatchNodeChangeEvent(event) {
+		dispatch('nodeEvent', event);
+	}
+
 </script>
 
 <div class="pl-2 text-xs">
@@ -42,9 +49,14 @@
 				{#each treeModelNode.children as child}
 					<li>
 						{#if child.hasChildren()}
-							<svelte:self treeModelNode={child} collapsable={collapsable}/>
+							<svelte:self treeModelNode={child} collapsable={collapsable} on:nodeEvent={dispatchNodeChangeEvent}/>
 						{:else}
-							<TreeLeafNode treeModelNode={child}/>
+							{#if child.type === "level"}
+								<QueryLevelTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent}/>
+							{:else}
+								<!-- currently only these two types of leaf -->
+								<QueryMeasureTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent}/>
+							{/if}
 						{/if}
 					</li>
 				{/each}

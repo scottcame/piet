@@ -3,6 +3,7 @@ import { Editable, EditEventListener, Cloneable } from "./Persistence";
 export abstract class MetadataObject implements Cloneable<MetadataObject> {
   name: string;
   description: string;
+  uniqueName: string;
   abstract clone(): MetadataObject;
 }
 
@@ -24,11 +25,12 @@ export class Measure extends MetadataObject implements Cloneable<Measure> {
     ret.visible = this.visible;
     ret.calculated = this.calculated;
     ret.parentName = this.parentName;
+    ret.uniqueName = this.uniqueName;
     return ret;
   }
 
   asMdxString(): string {
-    return "[Measures].[" + this.name + "]";
+    return this.uniqueName;
   }
 
 }
@@ -49,6 +51,7 @@ export class Level extends MetadataObject implements Cloneable<Level> {
     ret.name = this.name;
     ret.description = this.description;
     ret.depth = this.depth;
+    ret.uniqueName = this.uniqueName;
     return ret;
   }
 
@@ -80,6 +83,7 @@ export class Hierarchy extends MetadataObject implements Cloneable<Hierarchy> {
     ret.name = this.name;
     ret.description = this.description;
     ret.hasAll = this.hasAll;
+    ret.uniqueName = this.uniqueName;
     ret.levels = this.levels.map((l: Level): Level => {
       const newLevel = l.clone();
       newLevel.parent = ret;
@@ -107,6 +111,7 @@ export class Dimension extends MetadataObject implements Cloneable<Dimension> {
     ret.name = this.name;
     ret.description = this.description;
     ret.type = this.type;
+    ret.uniqueName = this.uniqueName;
     ret.hierarchies = this.hierarchies.map((h: Hierarchy): Hierarchy => {
       const newHierarchy = h.clone();
       newHierarchy.parent = ret;
@@ -151,6 +156,7 @@ export class Dataset implements Editable {
         measure.description = mdMeasure.caption;
         measure.visible = mdMeasure.visible;
         measure.calculated = mdMeasure.calculated;
+        measure.uniqueName = "[Measures].[" + mdMeasure.name + "]";
         return measure;
       });
       dataset.dimensions = mdCube.dimensions.map((mdDimension: any): Dimension => {
@@ -158,16 +164,19 @@ export class Dataset implements Editable {
         dimension.name = mdDimension.name;
         dimension.description = mdDimension.caption;
         dimension.type = mdDimension.type;
+        dimension.uniqueName = "[" + mdDimension.name + "]";
         dimension.hierarchies = mdDimension.hierarchies.map((mdHierarchy: any): Hierarchy => {
           const hierarchy = new Hierarchy(dimension);
           hierarchy.name = mdHierarchy.name;
           hierarchy.description = mdHierarchy.caption;
           hierarchy.hasAll = mdHierarchy.hasAll;
+          hierarchy.uniqueName = dimension.uniqueName + ".[" + mdHierarchy.name + "]";
           hierarchy.levels = mdHierarchy.levels.map((mdLevel: any): Level => {
             const level = new Level(hierarchy);
             level.name = mdLevel.name;
             level.description = mdLevel.caption;
             level.depth = mdLevel.depth;
+            level.uniqueName = hierarchy.uniqueName + ".[" + mdLevel.name + "]";
             return level;
           });
           return hierarchy;
