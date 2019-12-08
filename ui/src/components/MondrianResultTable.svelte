@@ -8,8 +8,6 @@
   const rightCaret = '\u25B6';
   const downCaret = '\u25BC';
 
-  console.log(rowIterator);
-
 </script>
 
 <div class="text-xxs">
