@@ -3,10 +3,10 @@
   export class MondrianResult {
     cells: MondrianResultCell[];
     axes: MondrianResultAxis[];
-    columnAxis: MondrianResultAxis;
-    rowAxis: MondrianResultAxis;
-    columnCaptions: string[];
-    rowCaptions: string[];
+    columnAxis: MondrianResultAxis = null;;
+    rowAxis: MondrianResultAxis = null;
+    columnCaptions: string[] = [];
+    rowCaptions: string[] = [];
     static fromJSON(rawResult: any): MondrianResult {
       const ret = new MondrianResult();
       ret.cells = rawResult.cells.map((rawCell: any): MondrianResultCell => {
@@ -22,7 +22,7 @@
         return axis;
       });
       ret.columnCaptions = ret.columnAxis.positions[0].memberLevelCaptions;
-      ret.rowCaptions = ret.rowAxis.positions[0].memberLevelCaptions;
+      ret.rowCaptions = ret.rowAxis ? ret.rowAxis.positions[0].memberLevelCaptions : [];
       return ret;
     }
 }

@@ -79,3 +79,17 @@ test('values', () => {
   // out of bounds
   expect(tableModel.getValueAt(tableModel.dataRowCount, tableModel.dataColumnCount)).toBeNull();
 });
+
+test.only('1 measure no rows or columns', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R0C);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.headerRows).toHaveLength(1);
+  expect(tableModel.columnCount).toBe(1);
+  expect(tableModel.headerRows[0][0]).toBe(result.columnAxis.positions[0].memberDimensionValues[0]);
+  expect(tableModel.rowHeaders).toHaveLength(0);
+  expect(tableModel.topLeftEmptyColumnCount).toBe(0);
+  expect(tableModel.rowCount).toBe(2);
+  expect(tableModel.dataColumnCount).toBe(1);
+  expect(tableModel.getValueAt(0,0)).toBe(227238);
+});

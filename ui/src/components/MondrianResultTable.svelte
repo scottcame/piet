@@ -8,6 +8,8 @@
   const rightCaret = '\u25B6';
   const downCaret = '\u25BC';
 
+  console.log(rowIterator);
+
 </script>
 
 <div class="text-xxs">
@@ -26,9 +28,11 @@
     <tbody class="border border-b-2 border-t-2 border-l-2 border-r-2 border-gray-500">
       {#each rowIterator as rowIndex}
         <tr>
-          {#each tableModel.rowHeaders[rowIndex] as rowHeader, rowHeaderIndex}
-            <th class="border bg-gray-200 border-gray-500 { rowHeaderIndex === tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : '' }">{rowHeader}</th>
-          {/each}
+          {#if tableModel.rowHeaders.length}
+            {#each tableModel.rowHeaders[rowIndex] as rowHeader, rowHeaderIndex}
+              <th class="border bg-gray-200 border-gray-500 { rowHeaderIndex === tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : '' }">{rowHeader}</th>
+            {/each}
+          {/if}
           {#each columnIterator as columnIndex}
             <td class="border text-right bg-gray-100 pr-1">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
           {/each}

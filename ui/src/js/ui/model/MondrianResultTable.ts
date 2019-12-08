@@ -18,9 +18,13 @@ export class MondrianResultTableModel {
   }
 
   get rowHeaders(): string[][] {
-    return this._mondrianResult.rowAxis.positions.map((rowPosition: MondrianResultAxisPosition): string[] => {
-      return rowPosition.memberDimensionValues;
-    });
+    let ret = [];
+    if (this._mondrianResult.rowAxis) {
+      ret = this._mondrianResult.rowAxis.positions.map((rowPosition: MondrianResultAxisPosition): string[] => {
+        return rowPosition.memberDimensionValues;
+      });
+    }
+    return ret;
   }
 
   get columnCount(): number {
@@ -32,7 +36,7 @@ export class MondrianResultTableModel {
   }
 
   get rowCount(): number {
-    return this._headerRows.length + this._mondrianResult.rowAxis.positions.length;
+    return this._headerRows.length + this.dataRowCount;
   }
 
   get dataColumnCount(): number {
@@ -40,7 +44,7 @@ export class MondrianResultTableModel {
   }
 
   get dataRowCount(): number {
-    return this._mondrianResult.rowAxis.positions.length;
+    return this._mondrianResult.rowAxis ? this._mondrianResult.rowAxis.positions.length : 1;
   }
 
   private getCellAt(rowIndex: number, columnIndex: number): MondrianResultCell {

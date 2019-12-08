@@ -18,3 +18,12 @@ test('2 measures 1 row 1 column', () => {
   expect(result.columnCaptions).toMatchObject(['Store Type', 'MeasuresLevel']);
   expect(result.rowCaptions).toMatchObject(['Store Country']);
 });
+
+test('1 measure no rows or columns', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R0C);
+  expect(result).not.toBeNull();
+  expect(result.axes).toHaveLength(1);
+  expect(result.rowAxis).toBeNull();
+  expect(result.rowCaptions).toHaveLength(0);
+  expect(result.columnCaptions).toMatchObject(["MeasuresLevel"]);
+});

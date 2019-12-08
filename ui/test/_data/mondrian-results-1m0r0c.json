@@ -1,0 +1,38 @@
+{
+  "cells": [
+    {
+      "formattedValue": "227238.0",
+      "value": 227238.0,
+      "ordinal": 0,
+      "coordinates": [
+        0
+      ],
+      "error": null
+    }
+  ],
+  "axes": [
+    {
+      "ordinal": 0,
+      "name": "COLUMNS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Measures"
+          ],
+          "memberDimensionValues": [
+            "Units Ordered"
+          ],
+          "memberLevelNames": [
+            "[Measures].[MeasuresLevel]"
+          ],
+          "memberLevelCaptions": [
+            "MeasuresLevel"
+          ]
+        }
+      ]
+    }
+  ]
+}
