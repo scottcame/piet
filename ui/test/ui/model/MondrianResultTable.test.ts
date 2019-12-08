@@ -80,7 +80,7 @@ test('values', () => {
   expect(tableModel.getValueAt(tableModel.dataRowCount, tableModel.dataColumnCount)).toBeNull();
 });
 
-test.only('1 measure no rows or columns', () => {
+test('1 measure no rows or columns', () => {
   const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R0C);
   const tableModel = new MondrianResultTableModel();
   tableModel.result = result;
