@@ -3,6 +3,7 @@ import { AnalysesController } from "../../src/js/controller/AnalysesController";
 import { DatasetAdapterFactory } from "../../src/js/ui/adapters/DatasetAdapterFactory";
 import { Workspace } from "../../src/js/model/Workspace";
 import { TreeModelMeasureNodeEvent, TreeModelLevelNodeEvent } from "../../src/js/ui/model/Tree";
+import { QueryMeasure, QueryLevel } from "../../src/js/model/Analysis";
 
 let controller: AnalysesController;
 const viewProperties = AnalysesController.VIEW_PROPERTIES;
@@ -214,6 +215,45 @@ test('Dataset tree model query test: level events', async () => {
           await controller.handleDatasetTreeNodeEvent(levelEvent).then(async () => {
             expect(controller.currentAnalysis.query.levels).toHaveLength(0);
             expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY {[Measures].[F1_M1]} ON COLUMNS FROM [Test]");
+          });
+        });
+      });
+    });
+  });
+});
+
+test('Dataset tree node workspace persistence', async () => {
+  controller.newAnalysis();
+  controller.datasetsDropdownModel.selectedIndex.value = 0;
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    const queryMeasure = new QueryMeasure();
+    queryMeasure.setUniqueName("[Measures].[F1_M1]");
+    await controller.currentAnalysis.query.measures.add(queryMeasure).then(async () => {
+      await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+        expect(w.analyses.get(0).query.measures).toHaveLength(1);
+        const queryLevel = new QueryLevel();
+        queryLevel.setUniqueName("[D1].[D1].[D1_DESCRIPTION");
+        queryLevel.setRowOrientation(true);
+        await controller.currentAnalysis.query.levels.add(queryLevel).then(async () => {
+          await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+            expect(w.analyses.get(0).query.measures).toHaveLength(1);
+            expect(w.analyses.get(0).query.levels).toHaveLength(1);
+            expect(w.analyses.get(0).query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
+            expect(w.analyses.get(0).query.levels.get(0).rowOrientation).toBe(true);
+            await queryLevel.setRowOrientation(false).then(async () => {
+              await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+                expect(w.analyses.get(0).query.measures).toHaveLength(1);
+                expect(w.analyses.get(0).query.levels).toHaveLength(1);
+                expect(w.analyses.get(0).query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
+                expect(w.analyses.get(0).query.levels.get(0).rowOrientation).toBe(false);
+                await controller.currentAnalysis.query.levels.removeAt(0).then(async () => {
+                  await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+                    expect(w.analyses.get(0).query.measures).toHaveLength(1);
+                    expect(w.analyses.get(0).query.levels).toHaveLength(0);
+                  });
+                });
+              });
+            });
           });
         });
       });

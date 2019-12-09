@@ -1,9 +1,9 @@
 import { Repository } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
-import { Analysis, QueryMeasure, QueryLevel, Query } from "../model/Analysis";
+import { Analysis, QueryMeasure, QueryLevel } from "../model/Analysis";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
-import { TreeModelContainerNode, TreeModelEvent, TreeModelLeafNodeType, TreeModelLevelNodeEvent, TreeModelNode } from "../ui/model/Tree";
+import { TreeModelContainerNode, TreeModelEvent, TreeModelLeafNodeType, TreeModelLevelNodeEvent } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
 import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
@@ -80,10 +80,14 @@ export class AnalysesController {
       this.workspace.analyses.addChangeEventListener({
         listChanged(_event: ListChangeEvent): Promise<void> {
           self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
-          return;
+          return new Promise<void>((resolve, _reject) => {
+            resolve();
+          });
         },
         listWillChange(_event: ListChangeEvent): Promise<void> {
-          return;
+          return new Promise<void>((resolve, _reject) => {
+            resolve();
+          });
         }
       });
 
@@ -132,7 +136,6 @@ export class AnalysesController {
       this.currentAnalysis.removeEditEventListener(this.currentAnalysisEditListener);
     }
     this.currentAnalysis = this.analysesDropdownModel.selectedItem;
-    this.viewPropertyUpdater.update("currentAnalysis", this.currentAnalysis);
     if (this.currentAnalysis) {
 
       const selectedIndex = this.analysesDropdownModel.selectedIndex.value;
@@ -144,37 +147,11 @@ export class AnalysesController {
       // may need to look at caching these in the future; some datasets have a long and deep metadata tree...
       this.datasetRootTreeNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(this.workspace.analyses.get(selectedIndex).dataset);
       this.viewPropertyUpdater.update("datasetRootTreeModelNode", this.datasetRootTreeNode);
-      AnalysesController.applyQueryState(this.currentAnalysis.query, this.datasetRootTreeNode);
+
     } else {
       this.viewPropertyUpdater.update("datasetRootTreeModelNode", null);
     }
-  }
-
-  private static applyQueryState(query: Query, treeModelNode: TreeModelNode): void {
-    if (treeModelNode instanceof TreeModelContainerNode) {
-      (treeModelNode as TreeModelContainerNode).children.forEach((childNode: TreeModelNode): void => {
-        this.applyQueryState(query, childNode);
-      });
-    }
-    if (treeModelNode.type === TreeModelLeafNodeType.MEASURE) {
-      query.measures.forEach((measure: QueryMeasure): void => {
-        if (measure.uniqueName === treeModelNode.uniqueName) {
-          console.log("Setting measure props on tree");
-          console.log(measure);
-          // set properties
-          // BUT first we need to create specific node types with the appropriate setters, and Observable support so we can listen for the changes in svelte-land
-        }
-      });
-    } else if (treeModelNode.type === TreeModelLeafNodeType.LEVEL) {
-      query.levels.forEach((level: QueryLevel): void => {
-        if (level.uniqueName === treeModelNode.uniqueName) {
-          console.log("Setting level props on tree");
-          console.log(level);
-          // set properties
-          // BUT first we need to create specific node types with the appropriate setters, and Observable support so we can listen for the changes in svelte-land
-        }
-      });
-    }
+    this.viewPropertyUpdater.update("currentAnalysis", this.currentAnalysis);
   }
 
   async closeCurrentAnalysis(): Promise<Analysis> {
@@ -350,7 +327,8 @@ export class AnalysesController {
 
   async executeQuery(): Promise<void> {
     // todo: execute the query on the repository and render the results
-    console.log(this.currentAnalysis.query.asMDX());
+    const mdx = this.currentAnalysis.query.asMDX();
+    console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
     return new Promise((resolve, _reject) => {
       resolve();
     });

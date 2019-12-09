@@ -7,6 +7,8 @@
 
 	export let treeModelNode;
 	export let collapsable = true;
+	export let currentAnalysis;
+
 	let expanded = true;
 	const dispatch = createEventDispatcher();
 
@@ -49,13 +51,13 @@
 				{#each treeModelNode.children as child}
 					<li>
 						{#if child.hasChildren()}
-							<svelte:self treeModelNode={child} collapsable={collapsable} on:nodeEvent={dispatchNodeChangeEvent}/>
+							<svelte:self treeModelNode={child} collapsable={collapsable} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis}/>
 						{:else}
 							{#if child.type === "level"}
-								<QueryLevelTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent}/>
+								<QueryLevelTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis}/>
 							{:else}
 								<!-- currently only these two types of leaf -->
-								<QueryMeasureTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent}/>
+								<QueryMeasureTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis}/>
 							{/if}
 						{/if}
 					</li>

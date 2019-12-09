@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte';
 
   export let treeModelNode;
+  export let currentAnalysis;
 
   let selected = false;
   let rowOrientation = true;
@@ -33,6 +34,21 @@
 
   function dispatchNodeChangeEvent() {
     dispatch('nodeEvent', new TreeModelLevelNodeEvent(treeModelNode.uniqueName, selected, rowOrientation, filterSelected, sumSelected));
+  }
+
+  $: {
+    selected = false;
+    rowOrientation = true;
+    sumSelected = false;
+    filterSelected = false;
+    currentAnalysis.query.levels.forEach((level) => {
+      if (level.uniqueName === treeModelNode.uniqueName) {
+        selected = true;
+        rowOrientation = level.rowOrientation;
+        sumSelected = level.sumSelected;
+        filterSelected = level.filterSelected;
+      }
+    });
   }
 
 </script>

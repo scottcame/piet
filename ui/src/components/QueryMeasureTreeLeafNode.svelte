@@ -4,6 +4,7 @@
   import { createEventDispatcher } from 'svelte';
 
   export let treeModelNode;
+  export let currentAnalysis;
 
   let selected = false;
   const dispatch = createEventDispatcher();
@@ -11,6 +12,15 @@
   function toggleSelected() {
     selected = !selected;
     dispatch('nodeEvent', new TreeModelMeasureNodeEvent(treeModelNode.uniqueName, selected));
+  }
+
+  $: {
+    selected = false;
+    currentAnalysis.query.measures.forEach((measure) => {
+      if (measure.uniqueName === treeModelNode.uniqueName) {
+        selected = true;
+      }
+    });
   }
 
 </script>

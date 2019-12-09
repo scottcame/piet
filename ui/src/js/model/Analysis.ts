@@ -75,6 +75,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       const q: Query =  await new Query().deserialize(o._query, repository);
       this._query = q;
       return new Promise<Analysis>((resolve, _reject) => {
+        this.initQueryComponentListListeners();
         resolve(this);
       });
     });
@@ -112,14 +113,19 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   private initQueryComponentListListeners(): void {
     this.queryMeasuresListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
       return this.initCheckpoint();
+    }, (): Promise<void> => {
+      return this.notifyPropertyEditEventListeners("query");
     }, this._query.measures, new QueryDirtyEditEventListener((): Promise<void> => {
-      return this.initCheckpoint();
+      this.initCheckpoint();
+      return this.notifyPropertyEditEventListeners("query");
     }));
-
     this.queryLevelsListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
       return this.initCheckpoint();
+    }, (): Promise<void> => {
+      return this.notifyPropertyEditEventListeners("query");
     }, this._query.levels, new QueryDirtyEditEventListener((): Promise<void> => {
-      return this.initCheckpoint();
+      this.initCheckpoint();
+      return this.notifyPropertyEditEventListeners("query");
     }));
   }
 
@@ -216,27 +222,31 @@ class QueryDirtyEditEventListener implements EditEventListener {
 }
 
 class QueryDirtyListListener<T extends Editable> implements ListChangeEventListener {
-  private editCallback: () => Promise<void>;
+  private pendingEditCallback: () => Promise<void>;
+  private editCompleteCallback: () => Promise<void>;
   private targetList: List<T>;
   private queryDirtyEditEventListener: QueryDirtyEditEventListener;
-  constructor(editCallback: () => Promise<void>, targetList: List<T>, queryDirtyEditEventListener: QueryDirtyEditEventListener) {
-    this.editCallback = editCallback;
+  constructor(pendingEditCallback: () => Promise<void>, editCompleteCallback: () => Promise<void>, targetList: List<T>, queryDirtyEditEventListener: QueryDirtyEditEventListener) {
+    this.pendingEditCallback = pendingEditCallback;
+    this.editCompleteCallback = editCompleteCallback;
     this.targetList = targetList;
     this.queryDirtyEditEventListener = queryDirtyEditEventListener;
     targetList.addChangeEventListener(this);
+    this.targetList.forEach((item: T): void => {
+      item.addEditEventListener(this.queryDirtyEditEventListener);
+    });
   }
   listWillChange(_event: ListChangeEvent): Promise<void> {
     this.targetList.forEach((item: T): void => {
       item.removeEditEventListener(this.queryDirtyEditEventListener);
     });
-    return this.editCallback();
+    return this.pendingEditCallback();
   }
   listChanged(_event: ListChangeEvent): Promise<void> {
     this.targetList.forEach((item: T): void => {
       item.addEditEventListener(this.queryDirtyEditEventListener);
     });
-    // don't call back for list changes that have already happened
-    return;
+    return this.editCompleteCallback();
   }
 }
 
@@ -407,7 +417,7 @@ export abstract class AbstractQueryObject implements Editable {
     });
     return ret;
   }
-  protected async notifyListeners(type: string): Promise<void> {
+  protected async notifyListenersOfEdit(type: string): Promise<void> {
     if (!this._dirty) {
       this._dirty = true;
       const promises: Promise<void>[] = [];
@@ -417,6 +427,13 @@ export abstract class AbstractQueryObject implements Editable {
       return Promise.all(promises).then();
     }
     return;
+  }
+  protected async notifyListenersOfPropertyEdit(property: string): Promise<void> {
+    const promises: Promise<void>[] = [];
+    this.editEventListeners.forEach((listener: EditEventListener): void => {
+      promises.push(listener.notifyPropertyEdit(new PropertyEditEvent(this, property)));
+    });
+    return Promise.all(promises).then();
   }
 }
 
@@ -465,20 +482,34 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   }
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;
-    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+    return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
   }
   async setSumSelected(value: boolean): Promise<void> {
-    this._sumSelected = value;
-    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+    if (this._sumSelected !== value) {
+      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
+        this._sumSelected = value;
+        return super.notifyListenersOfPropertyEdit("sumSelected");
+      });
+    }
+    return;
   }
   async setFilterSelected(value: boolean): Promise<void> {
-    return super.notifyListeners(EditEvent.EDIT_BEGIN).then(() => {
-      this._filterSelected = value;
-    });
+    if (this._filterSelected !== value) {
+      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
+        this._filterSelected = value;
+        return super.notifyListenersOfPropertyEdit("filterSelected");
+      });
+    }
+    return;
   }
   async setRowOrientation(value: boolean): Promise<void> {
-    this._rowOrientation = value;
-    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+    if (this._rowOrientation !== value) {
+      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
+        this._rowOrientation = value;
+        return super.notifyListenersOfPropertyEdit("rowOrientation");
+      });
+    }
+    return;
   }
 }
 
@@ -506,6 +537,6 @@ export class QueryMeasure extends AbstractQueryObject implements Cloneable<Query
   }
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;
-    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+    return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
   }
 }

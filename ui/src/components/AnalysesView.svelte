@@ -74,7 +74,7 @@
     <div class="flex flex-inline items-center justify-between mb-2">
       <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true"/>
     </div>
-    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent}/>
+    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis}/>
   </div>
   <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
