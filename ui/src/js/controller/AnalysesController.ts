@@ -3,7 +3,7 @@ import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
 import { Analysis, QueryMeasure, QueryLevel, Query } from "../model/Analysis";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
-import { TreeModelContainerNode, TreeModelEvent, TreeModelEventType, TreeModelLevelNodeEvent, TreeModelNode } from "../ui/model/Tree";
+import { TreeModelContainerNode, TreeModelEvent, TreeModelLeafNodeType, TreeModelLevelNodeEvent, TreeModelNode } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
 import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
@@ -156,7 +156,7 @@ export class AnalysesController {
         this.applyQueryState(query, childNode);
       });
     }
-    if (treeModelNode.type === TreeModelEventType.MEASURE) {
+    if (treeModelNode.type === TreeModelLeafNodeType.MEASURE) {
       query.measures.forEach((measure: QueryMeasure): void => {
         if (measure.uniqueName === treeModelNode.uniqueName) {
           console.log("Setting measure props on tree");
@@ -165,7 +165,7 @@ export class AnalysesController {
           // BUT first we need to create specific node types with the appropriate setters, and Observable support so we can listen for the changes in svelte-land
         }
       });
-    } else if (treeModelNode.type === TreeModelEventType.LEVEL) {
+    } else if (treeModelNode.type === TreeModelLeafNodeType.LEVEL) {
       query.levels.forEach((level: QueryLevel): void => {
         if (level.uniqueName === treeModelNode.uniqueName) {
           console.log("Setting level props on tree");
@@ -302,7 +302,7 @@ export class AnalysesController {
       resolve();
     });
 
-    if (event.type === TreeModelEventType.MEASURE) {
+    if (event.type === TreeModelLeafNodeType.MEASURE) {
       if (event.selected) {
         const queryMeasure = new QueryMeasure();
         queryMeasure.setUniqueName(event.uniqueName);

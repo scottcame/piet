@@ -41,16 +41,16 @@ export class TreeModelContainerNode extends TreeModelNode {
 
 }
 
-export enum TreeModelEventType {
+export enum TreeModelLeafNodeType {
   MEASURE = "measure",
   LEVEL = "level"
 }
 
 export abstract class TreeModelEvent {
-  type: TreeModelEventType;
+  type: TreeModelLeafNodeType;
   uniqueName: string;
   selected: boolean;
-  constructor(type: TreeModelEventType, uniqueName: string, selected: boolean) {
+  constructor(type: TreeModelLeafNodeType, uniqueName: string, selected: boolean) {
     this.type = type;
     this.uniqueName = uniqueName;
     this.selected = selected;
@@ -59,7 +59,7 @@ export abstract class TreeModelEvent {
 
 export class TreeModelMeasureNodeEvent extends TreeModelEvent {
   constructor(uniqueName: string, selected: boolean) {
-    super(TreeModelEventType.MEASURE, uniqueName, selected);
+    super(TreeModelLeafNodeType.MEASURE, uniqueName, selected);
   }
 }
 
@@ -68,7 +68,7 @@ export class TreeModelLevelNodeEvent extends TreeModelEvent {
   filterSelected: boolean;
   sumSelected: boolean;
   constructor(uniqueName: string, selected: boolean, rowOrientation: boolean, filterSelected: boolean, sumSelected: boolean) {
-    super(TreeModelEventType.LEVEL, uniqueName, selected);
+    super(TreeModelLeafNodeType.LEVEL, uniqueName, selected);
     this.rowOrientation = rowOrientation;
     this.filterSelected = filterSelected;
     this.sumSelected = sumSelected;
