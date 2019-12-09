@@ -1,9 +1,9 @@
 import { Repository } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
-import { Analysis, QueryMeasure, QueryLevel } from "../model/Analysis";
+import { Analysis, QueryMeasure, QueryLevel, Query } from "../model/Analysis";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
-import { TreeModelContainerNode, TreeModelEvent, TreeModelEventType, TreeModelLevelNodeEvent } from "../ui/model/Tree";
+import { TreeModelContainerNode, TreeModelEvent, TreeModelEventType, TreeModelLevelNodeEvent, TreeModelNode } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
 import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
@@ -131,21 +131,49 @@ export class AnalysesController {
     if (this.currentAnalysis) {
       this.currentAnalysis.removeEditEventListener(this.currentAnalysisEditListener);
     }
-    const selectedIndex = this.analysesDropdownModel.selectedIndex.value;
-    if (selectedIndex === null) {
-      this.viewPropertyUpdater.update("datasetRootTreeModelNode", null);
-    } else {
-      // may need to look at caching these in the future; some datasets have a long and deep metadata tree...
-      this.datasetRootTreeNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(this.workspace.analyses.get(selectedIndex).dataset);
-      this.viewPropertyUpdater.update("datasetRootTreeModelNode", this.datasetRootTreeNode);
-    }
     this.currentAnalysis = this.analysesDropdownModel.selectedItem;
     this.viewPropertyUpdater.update("currentAnalysis", this.currentAnalysis);
     if (this.currentAnalysis) {
+
+      const selectedIndex = this.analysesDropdownModel.selectedIndex.value;
       this.currentAnalysis.addEditEventListener(this.currentAnalysisEditListener);
       this.updateCancelEditsMenuItem();
       this.updateSaveAnalysisMenuItem();
       this.updateDeleteAnalysisMenuItem();
+
+      // may need to look at caching these in the future; some datasets have a long and deep metadata tree...
+      this.datasetRootTreeNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(this.workspace.analyses.get(selectedIndex).dataset);
+      this.viewPropertyUpdater.update("datasetRootTreeModelNode", this.datasetRootTreeNode);
+      AnalysesController.applyQueryState(this.currentAnalysis.query, this.datasetRootTreeNode);
+    } else {
+      this.viewPropertyUpdater.update("datasetRootTreeModelNode", null);
+    }
+  }
+
+  private static applyQueryState(query: Query, treeModelNode: TreeModelNode): void {
+    if (treeModelNode instanceof TreeModelContainerNode) {
+      (treeModelNode as TreeModelContainerNode).children.forEach((childNode: TreeModelNode): void => {
+        this.applyQueryState(query, childNode);
+      });
+    }
+    if (treeModelNode.type === TreeModelEventType.MEASURE) {
+      query.measures.forEach((measure: QueryMeasure): void => {
+        if (measure.uniqueName === treeModelNode.uniqueName) {
+          console.log("Setting measure props on tree");
+          console.log(measure);
+          // set properties
+          // BUT first we need to create specific node types with the appropriate setters, and Observable support so we can listen for the changes in svelte-land
+        }
+      });
+    } else if (treeModelNode.type === TreeModelEventType.LEVEL) {
+      query.levels.forEach((level: QueryLevel): void => {
+        if (level.uniqueName === treeModelNode.uniqueName) {
+          console.log("Setting level props on tree");
+          console.log(level);
+          // set properties
+          // BUT first we need to create specific node types with the appropriate setters, and Observable support so we can listen for the changes in svelte-land
+        }
+      });
     }
   }
 
@@ -240,7 +268,9 @@ export class AnalysesController {
         }
       });
     } else {
-      ret = new Promise<void>(() => {});
+      ret = new Promise<void>((resolve, _reject) => {
+        resolve();
+      });
     }
     return ret;
   }
@@ -275,7 +305,7 @@ export class AnalysesController {
     if (event.type === TreeModelEventType.MEASURE) {
       if (event.selected) {
         const queryMeasure = new QueryMeasure();
-        queryMeasure.uniqueName = event.uniqueName;
+        queryMeasure.setUniqueName(event.uniqueName);
         ret = this.currentAnalysis.query.measures.add(queryMeasure).then();
       } else {
         const existingMeasures = this.currentAnalysis.query.measures.filter((measure: QueryMeasure): boolean => {
@@ -296,12 +326,12 @@ export class AnalysesController {
           queryLevel = existingLevels.get(0);
         } else {
           queryLevel = new QueryLevel();
-          queryLevel.uniqueName = treeModelLevelNodeEvent.uniqueName;
+          queryLevel.setUniqueName(treeModelLevelNodeEvent.uniqueName);
           ret = this.currentAnalysis.query.levels.add(queryLevel).then();
         }
-        queryLevel.filterSelected = treeModelLevelNodeEvent.filterSelected;
-        queryLevel.rowOrientation = treeModelLevelNodeEvent.rowOrientation;
-        queryLevel.sumSelected = treeModelLevelNodeEvent.sumSelected;
+        queryLevel.setFilterSelected(treeModelLevelNodeEvent.filterSelected);
+        queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation);
+        queryLevel.setSumSelected(treeModelLevelNodeEvent.sumSelected);
       } else {
         const existingLevels = this.currentAnalysis.query.levels.filter((level: QueryLevel): boolean => {
           return level.uniqueName === treeModelLevelNodeEvent.uniqueName;
@@ -320,7 +350,7 @@ export class AnalysesController {
 
   async executeQuery(): Promise<void> {
     // todo: execute the query on the repository and render the results
-    // console.log(this.currentAnalysis.query.asMDX());
+    console.log(this.currentAnalysis.query.asMDX());
     return new Promise((resolve, _reject) => {
       resolve();
     });

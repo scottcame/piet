@@ -15,6 +15,8 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 
   private editCheckpoint: Analysis;
   private editEventListeners: EditEventListener[];
+  private queryMeasuresListChangeEventListener: QueryDirtyListListener<QueryMeasure>;
+  private queryLevelsListChangeEventListener: QueryDirtyListListener<QueryLevel>;
 
   constructor(dataset: Dataset = null, name: string = null, id: number = undefined) {
 
@@ -25,9 +27,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this._name = name;
     this._query = dataset ? new Query(dataset.name) : new Query();
 
-    this._query.componentListChangeEventListener = new QueryComponentListChangeEventListener((_event: ListChangeEvent): Promise<void> => {
-      return this.initCheckpoint();
-    });
+    this.initQueryComponentListListeners();
 
   }
 
@@ -93,6 +93,20 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     return this.notifyPropertyEditEventListeners("description");
   }
 
+  private initQueryComponentListListeners(): void {
+    this.queryMeasuresListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
+      return this.initCheckpoint();
+    }, this._query.measures, new QueryDirtyEditEventListener((): Promise<void> => {
+      return this.initCheckpoint();
+    }));
+
+    this.queryLevelsListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
+      return this.initCheckpoint();
+    }, this._query.levels, new QueryDirtyEditEventListener((): Promise<void> => {
+      return this.initCheckpoint();
+    }));
+  }
+
   private initCheckpoint(): Promise<void> {
     if (!this.editCheckpoint) {
       // id is readonly, so by definition it cannot be edited, and so we don't need to manage it on the checkpoint, either
@@ -124,16 +138,27 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       // set the properties, not the instance variables
       this.setDescription(this.editCheckpoint._description);
       this.setName(this.editCheckpoint._name);
-      const queryListener = this._query.componentListChangeEventListener;
       this._query = this.editCheckpoint._query;
-      this._query.componentListChangeEventListener = queryListener;
+      this.initQueryComponentListListeners();
     }
     this.editCheckpoint = null;
+    this._query.levels.forEach((level: QueryLevel): void => {
+      level.cancelEdits();
+    });
+    this._query.measures.forEach((m: QueryMeasure): void => {
+      m.cancelEdits();
+    });
     return this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
   }
 
   checkpointEdits(): Promise<void> {
     this.editCheckpoint = null;
+    this._query.levels.forEach((level: QueryLevel): void => {
+      level.checkpointEdits();
+    });
+    this._query.measures.forEach((m: QueryMeasure): void => {
+      m.checkpointEdits();
+    });
     return this.notifyEditEventListeners(EditEvent.EDIT_CHECKPOINT);
   }
 
@@ -161,30 +186,56 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 
 }
 
+class QueryDirtyEditEventListener implements EditEventListener {
+  private editCallback: () => Promise<void>;
+  constructor(editCallback: () => Promise<void>) {
+    this.editCallback = editCallback;
+  }
+  notifyEdit(_event: EditEvent): Promise<void> {
+    return this.editCallback();
+  }
+  notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
+    return this.editCallback();
+  }
+}
+
+class QueryDirtyListListener<T extends Editable> implements ListChangeEventListener {
+  private editCallback: () => Promise<void>;
+  private targetList: List<T>;
+  private queryDirtyEditEventListener: QueryDirtyEditEventListener;
+  constructor(editCallback: () => Promise<void>, targetList: List<T>, queryDirtyEditEventListener: QueryDirtyEditEventListener) {
+    this.editCallback = editCallback;
+    this.targetList = targetList;
+    this.queryDirtyEditEventListener = queryDirtyEditEventListener;
+    targetList.addChangeEventListener(this);
+  }
+  listWillChange(_event: ListChangeEvent): Promise<void> {
+    this.targetList.forEach((item: T): void => {
+      item.removeEditEventListener(this.queryDirtyEditEventListener);
+    });
+    return this.editCallback();
+  }
+  listChanged(_event: ListChangeEvent): Promise<void> {
+    this.targetList.forEach((item: T): void => {
+      item.addEditEventListener(this.queryDirtyEditEventListener);
+    });
+    // don't call back for list changes that have already happened
+    return;
+  }
+}
+
 export class Query implements Cloneable<Query> {
 
   private _measures: CloneableList<QueryMeasure>;
   private _levels: CloneableList<QueryLevel>;
-  private _parentListener: QueryComponentListChangeEventListener;
   nonEmpty: boolean;
   private datasetName: string;
 
   constructor(datasetName = null) {
     this._measures = new CloneableList();
     this._levels = new CloneableList();
-    this._parentListener = null;
     this.nonEmpty = true;
     this.datasetName = datasetName;
-  }
-
-  set componentListChangeEventListener(listener: QueryComponentListChangeEventListener) {
-    [this._measures, this._levels].forEach((list: CloneableList<QueryLevel|QueryMeasure>): void => {
-      if (this._parentListener !== null) {
-        list.removeChangeEventListener(this._parentListener);
-      }
-      list.addChangeEventListener(listener);
-    });
-    this._parentListener = listener;
   }
 
   get measures(): List<QueryMeasure> {
@@ -268,44 +319,105 @@ export class Query implements Cloneable<Query> {
 
 }
 
-export class QueryLevel implements Cloneable<QueryLevel> {
-  uniqueName: string;
-  sumSelected: boolean;
-  filterSelected: boolean;
-  rowOrientation: boolean;
-  clone(): QueryLevel {
-    const ret = new QueryLevel();
-    ret.uniqueName = this.uniqueName;
-    ret.sumSelected = this.sumSelected;
-    ret.filterSelected = this.filterSelected;
-    ret.rowOrientation = this.rowOrientation;
+export abstract class AbstractQueryObject implements Editable {
+  protected _dirty: boolean;
+  private editEventListeners: EditEventListener[] = [];
+  get dirty(): boolean {
+    return this._dirty;
+  }
+  cancelEdits(): void {
+    // no-op...handled by parent Analysis
+    this._dirty = false;
+  }
+  checkpointEdits(): void {
+    // no-op...handled by parent Analysis
+    this._dirty = false;
+  }
+  addEditEventListener(listener: EditEventListener): EditEventListener {
+    this.editEventListeners.push(listener);
+    return listener;
+  }
+  removeEditEventListener(listener: EditEventListener): EditEventListener {
+    let ret: EditEventListener = null;
+    this.editEventListeners.forEach((thisListener: EditEventListener, index: number): boolean => {
+      if (listener == thisListener) {
+        this.editEventListeners.splice(index, 1);
+        ret = thisListener;
+        return true;
+      }
+      return false;
+    });
     return ret;
   }
-}
-
-export class QueryMeasure implements Cloneable<QueryMeasure> {
-  uniqueName: string;
-  clone(): QueryMeasure {
-    const ret = new QueryMeasure();
-    ret.uniqueName = this.uniqueName;
-    return ret;
-  }
-}
-
-class QueryComponentListChangeEventListener implements ListChangeEventListener {
-  callback: QueryComponentListChangeEventCallback;
-  constructor(callback: QueryComponentListChangeEventCallback) {
-    this.callback = callback;
-  }
-  listChanged(_event: ListChangeEvent): Promise<void> {
-    // do nothing here...we are only concerned to catch list changes before they happen so we know an edit is happening
+  protected async notifyListeners(type: string): Promise<void> {
+    if (!this._dirty) {
+      this._dirty = true;
+      const promises: Promise<void>[] = [];
+      this.editEventListeners.forEach((listener: EditEventListener): void => {
+        promises.push(listener.notifyEdit(new EditEvent(type)));
+      });
+      return Promise.all(promises).then();
+    }
     return;
   }
-  listWillChange(event: ListChangeEvent): Promise<void> {
-    return this.callback(event);
+}
+
+export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLevel> {
+  private _uniqueName: string;
+  private _sumSelected: boolean;
+  private _filterSelected = false;
+  private _rowOrientation: boolean;
+  clone(): QueryLevel {
+    const ret = new QueryLevel();
+    ret._uniqueName = this._uniqueName;
+    ret._sumSelected = this._sumSelected;
+    ret._filterSelected = this._filterSelected;
+    ret._rowOrientation = this._rowOrientation;
+    return ret;
+  }
+  get uniqueName(): string {
+    return this._uniqueName;
+  }
+  get sumSelected(): boolean {
+    return this._sumSelected;
+  }
+  get filterSelected(): boolean {
+    return this._filterSelected;
+  }
+  get rowOrientation(): boolean {
+    return this._rowOrientation;
+  }
+  async setUniqueName(value: string): Promise<void> {
+    this._uniqueName = value;
+    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+  }
+  async setSumSelected(value: boolean): Promise<void> {
+    this._sumSelected = value;
+    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+  }
+  async setFilterSelected(value: boolean): Promise<void> {
+    return super.notifyListeners(EditEvent.EDIT_BEGIN).then(() => {
+      this._filterSelected = value;
+    });
+  }
+  async setRowOrientation(value: boolean): Promise<void> {
+    this._rowOrientation = value;
+    return super.notifyListeners(EditEvent.EDIT_BEGIN);
   }
 }
 
-interface QueryComponentListChangeEventCallback {
-  (event: ListChangeEvent): Promise<void>;
+export class QueryMeasure extends AbstractQueryObject implements Cloneable<QueryMeasure> {
+  private _uniqueName: string;
+  clone(): QueryMeasure {
+    const ret = new QueryMeasure();
+    ret._uniqueName = this._uniqueName;
+    return ret;
+  }
+  get uniqueName(): string {
+    return this._uniqueName;
+  }
+  async setUniqueName(value: string): Promise<void> {
+    this._uniqueName = value;
+    return super.notifyListeners(EditEvent.EDIT_BEGIN);
+  }
 }
