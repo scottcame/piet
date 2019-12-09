@@ -11,6 +11,7 @@ import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
 import { TableModel } from "../ui/model/Table";
 import { EditEventListener, EditEvent, PropertyEditEvent } from "../model/Persistence";
 import { DefaultObservableChangeEventListener, ObservableChangeEvent } from "../util/Observable";
+import { MondrianResult } from "../model/MondrianResult";
 
 export class AnalysesController {
 
@@ -317,10 +318,10 @@ export class AnalysesController {
   }
 
   async executeQuery(): Promise<void> {
-    // todo: execute the query on the repository and render the results
     const mdx = this.currentAnalysis.query.asMDX();
-    console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
-    return Promise.resolve();
+    return this.repository.executeQuery(mdx).then((result: MondrianResult): void => {
+      console.log(result); // todo
+    });
   }
 
 }

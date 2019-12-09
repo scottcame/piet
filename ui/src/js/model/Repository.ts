@@ -6,6 +6,7 @@ import Dexie from 'dexie';
 
 import * as testDatasetMetadata from '../../../test/_data/test-metadata.json';
 import * as testAnalyses from '../../../test/_data/test-analyses.json';
+import { MondrianResult } from "./MondrianResult";
 
 const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
 const WORKSPACE_INDEXEDDB_NAME = "PietWorkspace";
@@ -17,13 +18,14 @@ export class RepositoryQuery {
 export interface Repository {
   readonly analyses: List<Analysis>;
   readonly workspace: Workspace;
-  init(): void;
+  init(): Promise<void>;
   browseDatasets(): List<Dataset>;
   browseAnalyses(): Promise<List<Analysis>>;
   searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
   saveAnalysis(analysis: Analysis): Promise<number>;
   deleteAnalysis(analysis: Analysis): Promise<number>;
   saveWorkspace(): Promise<void>;
+  executeQuery(mdx: string): Promise<MondrianResult>;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -54,48 +56,26 @@ class WorkspaceDatabase extends Dexie {
 
 }
 
-export class LocalRepository implements Repository {
+export abstract class AbstractBaseRepository implements Repository {
 
-  // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
-
+  protected workspaceDb: WorkspaceDatabase;
   private readonly _workspace: Workspace;
-  private readonly datasets: List<Dataset>;
-  private readonly _analyses: List<Analysis>;
-  private db: RepositoryDatabase;
-  private workspaceDb: WorkspaceDatabase;
 
   constructor() {
-    this.db = new RepositoryDatabase();
-    this._analyses = new List();
-    this.datasets = new List();
-    this._workspace = new Workspace(this);
     this.workspaceDb = new WorkspaceDatabase();
+    this._workspace = new Workspace(this);
   }
 
   get workspace(): Workspace {
     return this._workspace;
   }
 
-  get analyses(): List<Analysis> {
-    return this._analyses;
-  }
-
-  async saveWorkspace(): Promise<void> {
-    return this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
-      console.log("Saved workspace");
-    });
-  }
-
   async init(): Promise<void> {
-
-    this.datasets.addAll(Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test"));
-
-    await Dexie.exists(WORKSPACE_INDEXEDDB_NAME).then(async exists => {
-      // this works for now because the datasets are statically populated. once that's no longer true, you'll have to wait until the repository is
-      // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
+    return Dexie.exists(WORKSPACE_INDEXEDDB_NAME).then(async exists => {
+      let ret = Promise.resolve();
       if (exists) {
         console.log("Restoring workspace...");
-        await this.workspaceDb.workspaces.toArray().then(async workspaces => {
+        ret = this.workspaceDb.workspaces.toArray().then(async workspaces => {
           if (workspaces[0]) {
             const savedWorkspace = await new Workspace(this, false).deserialize(workspaces[0], this);
             console.log("...restored " + savedWorkspace.analyses.length + " analyses");
@@ -105,16 +85,62 @@ export class LocalRepository implements Repository {
           }
         });
       }
+      return ret;
     });
+  }
 
-    return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
-      if (!exists) {
-        console.log("No Piet database found, creating and populating...");
-        return this.refreshDatabase();
-      } else {
-        console.log("Piet database exists, skipping population.");
-        return Promise.resolve();
-      }
+  async saveWorkspace(): Promise<void> {
+    return this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
+      console.log("Saved workspace");
+    });
+  }
+
+  abstract get analyses(): List<Analysis>;
+  abstract browseDatasets(): List<Dataset> ;
+  abstract browseAnalyses(): Promise<List<Analysis>>;
+  abstract searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
+  abstract saveAnalysis(analysis: Analysis): Promise<number>;
+  abstract deleteAnalysis(analysis: Analysis): Promise<number>;
+  abstract executeQuery(mdx: string): Promise<MondrianResult>;
+
+}
+
+export class LocalRepository extends AbstractBaseRepository implements Repository {
+
+  // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
+
+  private readonly datasets: List<Dataset>;
+  private readonly _analyses: List<Analysis>;
+  private db: RepositoryDatabase;
+
+  constructor() {
+    super();
+    this.db = new RepositoryDatabase();
+    this._analyses = new List();
+    this.datasets = new List();
+  }
+
+  get analyses(): List<Analysis> {
+    return this._analyses;
+  }
+
+  async init(): Promise<void> {
+
+    // this works for now because the datasets are statically populated. once that's no longer true, you'll have to wait until the repository is
+    // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
+
+    this.datasets.addAll(Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test"));
+
+    return super.init().then(() => {
+      return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
+        if (!exists) {
+          console.log("No Piet database found, creating and populating...");
+          return this.refreshDatabase();
+        } else {
+          console.log("Piet database exists, skipping population.");
+          return Promise.resolve();
+        }
+      });
     });
 
   }
@@ -187,6 +213,11 @@ export class LocalRepository implements Repository {
     return this.db.analyses.delete(analysis.id).then(() => {
       return analysis.id;
     });
+  }
+
+  async executeQuery(mdx: string): Promise<MondrianResult> {
+    console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
+    return Promise.resolve(null);
   }
 
 }
