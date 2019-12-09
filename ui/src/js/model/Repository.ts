@@ -113,7 +113,7 @@ export class LocalRepository implements Repository {
         return this.refreshDatabase();
       } else {
         console.log("Piet database exists, skipping population.");
-        return;
+        return Promise.resolve();
       }
     });
 

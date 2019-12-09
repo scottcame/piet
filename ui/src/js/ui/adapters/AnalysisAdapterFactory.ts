@@ -27,7 +27,7 @@ export class AnalysisAdapterFactory {
         return AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
       },
       listWillChange(_event: ListChangeEvent): Promise<void> {
-        return;
+        return Promise.resolve();
       }
     });
 
@@ -36,7 +36,7 @@ export class AnalysisAdapterFactory {
         return AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
       },
       listWillChange(_event: ListChangeEvent): Promise<void> {
-        return;
+        return Promise.resolve();
       }
     });
 
@@ -55,9 +55,7 @@ export class AnalysisAdapterFactory {
     }).forEach((analysis: Analysis) => {
       newRows.push(new AnalysisTableRow(analysis));
     });
-    return rowList.set(newRows).then(_index => {
-      return;
-    });
+    return rowList.set(newRows).then();
   }
 
 }

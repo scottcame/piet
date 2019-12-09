@@ -108,12 +108,10 @@ export class List<T> implements Iterable<T> {
     const ret  = new List<T>();
     const promises: Promise<void>[] = [];
     this.a.forEach(async (item: T, index: number): Promise<void> => {
-      promises.push(ret.add(f(item, index)).then(() => {
-        return;
-      }));
+      promises.push(ret.add(f(item, index)).then());
     });
     return Promise.all(promises).then(() => {
-      return ret;
+      return Promise.resolve(this);
     });
   }
 

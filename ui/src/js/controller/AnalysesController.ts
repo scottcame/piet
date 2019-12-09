@@ -80,14 +80,10 @@ export class AnalysesController {
       this.workspace.analyses.addChangeEventListener({
         listChanged(_event: ListChangeEvent): Promise<void> {
           self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
-          return new Promise<void>((resolve, _reject) => {
-            resolve();
-          });
+          return Promise.resolve();
         },
         listWillChange(_event: ListChangeEvent): Promise<void> {
-          return new Promise<void>((resolve, _reject) => {
-            resolve();
-          });
+          return Promise.resolve();
         }
       });
 
@@ -181,14 +177,14 @@ export class AnalysesController {
 
   async confirmDelete(confirm: boolean): Promise<void> {
     if (confirm) {
-      return this.repository.deleteAnalysis(this.currentAnalysis).then(() => {
+      return this.repository.deleteAnalysis(this.currentAnalysis).then(async () => {
         return this.confirmCloseCurrentAnalysis().then(() => {
           this.viewPropertyUpdater.update('showDeleteConfirmationModal', false);
         });
       });
     } else {
       this.viewPropertyUpdater.update('showDeleteConfirmationModal', false);
-      return;
+      return Promise.resolve();
     }
   }
 
@@ -222,7 +218,7 @@ export class AnalysesController {
         this.closeBrowseAnalysisModal();
       });
     }
-    return;
+    return Promise.resolve();
   }
 
   async chooseNewAnalysisDataset(): Promise<void> {
@@ -232,21 +228,17 @@ export class AnalysesController {
         this.closeNewAnalysisModal();
       });
     }
-    return;
+    return Promise.resolve();
   }
 
   async saveCurrentAnalysis(): Promise<void> {
-    let ret: Promise<void>;
+    let ret = Promise.resolve();
     if (this.currentAnalysis !== null) {
       ret = this.currentAnalysis.checkpointEdits().then(async () => {
         const newId = await this.repository.saveAnalysis(this.currentAnalysis);
         if (this.currentAnalysis.id === undefined) {
           this.currentAnalysis.id = newId;
         }
-      });
-    } else {
-      ret = new Promise<void>((resolve, _reject) => {
-        resolve();
       });
     }
     return ret;
@@ -275,9 +267,7 @@ export class AnalysesController {
 
   async handleDatasetTreeNodeEvent(event: TreeModelEvent): Promise<void> {
 
-    let ret: Promise<void> = new Promise((resolve, _reject) => {
-      resolve();
-    });
+    let ret = Promise.resolve();
 
     if (event.type === TreeModelLeafNodeType.MEASURE) {
       if (event.selected) {
@@ -329,9 +319,7 @@ export class AnalysesController {
     // todo: execute the query on the repository and render the results
     const mdx = this.currentAnalysis.query.asMDX();
     console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
-    return new Promise((resolve, _reject) => {
-      resolve();
-    });
+    return Promise.resolve();
   }
 
 }
@@ -347,11 +335,11 @@ class CurrentAnalysisEditListener implements EditEventListener {
     this.controller.updateCancelEditsMenuItem();
     this.controller.updateSaveAnalysisMenuItem();
     this.controller.updateDeleteAnalysisMenuItem();
-    return;
+    return Promise.resolve();
   }
   notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
     this.viewPropertyUpdater.update("currentAnalysis", this.controller.currentAnalysis);
-    return;
+    return Promise.resolve();
   }
 }
 

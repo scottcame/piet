@@ -25,11 +25,11 @@ export class DropdownModel<T extends Editable> {
 
     this.itemPropertyEditListener = {
       notifyEdit(_event: EditEvent): Promise<void> {
-        return;
+        return Promise.resolve();
       },
       notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
         self.updateLabels();
-        return;
+        return Promise.resolve();
       }
     };
 
@@ -73,10 +73,10 @@ export class DropdownModel<T extends Editable> {
           self._selectedIndex.value = e.index === -1 ? null : e.index;
         }
         self.updateLabels();
-        return;
+        return Promise.resolve();
       },
       listWillChange(_event: ListChangeEvent): Promise<void> {
-        return;
+        return Promise.resolve();
       }
     });
 
@@ -110,10 +110,14 @@ export class DropdownModel<T extends Editable> {
   }
 
   async removeSelectedItem(): Promise<DropdownModel<T>> {
+    const ret: Promise<DropdownModel<T>> = Promise.resolve(this);
     if (this._selectedIndex.value !== null) {
-      await this.items.removeAt(this._selectedIndex.value);
+      return this.items.removeAt(this._selectedIndex.value).then(() => {
+        return ret;
+      });
+    } else {
+      return ret;
     }
-    return this;
   }
 
   get selectedIndex(): Observable<number> {

@@ -76,17 +76,22 @@ test('add item', async () => {
 test('remove item', async () => {
   const item1 = new TestObject('item1');
   const item2 = new TestObject('item2');
-  await Promise.all([items.add(item1), items.add(item2)]);
-  expect(items).toHaveLength(2);
-  dropdownModel.selectedIndex.value = 0;
-  await dropdownModel.removeSelectedItem().then(async () => {
-    expect(items).toHaveLength(1);
-    expect(dropdownModel.selectedIndex.value).toBe(0);
+  return Promise.all([items.add(item1), items.add(item2)]).then(async () => {
+    expect(items).toHaveLength(2);
     dropdownModel.selectedIndex.value = 0;
-    expect(dropdownModel.selectedItem.value).toBe('item2');
-    await dropdownModel.removeSelectedItem();
-    expect(items).toHaveLength(0);
-    expect(dropdownModel.selectedIndex.value).toBeNull();
+    await dropdownModel.removeSelectedItem().then(async () => {
+      expect(items).toHaveLength(1);
+      expect(dropdownModel.selectedIndex.value).toBe(0);
+      dropdownModel.selectedIndex.value = 0;
+      expect(dropdownModel.selectedItem.value).toBe('item2');
+      await dropdownModel.removeSelectedItem().then(async (newDropdownModel: DropdownModel<TestObject>) => {
+        expect(newDropdownModel.items).toHaveLength(0);
+        expect(newDropdownModel.selectedIndex.value).toBeNull();
+        await dropdownModel.removeSelectedItem().then((newDropdownModel: DropdownModel<TestObject>) => {
+          expect(newDropdownModel.items).toHaveLength(0);
+        });
+      });
+    });
   });
 });
 

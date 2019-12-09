@@ -51,9 +51,7 @@ export class Workspace implements Serializable<Workspace> {
     });
     return Promise.all(promises).then(() => {
       ret.workspaceChangeListener.emitNotifications = true;
-      return new Promise<Workspace>((resolve, _reject) => {
-        resolve(ret);
-      });
+      return Promise.resolve(ret);
     });
   }
 
@@ -70,16 +68,16 @@ class WorkspaceChangeListener implements ListChangeEventListener, EditEventListe
     if (this.emitNotifications) {
       return this.repository.saveWorkspace();
     }
-    return;
+    return Promise.resolve();
   }
   notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
     if (this.emitNotifications) {
       return this.repository.saveWorkspace();
     }
-    return;
+    return Promise.resolve();
   }
   listChanged(_event: ListChangeEvent): Promise<void> {
-    let ret: Promise<void> = null;
+    let ret = Promise.resolve();
     if (this.emitNotifications) {
       ret = this.repository.saveWorkspace();
     }
@@ -90,6 +88,6 @@ class WorkspaceChangeListener implements ListChangeEventListener, EditEventListe
     return ret;
   }
   listWillChange(_event: ListChangeEvent): Promise<void> {
-    return;
+    return Promise.resolve();
   }
 }

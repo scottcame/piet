@@ -41,19 +41,21 @@ test('events', async () => {
   tableModel.addTableChangeEventListener(tableListener);
   const rowCountListener = new TestObservableChangeEventListener();
   tableModel.getRowCount().addChangeEventListener(rowCountListener);
-  await tableRows.add(new TestTableRow(["r2c0","r2c1"]));
-  expect(rowCountListener.f).toHaveBeenCalledTimes(1);
-  expect(rowCountListener.event.oldValue).toBe(2);
-  expect(rowCountListener.event.newValue).toBe(3);
-  expect(tableListener.f).toHaveBeenCalledTimes(1);
-  tableListener.f.mockClear();
-  rowCountListener.f.mockClear();
-  await tableRows.removeAt(0);
-  expect(rowCountListener.f).toHaveBeenCalledTimes(1);
-  expect(rowCountListener.event.oldValue).toBe(3);
-  expect(rowCountListener.event.newValue).toBe(2);
-  expect(tableListener.f).toHaveBeenCalledTimes(1);
-  expect(tableModel.getRowAt(0).getValueAt(0)).toBe("r1c0");
+  await tableRows.add(new TestTableRow(["r2c0","r2c1"])).then(async () => {
+    expect(rowCountListener.f).toHaveBeenCalledTimes(1);
+    expect(rowCountListener.event.oldValue).toBe(2);
+    expect(rowCountListener.event.newValue).toBe(3);
+    expect(tableListener.f).toHaveBeenCalledTimes(1);
+    tableListener.f.mockClear();
+    rowCountListener.f.mockClear();
+    await tableRows.removeAt(0).then(async () => {
+      expect(rowCountListener.f).toHaveBeenCalledTimes(1);
+      expect(rowCountListener.event.oldValue).toBe(3);
+      expect(rowCountListener.event.newValue).toBe(2);
+      expect(tableListener.f).toHaveBeenCalledTimes(1);
+      expect(tableModel.getRowAt(0).getValueAt(0)).toBe("r1c0");
+    });
+  });
 });
 
 test('iterable rows', () => {

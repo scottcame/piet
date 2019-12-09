@@ -22,10 +22,10 @@ export class TableModel<T> {
       listChanged(_e: ListChangeEvent): Promise<void> {
         self.notifyListeners(new TableChangeEvent());
         self.rowCount.value = rowList.length;
-        return;
+        return Promise.resolve();
       },
       listWillChange(_e: ListChangeEvent): Promise<void> {
-        return;
+        return Promise.resolve();
       }
     });
 

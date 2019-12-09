@@ -81,11 +81,12 @@ test('map', async () => {
   const f = jest.fn((val, _idx) => {
     return val;
   }); 
-  const ret = await list.map(f);
-  expect(f).toHaveBeenCalledTimes(3);
-  vals.forEach((val, idx) => {
-    expect(f).toHaveBeenNthCalledWith(idx+1, val, idx);
-    expect(ret.get(idx)).toBe(vals[idx]);
+  return list.map(f).then((newList: List<number>) => {
+    expect(f).toHaveBeenCalledTimes(3);
+    vals.forEach((val, idx) => {
+      expect(f).toHaveBeenNthCalledWith(idx+1, val, idx);
+      expect(newList.get(idx)).toBe(vals[idx]);
+    });
   });
 });
 

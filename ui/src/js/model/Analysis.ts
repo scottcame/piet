@@ -51,9 +51,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   async deserialize(o: any, repository: Repository): Promise<Analysis> {
 
     if (o === null) {
-      return new Promise<Analysis>((resolve, _reject): void => {
-        resolve(null);
-      });
+      return Promise.resolve(null);
     }
 
     let d: Dataset = null;
@@ -74,10 +72,8 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       }
       const q: Query =  await new Query().deserialize(o._query, repository);
       this._query = q;
-      return new Promise<Analysis>((resolve, _reject) => {
-        this.initQueryComponentListListeners();
-        resolve(this);
-      });
+      this.initQueryComponentListListeners();
+      return Promise.resolve(this);
     });
 
   }
@@ -290,9 +286,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
 
   async deserialize(o: any, repository: Repository): Promise<Query> {
     if (o === null) {
-      return new Promise((resolve, _reject) => {
-        resolve(null);
-      });
+      return Promise.resolve(null);
     }
     const ret = new Query();
     ret.datasetName = o.datasetName;
@@ -309,9 +303,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     ret._levels.addAll(ll);
     ret._measures = new CloneableList();
     ret._measures.addAll(qq);
-    return new Promise<any>((resolve, _reject) => {
-      resolve(ret);
-    });
+    return Promise.resolve(ret);
   }
 
   clone(): Query {
@@ -426,7 +418,7 @@ export abstract class AbstractQueryObject implements Editable {
       });
       return Promise.all(promises).then();
     }
-    return;
+    return Promise.resolve();
   }
   protected async notifyListenersOfPropertyEdit(property: string): Promise<void> {
     const promises: Promise<void>[] = [];
@@ -459,14 +451,12 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
     };
   }
   deserialize(o: any, _repository: Repository): Promise<QueryLevel> {
-    return new Promise((resolve, _reject) => {
-      const ret = new QueryLevel();
-      ret._uniqueName = o._uniqueName;
-      ret._filterSelected = o._filterSelected;
-      ret._sumSelected = o._sumSelected;
-      ret._rowOrientation = o._rowOrientation;
-      resolve(ret);
-    });
+    const ret = new QueryLevel();
+    ret._uniqueName = o._uniqueName;
+    ret._filterSelected = o._filterSelected;
+    ret._sumSelected = o._sumSelected;
+    ret._rowOrientation = o._rowOrientation;
+    return Promise.resolve(ret);
   }
   get uniqueName(): string {
     return this._uniqueName;
@@ -491,7 +481,7 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
         return super.notifyListenersOfPropertyEdit("sumSelected");
       });
     }
-    return;
+    return Promise.resolve();
   }
   async setFilterSelected(value: boolean): Promise<void> {
     if (this._filterSelected !== value) {
@@ -500,7 +490,7 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
         return super.notifyListenersOfPropertyEdit("filterSelected");
       });
     }
-    return;
+    return Promise.resolve();
   }
   async setRowOrientation(value: boolean): Promise<void> {
     if (this._rowOrientation !== value) {
@@ -509,7 +499,7 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
         return super.notifyListenersOfPropertyEdit("rowOrientation");
       });
     }
-    return;
+    return Promise.resolve();
   }
 }
 
@@ -526,11 +516,9 @@ export class QueryMeasure extends AbstractQueryObject implements Cloneable<Query
     };
   }
   deserialize(o: any, _repository: Repository): Promise<QueryMeasure> {
-    return new Promise((resolve, _reject) => {
-      const ret = new QueryMeasure();
-      ret._uniqueName = o._uniqueName;
-      resolve(ret);
-    });
+    const ret = new QueryMeasure();
+    ret._uniqueName = o._uniqueName;
+    return Promise.resolve(ret);
   }
   get uniqueName(): string {
     return this._uniqueName;
