@@ -45,13 +45,15 @@ export class Workspace implements Serializable<Workspace> {
     ret.workspaceChangeListener.emitNotifications = false;
     const promises: Promise<Analysis>[] = [];
     o.analyses.forEach((analysis: any): void => {
-      new Analysis().deserialize(analysis, repository).then(analysis => {
-        promises.push(ret.analyses.add(analysis));
-      });
+      promises.push(new Analysis().deserialize(analysis, repository).then(analysis => {
+        return ret.analyses.add(analysis);
+      }));
     });
     return Promise.all(promises).then(() => {
       ret.workspaceChangeListener.emitNotifications = true;
-      return ret;
+      return new Promise<Workspace>((resolve, _reject) => {
+        resolve(ret);
+      });
     });
   }
 
