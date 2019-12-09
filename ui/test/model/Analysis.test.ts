@@ -22,7 +22,13 @@ test('persistence', async () => {
       cube: 'Test'
     },
     name: 'test-name',
-    description: 'test-description'
+    description: 'test-description',
+    _query: {
+      _measures: [],
+      _levels: [],
+      nonEmpty: true,
+      datasetName: 'Test'
+    }
   });
   const deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
   expect(deserializedAnalysis.name).toBe(analysis.name);

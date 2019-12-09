@@ -39,6 +39,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
         id: this.dataset.id,
         cube: this.dataset.name
       },
+      _query: this._query ? this._query.serialize(repository) : new Query(this.dataset.name),
       editCheckpoint: this.editCheckpoint ? this.editCheckpoint.serialize(repository) : null
     };
     if (this.id !== undefined) {
@@ -48,6 +49,13 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   }
 
   async deserialize(o: any, repository: Repository): Promise<Analysis> {
+
+    if (o === null) {
+      return new Promise<Analysis>((resolve, _reject): void => {
+        resolve(null);
+      });
+    }
+
     let d: Dataset = null;
     repository.browseDatasets().forEach((dd: Dataset) => {
       if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
@@ -58,11 +66,19 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this.id = o.id;
     this.dataset = d;
     this._description = o.description;
-    this.editCheckpoint = o.editCheckpoint ? await new Analysis().deserialize(o.editCheckpoint, repository) : null;
-    if (this.editCheckpoint === null) {
-      this.checkpointEdits();
-    }
-    return this;
+
+    return new Analysis().deserialize(o.editCheckpoint, repository).then(async (ec: Analysis): Promise<any> => {
+      this.editCheckpoint = ec;
+      if (this.editCheckpoint === null) {
+        this.checkpointEdits();
+      }
+      const q: Query =  await new Query().deserialize(o._query, repository);
+      this._query = q;
+      return new Promise<Analysis>((resolve, _reject) => {
+        resolve(this);
+      });
+    });
+
   }
 
   inRepository(): boolean {
@@ -224,8 +240,7 @@ class QueryDirtyListListener<T extends Editable> implements ListChangeEventListe
   }
 }
 
-export class Query implements Cloneable<Query> {
-
+export class Query implements Cloneable<Query>, Serializable<Query> {
   private _measures: CloneableList<QueryMeasure>;
   private _levels: CloneableList<QueryLevel>;
   nonEmpty: boolean;
@@ -244,6 +259,49 @@ export class Query implements Cloneable<Query> {
 
   get levels(): List<QueryLevel> {
     return this._levels;
+  }
+
+  serialize(repository: Repository): any {
+    const mArray: any[] = [];
+    this._measures.forEach((measure: QueryMeasure): void => {
+      mArray.push(measure.serialize(repository));
+    });
+    const lArray: any[] = [];
+    this._levels.forEach((level: QueryLevel): void => {
+      lArray.push(level.serialize(repository));
+    });
+    return {
+      nonEmpty: this.nonEmpty,
+      datasetName: this.datasetName,
+      _measures: mArray,
+      _levels: lArray
+    };
+  }
+
+  async deserialize(o: any, repository: Repository): Promise<Query> {
+    if (o === null) {
+      return new Promise((resolve, _reject) => {
+        resolve(null);
+      });
+    }
+    const ret = new Query();
+    ret.datasetName = o.datasetName;
+    ret.nonEmpty = o.nonEmpty;
+    const mPromises: Promise<QueryMeasure>[] = o._measures.map((m: any): Promise<QueryMeasure> => {
+      return new QueryMeasure().deserialize(m, repository);
+    });
+    const qq = await Promise.all(mPromises);
+    const lPromises: Promise<QueryLevel>[] = o._levels.map((l: any): Promise<QueryLevel> => {
+      return new QueryLevel().deserialize(l, repository);
+    });
+    const ll = await Promise.all(lPromises);
+    ret._levels = new CloneableList();
+    ret._levels.addAll(ll);
+    ret._measures = new CloneableList();
+    ret._measures.addAll(qq);
+    return new Promise<any>((resolve, _reject) => {
+      resolve(ret);
+    });
   }
 
   clone(): Query {
@@ -362,11 +420,11 @@ export abstract class AbstractQueryObject implements Editable {
   }
 }
 
-export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLevel> {
+export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLevel>, Serializable<QueryLevel> {
   private _uniqueName: string;
-  private _sumSelected: boolean;
+  private _sumSelected = false;
   private _filterSelected = false;
-  private _rowOrientation: boolean;
+  private _rowOrientation = true;
   clone(): QueryLevel {
     const ret = new QueryLevel();
     ret._uniqueName = this._uniqueName;
@@ -374,6 +432,24 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
     ret._filterSelected = this._filterSelected;
     ret._rowOrientation = this._rowOrientation;
     return ret;
+  }
+  serialize(_repository: Repository): any {
+    return {
+      _uniqueName: this._uniqueName,
+      _sumSelected: this._sumSelected,
+      _filterSelected: this._filterSelected,
+      _rowOrientation: this._rowOrientation
+    };
+  }
+  deserialize(o: any, _repository: Repository): Promise<QueryLevel> {
+    return new Promise((resolve, _reject) => {
+      const ret = new QueryLevel();
+      ret._uniqueName = o._uniqueName;
+      ret._filterSelected = o._filterSelected;
+      ret._sumSelected = o._sumSelected;
+      ret._rowOrientation = o._rowOrientation;
+      resolve(ret);
+    });
   }
   get uniqueName(): string {
     return this._uniqueName;
@@ -406,12 +482,24 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   }
 }
 
-export class QueryMeasure extends AbstractQueryObject implements Cloneable<QueryMeasure> {
+export class QueryMeasure extends AbstractQueryObject implements Cloneable<QueryMeasure>, Serializable<QueryMeasure> {
   private _uniqueName: string;
   clone(): QueryMeasure {
     const ret = new QueryMeasure();
     ret._uniqueName = this._uniqueName;
     return ret;
+  }
+  serialize(_repository: Repository): any {
+    return {
+      _uniqueName: this._uniqueName
+    };
+  }
+  deserialize(o: any, _repository: Repository): Promise<QueryMeasure> {
+    return new Promise((resolve, _reject) => {
+      const ret = new QueryMeasure();
+      ret._uniqueName = o._uniqueName;
+      resolve(ret);
+    });
   }
   get uniqueName(): string {
     return this._uniqueName;
