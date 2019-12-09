@@ -1,7 +1,8 @@
 import { Repository } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
-import { Analysis, QueryMeasure, QueryLevel } from "../model/Analysis";
+import { Analysis } from "../model/Analysis";
+import { QueryMeasure, QueryLevel } from "../model/Query";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
 import { TreeModelContainerNode, TreeModelEvent, TreeModelLeafNodeType, TreeModelLevelNodeEvent } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";

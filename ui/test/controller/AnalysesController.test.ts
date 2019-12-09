@@ -3,7 +3,7 @@ import { AnalysesController } from "../../src/js/controller/AnalysesController";
 import { DatasetAdapterFactory } from "../../src/js/ui/adapters/DatasetAdapterFactory";
 import { Workspace } from "../../src/js/model/Workspace";
 import { TreeModelMeasureNodeEvent, TreeModelLevelNodeEvent } from "../../src/js/ui/model/Tree";
-import { QueryMeasure, QueryLevel } from "../../src/js/model/Analysis";
+import { QueryMeasure, QueryLevel } from "../../src/js/model/Query";
 
 let controller: AnalysesController;
 const viewProperties = AnalysesController.VIEW_PROPERTIES;

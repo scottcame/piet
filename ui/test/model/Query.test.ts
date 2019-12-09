@@ -2,7 +2,8 @@ import { Dataset } from '../../src/js/model/Dataset';
 import { FoodmartMetadata } from '../_data/TestData';
 import { LocalRepository } from '../../src/js/model/Repository';
 import { List } from '../../src/js/collections/List';
-import { Analysis, QueryLevel, QueryMeasure } from '../../src/js/model/Analysis';
+import { Analysis } from '../../src/js/model/Analysis';
+import { QueryLevel, QueryMeasure } from '../../src/js/model/Query';
 
 let repository: LocalRepository;
 let testDatasets: List<Dataset>;
