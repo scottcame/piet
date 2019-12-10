@@ -16,12 +16,11 @@ export class RepositoryQuery {
 }
 
 export interface Repository {
-  readonly analyses: List<Analysis>;
   readonly workspace: Workspace;
   init(): Promise<void>;
   browseDatasets(): List<Dataset>;
-  browseAnalyses(): Promise<List<Analysis>>;
-  searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
+  browseAnalyses(): Promise<Analysis[]>;
+  searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
   saveAnalysis(analysis: Analysis): Promise<number>;
   deleteAnalysis(analysis: Analysis): Promise<number>;
   saveWorkspace(): Promise<void>;
@@ -95,10 +94,9 @@ export abstract class AbstractBaseRepository implements Repository {
     });
   }
 
-  abstract get analyses(): List<Analysis>;
   abstract browseDatasets(): List<Dataset> ;
-  abstract browseAnalyses(): Promise<List<Analysis>>;
-  abstract searchAnalyses(query: RepositoryQuery): Promise<List<Analysis>>;
+  abstract browseAnalyses(): Promise<Analysis[]>;
+  abstract searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
   abstract saveAnalysis(analysis: Analysis): Promise<number>;
   abstract deleteAnalysis(analysis: Analysis): Promise<number>;
   abstract executeQuery(mdx: string): Promise<MondrianResult>;
@@ -110,18 +108,12 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
 
   private readonly datasets: List<Dataset>;
-  private readonly _analyses: List<Analysis>;
   private db: RepositoryDatabase;
 
   constructor() {
     super();
     this.db = new RepositoryDatabase();
-    this._analyses = new List();
     this.datasets = new List();
-  }
-
-  get analyses(): List<Analysis> {
-    return this._analyses;
   }
 
   async init(): Promise<void> {
@@ -186,18 +178,13 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     return this.datasets;
   }
 
-  async browseAnalyses(): Promise<List<Analysis>> {
-    await this._analyses.clear();
+  async browseAnalyses(): Promise<Analysis[]> {
     return this.db.analyses.toArray().then(async dbAnalyses => {
       const promises: Promise<Analysis>[] = [];
       dbAnalyses.forEach(dbAnalysis => {
         promises.push(new Analysis().deserialize(dbAnalysis, this));
       });
-      return Promise.all(promises).then(analyses => {
-        return this._analyses.set(analyses).then(() => {
-          return this._analyses;
-        });
-      });
+      return Promise.all(promises);
     });
   }
 
@@ -205,7 +192,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     return this.db.analyses.put(analysis.serialize(this));
   }
 
-  async searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {
+  async searchAnalyses(_query: RepositoryQuery): Promise<Analysis[]> {
     return this.browseAnalyses(); // for now, ignore the query string
   }
 

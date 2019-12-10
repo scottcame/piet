@@ -1,8 +1,10 @@
-import { List, ListChangeEvent } from "../../collections/List";
+import { List } from "../../collections/List";
 import { Analysis } from "../../model/Analysis";
-import { TableModel, TableRow } from "../model/Table";
+import { TableRow } from "../model/Table";
 
 export class AnalysisAdapterFactory {
+
+  static COLUMN_LABELS = ["Name", "Description"];
 
   private static instance: AnalysisAdapterFactory;
 
@@ -15,36 +17,7 @@ export class AnalysisAdapterFactory {
     return AnalysisAdapterFactory.instance;
   }
 
-  async getTableModel(analyses: List<Analysis>, excludedAnalyses = new List<Analysis>()): Promise<TableModel<Analysis>> {
-
-    const rowList: List<TableRow<Analysis>> = new List();
-    const columnHeaders = ["Name", "Description"];
-
-    await AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-
-    analyses.addChangeEventListener({
-      listChanged(_event: ListChangeEvent): Promise<void> {
-        return AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-      },
-      listWillChange(_event: ListChangeEvent): Promise<void> {
-        return Promise.resolve();
-      }
-    });
-
-    excludedAnalyses.addChangeEventListener({
-      listChanged(_event: ListChangeEvent): Promise<void> {
-        return AnalysisAdapterFactory.mapAnalysesToRows(analyses, rowList, excludedAnalyses);
-      },
-      listWillChange(_event: ListChangeEvent): Promise<void> {
-        return Promise.resolve();
-      }
-    });
-
-    return new TableModel(rowList, columnHeaders);
-
-  }
-
-  private static async mapAnalysesToRows(analyses: List<Analysis>, rowList: List<TableRow<Analysis>>, excludedAnalyses: List<Analysis>): Promise<void> {
+  getAnalysesRowList(analyses: Analysis[], excludedAnalyses = new List<Analysis>()): TableRow<Analysis>[] {
     const newRows: TableRow<Analysis>[] = [];
     analyses.filter((item: Analysis): boolean => {
       let ret = true;
@@ -55,7 +28,7 @@ export class AnalysisAdapterFactory {
     }).forEach((analysis: Analysis) => {
       newRows.push(new AnalysisTableRow(analysis));
     });
-    return rowList.set(newRows).then();
+    return newRows;
   }
 
 }

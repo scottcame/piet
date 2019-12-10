@@ -44,22 +44,28 @@ class MockRepository implements Repository {
     this.workspace = new Workspace(this);
   }
 
-  init = jest.fn((): void => {});
+  init = jest.fn((): Promise<void> => {
+    return Promise.resolve();
+  });
+  
   saveWorkspace = jest.fn((): Promise<void> => { return; });
 
   browseDatasets(): List<Dataset> {
     throw new Error("Method not implemented.");
   }
-  browseAnalyses(): Promise<List<Analysis>> {
+  browseAnalyses(): Promise<Analysis[]> {
     throw new Error("Method not implemented.");
   }
-  searchAnalyses(_query: RepositoryQuery): Promise<List<Analysis>> {
+  searchAnalyses(_query: RepositoryQuery): Promise<Analysis[]> {
     throw new Error("Method not implemented.");
   }
   saveAnalysis(_analysis: Analysis): Promise<number> {
     throw new Error("Method not implemented.");
   }
   deleteAnalysis(_analysis: Analysis): Promise<number> {
+    throw new Error("Method not implemented.");
+  }
+  executeQuery(_mdx: string): Promise<import("../../src/js/model/MondrianResult").MondrianResult> {
     throw new Error("Method not implemented.");
   }
   

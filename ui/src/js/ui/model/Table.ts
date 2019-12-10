@@ -1,34 +1,20 @@
-import { List, ListChangeEvent } from "../../collections/List";
 import { Observable } from "../../util/Observable";
 
 export class TableModel<T> {
 
-  private rowList: List<TableRow<T>>;
+  private rowList: TableRow<T>[];
   readonly columnHeaders: string[];
   private tableChangeEventListeners: TableChangeEventListener[];
-  private rowCount = new Observable<number>();
 
-  constructor(rowList: List<TableRow<T>>, columnHeaders: string[]) {
-
-    this.rowList = rowList;
-    this.rowCount.value = rowList.length;
+  constructor(columnHeaders: string[]) {
+    this.rowList = [];
     this.columnHeaders = columnHeaders;
     this.tableChangeEventListeners = [];
+  }
 
-    /* eslint-disable @typescript-eslint/no-this-alias */
-    const self = this;
-
-    this.rowList.addChangeEventListener({
-      listChanged(_e: ListChangeEvent): Promise<void> {
-        self.notifyListeners(new TableChangeEvent());
-        self.rowCount.value = rowList.length;
-        return Promise.resolve();
-      },
-      listWillChange(_e: ListChangeEvent): Promise<void> {
-        return Promise.resolve();
-      }
-    });
-
+  setRowList(rowList: TableRow<T>[]): void {
+    this.rowList = rowList;
+    this.notifyListeners(new TableChangeEvent());
   }
 
   get rows(): Iterable<TableRow<T>> {
@@ -36,7 +22,7 @@ export class TableModel<T> {
   }
 
   getRowAt(index: number): TableRow<T> {
-    return this.rowList.get(index);
+    return this.rowList[index];
   }
 
   getColumnCount(): Observable<number> {
@@ -45,8 +31,8 @@ export class TableModel<T> {
     return ret;
   }
 
-  getRowCount(): Observable<number> {
-    return this.rowCount;
+  get rowCount(): number {
+    return this.rowList.length;
   }
 
   notifyListeners(event: TableChangeEvent): void {

@@ -70,32 +70,30 @@ export class AnalysesController {
     this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
     this.datasets = this.repository.browseDatasets(); // todo: this will have to change when browse returns a promise (i.e. datasets aren't statically populated)
     this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
+    this.browseAnalysesTableModel = new TableModel<Analysis>(AnalysisAdapterFactory.COLUMN_LABELS);
 
     /* eslint-disable @typescript-eslint/no-this-alias */
     const self = this;
 
-    return AnalysisAdapterFactory.getInstance().getTableModel(this.repository.analyses, this.workspace.analyses).then(tableModel => {
+    this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
 
-      this.browseAnalysesTableModel = tableModel;
-      this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-
-      this.workspace.analyses.addChangeEventListener({
-        listChanged(_event: ListChangeEvent): Promise<void> {
-          self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
-          return Promise.resolve();
-        },
-        listWillChange(_event: ListChangeEvent): Promise<void> {
-          return Promise.resolve();
-        }
-      });
-
-      this.analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => this.handleAnalysisSelection(e)));
-
-      this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-        this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
-      }));
-
+    this.workspace.analyses.addChangeEventListener({
+      listChanged(_event: ListChangeEvent): Promise<void> {
+        self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
+        return Promise.resolve();
+      },
+      listWillChange(_event: ListChangeEvent): Promise<void> {
+        return Promise.resolve();
+      }
     });
+
+    this.analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => this.handleAnalysisSelection(e)));
+
+    this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
+      this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
+    }));
+
+    return Promise.resolve();
 
   }
 
@@ -204,7 +202,8 @@ export class AnalysesController {
   }
 
   async browseAnalyses(): Promise<void> {
-    return this.repository.browseAnalyses().then(() => {
+    return this.repository.browseAnalyses().then((repoAnalyses: Analysis[]) => {
+      this.browseAnalysesTableModel.setRowList(AnalysisAdapterFactory.getInstance().getAnalysesRowList(repoAnalyses, this.workspace.analyses));
       this.viewPropertyUpdater.update('showBrowseAnalysisModal', true);
     });
   }
