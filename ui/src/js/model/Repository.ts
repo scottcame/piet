@@ -171,7 +171,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     });
   }
 
-  browseDatasets(): Promise<Dataset[]> {
+  async browseDatasets(): Promise<Dataset[]> {
     return Promise.resolve(this.datasets);
   }
 
@@ -205,3 +205,4 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
 }
+
