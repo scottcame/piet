@@ -16,6 +16,7 @@ module.exports = {
     "node_modules"
   ],
   "setupFiles": [
-    "fake-indexeddb/auto"
+    "fake-indexeddb/auto",
+    "./jest.globals.setup.js"
   ]
 }

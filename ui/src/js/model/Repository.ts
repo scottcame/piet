@@ -206,3 +206,62 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
 }
 
+export class RemoteRepository extends AbstractBaseRepository {
+
+  private mondrianRestUrl: string;
+  private remoteRepositoryUrl: string;
+
+  constructor(mondrianRestUrl: string, remoteRepositoryUrl: string) {
+    super();
+    this.mondrianRestUrl = mondrianRestUrl;
+    this.remoteRepositoryUrl = remoteRepositoryUrl;
+  }
+
+  async init(): Promise<void> {
+    return super.init();
+  }
+
+  async browseDatasets(): Promise<Dataset[]> {
+    return fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
+      return response.json().then((json: any) => {
+        const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async connectionName => {
+          const metadataUrl = this.mondrianRestUrl + "/getMetadata?connectionName=" + connectionName;
+          const response = await fetch(metadataUrl);
+          const mdJson = await response.json();
+          return Promise.resolve(Dataset.loadFromMetadata(mdJson, metadataUrl));
+        });
+        let ret: Dataset[] = [];
+        return Promise.all(promises).then((value: Dataset[][]) => {
+          value.forEach((connectionDatasets: Dataset[]): void => {
+            ret = ret.concat(connectionDatasets);
+          });
+          return Promise.resolve(ret);
+        });
+      });
+    });
+  }
+
+  browseAnalyses(): Promise<Analysis[]> {
+    console.log("We don't yet retrieve analyses from the remote repo");
+    return Promise.resolve([]);
+  }
+
+  searchAnalyses(_query: RepositoryQuery): Promise<Analysis[]> {
+    return this.browseAnalyses();
+  }
+
+  saveAnalysis(_analysis: Analysis): Promise<number> {
+    console.log("We don't yet save analyses to the remote repo");
+    return Promise.resolve(0);
+  }
+
+  deleteAnalysis(_analysis: Analysis): Promise<number> {
+    console.log("We don't yet delete analyses from the remote repo");
+    return Promise.resolve(0);
+  }
+  
+  executeQuery(_mdx: string): Promise<MondrianResult> {
+    throw new Error("Method not implemented.");
+  }
+
+}

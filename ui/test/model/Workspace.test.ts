@@ -50,7 +50,7 @@ class MockRepository implements Repository {
   
   saveWorkspace = jest.fn((): Promise<void> => { return; });
 
-  browseDatasets(): List<Dataset> {
+  browseDatasets(): Promise<Dataset[]> {
     throw new Error("Method not implemented.");
   }
   browseAnalyses(): Promise<Analysis[]> {
