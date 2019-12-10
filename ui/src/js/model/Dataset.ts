@@ -129,6 +129,7 @@ export class Dataset implements Editable {
   private _name: string;
   private _schemaName: string;
   private _label: string;
+  private _connectionName: string;
   schemaDescription: string;
   description: string;
   measures: Measure[];
@@ -150,6 +151,7 @@ export class Dataset implements Editable {
       dataset.schemaDescription = metadata.name;
       dataset.name = mdCube.name;
       dataset.description = mdCube.caption;
+      dataset._connectionName = metadata.connectionName;
       dataset.measures = mdCube.measures.map((mdMeasure: any): Measure => {
         const measure = new Measure(dataset.name);
         measure.name = mdMeasure.name;
@@ -216,6 +218,10 @@ export class Dataset implements Editable {
 
   get label(): string {
     return this._label;
+  }
+
+  get connectionName(): string {
+    return this._connectionName;
   }
 
   cancelEdits(): void {

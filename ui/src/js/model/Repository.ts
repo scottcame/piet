@@ -23,7 +23,7 @@ export interface Repository {
   saveAnalysis(analysis: Analysis): Promise<number>;
   deleteAnalysis(analysis: Analysis): Promise<number>;
   saveWorkspace(): Promise<void>;
-  executeQuery(mdx: string): Promise<MondrianResult>;
+  executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult>;
 }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -98,7 +98,7 @@ export abstract class AbstractBaseRepository implements Repository {
   abstract searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
   abstract saveAnalysis(analysis: Analysis): Promise<number>;
   abstract deleteAnalysis(analysis: Analysis): Promise<number>;
-  abstract executeQuery(mdx: string): Promise<MondrianResult>;
+  abstract executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult>;
 
 }
 
@@ -199,7 +199,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     });
   }
 
-  async executeQuery(mdx: string): Promise<MondrianResult> {
+  async executeQuery(mdx: string, _dataset: Dataset): Promise<MondrianResult> {
     console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
     return Promise.resolve(null);
   }
@@ -232,8 +232,8 @@ export class RemoteRepository extends AbstractBaseRepository {
             });
           });
         });
-        let ret: Dataset[] = [];
         return Promise.all(promises).then((value: Dataset[][]): Promise<Dataset[]> => {
+          let ret: Dataset[] = [];
           value.forEach((connectionDatasets: Dataset[]): void => {
             ret = ret.concat(connectionDatasets);
           });
@@ -262,8 +262,21 @@ export class RemoteRepository extends AbstractBaseRepository {
     return Promise.resolve(0);
   }
   
-  executeQuery(_mdx: string): Promise<MondrianResult> {
-    throw new Error("Method not implemented.");
+  async executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult> {
+    return fetch(this.mondrianRestUrl + "/query", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        connectionName: dataset.connectionName,
+        query: mdx
+      })
+    }).then(async (response: Response) => {
+      return response.json().then(async (json: any): Promise<any> => {
+        return Promise.resolve(MondrianResult.fromJSON(json));
+      });
+    });
   }
 
 }

@@ -322,7 +322,8 @@ export class AnalysesController {
 
   async executeQuery(): Promise<void> {
     const mdx = this.currentAnalysis.query.asMDX();
-    return this.repository.executeQuery(mdx).then((result: MondrianResult): void => {
+    const dataset = this.currentAnalysis.dataset;
+    return this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
       console.log(result); // todo
     });
   }
