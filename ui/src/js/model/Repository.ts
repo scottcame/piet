@@ -223,15 +223,17 @@ export class RemoteRepository extends AbstractBaseRepository {
 
   async browseDatasets(): Promise<Dataset[]> {
     return fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
-      return response.json().then((json: any) => {
-        const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async connectionName => {
+      return response.json().then(async (json: any): Promise<any> => {
+        const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async (connectionName): Promise<Dataset[]> => {
           const metadataUrl = this.mondrianRestUrl + "/getMetadata?connectionName=" + connectionName;
-          const response = await fetch(metadataUrl);
-          const mdJson = await response.json();
-          return Promise.resolve(Dataset.loadFromMetadata(mdJson, metadataUrl));
+          return fetch(metadataUrl).then(async (response: Response): Promise<any> => {
+            return response.json().then(async (mdJson: any): Promise<any> => {
+              return Promise.resolve(Dataset.loadFromMetadata(mdJson, metadataUrl));
+            });
+          });
         });
         let ret: Dataset[] = [];
-        return Promise.all(promises).then((value: Dataset[][]) => {
+        return Promise.all(promises).then((value: Dataset[][]): Promise<Dataset[]> => {
           value.forEach((connectionDatasets: Dataset[]): void => {
             ret = ret.concat(connectionDatasets);
           });
