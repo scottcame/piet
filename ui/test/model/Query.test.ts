@@ -6,7 +6,7 @@ import { Analysis } from '../../src/js/model/Analysis';
 import { QueryLevel, QueryMeasure } from '../../src/js/model/Query';
 
 let repository: LocalRepository;
-let testDatasets: List<Dataset>;
+const testDatasets: List<Dataset> = new List();
 let foodmartDatasets: Dataset[];
 
 beforeAll(async () => {
@@ -16,8 +16,11 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   repository = new LocalRepository();
-  await repository.init();
-  testDatasets = repository.browseDatasets();
+  return repository.init().then(async () => {
+    return repository.browseDatasets().then((d: Dataset[]) => {
+      return testDatasets.set(d).then();
+    });
+  });
 });
 
 test('query measures', async () => {
@@ -198,58 +201,63 @@ test('query MDX 2 measures 1 row dim 1 col dim', async () => {
 
 test('persistence', async () => {
   const repository = new LocalRepository();
-  await repository.init();
-  const datasets = repository.browseDatasets();
-  const analysis = new Analysis(datasets.get(0), "test-name");
-  analysis.setDescription("test-description");
-  const queryMeasure = new QueryMeasure();
-  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
-  await analysis.query.measures.add(queryMeasure).then(async () => {
-    const serializedAnalysis = analysis.serialize(repository);
-    expect(serializedAnalysis).not.toBeNull();
-    expect(serializedAnalysis).toMatchObject({
-      datasetRef: {
-        id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
-        cube: 'Test'
-      },
-      name: 'test-name',
-      description: 'test-description',
-      _query: {
-        nonEmpty: true,
-        datasetName: 'Test',
-        _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
-        _levels: []
-      }
-    });
-    let deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
-    expect(deserializedAnalysis.name).toBe(analysis.name);
-    expect(deserializedAnalysis.description).toBe(analysis.description);
-    expect(deserializedAnalysis.id).toBeUndefined();
-    expect(deserializedAnalysis.query.measures.get(0).uniqueName).toBe(queryMeasure.uniqueName);
-    expect(deserializedAnalysis.query.levels).toHaveLength(0);
-    const queryLevel = new QueryLevel();
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
-    queryLevel.setRowOrientation(true);
-    await analysis.query.levels.add(queryLevel).then(async () => {
-      const serializedAnalysis = analysis.serialize(repository);
-      expect(serializedAnalysis).not.toBeNull();
-      expect(serializedAnalysis).toMatchObject({
-        datasetRef: {
-          id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
-          cube: 'Test'
-        },
-        name: 'test-name',
-        description: 'test-description',
-        _query: {
-          nonEmpty: true,
-          datasetName: 'Test',
-          _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
-          _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true, _sumSelected: false, _filterSelected: false }]
-        }
+  return repository.init().then(async () => {
+    const datasets: List<Dataset> = new List();
+    return repository.browseDatasets().then(async (dd: Dataset[]) => {
+      return datasets.set(dd).then(async () => {
+        const analysis = new Analysis(datasets.get(0), "test-name");
+        analysis.setDescription("test-description");
+        const queryMeasure = new QueryMeasure();
+        queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+        await analysis.query.measures.add(queryMeasure).then(async () => {
+          const serializedAnalysis = analysis.serialize(repository);
+          expect(serializedAnalysis).not.toBeNull();
+          expect(serializedAnalysis).toMatchObject({
+            datasetRef: {
+              id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
+              cube: 'Test'
+            },
+            name: 'test-name',
+            description: 'test-description',
+            _query: {
+              nonEmpty: true,
+              datasetName: 'Test',
+              _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
+              _levels: []
+            }
+          });
+          let deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
+          expect(deserializedAnalysis.name).toBe(analysis.name);
+          expect(deserializedAnalysis.description).toBe(analysis.description);
+          expect(deserializedAnalysis.id).toBeUndefined();
+          expect(deserializedAnalysis.query.measures.get(0).uniqueName).toBe(queryMeasure.uniqueName);
+          expect(deserializedAnalysis.query.levels).toHaveLength(0);
+          const queryLevel = new QueryLevel();
+          queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+          queryLevel.setRowOrientation(true);
+          await analysis.query.levels.add(queryLevel).then(async () => {
+            const serializedAnalysis = analysis.serialize(repository);
+            expect(serializedAnalysis).not.toBeNull();
+            expect(serializedAnalysis).toMatchObject({
+              datasetRef: {
+                id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
+                cube: 'Test'
+              },
+              name: 'test-name',
+              description: 'test-description',
+              _query: {
+                nonEmpty: true,
+                datasetName: 'Test',
+                _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
+                _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true, _sumSelected: false, _filterSelected: false }]
+              }
+            });
+            deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
+            expect(deserializedAnalysis.query.measures.get(0).uniqueName).toBe(queryMeasure.uniqueName);
+            expect(deserializedAnalysis.query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
+          });
+        });
       });
-      deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
-      expect(deserializedAnalysis.query.measures.get(0).uniqueName).toBe(queryMeasure.uniqueName);
-      expect(deserializedAnalysis.query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
     });
   });
 });

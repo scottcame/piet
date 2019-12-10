@@ -1,6 +1,5 @@
 import { Analysis } from "./Analysis";
 import { Dataset } from "./Dataset";
-import { List } from "../collections/List";
 import { Workspace } from "./Workspace";
 import Dexie from 'dexie';
 
@@ -18,7 +17,7 @@ export class RepositoryQuery {
 export interface Repository {
   readonly workspace: Workspace;
   init(): Promise<void>;
-  browseDatasets(): List<Dataset>;
+  browseDatasets(): Promise<Dataset[]>;
   browseAnalyses(): Promise<Analysis[]>;
   searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
   saveAnalysis(analysis: Analysis): Promise<number>;
@@ -94,7 +93,7 @@ export abstract class AbstractBaseRepository implements Repository {
     });
   }
 
-  abstract browseDatasets(): List<Dataset> ;
+  abstract browseDatasets(): Promise<Dataset[]>;
   abstract browseAnalyses(): Promise<Analysis[]>;
   abstract searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
   abstract saveAnalysis(analysis: Analysis): Promise<number>;
@@ -107,13 +106,13 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
   // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
 
-  private readonly datasets: List<Dataset>;
+  private readonly datasets: Dataset[];
   private db: RepositoryDatabase;
 
   constructor() {
     super();
     this.db = new RepositoryDatabase();
-    this.datasets = new List();
+    this.datasets = Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test");
   }
 
   async init(): Promise<void> {
@@ -121,9 +120,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     // this works for now because the datasets are statically populated. once that's no longer true, you'll have to wait until the repository is
     // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
 
-    this.datasets.addAll(Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test"));
-
-    return super.init().then(() => {
+    return super.init().then(async () => {
       return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
         if (!exists) {
           console.log("No Piet database found, creating and populating...");
@@ -174,8 +171,8 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     });
   }
 
-  browseDatasets(): List<Dataset> {
-    return this.datasets;
+  browseDatasets(): Promise<Dataset[]> {
+    return Promise.resolve(this.datasets);
   }
 
   async browseAnalyses(): Promise<Analysis[]> {

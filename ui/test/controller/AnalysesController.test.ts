@@ -4,6 +4,7 @@ import { DatasetAdapterFactory } from "../../src/js/ui/adapters/DatasetAdapterFa
 import { Workspace } from "../../src/js/model/Workspace";
 import { TreeModelMeasureNodeEvent, TreeModelLevelNodeEvent } from "../../src/js/ui/model/Tree";
 import { QueryMeasure, QueryLevel } from "../../src/js/model/Query";
+import { Dataset } from "../../src/js/model/Dataset";
 
 let controller: AnalysesController;
 const viewProperties = AnalysesController.VIEW_PROPERTIES;
@@ -70,27 +71,28 @@ test('rename analysis', async () => {
 });
 
 test('correct dataset root tree node', async () => {
-  const datasets = repository.browseDatasets();
-  expect(workspace.analyses).toHaveLength(0);
-  controller.newAnalysis();
-  controller.datasetsDropdownModel.selectedIndex.value = 0;
-  await controller.chooseNewAnalysisDataset().then(async () => {
+  return repository.browseDatasets().then(async (datasets: Dataset[]) => {
+    expect(workspace.analyses).toHaveLength(0);
     controller.newAnalysis();
-    controller.datasetsDropdownModel.selectedIndex.value = 1;
+    controller.datasetsDropdownModel.selectedIndex.value = 0;
     await controller.chooseNewAnalysisDataset().then(async () => {
-      expect(workspace.analyses).toHaveLength(2);
-      expect(workspace.analyses.get(0).dataset).toBe(datasets.get(0));
-      expect(workspace.analyses.get(1).dataset).toBe(datasets.get(1));
-      expect(controller.analysesDropdownModel.selectedIndex.value).toBe(1);
-      controller.analysesDropdownModel.selectedIndex.value = 0;
-      await controller.closeCurrentAnalysis().then(() => {
-        expect(workspace.analyses).toHaveLength(1);
+      controller.newAnalysis();
+      controller.datasetsDropdownModel.selectedIndex.value = 1;
+      await controller.chooseNewAnalysisDataset().then(async () => {
+        expect(workspace.analyses).toHaveLength(2);
+        expect(workspace.analyses.get(0).dataset).toBe(datasets[0]);
+        expect(workspace.analyses.get(1).dataset).toBe(datasets[1]);
+        expect(controller.analysesDropdownModel.selectedIndex.value).toBe(1);
         controller.analysesDropdownModel.selectedIndex.value = 0;
-        expect(workspace.analyses.get(0).dataset).toBe(datasets.get(1));
-        expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets.get(1).label));
+        await controller.closeCurrentAnalysis().then(() => {
+          expect(workspace.analyses).toHaveLength(1);
+          controller.analysesDropdownModel.selectedIndex.value = 0;
+          expect(workspace.analyses.get(0).dataset).toBe(datasets[1]);
+          expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets[1].label));
+        });
       });
     });
-  });
+    });
 });
 
 test('close analysis', async () => {

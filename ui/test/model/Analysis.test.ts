@@ -4,12 +4,15 @@ import { Dataset } from "../../src/js/model/Dataset";
 import { List } from "../../src/js/collections/List";
 
 let repository: LocalRepository;
-let datasets: List<Dataset>;
+const datasets: List<Dataset> = new List();
 
 beforeEach(async () => {
   repository = new LocalRepository();
-  await repository.init();
-  datasets = repository.browseDatasets();
+  return repository.init().then(async () => {
+    return repository.browseDatasets().then((d: Dataset[]) => {
+      return datasets.set(d).then();
+    });
+  });
 });
 
 test('persistence', async () => {

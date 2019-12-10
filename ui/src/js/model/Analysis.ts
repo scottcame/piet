@@ -55,26 +55,32 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       return Promise.resolve(null);
     }
 
-    let d: Dataset = null;
-    repository.browseDatasets().forEach((dd: Dataset) => {
-      if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
-        d = dd;
-      }
-    });
-    this._name = o.name;
-    this.id = o.id;
-    this.dataset = d;
-    this._description = o.description;
+    return repository.browseDatasets().then(async (datasets: Dataset[]) => {
 
-    return new Analysis().deserialize(o.editCheckpoint, repository).then(async (ec: Analysis): Promise<any> => {
-      this.editCheckpoint = ec;
-      if (this.editCheckpoint === null) {
-        this.checkpointEdits();
-      }
-      const q: Query =  await new Query().deserialize(o._query, repository);
-      this._query = q;
-      this.initQueryComponentListListeners();
-      return Promise.resolve(this);
+      let d: Dataset = null;
+
+      datasets.forEach((dd: Dataset) => {
+        if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
+          d = dd;
+        }
+      });
+
+      this._name = o.name;
+      this.id = o.id;
+      this.dataset = d;
+      this._description = o.description;
+
+      return new Analysis().deserialize(o.editCheckpoint, repository).then(async (ec: Analysis): Promise<any> => {
+        this.editCheckpoint = ec;
+        if (this.editCheckpoint === null) {
+          this.checkpointEdits();
+        }
+        const q: Query =  await new Query().deserialize(o._query, repository);
+        this._query = q;
+        this.initQueryComponentListListeners();
+        return Promise.resolve(this);
+      });
+      
     });
 
   }

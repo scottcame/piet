@@ -63,37 +63,41 @@ export class AnalysesController {
     this.workspace = repository.workspace;
     this.datasetRootTreeNode = null;
     this.currentAnalysisEditListener = new CurrentAnalysisEditListener(this, viewPropertyUpdater);
+    this.datasets = new List();
   }
 
   async init(): Promise<void> {
 
-    this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
-    this.datasets = this.repository.browseDatasets(); // todo: this will have to change when browse returns a promise (i.e. datasets aren't statically populated)
-    this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
-    this.browseAnalysesTableModel = new TableModel<Analysis>(AnalysisAdapterFactory.COLUMN_LABELS);
+    return this.repository.browseDatasets().then((repoDatasets: Dataset[]) => {
 
-    /* eslint-disable @typescript-eslint/no-this-alias */
-    const self = this;
-
-    this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-
-    this.workspace.analyses.addChangeEventListener({
-      listChanged(_event: ListChangeEvent): Promise<void> {
-        self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
-        return Promise.resolve();
-      },
-      listWillChange(_event: ListChangeEvent): Promise<void> {
-        return Promise.resolve();
-      }
+      return this.datasets.set(repoDatasets).then(() => {
+        this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
+        this.browseAnalysesTableModel = new TableModel<Analysis>(AnalysisAdapterFactory.COLUMN_LABELS);
+        this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
+    
+        /* eslint-disable @typescript-eslint/no-this-alias */
+        const self = this;
+    
+        this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
+    
+        this.workspace.analyses.addChangeEventListener({
+          listChanged(_event: ListChangeEvent): Promise<void> {
+            self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
+            return Promise.resolve();
+          },
+          listWillChange(_event: ListChangeEvent): Promise<void> {
+            return Promise.resolve();
+          }
+        });
+    
+        this.analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => this.handleAnalysisSelection(e)));
+    
+        this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
+          this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
+        }));
+      });
+  
     });
-
-    this.analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => this.handleAnalysisSelection(e)));
-
-    this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
-      this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
-    }));
-
-    return Promise.resolve();
 
   }
 
