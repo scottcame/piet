@@ -5,15 +5,18 @@
   import { currentView } from './js/Stores';
   import { List } from './js/collections/List';
   import { Workspace } from './js/model/Workspace';
-  import { LocalRepository } from './js/model/Repository';
+  import { LocalRepository, RemoteRepository } from './js/model/Repository';
+
+  // this file does not exist by default. copy from ConfigurationProperties.template.ts to ConfigurationProperties.ts.
+  import { ConfigurationProperties } from './ConfigurationProperties';
 
   let initialized = false;
 
   // default nav
   currentView.set("analyses");
 
-  // in future this will change to a remote repo
-  const repository = new LocalRepository();
+  const repository = ConfigurationProperties.MONDRIAN_REST_URL ? new RemoteRepository(ConfigurationProperties.MONDRIAN_REST_URL) : new LocalRepository();
+
   repository.init().then(() => {
     initialized = true;
     console.log("Initialization complete");
