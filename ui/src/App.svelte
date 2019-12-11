@@ -24,7 +24,7 @@
 </script>
 
 {#if {initialized}}
-  <div class="text-sm">
+  <div class="text-sm h-full">
     <MainNavbar
       workspace={repository.workspace}
       on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"

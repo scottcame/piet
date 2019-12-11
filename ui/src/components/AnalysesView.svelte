@@ -65,18 +65,18 @@
 {#await initPromise}
 <div></div>
 {:then _x}
-<div class="w-full mt-24 text-center {viewProperties.analysesInWorkspace ? 'hidden' : ''}">
+<div class="w-full h-full mt-24 text-center {viewProperties.analysesInWorkspace ? 'hidden' : ''}">
   No analyses in workspace. Choose "New" or "Browse" from analyses menu above to bring analyses into your workspace.
 </div>
 
-<div class="mt-2 h-screen p-2 bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
-  <div class="w-1/4 h-screen select-none pt-2 pr-2 border-2">
+<div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
+  <div class="w-1/4 h-full select-none pt-2 pr-2 border-2">
     <div class="flex flex-inline items-center justify-between mb-2">
       <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true"/>
     </div>
     <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis}/>
   </div>
-  <div class="w-3/4 h-screen flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
+  <div class="w-3/4 flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
       <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
       <Menu items={controller.menuItems}/>

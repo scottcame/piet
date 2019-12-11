@@ -18,3 +18,9 @@
 .text-xxs {
   font-size: .625rem;
 }
+
+/* custom style to set the height of the html body. 88px is the approximate height of the nav header. */
+
+.app-height {
+  height: calc(100% - 88px);
+}

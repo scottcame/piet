@@ -1,6 +1,8 @@
 <!doctype html>
 
-<html>
+<html class="h-full">
+
+  <!-- full height on html element so calculated height on the body works -->
 
   <head>
 
@@ -22,7 +24,9 @@
 
   </head>
 
-  <body class="bg-grey-light font-sans leading-normal tracking-normal">
+  <body class="bg-grey-light font-sans leading-normal tracking-normal app-height">
+
+    <!-- app-height is a custom style defined in tailwind.css that calculates the body height based on 100% - height of the nav header -->
 
     <!--
 

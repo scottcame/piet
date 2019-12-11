@@ -20,7 +20,7 @@
 
 </script>
 
-<div class="{$currentView === 'analyses' ? '' : 'hidden'}">
+<div class="h-full {$currentView === 'analyses' ? '' : 'hidden'}">
   <AnalysesView repository={repository} bind:navBarController={analysesNavBarController}/>
 </div>
 <div class="{$currentView === 'dashboards' ? '' : 'hidden'}">
