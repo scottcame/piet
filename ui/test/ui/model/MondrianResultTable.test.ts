@@ -2,7 +2,7 @@ import { MondrianResult } from "../../../src/js/model/MondrianResult";
 import { TestData } from "../../_data/TestData";
 import { MondrianResultTableModel } from "../../../src/js/ui/model/MondrianResultTable";
 
-test.only('null result', () => {
+test('null result', () => {
   const tableModel = new MondrianResultTableModel();
   tableModel.result = null;
   expect(tableModel.headerRows).toHaveLength(0);
