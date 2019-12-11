@@ -217,6 +217,8 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
       ret = MondrianResult.fromJSON(testResult2m2r1c);
     } else if (/F3_M2/.test(mdx)) {
       ret = MondrianResult.fromJSON(testResult2m2r2c);
+    } else if (/F3_M3/.test(mdx)) {
+      ret = MondrianResult.fromJSON(testResult1m0r0c);
     }
     return Promise.resolve(ret);
   }
