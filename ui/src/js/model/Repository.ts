@@ -113,13 +113,12 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
   // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
 
-  private readonly datasets: Dataset[];
+  private datasets: Dataset[];
   private db: RepositoryDatabase;
 
   constructor() {
     super();
     this.db = new RepositoryDatabase();
-    this.datasets = Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test");
   }
 
   async init(): Promise<void> {
@@ -128,15 +127,18 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
 
     return super.init().then(async () => {
-      return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(exists => {
+
+      return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(async exists => {
+        let ret = Promise.resolve();
         if (!exists) {
           console.log("No Piet database found, creating and populating...");
-          return this.refreshDatabase();
+          ret = this.refreshDatabase();
         } else {
           console.log("Piet database exists, skipping population.");
-          return Promise.resolve();
         }
+        return ret;
       });
+      
     });
 
   }
@@ -179,7 +181,21 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
   async browseDatasets(): Promise<Dataset[]> {
-    return Promise.resolve(this.datasets);
+    const fakeDelay = 0; // use this to simulate mondrian-rest taking awhile to return dataset metadata
+    let ret = Promise.resolve(this.datasets);
+    if (!this.datasets) {
+      ret = new Promise((resolve) => {
+        console.log("Populating datasets...");
+        setTimeout(() => {
+          this.datasets = Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test");
+          console.log("Datasets populated");
+          resolve(this.datasets);
+        }, fakeDelay);
+      });
+    } else {
+      console.log("Returning cached datasets");
+    }
+    return ret;
   }
 
   async browseAnalyses(): Promise<Analysis[]> {
