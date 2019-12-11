@@ -12,6 +12,7 @@ import { TableModel } from "../ui/model/Table";
 import { EditEventListener, EditEvent, PropertyEditEvent } from "../model/Persistence";
 import { DefaultObservableChangeEventListener, ObservableChangeEvent } from "../util/Observable";
 import { MondrianResult } from "../model/MondrianResult";
+import { MondrianResultTableModel } from "../ui/model/MondrianResultTable";
 
 export class AnalysesController {
 
@@ -42,6 +43,7 @@ export class AnalysesController {
   datasetRootTreeNode: TreeModelContainerNode;
   datasetsDropdownModel: DropdownModel<Dataset>;
   browseAnalysesTableModel: TableModel<Analysis>;
+  mondrianResultTableModel: MondrianResultTableModel;
 
   datasets: List<Dataset>;
 
@@ -64,6 +66,7 @@ export class AnalysesController {
     this.datasetRootTreeNode = null;
     this.currentAnalysisEditListener = new CurrentAnalysisEditListener(this, viewPropertyUpdater);
     this.datasets = new List();
+    this.mondrianResultTableModel = new MondrianResultTableModel();
   }
 
   async init(): Promise<void> {
@@ -147,6 +150,8 @@ export class AnalysesController {
       // may need to look at caching these in the future; some datasets have a long and deep metadata tree...
       this.datasetRootTreeNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(this.workspace.analyses.get(selectedIndex).dataset);
       this.viewPropertyUpdater.update("datasetRootTreeModelNode", this.datasetRootTreeNode);
+
+      this.executeQuery();
 
     } else {
       this.viewPropertyUpdater.update("datasetRootTreeModelNode", null);
@@ -324,7 +329,7 @@ export class AnalysesController {
     const mdx = this.currentAnalysis.query.asMDX();
     const dataset = this.currentAnalysis.dataset;
     return this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
-      console.log(result); // todo
+      this.mondrianResultTableModel.result = result;
     });
   }
 

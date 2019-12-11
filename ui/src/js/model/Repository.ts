@@ -7,6 +7,13 @@ import * as testDatasetMetadata from '../../../test/_data/test-metadata.json';
 import * as testAnalyses from '../../../test/_data/test-analyses.json';
 import { MondrianResult } from "./MondrianResult";
 
+import * as testResult2m1r1c from '../../../test/_data/mondrian-results-2m1r1c.json';
+import * as testResult2m1r2c from '../../../test/_data/mondrian-results-2m1r2c.json';
+import * as testResult2m2r1c from '../../../test/_data/mondrian-results-2m2r1c.json';
+import * as testResult2m2r2c from '../../../test/_data/mondrian-results-2m2r2c.json';
+import * as testResult1m0r0c from '../../../test/_data/mondrian-results-1m0r0c.json';
+
+
 const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
 const WORKSPACE_INDEXEDDB_NAME = "PietWorkspace";
 
@@ -201,7 +208,17 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
   async executeQuery(mdx: string, _dataset: Dataset): Promise<MondrianResult> {
     console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
-    return Promise.resolve(null);
+    let ret: MondrianResult = null;
+    if (/F1_M1/.test(mdx)) {
+      ret = MondrianResult.fromJSON(testResult2m1r1c);
+    } else if (/F2_M1/.test(mdx)) {
+      ret = MondrianResult.fromJSON(testResult2m1r2c);
+    } else if (/F3_M1/.test(mdx)) {
+      ret = MondrianResult.fromJSON(testResult2m2r1c);
+    } else if (/F3_M2/.test(mdx)) {
+      ret = MondrianResult.fromJSON(testResult2m2r2c);
+    }
+    return Promise.resolve(ret);
   }
 
 }

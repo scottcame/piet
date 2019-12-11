@@ -11,6 +11,9 @@ export class MondrianResultTableModel {
   set result(mondrianResult: MondrianResult) {
     this._mondrianResult = mondrianResult;
     this.setHeaderRows(mondrianResult);
+    this.changeListeners.forEach((listener: MondrianTableModelChangeListener): void => {
+      listener.mondrianTableModelChanged(new MondrianTableModelChangeEvent(this));
+    });
   }
 
   get headerRows(): string[][] {
@@ -68,7 +71,7 @@ export class MondrianResultTableModel {
 
     this._headerRows = [];
 
-    if (mondrianResult) {
+    if (this._mondrianResult) {
 
       this._headerRows = mondrianResult.columnCaptions.map((columnCaption: string, captionIndex: number): string[] => {
         const columnHeaders = mondrianResult.columnAxis.positions
@@ -98,4 +101,28 @@ export class MondrianResultTableModel {
 
   }
 
+  private changeListeners: MondrianTableModelChangeListener[] = [];
+
+  addMondrianTableModelChangeListener(listener: MondrianTableModelChangeListener): void {
+    this.changeListeners.push(listener);
+  }
+
+  removeMondrianTableModelChangeListener(listener: MondrianTableModelChangeListener): void {
+    const currentIndex = this.changeListeners.indexOf(listener);
+    if (currentIndex !== -1) {
+      this.changeListeners.splice(currentIndex, 1);
+    }
+  }
+
+}
+
+export class MondrianTableModelChangeEvent {
+  readonly target: MondrianResultTableModel;
+  constructor(target: MondrianResultTableModel) {
+    this.target = target;
+  }
+}
+
+export interface MondrianTableModelChangeListener {
+  mondrianTableModelChanged(event: MondrianTableModelChangeEvent): void;
 }

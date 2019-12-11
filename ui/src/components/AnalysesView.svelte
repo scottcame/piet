@@ -6,6 +6,7 @@
   import Modal from './Modal.svelte';
   import Menu from './Menu.svelte';
   import SelectTable from './SelectTable.svelte';
+  import MondrianResultTable from './MondrianResultTable.svelte';
 
   import { AnalysesController } from '../js/controller/AnalysesController';
 
@@ -81,9 +82,9 @@
       <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
       <Menu items={controller.menuItems}/>
     </div>
-    <div class="flex bg-gray-300 p-2 border border-black">
-      <div>Table for "{currentAnalysisDescriptionDisplay}" will go here.</div>
-    </div>
+    <!-- <div class="flex bg-gray-300 p-2 border border-black"> -->
+      <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultTable tableModel={controller.mondrianResultTableModel}/></div>
+    <!-- </div> -->
   </div>
 </div>
 <Modal visible={viewProperties.showNewAnalysisModal}>
