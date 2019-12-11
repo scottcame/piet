@@ -9,6 +9,8 @@
 
   import { createEventDispatcher } from 'svelte';
 
+  export let initialized = false;
+
 	const dispatch = createEventDispatcher();
 
   let navs = [
@@ -88,6 +90,7 @@
       </div>
 		</a>
 	</div>
+  {#if initialized}
   <div class="flex flex-inline justify-end items-center text-gray-500">
     <div>
       {#each navs as nav}
@@ -107,6 +110,6 @@
       <IconSearch/>
       <input class="text-sm p-2" type="search" placeholder="Search..." disabled>
     </div>
-
   </div>
+  {/if}
 </nav>

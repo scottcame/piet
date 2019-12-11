@@ -12,6 +12,7 @@ import * as testResult2m1r2c from '../../../test/_data/mondrian-results-2m1r2c.j
 import * as testResult2m2r1c from '../../../test/_data/mondrian-results-2m2r1c.json';
 import * as testResult2m2r2c from '../../../test/_data/mondrian-results-2m2r2c.json';
 import * as testResult1m0r0c from '../../../test/_data/mondrian-results-1m0r0c.json';
+import { ConfigurationProperties } from "../../ConfigurationProperties";
 
 
 const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
@@ -127,18 +128,18 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
 
     return super.init().then(async () => {
-
-      return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(async exists => {
-        let ret = Promise.resolve();
-        if (!exists) {
-          console.log("No Piet database found, creating and populating...");
-          ret = this.refreshDatabase();
-        } else {
-          console.log("Piet database exists, skipping population.");
-        }
-        return ret;
+      return this.browseDatasets().then(async () => {
+        return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(async exists => {
+          let ret = Promise.resolve();
+          if (!exists) {
+            console.log("No Piet database found, creating and populating...");
+            ret = this.refreshDatabase();
+          } else {
+            console.log("Piet database exists, skipping population.");
+          }
+          return ret;
+        });
       });
-      
     });
 
   }
@@ -181,11 +182,11 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
   async browseDatasets(): Promise<Dataset[]> {
-    const fakeDelay = 0; // use this to simulate mondrian-rest taking awhile to return dataset metadata
+    const fakeDelay = ConfigurationProperties.LOCAL_REPOSITORY_DATASETS_DELAY; // use this to simulate mondrian-rest taking awhile to return dataset metadata
     let ret = Promise.resolve(this.datasets);
     if (!this.datasets) {
       ret = new Promise((resolve) => {
-        console.log("Populating datasets...");
+        console.log("Populating datasets (simulated delay of " + fakeDelay + " ms)...");
         setTimeout(() => {
           this.datasets = Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test");
           console.log("Datasets populated");
@@ -245,6 +246,8 @@ export class RemoteRepository extends AbstractBaseRepository {
 
   private mondrianRestUrl: string;
   private remoteRepositoryUrl: string;
+  private datasets: Dataset[];
+  private inflightBrowseDatasetsPromise: Promise<Dataset[]> = null;
 
   constructor(mondrianRestUrl: string, remoteRepositoryUrl: string) {
     super();
@@ -253,29 +256,42 @@ export class RemoteRepository extends AbstractBaseRepository {
   }
 
   async init(): Promise<void> {
-    return super.init();
+    return super.init().then(async () => {
+      return this.browseDatasets().then(async (_ds) => {
+        return Promise.resolve();
+      });
+    });
   }
 
   async browseDatasets(): Promise<Dataset[]> {
-    return fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
-      return response.json().then(async (json: any): Promise<any> => {
-        const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async (connectionName): Promise<Dataset[]> => {
-          const metadataUrl = this.mondrianRestUrl + "/getMetadata?connectionName=" + connectionName;
-          return fetch(metadataUrl).then(async (response: Response): Promise<any> => {
-            return response.json().then(async (mdJson: any): Promise<any> => {
-              return Promise.resolve(Dataset.loadFromMetadata(mdJson, metadataUrl));
+    let ret = Promise.resolve(this.datasets);
+    if (!this.datasets) {
+      if (this.inflightBrowseDatasetsPromise) {
+        ret = this.inflightBrowseDatasetsPromise;
+      } else {
+        ret = fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
+          return response.json().then(async (json: any): Promise<any> => {
+            const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async (connectionName): Promise<Dataset[]> => {
+              const metadataUrl = this.mondrianRestUrl + "/getMetadata?connectionName=" + connectionName;
+              return fetch(metadataUrl).then(async (response: Response): Promise<any> => {
+                return response.json().then(async (mdJson: any): Promise<any> => {
+                  return Promise.resolve(Dataset.loadFromMetadata(mdJson, metadataUrl));
+                });
+              });
+            });
+            return Promise.all(promises).then((value: Dataset[][]): Promise<Dataset[]> => {
+              this.datasets = [];
+              value.forEach((connectionDatasets: Dataset[]): void => {
+                this.datasets = this.datasets.concat(connectionDatasets);
+              });
+              return Promise.resolve(this.datasets);
             });
           });
         });
-        return Promise.all(promises).then((value: Dataset[][]): Promise<Dataset[]> => {
-          let ret: Dataset[] = [];
-          value.forEach((connectionDatasets: Dataset[]): void => {
-            ret = ret.concat(connectionDatasets);
-          });
-          return Promise.resolve(ret);
-        });
-      });
-    });
+        this.inflightBrowseDatasetsPromise = ret;
+      }
+    }
+    return ret;
   }
 
   browseAnalyses(): Promise<Analysis[]> {
@@ -298,20 +314,24 @@ export class RemoteRepository extends AbstractBaseRepository {
   }
   
   async executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult> {
-    return fetch(this.mondrianRestUrl + "/query", {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        connectionName: dataset.connectionName,
-        query: mdx
-      })
-    }).then(async (response: Response) => {
-      return response.json().then(async (json: any): Promise<any> => {
-        return Promise.resolve(MondrianResult.fromJSON(json));
+    let ret = Promise.resolve(null);
+    if (mdx) {
+      ret = fetch(this.mondrianRestUrl + "/query", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          connectionName: dataset.connectionName,
+          query: mdx
+        })
+      }).then(async (response: Response) => {
+        return response.json().then(async (json: any): Promise<any> => {
+          return Promise.resolve(MondrianResult.fromJSON(json));
+        });
       });
-    });
+    }
+    return ret;
   }
 
 }

@@ -8,4 +8,7 @@ export class ConfigurationProperties {
   // set to null to use RemoteRepository
   static readonly MONDRIAN_REST_URL = "/mondrian-rest";
 
+  // control simulated browseDataset() delay in the LocalRepository
+  static readonly LOCAL_REPOSITORY_DATASETS_DELAY = 0;
+
 }

@@ -198,7 +198,9 @@ export class AnalysesController {
   }
 
   async cancelEdits(): Promise<void> {
-    return this.currentAnalysis.cancelEdits();
+    return this.currentAnalysis.cancelEdits().then(async () => {
+      return this.executeQuery();
+    });
   }
 
   newAnalysis(): void {
@@ -326,11 +328,17 @@ export class AnalysesController {
   }
 
   async executeQuery(): Promise<void> {
-    const mdx = this.currentAnalysis.query.asMDX();
-    const dataset = this.currentAnalysis.dataset;
-    return this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
-      this.mondrianResultTableModel.result = result;
-    });
+    let ret = Promise.resolve();
+    if (this.currentAnalysis) {
+      const mdx = this.currentAnalysis.query.asMDX();
+      const dataset = this.currentAnalysis.dataset;
+      ret = this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
+        this.mondrianResultTableModel.result = result;
+      });
+    } else {
+      this.mondrianResultTableModel.result = null;
+    }
+    return ret;
   }
 
 }

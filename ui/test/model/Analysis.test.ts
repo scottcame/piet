@@ -9,13 +9,16 @@ const datasets: List<Dataset> = new List();
 beforeEach(async () => {
   repository = new LocalRepository();
   return repository.init().then(async () => {
-    return repository.browseDatasets().then((d: Dataset[]) => {
-      return datasets.set(d).then();
+    console.log("Initted");
+    return repository.browseDatasets().then(async (d: Dataset[]) => {
+      console.log("after browse");
+      return datasets.set(d);
     });
   });
 });
 
 test('persistence', async () => {
+  console.log("start of test");
   const analysis = new Analysis(datasets.get(0), "test-name");
   analysis.setDescription("test-description");
   const serializedAnalysis = analysis.serialize(repository);
