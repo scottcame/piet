@@ -127,6 +127,12 @@ export class List<T> implements Iterable<T> {
     return this.a.includes(item);
   }
 
+  asArray(): T[] {
+    return this.a.map((item: T): T => {
+      return item;
+    });
+  }
+
   addChangeEventListener(listener: ListChangeEventListener): ListChangeEventListener {
     this.changeListeners.push(listener);
     return listener;

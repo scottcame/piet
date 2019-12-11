@@ -90,6 +90,17 @@ test('map', async () => {
   });
 });
 
+test('asArray', async () => {
+  let vals = [10, 20, 30];
+  return list.set(vals).then(async () => {
+    expect(list.asArray()).toMatchObject(vals);
+    vals = [];
+    return list.set(vals).then(() => {
+      expect(list.asArray()).toMatchObject(vals);
+    });
+  });
+});
+
 class TestListChangeEventListener implements ListChangeEventListener {
   event: ListChangeEvent;
   /* eslint-disable @typescript-eslint/no-explicit-any */
