@@ -6,7 +6,7 @@ export class MondrianResultTableModel {
 
   private _mondrianResult: MondrianResult;
   private _headerRows: string[][];
-  private  _topLeftEmptyColumnCount: number;
+  private  _topLeftEmptyColumnCount = 0;
 
   set result(mondrianResult: MondrianResult) {
     this._mondrianResult = mondrianResult;
@@ -28,7 +28,7 @@ export class MondrianResultTableModel {
   }
 
   get columnCount(): number {
-    return this._headerRows[0].length;
+    return this._mondrianResult ? this._headerRows[0].length : 0;
   }
 
   get topLeftEmptyColumnCount(): number {
@@ -40,16 +40,16 @@ export class MondrianResultTableModel {
   }
 
   get dataColumnCount(): number {
-    return this._mondrianResult.columnAxis.positions.length;
+    return this._mondrianResult ? this._mondrianResult.columnAxis.positions.length : 0;
   }
 
   get dataRowCount(): number {
-    return this._mondrianResult.rowAxis ? this._mondrianResult.rowAxis.positions.length : 1;
+    return this._mondrianResult ? (this._mondrianResult.rowAxis ? this._mondrianResult.rowAxis.positions.length : 1) : 0;
   }
 
   private getCellAt(rowIndex: number, columnIndex: number): MondrianResultCell {
     // note that mondrian result cells have coordinates as (column, row) because that's the order of the axes
-    return this._mondrianResult.cells[rowIndex*this.dataColumnCount + columnIndex];
+    return this._mondrianResult ? this._mondrianResult.cells[rowIndex*this.dataColumnCount + columnIndex] : null;
   }
 
   getValueAt(rowIndex: number, columnIndex: number): string | number {
@@ -66,29 +66,35 @@ export class MondrianResultTableModel {
 
     // note: this assumes we always put the columns on the columns axis, which is conventional
 
-    this._headerRows = mondrianResult.columnCaptions.map((columnCaption: string, captionIndex: number): string[] => {
-      const columnHeaders = mondrianResult.columnAxis.positions
-        .map((position: MondrianResultAxisPosition): string => {
-          return position.memberDimensionValues[captionIndex];
-        });
-      const base = columnCaption === "MeasuresLevel" ? [] : [columnCaption];
-      return base.concat(columnHeaders);
-    });
+    this._headerRows = [];
 
-    const emptyRowHeaders = mondrianResult.rowCaptions.map((_rowCaption: string): string => {
-      return null;
-    });
+    if (mondrianResult) {
 
-    emptyRowHeaders.splice(0, 1);
-    this._topLeftEmptyColumnCount = emptyRowHeaders.length;
+      this._headerRows = mondrianResult.columnCaptions.map((columnCaption: string, captionIndex: number): string[] => {
+        const columnHeaders = mondrianResult.columnAxis.positions
+          .map((position: MondrianResultAxisPosition): string => {
+            return position.memberDimensionValues[captionIndex];
+          });
+        const base = columnCaption === "MeasuresLevel" ? [] : [columnCaption];
+        return base.concat(columnHeaders);
+      });
 
-    this._headerRows = this._headerRows.map((row: string[], rowIndex: number): string[] => {
-      let rowHeaderColumns = emptyRowHeaders;
-      if (rowIndex === this._headerRows.length - 1) {
-        rowHeaderColumns = mondrianResult.rowCaptions;
-      }
-      return rowHeaderColumns.concat(row);
-    });
+      const emptyRowHeaders = mondrianResult.rowCaptions.map((_rowCaption: string): string => {
+        return null;
+      });
+
+      emptyRowHeaders.splice(0, 1);
+      this._topLeftEmptyColumnCount = emptyRowHeaders.length;
+
+      this._headerRows = this._headerRows.map((row: string[], rowIndex: number): string[] => {
+        let rowHeaderColumns = emptyRowHeaders;
+        if (rowIndex === this._headerRows.length - 1) {
+          rowHeaderColumns = mondrianResult.rowCaptions;
+        }
+        return rowHeaderColumns.concat(row);
+      });
+
+    }
 
   }
 

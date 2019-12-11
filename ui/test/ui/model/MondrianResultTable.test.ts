@@ -2,6 +2,17 @@ import { MondrianResult } from "../../../src/js/model/MondrianResult";
 import { TestData } from "../../_data/TestData";
 import { MondrianResultTableModel } from "../../../src/js/ui/model/MondrianResultTable";
 
+test.only('null result', () => {
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = null;
+  expect(tableModel.headerRows).toHaveLength(0);
+  expect(tableModel.columnCount).toBe(0);
+  expect(tableModel.dataColumnCount).toBe(0);
+  expect(tableModel.dataRowCount).toBe(0);
+  expect(tableModel.getValueAt(0,0)).toBeNull();
+  expect(tableModel.rowCount).toBe(0);
+});
+
 test('header rows 2m1r1c', () => {
   const result = MondrianResult.fromJSON(TestData.TEST_RESULT_2M1R1C);
   const tableModel = new MondrianResultTableModel();
