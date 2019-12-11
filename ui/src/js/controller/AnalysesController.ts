@@ -303,14 +303,19 @@ export class AnalysesController {
         let queryLevel: QueryLevel = null;
         if (existingLevels.length) {
           queryLevel = existingLevels.get(0);
+          const promises: Promise<void>[] = [
+            queryLevel.setFilterSelected(treeModelLevelNodeEvent.filterSelected),
+            queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation),
+            queryLevel.setSumSelected(treeModelLevelNodeEvent.sumSelected)
+          ];
+          ret = Promise.all(promises).then(() => {
+            return Promise.resolve();
+          });
         } else {
           queryLevel = new QueryLevel();
           queryLevel.setUniqueName(treeModelLevelNodeEvent.uniqueName);
           ret = this.currentAnalysis.query.levels.add(queryLevel).then();
         }
-        queryLevel.setFilterSelected(treeModelLevelNodeEvent.filterSelected);
-        queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation);
-        queryLevel.setSumSelected(treeModelLevelNodeEvent.sumSelected);
       } else {
         const existingLevels = this.currentAnalysis.query.levels.filter((level: QueryLevel): boolean => {
           return level.uniqueName === treeModelLevelNodeEvent.uniqueName;
