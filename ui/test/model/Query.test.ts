@@ -114,7 +114,7 @@ test('query MDX 1 measure 2 row dims', async () => {
       queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
-        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY CrossJoin({[Store].[Stores].[Store Country].Members},{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members}*{[Store Type].[Store Type].[Store Type].Members} ON ROWS FROM [Store]");
       });
     });
   });
@@ -168,7 +168,8 @@ test('query MDX 1 measure 1 row dim 2 col dim', async () => {
         queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
         queryLevel.setRowOrientation(false);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY CrossJoin(CrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members}),{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+          console.log(q.asMDX());
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}*{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members},{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
         });
       });
     });

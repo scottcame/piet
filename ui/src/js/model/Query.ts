@@ -81,7 +81,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
       levelsList.forEach((level: QueryLevel): void => {
         levelStrings.push("{" + level.uniqueName + ".Members}");
       });
-      ret = "CrossJoin(" + levelStrings.join() + ")";
+      ret = levelStrings.join("*");
     }
     return ret;
   }
