@@ -52,6 +52,6 @@
       </tbody>
     </table>
   {:else}
-    <div>No results available.</div>
+    <div class="p-2">No results available.</div>
   {/if}
 </div>
