@@ -56,6 +56,26 @@ test('hierarchies and levels', () => {
   });
 });
 
+test('member levels', () => {
+  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
+    mdCube.dimensions.forEach((mdDimension: any, dimensionIdx: number): void => {
+      mdDimension.hierarchies.forEach((mdHierarchy: any, hierarchyIdx: number): void => {
+        mdHierarchy.levels.forEach((mdLevel: any, levelIdx: number): void => {
+          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members).toHaveLength(mdLevel.members.length);
+          mdLevel.members.forEach((mdMember: any, memberIdx: number) => {
+            expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].name).toBe(mdMember.name);
+            expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].children).toHaveLength(mdMember.childMembers.length);
+            mdMember.childMembers.forEach((mdChildMember: any, childMemberIdx: number) => {
+              // we just test one layer down
+              expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].children[childMemberIdx].name).toBe(mdChildMember.name);
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
 test('level mdx string', () => {
   expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString()).toBe("[D1].[D1].[D1_DESCRIPTION].Members"); 
   expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString(false)).toBe("[D1].[D1].[D1_DESCRIPTION]"); 

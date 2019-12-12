@@ -39,10 +39,12 @@ export class Level extends MetadataObject implements Cloneable<Level> {
 
   depth: number;
   parent: Hierarchy;
+  members: Member[];
 
   constructor(parent: Hierarchy = null) {
     super();
     this.parent = parent;
+    this.members = [];
   }
 
   clone(): Level {
@@ -52,6 +54,9 @@ export class Level extends MetadataObject implements Cloneable<Level> {
     ret.description = this.description;
     ret.depth = this.depth;
     ret.uniqueName = this.uniqueName;
+    ret.members = this.members.map((member: Member): Member => {
+      return member.clone();
+    });
     return ret;
   }
 
@@ -123,6 +128,25 @@ export class Dimension extends MetadataObject implements Cloneable<Dimension> {
 
 }
 
+export class Member implements Cloneable<Member> {
+  name: string = null;
+  description: string = null;
+  children: Member[] = [];
+  parent: Level;
+  constructor(parent: Level = null) {
+    this.parent = parent;
+  }
+  clone(): Member {
+    const ret = new Member(this.parent);
+    ret.name = this.name;
+    ret.description = this.description;
+    ret.children = this.children.map((child: Member): Member => {
+      return child.clone();
+    });
+    return ret;
+  }
+}
+
 export class Dataset implements Editable {
 
   readonly id: string;
@@ -179,6 +203,9 @@ export class Dataset implements Editable {
             level.description = mdLevel.caption;
             level.depth = mdLevel.depth;
             level.uniqueName = hierarchy.uniqueName + ".[" + mdLevel.name + "]";
+            level.members = mdLevel.members.map((mdMember: any): Member => {
+              return Dataset.loadMember(mdMember, level);
+            });
             return level;
           });
           return hierarchy;
@@ -186,6 +213,16 @@ export class Dataset implements Editable {
         return dimension;
       });
       ret.push(dataset);
+    });
+    return ret;
+  }
+
+  private static loadMember(mdMember: any, parent: Level): Member {
+    const ret = new Member(parent);
+    ret.name = mdMember.name;
+    ret.description = mdMember.caption;
+    ret.children = mdMember.childMembers.map((mdChildMember: any): Member => {
+      return this.loadMember(mdChildMember, parent);
     });
     return ret;
   }
