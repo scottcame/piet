@@ -85,15 +85,6 @@ export class MondrianResultTableModel {
         return base.concat(columnHeaders);
       });
 
-      // this._headerRows = mondrianResult.columnCaptions.map((columnCaption: string, captionIndex: number): string[] => {
-      //   const columnHeaders = mondrianResult.columnAxis.positions
-      //     .map((position: MondrianResultAxisPosition): string => {
-      //       return position.memberDimensionValues[captionIndex];
-      //     });
-      //   const base = columnCaption === "MeasuresLevel" ? [] : [columnCaption];
-      //   return base.concat(columnHeaders);
-      // });
-
       const emptyRowHeaders = mondrianResult.rowCaptions.map((_rowCaption: string): string => {
         return null;
       });

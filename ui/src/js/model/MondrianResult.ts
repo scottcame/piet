@@ -57,15 +57,21 @@ export class MondrianResultAxis {
     ret.positions = rawObject.positions.map((rawPosition: any): MondrianResultAxisPosition => {
       return MondrianResultAxisPosition.fromJSON(rawPosition);
     });
+    // walk all the positions on this axis and assemble, for each dimension, the "deepest" tree of members. we want to capture
+    //  the captions, the level (unique) names, and a list (again for each dimension) of levels that occupy a root. this last
+    //  is important because we don't want to add headers for levels that are in the hierarchy but not used in this particular analysis
     const positionCaptionsWide: string[][] = [];
     const positionLevelNamesWide: string[][] = [];
     const rootPositionLevelNames: string[][] = [];
     ret.positions.forEach((position: MondrianResultAxisPosition): void => {
-      position.positionLevels.forEach((pl: MondrianResultAxisPositionMember[], plIdx: number): void => {
+      position.positionMembersFlattened.forEach((pl: MondrianResultAxisPositionMember[], plIdx: number): void => {
+        // one time through this loop for each dimension on this axis
         if (!rootPositionLevelNames[plIdx]) {
+          // if we don't yet have a list of root levels for this dimension, then add an empty list
           rootPositionLevelNames[plIdx] = [];
         }
         if (!positionCaptionsWide[plIdx] || pl.length > positionCaptionsWide[plIdx].length) {
+          // if it's either the first time through, or if the list of members is longer than any we've seen before, then make it the longest
           positionCaptionsWide[plIdx] = [];
           positionLevelNamesWide[plIdx] = [];
           pl.forEach((member: MondrianResultAxisPositionMember): void => {
@@ -73,6 +79,7 @@ export class MondrianResultAxis {
             positionLevelNamesWide[plIdx].push(member.memberLevelName);
           });
           if (!rootPositionLevelNames[plIdx].includes(pl[0].memberLevelName)) {
+            // add the root level to the list of roots for this dimension, if we haven't already added it on a prior loop
             rootPositionLevelNames[plIdx].push(pl[0].memberLevelName);
           }
         }
@@ -82,6 +89,10 @@ export class MondrianResultAxis {
     ret.axisLevelUniqueNames = [];
     const measureHeaders = [];
     const measureLevelNames = [];
+    // now we "really" flatten the headers, by taking the resulting stacks and spreading them out into what will be the columns in the table
+    // note that we handle measures specially. also we reverse the stacks, because we want the highest level rollups to be towards the top of the table
+    // (for column headers) and to the left of the rows (for row headers). However, we don't want to reverse the measures, and we also want the measures
+    // to appear at the end of the column axis headers (so they appear in the last header row).
     positionCaptionsWide.forEach((positionCaptions: string[], pcIdx: number): void => {
       const positionLevelNames = positionLevelNamesWide[pcIdx].reverse();
       positionCaptions.reverse().forEach((caption: string, cIdx: number) => {
@@ -94,7 +105,7 @@ export class MondrianResultAxis {
         }
       });
     });
-    ret.axisHeaders = ret.axisHeaders.concat(measureHeaders.reverse());
+    ret.axisHeaders = ret.axisHeaders.concat(measureHeaders.reverse()); // note that we re-reverse the measures :)
     ret.axisLevelUniqueNames = ret.axisLevelUniqueNames.concat(measureLevelNames.reverse());
     return ret;
   }
@@ -104,8 +115,7 @@ export class MondrianResultAxisPosition {
   memberDimensionNames: string[];
   memberDimensionCaptions: string[];
   positionMembers: MondrianResultAxisPositionMember[];
-  // todo: need better name than "positionLevels"
-  positionLevels: MondrianResultAxisPositionMember[][] = [];
+  positionMembersFlattened: MondrianResultAxisPositionMember[][] = [];
   static fromJSON(rawObject: any): MondrianResultAxisPosition {
     const ret = new MondrianResultAxisPosition();
     ret.memberDimensionNames = rawObject.memberDimensionNames;
@@ -113,7 +123,10 @@ export class MondrianResultAxisPosition {
     ret.positionMembers = rawObject.positionMembers.map((rawMember: any): MondrianResultAxisPositionMember => {
       return MondrianResultAxisPositionMember.fromJSON(rawMember);
     });
-    ret.positionLevels = ret.positionMembers.map((positionMember: MondrianResultAxisPositionMember): MondrianResultAxisPositionMember[] => {
+    // transform the parent-child relationships for each dimension in this position into a set of stacks; there will be one stack for each dimension involved in the position
+    // the first Member in the stack is the "leaf", and subsequent members in the stack are the subsequent parents
+    // part of the idea of putting the in a stack is so that we can easily tell which position has the deepest tree
+    ret.positionMembersFlattened = ret.positionMembers.map((positionMember: MondrianResultAxisPositionMember): MondrianResultAxisPositionMember[] => {
       const ret: MondrianResultAxisPositionMember[] = [];
       do {
         ret.push(positionMember);
