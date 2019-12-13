@@ -12,7 +12,7 @@
     },
     {
       "formattedValue": "16,418",
-      "value": 16418.0,
+      "value": 16418,
       "ordinal": 1,
       "coordinates": [
         1,
@@ -52,7 +52,7 @@
     },
     {
       "formattedValue": "27,463",
-      "value": 27463.0,
+      "value": 27463,
       "ordinal": 5,
       "coordinates": [
         5,
@@ -112,7 +112,7 @@
     },
     {
       "formattedValue": "42,079",
-      "value": 42079.0,
+      "value": 42079,
       "ordinal": 11,
       "coordinates": [
         1,
@@ -132,7 +132,7 @@
     },
     {
       "formattedValue": "16,844",
-      "value": 16844.0,
+      "value": 16844,
       "ordinal": 13,
       "coordinates": [
         3,
@@ -152,7 +152,7 @@
     },
     {
       "formattedValue": "52,801",
-      "value": 52801.0,
+      "value": 52801,
       "ordinal": 15,
       "coordinates": [
         5,
@@ -172,7 +172,7 @@
     },
     {
       "formattedValue": "15,012",
-      "value": 15012.0,
+      "value": 15012,
       "ordinal": 17,
       "coordinates": [
         7,
@@ -192,7 +192,7 @@
     },
     {
       "formattedValue": "43,829",
-      "value": 43829.0,
+      "value": 43829,
       "ordinal": 19,
       "coordinates": [
         9,
@@ -212,7 +212,7 @@
     },
     {
       "formattedValue": "40,793",
-      "value": 40793.0,
+      "value": 40793,
       "ordinal": 21,
       "coordinates": [
         1,
@@ -232,7 +232,7 @@
     },
     {
       "formattedValue": "15,337",
-      "value": 15337.0,
+      "value": 15337,
       "ordinal": 23,
       "coordinates": [
         3,
@@ -272,7 +272,7 @@
     },
     {
       "formattedValue": "37,592",
-      "value": 37592.0,
+      "value": 37592,
       "ordinal": 27,
       "coordinates": [
         7,
@@ -292,7 +292,7 @@
     },
     {
       "formattedValue": "90,200",
-      "value": 90200.0,
+      "value": 90200,
       "ordinal": 29,
       "coordinates": [
         9,
@@ -315,17 +315,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Deluxe Supermarket",
-            "Store Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -337,17 +344,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Deluxe Supermarket",
-            "Grocery Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Grocery Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -359,17 +373,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Gourmet Supermarket",
-            "Store Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Gourmet Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -381,17 +402,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Gourmet Supermarket",
-            "Grocery Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Gourmet Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Grocery Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -403,17 +431,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Mid-Size Grocery",
-            "Store Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -425,17 +460,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Mid-Size Grocery",
-            "Grocery Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Grocery Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -447,17 +489,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Small Grocery",
-            "Store Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -469,17 +518,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Small Grocery",
-            "Grocery Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Grocery Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -491,17 +547,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Supermarket",
-            "Store Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -513,17 +576,24 @@
             "Store Type",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Supermarket",
-            "Grocery Sqft"
-          ],
-          "memberLevelNames": [
-            "[Store Type].[Store Type].[Store Type]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store Type",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Grocery Sqft",
+              "parentMember": null
+            }
           ]
         }
       ]
@@ -539,14 +609,18 @@
           "memberDimensionCaptions": [
             "Store"
           ],
-          "memberDimensionValues": [
-            "Canada"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store Country]"
-          ],
-          "memberLevelCaptions": [
-            "Store Country"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Canada",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
           ]
         },
         {
@@ -556,14 +630,18 @@
           "memberDimensionCaptions": [
             "Store"
           ],
-          "memberDimensionValues": [
-            "Mexico"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store Country]"
-          ],
-          "memberLevelCaptions": [
-            "Store Country"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
           ]
         },
         {
@@ -573,14 +651,18 @@
           "memberDimensionCaptions": [
             "Store"
           ],
-          "memberDimensionValues": [
-            "USA"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store Country]"
-          ],
-          "memberLevelCaptions": [
-            "Store Country"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
           ]
         }
       ]

@@ -23,8 +23,11 @@ export class MondrianResultTableModel {
   get rowHeaders(): string[][] {
     let ret = [];
     if (this._mondrianResult.rowAxis) {
-      ret = this._mondrianResult.rowAxis.positions.map((rowPosition: MondrianResultAxisPosition): string[] => {
-        return rowPosition.memberDimensionValues;
+      ret = this._mondrianResult.rowAxis.positions.map((position: MondrianResultAxisPosition): string[] => {
+        return this._mondrianResult.rowAxis.axisHeaders.map((_axisHeader: string, axisHeaderIndex: number): string => {
+          const levelName = this._mondrianResult.rowAxis.axisLevelUniqueNames[axisHeaderIndex];
+          return position.findMemberValue(levelName);
+        });
       });
     }
     return ret;
@@ -67,20 +70,29 @@ export class MondrianResultTableModel {
 
   private setHeaderRows(mondrianResult: MondrianResult): void {
 
-    // note: this assumes we always put the columns on the columns axis, which is conventional
+    // note: this assumes we always put the measures on the columns axis, which is conventional
 
     this._headerRows = [];
 
     if (this._mondrianResult) {
 
-      this._headerRows = mondrianResult.columnCaptions.map((columnCaption: string, captionIndex: number): string[] => {
-        const columnHeaders = mondrianResult.columnAxis.positions
-          .map((position: MondrianResultAxisPosition): string => {
-            return position.memberDimensionValues[captionIndex];
-          });
-        const base = columnCaption === "MeasuresLevel" ? [] : [columnCaption];
+      this._headerRows = mondrianResult.columnAxis.axisHeaders.map((axisHeader: string, axisHeaderIndex: number): string[] => {
+        const levelName = mondrianResult.columnAxis.axisLevelUniqueNames[axisHeaderIndex];
+        const columnHeaders = mondrianResult.columnAxis.positions.map((position: MondrianResultAxisPosition): string => {
+          return position.findMemberValue(levelName);
+        });
+        const base = axisHeader === "MeasuresLevel" ? [] : [axisHeader];
         return base.concat(columnHeaders);
       });
+
+      // this._headerRows = mondrianResult.columnCaptions.map((columnCaption: string, captionIndex: number): string[] => {
+      //   const columnHeaders = mondrianResult.columnAxis.positions
+      //     .map((position: MondrianResultAxisPosition): string => {
+      //       return position.memberDimensionValues[captionIndex];
+      //     });
+      //   const base = columnCaption === "MeasuresLevel" ? [] : [columnCaption];
+      //   return base.concat(columnHeaders);
+      // });
 
       const emptyRowHeaders = mondrianResult.rowCaptions.map((_rowCaption: string): string => {
         return null;

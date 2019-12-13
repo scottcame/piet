@@ -22,14 +22,13 @@
           "memberDimensionCaptions": [
             "Measures"
           ],
-          "memberDimensionValues": [
-            "Units Ordered"
-          ],
-          "memberLevelNames": [
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Ordered",
+              "parentMember": null
+            }
           ]
         }
       ]

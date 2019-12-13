@@ -11,10 +11,20 @@ import * as testResult1m0r0c from './mondrian-results-1m0r0c.json';
 export class TestData {
   /* eslint-disable @typescript-eslint/no-explicit-any */
   static TEST_METADATA: any = testMetadata;
+
+  // SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}, {[Measures].[Store Sqft], [Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]
   static TEST_RESULT_2M1R1C: any = testResult2m1r1c;
+
+  // SELECT NON EMPTY CrossJoin(NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members}), {[Measures].[Store Sqft],[Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]
   static TEST_RESULT_2M1R2C: any = testResult2m1r2c;
+
+  // SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}, {[Measures].[Store Sqft],[Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY CrossJoin({[Store].[Stores].[Store Country].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members}) ON ROWS FROM [Store]
   static TEST_RESULT_2M2R1C: any = testResult2m2r1c;
+
+  // SELECT NON EMPTY CrossJoin(NonEmptyCrossJoin({[Store].[Stores].[Store State].Members}, {[Time].[Time].[Year].Members}), {[Measures].[Units Shipped], [Measures].[Units Ordered]}) ON COLUMNS, NON EMPTY CrossJoin({[Product].[Products].[Product Family].Members}, {[Warehouse].[Warehouses].[City].Members}) ON ROWS FROM [Warehouse]
   static TEST_RESULT_2M2R2C: any = testResult2m2r2c;
+
+  // SELECT NON EMPTY {[Measures].[Units Ordered]} ON COLUMNS FROM [Warehouse]
   static TEST_RESULT_1M0R0C: any = testResult1m0r0c;
 }
 

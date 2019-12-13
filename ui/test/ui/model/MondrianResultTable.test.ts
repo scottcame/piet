@@ -21,9 +21,21 @@ test('header rows 2m1r1c', () => {
   expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
   expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
   expect(tableModel.columnCount).toBe(result.rowCaptions.length + result.columnAxis.positions.length);
-  expect(tableModel.headerRows[0][0]).toBe(result.columnAxis.positions[0].memberLevelCaptions[0]); 
-  expect(tableModel.headerRows[1][0]).toBe(result.rowAxis.positions[0].memberLevelCaptions[0]);
   expect(tableModel.topLeftEmptyColumnCount).toBe(0);
+  expect(tableModel.headerRows[0][0]).toBe("Store Type");
+  expect(tableModel.headerRows[0][1]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[1][1]).toBe("Store Sqft");
+  expect(tableModel.headerRows[1][2]).toBe("Grocery Sqft");
+  expect(tableModel.headerRows[0][2]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[0][3]).toBe("Gourmet Supermarket");
+  expect(tableModel.headerRows[0][4]).toBe("Gourmet Supermarket");
+  expect(tableModel.headerRows[1][0]).toBe("Store Country");
+  expect(tableModel.rowHeaders[0]).toHaveLength(1);
+  expect(tableModel.rowHeaders[0][0]).toBe("Canada");
+  expect(tableModel.getValueAt(0,0)).toBe(23112);
+  expect(tableModel.getValueAt(2,0)).toBe(61552);
+  expect(tableModel.getValueAt(0,9)).toBeNull();
+  expect(tableModel.getValueAt(2,9)).toBe(90200);
 });
 
 test('header rows 2m1r2c', () => {
@@ -34,10 +46,20 @@ test('header rows 2m1r2c', () => {
   expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
   expect(tableModel.headerRows[1]).toHaveLength(tableModel.headerRows[2].length);
   expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
-  expect(tableModel.headerRows[0][0]).toBe(result.columnAxis.positions[0].memberLevelCaptions[0]); 
-  expect(tableModel.headerRows[1][0]).toBe(result.columnAxis.positions[0].memberLevelCaptions[1]); 
-  expect(tableModel.headerRows[2][0]).toBe(result.rowAxis.positions[0].memberLevelCaptions[0]); 
   expect(tableModel.topLeftEmptyColumnCount).toBe(0);
+  expect(tableModel.rowHeaders[0]).toHaveLength(1);
+  expect(tableModel.rowHeaders[0][0]).toBe("Canada");
+  expect(tableModel.headerRows[0][0]).toBe("Store Type");
+  expect(tableModel.headerRows[0][1]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[0][2]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[0][3]).toBe("Gourmet Supermarket");
+  expect(tableModel.headerRows[1][0]).toBe("Has coffee bar");
+  expect(tableModel.headerRows[2][0]).toBe("Store Country");
+  expect(tableModel.getValueAt(0,0)).toBe(23112);
+  expect(tableModel.getValueAt(0,13)).toBeNull();
+  expect(tableModel.getValueAt(2,0)).toBe(61552);
+  expect(tableModel.getValueAt(2,13)).toBe(13305);
+
 });
 
 test('header rows 2m2r1c', () => {
@@ -48,23 +70,20 @@ test('header rows 2m2r1c', () => {
   expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
   expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
   expect(tableModel.headerRows[0][0]).toBeNull(); 
-  expect(tableModel.headerRows[0][1]).toBe(result.columnAxis.positions[0].memberLevelCaptions[0]); 
-  expect(tableModel.headerRows[1][0]).toBe(result.rowAxis.positions[0].memberLevelCaptions[0]); 
-  expect(tableModel.headerRows[1][1]).toBe(result.rowAxis.positions[0].memberLevelCaptions[1]); 
   expect(tableModel.topLeftEmptyColumnCount).toBe(1);
-});
-
-test('header rows 2m2r2c', () => {
-  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_2M2R2C);
-  const tableModel = new MondrianResultTableModel();
-  tableModel.result = result;
-  expect(tableModel.headerRows).toHaveLength(3);
-  expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
-  expect(tableModel.headerRows[1]).toHaveLength(tableModel.headerRows[2].length);
-  expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
-  expect(tableModel.headerRows[0][0]).toBeNull(); 
-  expect(tableModel.headerRows[1][0]).toBeNull(); 
-  expect(tableModel.topLeftEmptyColumnCount).toBe(1);
+  expect(tableModel.headerRows[0][1]).toBe("Store Type");
+  expect(tableModel.headerRows[0][2]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[0][3]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[0][4]).toBe("Gourmet Supermarket");
+  expect(tableModel.headerRows[1][0]).toBe("Store Country");
+  expect(tableModel.headerRows[1][1]).toBe("Has coffee bar");
+  expect(tableModel.rowHeaders[0][0]).toBe("Canada");
+  expect(tableModel.rowHeaders[0][1]).toBe("1");
+  expect(tableModel.dataRowCount).toBe(5);
+  expect(tableModel.getValueAt(0,0)).toBe(23112);
+  expect(tableModel.getValueAt(0,9)).toBeNull();
+  expect(tableModel.getValueAt(4,0)).toBe(61552);
+  expect(tableModel.getValueAt(4,9)).toBe(13305);
 });
 
 test('shape', () => {
@@ -91,13 +110,44 @@ test('values', () => {
   expect(tableModel.getValueAt(tableModel.dataRowCount, tableModel.dataColumnCount)).toBeNull();
 });
 
+test('header rows 2m2r2c', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_2M2R2C);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.headerRows).toHaveLength(3);
+  expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
+  expect(tableModel.headerRows[1]).toHaveLength(tableModel.headerRows[2].length);
+  expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
+  expect(tableModel.headerRows[0][0]).toBeNull(); 
+  expect(tableModel.headerRows[1][0]).toBeNull(); 
+  expect(tableModel.topLeftEmptyColumnCount).toBe(1);
+  expect(tableModel.headerRows[0][1]).toBe("Store State");
+  expect(tableModel.headerRows[0][2]).toBe("CA");
+  expect(tableModel.headerRows[0][3]).toBe("CA");
+  expect(tableModel.headerRows[0][4]).toBe("OR");
+  expect(tableModel.headerRows[1][1]).toBe("Year");
+  expect(tableModel.headerRows[1][2]).toBe("1997");
+  expect(tableModel.headerRows[2][0]).toBe("Product Family");
+  expect(tableModel.headerRows[2][1]).toBe("City");
+  expect(tableModel.headerRows[2][2]).toBe("Units Shipped");
+  expect(tableModel.headerRows[2][3]).toBe("Units Ordered");
+  expect(tableModel.rowHeaders[0][0]).toBe("Drink");
+  expect(tableModel.rowHeaders[0][1]).toBe("Beverly Hills");
+  expect(tableModel.dataRowCount).toBe(39);
+  expect(tableModel.rowHeaders[38][0]).toBe("Non-Consumable");
+  expect(tableModel.rowHeaders[38][1]).toBe("Yakima");
+  expect(tableModel.getValueAt(38, 0)).toBeNull();
+  expect(tableModel.getValueAt(38, 5)).toBe(2182);
+});
+
 test('1 measure no rows or columns', () => {
   const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R0C);
   const tableModel = new MondrianResultTableModel();
   tableModel.result = result;
+  expect(1).toBe(1);
   expect(tableModel.headerRows).toHaveLength(1);
   expect(tableModel.columnCount).toBe(1);
-  expect(tableModel.headerRows[0][0]).toBe(result.columnAxis.positions[0].memberDimensionValues[0]);
+  expect(tableModel.headerRows[0][0]).toBe("Units Ordered");
   expect(tableModel.rowHeaders).toHaveLength(0);
   expect(tableModel.topLeftEmptyColumnCount).toBe(0);
   expect(tableModel.rowCount).toBe(2);

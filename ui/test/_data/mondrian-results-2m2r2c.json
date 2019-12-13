@@ -2357,20 +2357,35 @@
             "Time",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "CA",
-            "1997",
-            "Units Shipped"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store State]",
-            "[Time].[Time].[Year]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store State",
-            "Year",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Time].[Time].[Year]",
+              "memberLevelCaption": "Year",
+              "memberValue": "1997",
+              "parentMember": null
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Shipped",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -2384,20 +2399,35 @@
             "Time",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "CA",
-            "1997",
-            "Units Ordered"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store State]",
-            "[Time].[Time].[Year]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store State",
-            "Year",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Time].[Time].[Year]",
+              "memberLevelCaption": "Year",
+              "memberValue": "1997",
+              "parentMember": null
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Ordered",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -2411,20 +2441,35 @@
             "Time",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "OR",
-            "1997",
-            "Units Shipped"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store State]",
-            "[Time].[Time].[Year]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store State",
-            "Year",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Time].[Time].[Year]",
+              "memberLevelCaption": "Year",
+              "memberValue": "1997",
+              "parentMember": null
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Shipped",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -2438,20 +2483,35 @@
             "Time",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "OR",
-            "1997",
-            "Units Ordered"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store State]",
-            "[Time].[Time].[Year]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store State",
-            "Year",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Time].[Time].[Year]",
+              "memberLevelCaption": "Year",
+              "memberValue": "1997",
+              "parentMember": null
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Ordered",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -2465,20 +2525,35 @@
             "Time",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "WA",
-            "1997",
-            "Units Shipped"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store State]",
-            "[Time].[Time].[Year]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store State",
-            "Year",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Time].[Time].[Year]",
+              "memberLevelCaption": "Year",
+              "memberValue": "1997",
+              "parentMember": null
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Shipped",
+              "parentMember": null
+            }
           ]
         },
         {
@@ -2492,20 +2567,35 @@
             "Time",
             "Measures"
           ],
-          "memberDimensionValues": [
-            "WA",
-            "1997",
-            "Units Ordered"
-          ],
-          "memberLevelNames": [
-            "[Store].[Stores].[Store State]",
-            "[Time].[Time].[Year]",
-            "[Measures].[MeasuresLevel]"
-          ],
-          "memberLevelCaptions": [
-            "Store State",
-            "Year",
-            "MeasuresLevel"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Time].[Time].[Year]",
+              "memberLevelCaption": "Year",
+              "memberValue": "1997",
+              "parentMember": null
+            },
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Ordered",
+              "parentMember": null
+            }
           ]
         }
       ]
@@ -2523,17 +2613,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Beverly Hills"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Beverly Hills",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2545,17 +2657,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Los Angeles"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Los Angeles",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2567,17 +2701,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "San Diego"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "San Diego",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2589,17 +2745,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "San Francisco"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "San Francisco",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2611,17 +2789,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Portland"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Portland",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2633,17 +2833,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Salem"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Salem",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2655,17 +2877,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Bellingham"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Bellingham",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2677,17 +2921,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Bremerton"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Bremerton",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2699,17 +2965,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Seattle"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Seattle",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2721,17 +3009,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Spokane"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Spokane",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2743,17 +3053,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Tacoma"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Tacoma",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2765,17 +3097,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Walla Walla"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Walla Walla",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2787,17 +3141,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Drink",
-            "Yakima"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Yakima",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2809,17 +3185,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Beverly Hills"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Beverly Hills",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2831,17 +3229,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Los Angeles"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Los Angeles",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2853,17 +3273,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "San Diego"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "San Diego",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2875,17 +3317,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "San Francisco"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "San Francisco",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2897,17 +3361,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Portland"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Portland",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2919,17 +3405,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Salem"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Salem",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2941,17 +3449,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Bellingham"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Bellingham",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2963,17 +3493,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Bremerton"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Bremerton",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -2985,17 +3537,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Seattle"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Seattle",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3007,17 +3581,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Spokane"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Spokane",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3029,17 +3625,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Tacoma"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Tacoma",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3051,17 +3669,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Walla Walla"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Walla Walla",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3073,17 +3713,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Food",
-            "Yakima"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Yakima",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3095,17 +3757,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Beverly Hills"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Beverly Hills",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3117,17 +3801,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Los Angeles"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Los Angeles",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3139,17 +3845,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "San Diego"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "San Diego",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3161,17 +3889,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "San Francisco"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "San Francisco",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3183,17 +3933,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Portland"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Portland",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3205,17 +3977,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Salem"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Salem",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3227,17 +4021,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Bellingham"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Bellingham",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3249,17 +4065,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Bremerton"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Bremerton",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3271,17 +4109,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Seattle"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Seattle",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3293,17 +4153,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Spokane"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Spokane",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3315,17 +4197,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Tacoma"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Tacoma",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3337,17 +4241,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Walla Walla"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Walla Walla",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         },
         {
@@ -3359,17 +4285,39 @@
             "Product",
             "Warehouse"
           ],
-          "memberDimensionValues": [
-            "Non-Consumable",
-            "Yakima"
-          ],
-          "memberLevelNames": [
-            "[Product].[Products].[Product Family]",
-            "[Warehouse].[Warehouses].[City]"
-          ],
-          "memberLevelCaptions": [
-            "Product Family",
-            "City"
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Warehouse].[Warehouses].[City]",
+              "memberLevelCaption": "City",
+              "memberValue": "Yakima",
+              "parentMember": {
+                "memberLevelName": "[Warehouse].[Warehouses].[State Province]",
+                "memberLevelCaption": "State Province",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Warehouse].[Warehouses].[Country]",
+                  "memberLevelCaption": "Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Warehouse].[Warehouses].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Warehouses",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
           ]
         }
       ]
