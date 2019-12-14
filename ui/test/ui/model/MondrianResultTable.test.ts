@@ -171,3 +171,48 @@ test('1 measure no rows 1 column', () => {
   expect(tableModel.getValueAt(0,0)).toBe(66307);
   expect(tableModel.getValueAt(0,2)).toBe(116025);
 });
+
+test('1 measure 2 hierarchical rows 0 columns', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M2HR0C);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.headerRows).toHaveLength(1);
+  expect(tableModel.columnCount).toBe(3);
+  expect(tableModel.headerRows[0][0]).toBe("Store Country");
+  expect(tableModel.headerRows[0][1]).toBe("Store City");
+  expect(tableModel.headerRows[0][2]).toBe("Store Sqft");
+  expect(tableModel.dataRowCount).toBe(22);
+  expect(tableModel.dataColumnCount).toBe(1);
+  expect(tableModel.rowHeaders[0][0]).toBe("Canada");
+  expect(tableModel.rowHeaders[0][1]).toBeNull();
+  expect(tableModel.rowHeaders[1][0]).toBe("Canada");
+  expect(tableModel.rowHeaders[1][1]).toBe("Vancouver");
+  expect(tableModel.getValueAt(0,0)).toBe(57564);
+  expect(tableModel.getValueAt(1,0)).toBe(23112);
+});
+
+test('1 measure 2 hierarchical rows 1 column', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M2HR1C);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.headerRows).toHaveLength(2);
+  expect(tableModel.columnCount).toBe(7);
+  expect(tableModel.headerRows[0][0]).toBeNull();
+  expect(tableModel.headerRows[1][0]).toBe("Store Country");
+  expect(tableModel.headerRows[0][1]).toBe("Store Type");
+  expect(tableModel.headerRows[1][1]).toBe("Store City");
+  expect(tableModel.headerRows[0][2]).toBe("Deluxe Supermarket");
+  expect(tableModel.headerRows[1][2]).toBe("Store Sqft");
+  expect(tableModel.dataRowCount).toBe(22);
+  expect(tableModel.dataColumnCount).toBe(5);
+  expect(tableModel.rowHeaders[0][0]).toBe("Canada");
+  expect(tableModel.rowHeaders[0][1]).toBeNull();
+  expect(tableModel.rowHeaders[1][0]).toBe("Canada");
+  expect(tableModel.rowHeaders[1][1]).toBe("Vancouver");
+  expect(tableModel.getValueAt(0,0)).toBe(23112);
+  expect(tableModel.getValueAt(1,0)).toBe(23112);
+  expect(tableModel.getValueAt(2,0)).toBeNull();
+  expect(tableModel.getValueAt(0,2)).toBe(34452);
+  expect(tableModel.getValueAt(1,2)).toBeNull();
+  expect(tableModel.getValueAt(2,2)).toBe(34452);
+});

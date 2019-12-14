@@ -8,8 +8,11 @@ import * as testResult2m2r1c from './mondrian-results-2m2r1c.json';
 import * as testResult2m2r2c from './mondrian-results-2m2r2c.json';
 import * as testResult1m0r0c from './mondrian-results-1m0r0c.json';
 import * as testResult1m0r1c from './mondrian-results-1m0r1c.json';
+import * as testResult1m2hr0c from './mondrian-results-1m2hr0c.json';
+import * as testResult1m2hr1c from './mondrian-results-1m2hr1c.json';
 
 export class TestData {
+
   /* eslint-disable @typescript-eslint/no-explicit-any */
   static TEST_METADATA: any = testMetadata;
 
@@ -30,6 +33,12 @@ export class TestData {
 
   // SELECT NON EMPTY CrossJoin({[Store].[Stores].[Store State].Members},{[Measures].[Units Ordered]}) ON COLUMNS FROM [Warehouse]
   static TEST_RESULT_1M0R1C: any = testResult1m0r1c;
+
+  // SELECT NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members}, {[Store].[Stores].[Store City].Members}}) ON ROWS, {[Measures].[Store Sqft]} ON COLUMNS FROM [Store]
+  static TEST_RESULT_1M2HR0C: any = testResult1m2hr0c;
+
+  // SELECT NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members}, {[Store].[Stores].[Store City].Members}}) ON ROWS, NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}, {[Measures].[Store Sqft]}) ON COLUMNS FROM [Store]
+  static TEST_RESULT_1M2HR1C: any = testResult1m2hr1c;
 
 }
 

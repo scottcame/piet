@@ -20,7 +20,7 @@
   const rightCaret = '\u25B6';
   const downCaret = '\u25BC';
 
-  function formatCell(cell, cellIndex, headerRowIndex) {
+  function formatColumnHeaderCell(cell, cellIndex, headerRowIndex) {
     let ret = "";
     if (cell) {
       ret = cell;
@@ -29,6 +29,14 @@
       } else if (headerRowIndex === tableModel.headerRows.length-1 && cellIndex <= topLeftRightBorderCellIndex) {
         ret += (" " + downCaret);
       }
+    }
+    return ret;
+  }
+
+  function formatRowHeaderCell(cell) {
+    let ret = "Total";
+    if (cell) {
+      ret = cell;
     }
     return ret;
   }
@@ -43,7 +51,7 @@
         <tr>
           {#each headerRow as cell, cellIndex}
             <th class="p-1 bg-gray-200 border-2 border-gray-500">
-              {formatCell(cell, cellIndex, headerRowIndex)}
+              {formatColumnHeaderCell(cell, cellIndex, headerRowIndex)}
             </th>
           {/each}
         </tr>
@@ -54,7 +62,7 @@
           <tr>
             {#if tableModel.rowHeaders.length}
               {#each tableModel.rowHeaders[rowIndex] as rowHeader, rowHeaderIndex}
-                <th class="border-2 bg-gray-200 border-gray-500 { rowHeaderIndex ===  tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : ''  }">{rowHeader}</th>
+                <th class="border-2 bg-gray-200 border-gray-500 { rowHeaderIndex ===  tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : ''  }">{formatRowHeaderCell(rowHeader)}</th>
               {/each}
             {/if}
             {#each columnIterator as columnIndex}

@@ -1,0 +1,906 @@
+{
+  "cells": [
+    {
+      "formattedValue": "57,564",
+      "value": 57564,
+      "ordinal": 0,
+      "coordinates": [
+        0,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,112",
+      "value": 23112.0,
+      "ordinal": 1,
+      "coordinates": [
+        0,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "34,452",
+      "value": 34452.0,
+      "ordinal": 2,
+      "coordinates": [
+        0,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "243,012",
+      "value": 243012,
+      "ordinal": 3,
+      "coordinates": [
+        0,
+        3
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "36,509",
+      "value": 36509.0,
+      "ordinal": 4,
+      "coordinates": [
+        0,
+        4
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,593",
+      "value": 23593.0,
+      "ordinal": 6,
+      "coordinates": [
+        0,
+        5
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "24,597",
+      "value": 24597.0,
+      "ordinal": 7,
+      "coordinates": [
+        0,
+        6
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "34,791",
+      "value": 34791.0,
+      "ordinal": 8,
+      "coordinates": [
+        0,
+        7
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "30,797",
+      "value": 30797.0,
+      "ordinal": 9,
+      "coordinates": [
+        0,
+        8
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,759",
+      "value": 23759.0,
+      "ordinal": 10,
+      "coordinates": [
+        0,
+        9
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "68,966",
+      "value": 68966.0,
+      "ordinal": 11,
+      "coordinates": [
+        0,
+        10
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "271,020",
+      "value": 271020,
+      "ordinal": 12,
+      "coordinates": [
+        0,
+        11
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,688",
+      "value": 23688.0,
+      "ordinal": 14,
+      "coordinates": [
+        0,
+        12
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,598",
+      "value": 23598.0,
+      "ordinal": 15,
+      "coordinates": [
+        0,
+        13
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "22,478",
+      "value": 22478.0,
+      "ordinal": 17,
+      "coordinates": [
+        0,
+        14
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "20,319",
+      "value": 20319.0,
+      "ordinal": 18,
+      "coordinates": [
+        0,
+        15
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "27,694",
+      "value": 27694.0,
+      "ordinal": 19,
+      "coordinates": [
+        0,
+        16
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "28,206",
+      "value": 28206.0,
+      "ordinal": 20,
+      "coordinates": [
+        0,
+        17
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "39,696",
+      "value": 39696.0,
+      "ordinal": 21,
+      "coordinates": [
+        0,
+        18
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "21,215",
+      "value": 21215.0,
+      "ordinal": 22,
+      "coordinates": [
+        0,
+        19
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "30,268",
+      "value": 30268.0,
+      "ordinal": 23,
+      "coordinates": [
+        0,
+        20
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "33,858",
+      "value": 33858.0,
+      "ordinal": 24,
+      "coordinates": [
+        0,
+        21
+      ],
+      "error": null
+    }
+  ],
+  "axes": [
+    {
+      "ordinal": 0,
+      "name": "COLUMNS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Measures"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 1,
+      "name": "ROWS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Canada",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Vancouver",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "BC",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Canada",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Victoria",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "BC",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Canada",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Mexico City",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "DF",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Acapulco",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "Guerrero",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Guadalajara",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "Jalisco",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Orizaba",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "Veracruz",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Merida",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "Yucatan",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Camacho",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "Zacatecas",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Hidalgo",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "Zacatecas",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "Mexico",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Beverly Hills",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Los Angeles",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "San Francisco",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "CA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Portland",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Salem",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "OR",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Bellingham",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Bremerton",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Seattle",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Spokane",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store City]",
+              "memberLevelCaption": "Store City",
+              "memberValue": "Tacoma",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store State]",
+                "memberLevelCaption": "Store State",
+                "memberValue": "WA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[Store Country]",
+                  "memberLevelCaption": "Store Country",
+                  "memberValue": "USA",
+                  "parentMember": {
+                    "memberLevelName": "[Store].[Stores].[(All)]",
+                    "memberLevelCaption": "(All)",
+                    "memberValue": "All Stores",
+                    "parentMember": null
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
