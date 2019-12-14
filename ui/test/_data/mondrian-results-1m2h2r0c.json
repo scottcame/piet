@@ -1,0 +1,1896 @@
+{
+  "cells": [
+    {
+      "formattedValue": "23,112",
+      "value": 23112.0,
+      "ordinal": 0,
+      "coordinates": [
+        0,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "34,452",
+      "value": 34452.0,
+      "ordinal": 1,
+      "coordinates": [
+        0,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,112",
+      "value": 23112,
+      "ordinal": 2,
+      "coordinates": [
+        0,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "34,452",
+      "value": 34452,
+      "ordinal": 3,
+      "coordinates": [
+        0,
+        3
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "61,381",
+      "value": 61381.0,
+      "ordinal": 4,
+      "coordinates": [
+        0,
+        4
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,759",
+      "value": 23759.0,
+      "ordinal": 5,
+      "coordinates": [
+        0,
+        5
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "74,891",
+      "value": 74891.0,
+      "ordinal": 6,
+      "coordinates": [
+        0,
+        6
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "24,597",
+      "value": 24597.0,
+      "ordinal": 7,
+      "coordinates": [
+        0,
+        7
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "58,384",
+      "value": 58384.0,
+      "ordinal": 8,
+      "coordinates": [
+        0,
+        8
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "36,509",
+      "value": 36509,
+      "ordinal": 9,
+      "coordinates": [
+        0,
+        9
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,593",
+      "value": 23593,
+      "ordinal": 10,
+      "coordinates": [
+        0,
+        10
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "24,597",
+      "value": 24597,
+      "ordinal": 11,
+      "coordinates": [
+        0,
+        11
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "34,791",
+      "value": 34791,
+      "ordinal": 12,
+      "coordinates": [
+        0,
+        12
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "30,797",
+      "value": 30797,
+      "ordinal": 13,
+      "coordinates": [
+        0,
+        13
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "30,584",
+      "value": 30584,
+      "ordinal": 14,
+      "coordinates": [
+        0,
+        14
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,759",
+      "value": 23759,
+      "ordinal": 15,
+      "coordinates": [
+        0,
+        15
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "38,382",
+      "value": 38382,
+      "ordinal": 16,
+      "coordinates": [
+        0,
+        16
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "61,552",
+      "value": 61552.0,
+      "ordinal": 17,
+      "coordinates": [
+        0,
+        17
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,688",
+      "value": 23688.0,
+      "ordinal": 18,
+      "coordinates": [
+        0,
+        18
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "50,684",
+      "value": 50684.0,
+      "ordinal": 19,
+      "coordinates": [
+        0,
+        19
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "113,881",
+      "value": 113881.0,
+      "ordinal": 20,
+      "coordinates": [
+        0,
+        20
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "21,215",
+      "value": 21215.0,
+      "ordinal": 21,
+      "coordinates": [
+        0,
+        21
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,688",
+      "value": 23688,
+      "ordinal": 22,
+      "coordinates": [
+        0,
+        22
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "22,478",
+      "value": 22478,
+      "ordinal": 23,
+      "coordinates": [
+        0,
+        23
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23,598",
+      "value": 23598,
+      "ordinal": 24,
+      "coordinates": [
+        0,
+        24
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "27,694",
+      "value": 27694,
+      "ordinal": 25,
+      "coordinates": [
+        0,
+        25
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "20,319",
+      "value": 20319,
+      "ordinal": 26,
+      "coordinates": [
+        0,
+        26
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "33,858",
+      "value": 33858,
+      "ordinal": 27,
+      "coordinates": [
+        0,
+        27
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "28,206",
+      "value": 28206,
+      "ordinal": 28,
+      "coordinates": [
+        0,
+        28
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "69,964",
+      "value": 69964,
+      "ordinal": 29,
+      "coordinates": [
+        0,
+        29
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "21,215",
+      "value": 21215,
+      "ordinal": 30,
+      "coordinates": [
+        0,
+        30
+      ],
+      "error": null
+    }
+  ],
+  "axes": [
+    {
+      "ordinal": 0,
+      "name": "COLUMNS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Measures"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Store Sqft",
+              "parentMember": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 1,
+      "name": "ROWS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Canada",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Canada",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "BC",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Canada",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "BC",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Canada",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Gourmet Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "Mexico",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "DF",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Guerrero",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Jalisco",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Veracruz",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Yucatan",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Zacatecas",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Zacatecas",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Gourmet Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "Zacatecas",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "Mexico",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Mid-Size Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Gourmet Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Gourmet Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Deluxe Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Small Grocery",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "0",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "memberDimensionCaptions": [
+            "Store",
+            "Store Type",
+            "Has coffee bar"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store Type].[Store Type].[Store Type]",
+              "memberLevelCaption": "Store Type",
+              "memberValue": "Supermarket",
+              "parentMember": {
+                "memberLevelName": "[Store Type].[Store Type].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Store Type",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Has coffee bar].[Has coffee bar].[Has coffee bar]",
+              "memberLevelCaption": "Has coffee bar",
+              "memberValue": "1",
+              "parentMember": {
+                "memberLevelName": "[Has coffee bar].[Has coffee bar].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Has coffee bar",
+                "parentMember": null
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -73,24 +73,58 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
   }
 
   private static levelsString(levelsList: List<QueryLevel>, nonEmpty: boolean): string {
-    let ret = null;
-    if (levelsList.length === 1) {
-      ret = "{" + levelsList.get(0).uniqueName + ".Members}";
-    } else if (levelsList.length > 1) {
-      ret = Query.crossJoinLevels(levelsList.asArray(), nonEmpty);
-    }
-    return ret;
+    return Query.crossJoinLevels(levelsList.asArray(), nonEmpty);
   }
 
   private static crossJoinLevels(levels: QueryLevel[], nonEmpty: boolean): string {
-    const verb = nonEmpty ? "NonEmptyCrossJoin" : "CrossJoin";
-    let ret = "";
-    if (levels.length === 2) {
-      ret = verb + "({" + levels[0].uniqueName + ".Members},{" + levels[1].uniqueName + ".Members})";
-      console.log(ret);
-    } else {
-      ret = verb + "({" + levels[0].uniqueName + ".Members}," + Query.crossJoinLevels(levels.slice(1), nonEmpty);
-      console.log(ret);
+    const joinVerb = nonEmpty ? "NonEmptyCrossJoin" : "CrossJoin";
+    let ret = null;
+    if (levels && levels.length) {
+      ret = "";
+      if (levels.length === 1) {
+        ret = "{" + levels[0].uniqueName + ".Members}";
+      } else {
+        const sibs: QueryLevel[] = [];
+        let newLevels: QueryLevel[] = [];
+        const firstLevelHierarchyName: string = levels[0].hierarchyName;
+        levels.slice(1).forEach((level: QueryLevel): void => {
+          if (level.hierarchyName === firstLevelHierarchyName) {
+            sibs.push(level);
+          } else {
+            newLevels.push(level);
+          }
+        });
+        if (sibs.length) {
+          sibs.push(levels[0]);
+        } else {
+          newLevels = [levels[0]].concat(newLevels);
+        }
+        if (levels.length === 2) {
+          const twoLevelBase = "{" + levels[0].uniqueName + ".Members},{" + levels[1].uniqueName + ".Members}";
+          if (sibs.length) {
+            ret = "Hierarchize({" + twoLevelBase + "})";
+          } else {
+            ret = joinVerb + "(" + twoLevelBase + ")";
+          }
+        } else {
+          let base = "{" + levels[0].uniqueName + ".Members}";
+          let subsequentLevels = levels.slice(1);
+          if (sibs.length) {
+            base = "Hierarchize({";
+            base += sibs.map((level: QueryLevel): string => {
+              return "{" + level.uniqueName + ".Members}";
+            }).join(",");
+            base += "})";
+            subsequentLevels = newLevels;
+          }
+          const rest = Query.crossJoinLevels(subsequentLevels, nonEmpty);
+          if (rest) {
+            ret = joinVerb + "(" + base + "," + rest + ")";
+          } else {
+            ret = base;
+          }
+        }
+      }
     }
     return ret;
   }
@@ -236,6 +270,9 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   }
   get rowOrientation(): boolean {
     return this._rowOrientation;
+  }
+  get hierarchyName(): string {
+    return this._uniqueName.split(".").slice(0,2).join(".");
   }
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;

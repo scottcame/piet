@@ -199,6 +199,106 @@ test('query MDX 2 measures 1 row dim 1 col dim', async () => {
   });
 });
 
+test('query MDX simple 2 level hierarchize', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure();
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel();
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel();
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      await q.levels.add(queryLevel).then(() => {
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}}) ON ROWS FROM [Store]");
+      });
+    });
+  });
+});
+
+test('query MDX simple 3 level hierarchize', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure();
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel();
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel();
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      await q.levels.add(queryLevel).then(async () => {
+        queryLevel = new QueryLevel();
+        queryLevel.setUniqueName("[Store].[Stores].[Store City]");
+        queryLevel.setRowOrientation(true);
+        await q.levels.add(queryLevel).then(() => {
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].Members},{[Store].[Stores].[Store Country].Members}}) ON ROWS FROM [Store]");
+        });
+      });
+    });
+  });
+});
+
+test('query MDX simple 2 level hierarchize plus additional level', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure();
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel();
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel();
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      await q.levels.add(queryLevel).then(async () => {
+        queryLevel = new QueryLevel();
+        queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
+        queryLevel.setRowOrientation(true);
+        await q.levels.add(queryLevel).then(() => {
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].Members}}),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
+        });
+      });
+    });
+  });
+});
+
+test('query MDX simple 2 level hierarchize plus 2 additional levels', async () => {
+  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure();
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel();
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel();
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      await q.levels.add(queryLevel).then(async () => {
+        queryLevel = new QueryLevel();
+        queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
+        queryLevel.setRowOrientation(true);
+        await q.levels.add(queryLevel).then(async () => {
+          queryLevel = new QueryLevel();
+          queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
+          queryLevel.setRowOrientation(true);
+          await q.levels.add(queryLevel).then(() => {
+            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].Members}}),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
+          });
+        });
+      });
+    });
+  });
+});
+
 test('persistence', async () => {
   const repository = new LocalRepository();
   return repository.init().then(async () => {

@@ -1,7 +1,7 @@
 <script>
 
   import { MondrianResult } from './js/model/MondrianResult';
-  import * as resultData from '../test/_data/mondrian-results-2m2r2c.json';
+  import * as resultData from '../test/_data/mondrian-results-1m2h2r0c.json';
   import MondrianResultTable from './components/MondrianResultTable.svelte';
   import { MondrianResultTableModel } from './js/ui/model/MondrianResultTable';
 
