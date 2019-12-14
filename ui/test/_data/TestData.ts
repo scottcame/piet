@@ -10,6 +10,7 @@ import * as testResult1m0r0c from './mondrian-results-1m0r0c.json';
 import * as testResult1m0r1c from './mondrian-results-1m0r1c.json';
 import * as testResult1m2hr0c from './mondrian-results-1m2hr0c.json';
 import * as testResult1m2hr1c from './mondrian-results-1m2hr1c.json';
+import * as testResult1m2x2hr1c from './mondrian-results-1m2x2hr0c.json';
 
 export class TestData {
 
@@ -39,6 +40,8 @@ export class TestData {
 
   // SELECT NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members}, {[Store].[Stores].[Store City].Members}}) ON ROWS, NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}, {[Measures].[Store Sqft]}) ON COLUMNS FROM [Store]
   static TEST_RESULT_1M2HR1C: any = testResult1m2hr1c;
+
+  static TEST_RESULT_1M2X2HR1C: any = testResult1m2x2hr1c;
 
 }
 

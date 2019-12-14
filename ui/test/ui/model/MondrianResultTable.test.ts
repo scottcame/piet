@@ -216,3 +216,30 @@ test('1 measure 2 hierarchical rows 1 column', () => {
   expect(tableModel.getValueAt(1,2)).toBeNull();
   expect(tableModel.getValueAt(2,2)).toBe(34452);
 });
+
+test('1 measure 2 separate sets of 2 hierarchical rows, 0 columns', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M2X2HR1C);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.headerRows).toHaveLength(1);
+  expect(tableModel.columnCount).toBe(5);
+  expect(tableModel.headerRows[0][0]).toBe("Product Family");
+  expect(tableModel.headerRows[0][1]).toBe("Product Department");
+  expect(tableModel.headerRows[0][2]).toBe("Store Country");
+  expect(tableModel.headerRows[0][3]).toBe("Store State");
+  expect(tableModel.headerRows[0][4]).toBe("Units Ordered");
+  expect(tableModel.dataRowCount).toBe(104);
+  expect(tableModel.dataColumnCount).toBe(1);
+  expect(tableModel.rowHeaders[0][0]).toBe("Drink");
+  expect(tableModel.rowHeaders[0][1]).toBeNull();
+  expect(tableModel.rowHeaders[0][2]).toBe("USA");
+  expect(tableModel.rowHeaders[0][3]).toBeNull();
+  expect(tableModel.rowHeaders[1][0]).toBe("Drink");
+  expect(tableModel.rowHeaders[1][1]).toBeNull();
+  expect(tableModel.rowHeaders[1][2]).toBe("USA");
+  expect(tableModel.rowHeaders[1][3]).toBe("CA");
+  expect(tableModel.getValueAt(0,0)).toBe(23114);
+  expect(tableModel.getValueAt(1,0)).toBe(5624);
+  expect(tableModel.getValueAt(2,0)).toBe(5182);
+  expect(tableModel.getValueAt(3,0)).toBe(12308);
+});

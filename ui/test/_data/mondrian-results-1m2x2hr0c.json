@@ -1,0 +1,5460 @@
+{
+  "cells": [
+    {
+      "formattedValue": "23114.0",
+      "value": 23114.0,
+      "ordinal": 0,
+      "coordinates": [
+        0,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5624.0",
+      "value": 5624.0,
+      "ordinal": 1,
+      "coordinates": [
+        0,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5182.0",
+      "value": 5182.0,
+      "ordinal": 2,
+      "coordinates": [
+        0,
+        2
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "12308.0",
+      "value": 12308.0,
+      "ordinal": 3,
+      "coordinates": [
+        0,
+        3
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "6843.0",
+      "value": 6843.0,
+      "ordinal": 4,
+      "coordinates": [
+        0,
+        4
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1451.0",
+      "value": 1451.0,
+      "ordinal": 5,
+      "coordinates": [
+        0,
+        5
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1588.0",
+      "value": 1588.0,
+      "ordinal": 6,
+      "coordinates": [
+        0,
+        6
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3804.0",
+      "value": 3804.0,
+      "ordinal": 7,
+      "coordinates": [
+        0,
+        7
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "12148.0",
+      "value": 12148.0,
+      "ordinal": 8,
+      "coordinates": [
+        0,
+        8
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3135.0",
+      "value": 3135.0,
+      "ordinal": 9,
+      "coordinates": [
+        0,
+        9
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2975.0",
+      "value": 2975.0,
+      "ordinal": 10,
+      "coordinates": [
+        0,
+        10
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "6038.0",
+      "value": 6038.0,
+      "ordinal": 11,
+      "coordinates": [
+        0,
+        11
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "4123.0",
+      "value": 4123.0,
+      "ordinal": 12,
+      "coordinates": [
+        0,
+        12
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1038.0",
+      "value": 1038.0,
+      "ordinal": 13,
+      "coordinates": [
+        0,
+        13
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "619.0",
+      "value": 619.0,
+      "ordinal": 14,
+      "coordinates": [
+        0,
+        14
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2466.0",
+      "value": 2466.0,
+      "ordinal": 15,
+      "coordinates": [
+        0,
+        15
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "162777.0",
+      "value": 162777.0,
+      "ordinal": 16,
+      "coordinates": [
+        0,
+        16
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "49126.0",
+      "value": 49126.0,
+      "ordinal": 17,
+      "coordinates": [
+        0,
+        17
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "30605.0",
+      "value": 30605.0,
+      "ordinal": 18,
+      "coordinates": [
+        0,
+        18
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "83046.0",
+      "value": 83046.0,
+      "ordinal": 19,
+      "coordinates": [
+        0,
+        19
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "6374.0",
+      "value": 6374.0,
+      "ordinal": 20,
+      "coordinates": [
+        0,
+        20
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2053.0",
+      "value": 2053.0,
+      "ordinal": 21,
+      "coordinates": [
+        0,
+        21
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1096.0",
+      "value": 1096.0,
+      "ordinal": 22,
+      "coordinates": [
+        0,
+        22
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3225.0",
+      "value": 3225.0,
+      "ordinal": 23,
+      "coordinates": [
+        0,
+        23
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "16116.0",
+      "value": 16116.0,
+      "ordinal": 24,
+      "coordinates": [
+        0,
+        24
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "4868.0",
+      "value": 4868.0,
+      "ordinal": 25,
+      "coordinates": [
+        0,
+        25
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3177.0",
+      "value": 3177.0,
+      "ordinal": 26,
+      "coordinates": [
+        0,
+        26
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "8071.0",
+      "value": 8071.0,
+      "ordinal": 27,
+      "coordinates": [
+        0,
+        27
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2427.0",
+      "value": 2427.0,
+      "ordinal": 28,
+      "coordinates": [
+        0,
+        28
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "888.0",
+      "value": 888.0,
+      "ordinal": 29,
+      "coordinates": [
+        0,
+        29
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "257.0",
+      "value": 257.0,
+      "ordinal": 30,
+      "coordinates": [
+        0,
+        30
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1282.0",
+      "value": 1282.0,
+      "ordinal": 31,
+      "coordinates": [
+        0,
+        31
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "15463.0",
+      "value": 15463.0,
+      "ordinal": 32,
+      "coordinates": [
+        0,
+        32
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5075.0",
+      "value": 5075.0,
+      "ordinal": 33,
+      "coordinates": [
+        0,
+        33
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2206.0",
+      "value": 2206.0,
+      "ordinal": 34,
+      "coordinates": [
+        0,
+        34
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "8182.0",
+      "value": 8182.0,
+      "ordinal": 35,
+      "coordinates": [
+        0,
+        35
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1172.0",
+      "value": 1172.0,
+      "ordinal": 36,
+      "coordinates": [
+        0,
+        36
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "514.0",
+      "value": 514.0,
+      "ordinal": 37,
+      "coordinates": [
+        0,
+        37
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "262.0",
+      "value": 262.0,
+      "ordinal": 38,
+      "coordinates": [
+        0,
+        38
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "396.0",
+      "value": 396.0,
+      "ordinal": 39,
+      "coordinates": [
+        0,
+        39
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "12916.0",
+      "value": 12916.0,
+      "ordinal": 40,
+      "coordinates": [
+        0,
+        40
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "4309.0",
+      "value": 4309.0,
+      "ordinal": 41,
+      "coordinates": [
+        0,
+        41
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2865.0",
+      "value": 2865.0,
+      "ordinal": 42,
+      "coordinates": [
+        0,
+        42
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5742.0",
+      "value": 5742.0,
+      "ordinal": 43,
+      "coordinates": [
+        0,
+        43
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "9666.0",
+      "value": 9666.0,
+      "ordinal": 44,
+      "coordinates": [
+        0,
+        44
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2370.0",
+      "value": 2370.0,
+      "ordinal": 45,
+      "coordinates": [
+        0,
+        45
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1591.0",
+      "value": 1591.0,
+      "ordinal": 46,
+      "coordinates": [
+        0,
+        46
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5705.0",
+      "value": 5705.0,
+      "ordinal": 47,
+      "coordinates": [
+        0,
+        47
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "4482.0",
+      "value": 4482.0,
+      "ordinal": 48,
+      "coordinates": [
+        0,
+        48
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1786.0",
+      "value": 1786.0,
+      "ordinal": 49,
+      "coordinates": [
+        0,
+        49
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "533.0",
+      "value": 533.0,
+      "ordinal": 50,
+      "coordinates": [
+        0,
+        50
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2163.0",
+      "value": 2163.0,
+      "ordinal": 51,
+      "coordinates": [
+        0,
+        51
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "21920.0",
+      "value": 21920.0,
+      "ordinal": 52,
+      "coordinates": [
+        0,
+        52
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "7257.0",
+      "value": 7257.0,
+      "ordinal": 53,
+      "coordinates": [
+        0,
+        53
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3996.0",
+      "value": 3996.0,
+      "ordinal": 54,
+      "coordinates": [
+        0,
+        54
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "10667.0",
+      "value": 10667.0,
+      "ordinal": 55,
+      "coordinates": [
+        0,
+        55
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1549.0",
+      "value": 1549.0,
+      "ordinal": 56,
+      "coordinates": [
+        0,
+        56
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "504.0",
+      "value": 504.0,
+      "ordinal": 57,
+      "coordinates": [
+        0,
+        57
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "227.0",
+      "value": 227.0,
+      "ordinal": 58,
+      "coordinates": [
+        0,
+        58
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "818.0",
+      "value": 818.0,
+      "ordinal": 59,
+      "coordinates": [
+        0,
+        59
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "31808.0",
+      "value": 31808.0,
+      "ordinal": 60,
+      "coordinates": [
+        0,
+        60
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "9246.0",
+      "value": 9246.0,
+      "ordinal": 61,
+      "coordinates": [
+        0,
+        61
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5860.0",
+      "value": 5860.0,
+      "ordinal": 62,
+      "coordinates": [
+        0,
+        62
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "16702.0",
+      "value": 16702.0,
+      "ordinal": 63,
+      "coordinates": [
+        0,
+        63
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1434.0",
+      "value": 1434.0,
+      "ordinal": 64,
+      "coordinates": [
+        0,
+        64
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "402.0",
+      "value": 402.0,
+      "ordinal": 65,
+      "coordinates": [
+        0,
+        65
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "372.0",
+      "value": 372.0,
+      "ordinal": 66,
+      "coordinates": [
+        0,
+        66
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "660.0",
+      "value": 660.0,
+      "ordinal": 67,
+      "coordinates": [
+        0,
+        67
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "26252.0",
+      "value": 26252.0,
+      "ordinal": 68,
+      "coordinates": [
+        0,
+        68
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "7221.0",
+      "value": 7221.0,
+      "ordinal": 69,
+      "coordinates": [
+        0,
+        69
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5718.0",
+      "value": 5718.0,
+      "ordinal": 70,
+      "coordinates": [
+        0,
+        70
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "13313.0",
+      "value": 13313.0,
+      "ordinal": 71,
+      "coordinates": [
+        0,
+        71
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5455.0",
+      "value": 5455.0,
+      "ordinal": 72,
+      "coordinates": [
+        0,
+        72
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1235.0",
+      "value": 1235.0,
+      "ordinal": 73,
+      "coordinates": [
+        0,
+        73
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1316.0",
+      "value": 1316.0,
+      "ordinal": 74,
+      "coordinates": [
+        0,
+        74
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2904.0",
+      "value": 2904.0,
+      "ordinal": 75,
+      "coordinates": [
+        0,
+        75
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "5743.0",
+      "value": 5743.0,
+      "ordinal": 76,
+      "coordinates": [
+        0,
+        76
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1398.0",
+      "value": 1398.0,
+      "ordinal": 77,
+      "coordinates": [
+        0,
+        77
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1129.0",
+      "value": 1129.0,
+      "ordinal": 78,
+      "coordinates": [
+        0,
+        78
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3216.0",
+      "value": 3216.0,
+      "ordinal": 79,
+      "coordinates": [
+        0,
+        79
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "41347.0",
+      "value": 41347.0,
+      "ordinal": 80,
+      "coordinates": [
+        0,
+        80
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "11557.0",
+      "value": 11557.0,
+      "ordinal": 81,
+      "coordinates": [
+        0,
+        81
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "9119.0",
+      "value": 9119.0,
+      "ordinal": 82,
+      "coordinates": [
+        0,
+        82
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "20671.0",
+      "value": 20671.0,
+      "ordinal": 83,
+      "coordinates": [
+        0,
+        83
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "539.0",
+      "value": 539.0,
+      "ordinal": 84,
+      "coordinates": [
+        0,
+        84
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "23.0",
+      "value": 23.0,
+      "ordinal": 85,
+      "coordinates": [
+        0,
+        85
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "149.0",
+      "value": 149.0,
+      "ordinal": 86,
+      "coordinates": [
+        0,
+        86
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "367.0",
+      "value": 367.0,
+      "ordinal": 87,
+      "coordinates": [
+        0,
+        87
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1572.0",
+      "value": 1572.0,
+      "ordinal": 88,
+      "coordinates": [
+        0,
+        88
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "275.0",
+      "value": 275.0,
+      "ordinal": 89,
+      "coordinates": [
+        0,
+        89
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "385.0",
+      "value": 385.0,
+      "ordinal": 90,
+      "coordinates": [
+        0,
+        90
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "912.0",
+      "value": 912.0,
+      "ordinal": 91,
+      "coordinates": [
+        0,
+        91
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "12577.0",
+      "value": 12577.0,
+      "ordinal": 92,
+      "coordinates": [
+        0,
+        92
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3480.0",
+      "value": 3480.0,
+      "ordinal": 93,
+      "coordinates": [
+        0,
+        93
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2967.0",
+      "value": 2967.0,
+      "ordinal": 94,
+      "coordinates": [
+        0,
+        94
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "6130.0",
+      "value": 6130.0,
+      "ordinal": 95,
+      "coordinates": [
+        0,
+        95
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "22846.0",
+      "value": 22846.0,
+      "ordinal": 96,
+      "coordinates": [
+        0,
+        96
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "7052.0",
+      "value": 7052.0,
+      "ordinal": 97,
+      "coordinates": [
+        0,
+        97
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "4566.0",
+      "value": 4566.0,
+      "ordinal": 98,
+      "coordinates": [
+        0,
+        98
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "11228.0",
+      "value": 11228.0,
+      "ordinal": 99,
+      "coordinates": [
+        0,
+        99
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "3813.0",
+      "value": 3813.0,
+      "ordinal": 100,
+      "coordinates": [
+        0,
+        100
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "727.0",
+      "value": 727.0,
+      "ordinal": 101,
+      "coordinates": [
+        0,
+        101
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "1052.0",
+      "value": 1052.0,
+      "ordinal": 102,
+      "coordinates": [
+        0,
+        102
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "2034.0",
+      "value": 2034.0,
+      "ordinal": 103,
+      "coordinates": [
+        0,
+        103
+      ],
+      "error": null
+    }
+  ],
+  "axes": [
+    {
+      "ordinal": 0,
+      "name": "COLUMNS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Measures"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Ordered",
+              "parentMember": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 1,
+      "name": "ROWS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Drink",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Alcoholic Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Alcoholic Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Alcoholic Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Alcoholic Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Beverages",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Drink",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Food",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baked Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baked Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baked Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baked Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baking Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baking Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baking Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Baking Goods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Breakfast Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Breakfast Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Breakfast Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Breakfast Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Products",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Products",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Products",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Canned Products",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Dairy",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Deli",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Deli",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Deli",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Deli",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Eggs",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Eggs",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Eggs",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Eggs",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Frozen Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Frozen Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Frozen Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Frozen Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Meat",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Meat",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Meat",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Meat",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Produce",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Produce",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Produce",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Produce",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Seafood",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Seafood",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Seafood",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Seafood",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snack Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snack Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snack Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snack Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snacks",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snacks",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snacks",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Snacks",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Starchy Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Starchy Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Starchy Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Starchy Foods",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Food",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Family]",
+              "memberLevelCaption": "Product Family",
+              "memberValue": "Non-Consumable",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Products",
+                "parentMember": null
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Carousel",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Carousel",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Carousel",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Carousel",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Checkout",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Checkout",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Checkout",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Checkout",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Health and Hygiene",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Health and Hygiene",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Health and Hygiene",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Health and Hygiene",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Household",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Household",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Household",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Household",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Periodicals",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store Country]",
+              "memberLevelCaption": "Store Country",
+              "memberValue": "USA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[(All)]",
+                "memberLevelCaption": "(All)",
+                "memberValue": "All Stores",
+                "parentMember": null
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Periodicals",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Periodicals",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Product",
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Product",
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Product].[Products].[Product Department]",
+              "memberLevelCaption": "Product Department",
+              "memberValue": "Periodicals",
+              "parentMember": {
+                "memberLevelName": "[Product].[Products].[Product Family]",
+                "memberLevelCaption": "Product Family",
+                "memberValue": "Non-Consumable",
+                "parentMember": {
+                  "memberLevelName": "[Product].[Products].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Products",
+                  "parentMember": null
+                }
+              }
+            },
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
