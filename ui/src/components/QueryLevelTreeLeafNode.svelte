@@ -53,15 +53,15 @@
 
 </script>
 
-<div class="flex justify-between items-center text-gray-900 py-px hover:bg-gray-200" on:click="{toggleSelected}">
+<div class="flex justify-between items-center text-gray-900 py-px my-px hover:bg-gray-200 ml-1 { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
 
-  <div class="items-center flex pl-2">
+  <div class="items-center flex pl-1">
     <div class="flex inline items-center">
       <span>{treeModelNode.label}</span>
     </div>
   </div>
 
-  <div class="flex flex-inline items-center justify-end py-px {selected ? '' : 'hidden'}">
+  <div class="flex flex-inline items-center justify-end {selected ? '' : 'hidden'}">
     <div class="items-center mr-1 border border-gray-900" on:click|stopPropagation={orientationClicked}>
       <svg viewBox="0 0 20 20" class="stroke-current" height="14" fill="none" stroke-width="1.3">
         {#if rowOrientation}

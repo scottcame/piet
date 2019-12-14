@@ -25,15 +25,15 @@
 
 </script>
 
-<div class="flex justify-between items-center text-gray-900 py-px hover:bg-gray-200" on:click="{toggleSelected}">
+<div class="flex justify-between items-center text-gray-900 ml-1 my-px hover:bg-gray-200 { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
 
-  <div class="items-center flex pl-2">
+  <div class="items-center flex pl-1">
     <div class="flex inline items-center">
       <span>{treeModelNode.label}</span>
     </div>
   </div>
 
-  <div class="flex flex-inline items-center justify-end text-gray-900 {selected ? '' : 'hidden'}">
+  <div class="flex flex-inline items-center justify-end pr-1 text-gray-900 {selected ? '' : 'hidden'}">
       &#x2713;
   </div>
 
