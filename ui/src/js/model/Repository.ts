@@ -11,7 +11,7 @@ import * as testResult2m1r1c from '../../../test/_data/mondrian-results-2m1r1c.j
 import * as testResult2m1r2c from '../../../test/_data/mondrian-results-2m1r2c.json';
 import * as testResult2m2r1c from '../../../test/_data/mondrian-results-2m2r1c.json';
 import * as testResult2m2r2c from '../../../test/_data/mondrian-results-2m2r2c.json';
-import * as testResult1m0r0c from '../../../test/_data/mondrian-results-1m0r0c.json';
+import * as testResult1m0r1c from '../../../test/_data/mondrian-results-1m0r1c.json';
 import { ConfigurationProperties } from "../../ConfigurationProperties";
 
 
@@ -235,7 +235,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     } else if (/F3_M2/.test(mdx)) {
       ret = MondrianResult.fromJSON(testResult2m2r2c);
     } else if (/F3_M3/.test(mdx)) {
-      ret = MondrianResult.fromJSON(testResult1m0r0c);
+      ret = MondrianResult.fromJSON(testResult1m0r1c);
     }
     return Promise.resolve(ret);
   }

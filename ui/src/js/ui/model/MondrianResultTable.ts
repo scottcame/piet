@@ -10,7 +10,7 @@ export class MondrianResultTableModel {
 
   set result(mondrianResult: MondrianResult) {
     this._mondrianResult = mondrianResult;
-    this.setHeaderRows(mondrianResult);
+    this.populateHeaderRows();
     this.changeListeners.forEach((listener: MondrianTableModelChangeListener): void => {
       listener.mondrianTableModelChanged(new MondrianTableModelChangeEvent(this));
     });
@@ -21,7 +21,7 @@ export class MondrianResultTableModel {
   }
 
   get rowHeaders(): string[][] {
-    let ret = [];
+    let ret = []; // default case: no rows or columns
     if (this._mondrianResult.rowAxis) {
       ret = this._mondrianResult.rowAxis.positions.map((position: MondrianResultAxisPosition): string[] => {
         return this._mondrianResult.rowAxis.axisHeaders.map((_axisHeader: string, axisHeaderIndex: number): string => {
@@ -29,6 +29,9 @@ export class MondrianResultTableModel {
           return position.findMemberValue(levelName);
         });
       });
+    } else if (this._mondrianResult.columnAxis.positions[0].memberDimensionNames.length > 1) {
+      // if we are in here, we have no rows, but some columns (beyond just the measures)
+      ret = [[""]]; // padding for the column to balance the column captions column
     }
     return ret;
   }
@@ -68,7 +71,7 @@ export class MondrianResultTableModel {
     return cell ? cell.formattedValue : null;
   }
 
-  private setHeaderRows(mondrianResult: MondrianResult): void {
+  private populateHeaderRows(): void {
 
     // note: this assumes we always put the measures on the columns axis, which is conventional
 
@@ -76,16 +79,16 @@ export class MondrianResultTableModel {
 
     if (this._mondrianResult) {
 
-      this._headerRows = mondrianResult.columnAxis.axisHeaders.map((axisHeader: string, axisHeaderIndex: number): string[] => {
-        const levelName = mondrianResult.columnAxis.axisLevelUniqueNames[axisHeaderIndex];
-        const columnHeaders = mondrianResult.columnAxis.positions.map((position: MondrianResultAxisPosition): string => {
+      this._headerRows = this._mondrianResult.columnAxis.axisHeaders.map((axisHeader: string, axisHeaderIndex: number): string[] => {
+        const levelName = this._mondrianResult.columnAxis.axisLevelUniqueNames[axisHeaderIndex];
+        const columnHeaders = this._mondrianResult.columnAxis.positions.map((position: MondrianResultAxisPosition): string => {
           return position.findMemberValue(levelName);
         });
         const base = axisHeader === "MeasuresLevel" ? [] : [axisHeader];
         return base.concat(columnHeaders);
       });
 
-      const emptyRowHeaders = mondrianResult.rowCaptions.map((_rowCaption: string): string => {
+      const emptyRowHeaders = this._mondrianResult.rowCaptions.map((_rowCaption: string): string => {
         return null;
       });
 
@@ -95,7 +98,12 @@ export class MondrianResultTableModel {
       this._headerRows = this._headerRows.map((row: string[], rowIndex: number): string[] => {
         let rowHeaderColumns = emptyRowHeaders;
         if (rowIndex === this._headerRows.length - 1) {
-          rowHeaderColumns = mondrianResult.rowCaptions;
+          rowHeaderColumns = this._mondrianResult.rowCaptions;
+          if (!this._mondrianResult.rowAxis && this._mondrianResult.columnAxis.positions[0].memberDimensionNames.length > 1) {
+            // if we are in here, we have no rows, but some columns (beyond just the measures)
+            // so add the padding to balance the column captions column
+            rowHeaderColumns = [null];
+          }
         }
         return rowHeaderColumns.concat(row);
       });

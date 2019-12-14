@@ -20,6 +20,19 @@
   const rightCaret = '\u25B6';
   const downCaret = '\u25BC';
 
+  function formatCell(cell, cellIndex, headerRowIndex) {
+    let ret = "";
+    if (cell) {
+      ret = cell;
+      if (cellIndex === topLeftRightBorderCellIndex && headerRowIndex < tableModel.headerRows.length-1) {
+        ret += (" " + rightCaret);
+      } else if (headerRowIndex === tableModel.headerRows.length-1 && cellIndex <= topLeftRightBorderCellIndex) {
+        ret += (" " + downCaret);
+      }
+    }
+    return ret;
+  }
+
 </script>
 
 <div class="text-xxs m-0">
@@ -29,8 +42,8 @@
         {#each headerRows as headerRow, headerRowIndex}
         <tr>
           {#each headerRow as cell, cellIndex}
-            <th class="p-1 bg-gray-200 { cell === null ? 'border-0' : 'border border-gray-500' } { cellIndex === topLeftRightBorderCellIndex ? 'border-r-2 ' : '' }">
-              {(cell === null ? "" : cell) + " " + (cellIndex === topLeftRightBorderCellIndex && headerRowIndex < tableModel.headerRows.length-1 ? rightCaret : "") + (headerRowIndex === tableModel.headerRows.length-1 && cellIndex <= topLeftRightBorderCellIndex ? downCaret : "")}
+            <th class="p-1 bg-gray-200 border-2 border-gray-500">
+              {formatCell(cell, cellIndex, headerRowIndex)}
             </th>
           {/each}
         </tr>
@@ -41,11 +54,11 @@
           <tr>
             {#if tableModel.rowHeaders.length}
               {#each tableModel.rowHeaders[rowIndex] as rowHeader, rowHeaderIndex}
-                <th class="border bg-gray-200 border-gray-500 { rowHeaderIndex === tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : '' }">{rowHeader}</th>
+                <th class="border-2 bg-gray-200 border-gray-500 { rowHeaderIndex ===  tableModel.rowHeaders[rowIndex].length - 1 ? 'border-r-2' : ''  }">{rowHeader}</th>
               {/each}
             {/if}
             {#each columnIterator as columnIndex}
-              <td class="border text-right bg-gray-100 pr-1">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
+              <td class="border-2 text-right bg-gray-100 pr-1">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
             {/each}
           </tr>
         {/each}

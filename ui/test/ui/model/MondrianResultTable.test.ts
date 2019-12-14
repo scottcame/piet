@@ -144,7 +144,6 @@ test('1 measure no rows or columns', () => {
   const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R0C);
   const tableModel = new MondrianResultTableModel();
   tableModel.result = result;
-  expect(1).toBe(1);
   expect(tableModel.headerRows).toHaveLength(1);
   expect(tableModel.columnCount).toBe(1);
   expect(tableModel.headerRows[0][0]).toBe("Units Ordered");
@@ -152,5 +151,23 @@ test('1 measure no rows or columns', () => {
   expect(tableModel.topLeftEmptyColumnCount).toBe(0);
   expect(tableModel.rowCount).toBe(2);
   expect(tableModel.dataColumnCount).toBe(1);
+  expect(tableModel.dataRowCount).toBe(1);
   expect(tableModel.getValueAt(0,0)).toBe(227238);
+});
+
+test('1 measure no rows 1 column', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R1C);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.headerRows).toHaveLength(2);
+  expect(tableModel.columnCount).toBe(4);
+  expect(tableModel.headerRows[0][0]).toBe("Store State");
+  expect(tableModel.headerRows[0][1]).toBe("CA");
+  expect(tableModel.headerRows[1][0]).toBeNull();
+  expect(tableModel.headerRows[1][1]).toBe("Units Ordered");
+  expect(tableModel.rowHeaders[0][0]).toBe("");
+  expect(tableModel.dataRowCount).toBe(1);
+  expect(tableModel.dataColumnCount).toBe(3);
+  expect(tableModel.getValueAt(0,0)).toBe(66307);
+  expect(tableModel.getValueAt(0,2)).toBe(116025);
 });
