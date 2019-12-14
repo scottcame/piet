@@ -212,7 +212,7 @@ test('Dataset tree model query test: level events', async () => {
         expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY {[Measures].[F1_M1]} ON COLUMNS, NON EMPTY {[D1].[D1].[D1_DESCRIPTION].Members} ON ROWS FROM [Test]");
         levelEvent.rowOrientation = false;
         await controller.handleDatasetTreeNodeEvent(levelEvent).then(async () => {
-          expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY CrossJoin({[D1].[D1].[D1_DESCRIPTION].Members},{[Measures].[F1_M1]}) ON COLUMNS FROM [Test]");
+          expect(controller.currentAnalysis.query.asMDX()).toBe("SELECT NON EMPTY NonEmptyCrossJoin({[D1].[D1].[D1_DESCRIPTION].Members},{[Measures].[F1_M1]}) ON COLUMNS FROM [Test]");
           levelEvent.selected = false;
           await controller.handleDatasetTreeNodeEvent(levelEvent).then(async () => {
             expect(controller.currentAnalysis.query.levels).toHaveLength(0);

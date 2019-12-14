@@ -72,16 +72,25 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     return ret;
   }
 
-  private static levelsString(levelsList: List<QueryLevel>): string {
+  private static levelsString(levelsList: List<QueryLevel>, nonEmpty: boolean): string {
     let ret = null;
     if (levelsList.length === 1) {
       ret = "{" + levelsList.get(0).uniqueName + ".Members}";
     } else if (levelsList.length > 1) {
-      const levelStrings: string[] = [];
-      levelsList.forEach((level: QueryLevel): void => {
-        levelStrings.push("{" + level.uniqueName + ".Members}");
-      });
-      ret = levelStrings.join("*");
+      ret = Query.crossJoinLevels(levelsList.asArray(), nonEmpty);
+    }
+    return ret;
+  }
+
+  private static crossJoinLevels(levels: QueryLevel[], nonEmpty: boolean): string {
+    const verb = nonEmpty ? "NonEmptyCrossJoin" : "CrossJoin";
+    let ret = "";
+    if (levels.length === 2) {
+      ret = verb + "({" + levels[0].uniqueName + ".Members},{" + levels[1].uniqueName + ".Members})";
+      console.log(ret);
+    } else {
+      ret = verb + "({" + levels[0].uniqueName + ".Members}," + Query.crossJoinLevels(levels.slice(1), nonEmpty);
+      console.log(ret);
     }
     return ret;
   }
@@ -112,7 +121,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
       });
 
       if (columnLevels.length) {
-        colsString = "CrossJoin(" + Query.levelsString(columnLevels) + "," + this.measuresString() + ")";
+        colsString = (this.nonEmpty ? "NonEmpty" : "") + "CrossJoin(" + Query.levelsString(columnLevels, this.nonEmpty) + "," + this.measuresString() + ")";
       }
 
       ret = "SELECT " +
@@ -124,7 +133,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
       });
 
       if (rowLevels.length) {
-        ret += ((this.nonEmpty ? ", NON EMPTY " : "") + Query.levelsString(rowLevels) + " ON ROWS");
+        ret += ((this.nonEmpty ? ", NON EMPTY " : "") + Query.levelsString(rowLevels, this.nonEmpty) + " ON ROWS");
       }
       
       ret += " FROM [" + cubeName + "]";
