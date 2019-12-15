@@ -154,6 +154,7 @@ export class Dataset implements Editable {
   private _schemaName: string;
   private _label: string;
   private _connectionName: string;
+  private _measureGroupName: string;
   schemaDescription: string;
   description: string;
   measures: Measure[];
@@ -168,7 +169,9 @@ export class Dataset implements Editable {
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   static loadFromMetadata(metadata: any, mondrianRestMetadataUrl: string): Dataset[] {
-    const ret = [];
+    const physicalDatasets = [];
+    const measureGroupRefs = [];
+    const ret: Dataset[] = [];
     metadata.cubes.forEach((mdCube: any): void => {
       const dataset = new Dataset(mondrianRestMetadataUrl);
       dataset.schemaName = metadata.name;
@@ -212,7 +215,33 @@ export class Dataset implements Editable {
         });
         return dimension;
       });
-      ret.push(dataset);
+      physicalDatasets.push(dataset);
+      measureGroupRefs.push(mdCube.measureGroups);
+    });
+    physicalDatasets.forEach((dataset: Dataset, datasetIdx: number): void => {
+      if (measureGroupRefs[datasetIdx]) {
+        measureGroupRefs[datasetIdx].forEach((measureGroup: any): void => {
+          const constrainedDataset = new Dataset(dataset.id);
+          constrainedDataset.schemaName = dataset.schemaName;
+          constrainedDataset.schemaDescription = dataset.schemaDescription;
+          constrainedDataset._measureGroupName = measureGroup.name;
+          constrainedDataset.name = dataset.name;
+          constrainedDataset.description = dataset.description;
+          constrainedDataset._connectionName = dataset.connectionName;
+          measureGroup.measureReferences.forEach((ref: string): void => {
+            constrainedDataset.measures.push(dataset.findMeasure(ref));
+          });
+          // we put the measures dimension in here just for consistency; we don't actually show it in the UI
+          // todo: consider taking the measures dimension out of the Dataset object
+          constrainedDataset.dimensions.push(dataset.findDimension("Measures"));
+          measureGroup.dimensionReferences.forEach((ref: string): void => {
+            constrainedDataset.dimensions.push(dataset.findDimension(ref));
+          });
+          ret.push(constrainedDataset);
+        });
+      } else {
+        ret.push(dataset);
+      }
     });
     return ret;
   }
@@ -249,8 +278,12 @@ export class Dataset implements Editable {
     return this._schemaName;
   }
 
+  get measureGroupName(): string {
+    return this._measureGroupName;
+  }
+
   private updateLabel(): void {
-    this._label = this.schemaName + " [" + this.name + "]";
+    this._label = this.schemaName + " [" + this.name + "]" + (this._measureGroupName ? " [" + this._measureGroupName + "]" : "");
   }
 
   get label(): string {
@@ -259,6 +292,26 @@ export class Dataset implements Editable {
 
   get connectionName(): string {
     return this._connectionName;
+  }
+
+  private findMeasure(name: string): Measure {
+    let ret: Measure = null;
+    this.measures.forEach((measure: Measure): void => {
+      if (measure.name === name) {
+        ret = measure;
+      }
+    });
+    return ret;
+  }
+
+  private findDimension(name: string): Dimension {
+    let ret: Dimension = null;
+    this.dimensions.forEach((dimension: Dimension): void => {
+      if (dimension.name === name) {
+        ret = dimension;
+      }
+    });
+    return ret;
   }
 
   cancelEdits(): void {

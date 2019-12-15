@@ -7,69 +7,60 @@ const datasetId = "http://localhost:58080/mondrian-rest/getMetadata?connectionNa
 const datasets = Dataset.loadFromMetadata(TestData.TEST_METADATA, datasetId);
 
 test('dataset', () => {
-  expect(datasets).toHaveLength(2);
-  datasets.forEach((dataset: Dataset, idx: number) => {
-    expect(dataset.schemaName).toBe(TestData.TEST_METADATA.name);
-    expect(dataset.id).toBe(datasetId);
-    expect(dataset.name).toBe(TestData.TEST_METADATA.cubes[idx].name);
-    expect(dataset.description).toBe(TestData.TEST_METADATA.cubes[idx].caption);
-  });
+  expect(datasets).toHaveLength(6);
+  for (const i of [...Array(6).keys()]) {
+    expect(datasets[i].schemaName).toBe("Test");
+    expect(datasets[i].id).toBe(datasetId);
+    const expectedName = i <= 2 ? "Test" : "Test_Secure";
+    expect(datasets[i].name).toBe(expectedName);
+    expect(datasets[i].description).toBe(expectedName);
+    expect(datasets[i].measureGroupName).toBe("F" + ((i%3)+1));
+  }
 });
 
 test('measures', () => {
-  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
-    expect(mdCube.measures.length).toBe(datasets[cubeIdx].measures.length);
-    mdCube.measures.forEach((_: any, idx: number): void => {
-      expect(datasets[cubeIdx].measures[idx].name).toBe(mdCube.measures[idx].name);
-      expect(datasets[cubeIdx].measures[idx].description).toBe(mdCube.measures[idx].caption);
-      expect(datasets[cubeIdx].measures[idx].visible).toBe(mdCube.measures[idx].visible);
-      expect(datasets[cubeIdx].measures[idx].calculated).toBe(mdCube.measures[idx].calculated);
-    });
-  });
+  expect(datasets[0].measures).toHaveLength(1);
+  expect(datasets[0].measures[0].name).toBe("F1_M1");
+  expect(datasets[0].measures[0].description).toBe("F1_M1");
+  expect(datasets[0].measureGroupName).toBe("F1");
+  expect(datasets[2].measures).toHaveLength(2);
+  expect(datasets[2].measures.map((measure: Measure): string => { return measure.name; })).toMatchObject(["F3_M1","F3_M2"]);
 });
 
 test('dimensions', () => {
-  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
-    expect(mdCube.dimensions.length).toBe(datasets[cubeIdx].dimensions.length);
-    mdCube.dimensions.forEach((_: any, idx: number): void => {
-      expect(datasets[cubeIdx].dimensions[idx].name).toBe(mdCube.dimensions[idx].name);
-      expect(datasets[cubeIdx].dimensions[idx].description).toBe(mdCube.dimensions[idx].caption);
-      expect(datasets[cubeIdx].dimensions[idx].type).toBe(mdCube.dimensions[idx].type);
-    });
-  });
+  expect(datasets[0].dimensions).toHaveLength(2);
+  expect(datasets[0].dimensions[1].name).toBe("D1");
+  expect(datasets[0].dimensions[1].description).toBe("D1");
+  expect(datasets[2].dimensions).toHaveLength(3);
+  expect(datasets[2].dimensions.map((dimension: Dimension): string => { return dimension.name; })).toMatchObject(["Measures", "D1","D2"]);
 });
 
 test('hierarchies and levels', () => {
-  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
-    mdCube.dimensions.forEach((mdDimension: any, dimensionIdx: number): void => {
-      expect(mdCube.dimensions[dimensionIdx].hierarchies.length).toBe(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies.length);
-      mdDimension.hierarchies.forEach((mdHierarchy: any, hierarchyIdx: number): void => {
-        expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].name);
-        expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].caption);
-        mdHierarchy.levels.forEach((_: any, levelIdx: number): void => {
-          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].name).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].name);
-          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].description).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].caption);
-          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].depth).toBe(mdCube.dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].depth);
-        });
-      });
+  const mdDimension = TestData.TEST_METADATA.cubes[0].dimensions[1];
+  const dimension = datasets[0].dimensions[1];
+  mdDimension.hierarchies.forEach((mdHierarchy: any, hierarchyIdx: number): void => {
+    expect(dimension.hierarchies[hierarchyIdx].name).toBe(mdHierarchy.name);
+    expect(dimension.hierarchies[hierarchyIdx].description).toBe(mdHierarchy.caption);
+    mdHierarchy.levels.forEach((_: any, levelIdx: number): void => {
+      expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].name).toBe(mdHierarchy.levels[levelIdx].name);
+      expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].description).toBe(mdHierarchy.levels[levelIdx].caption);
+      expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].depth).toBe(mdHierarchy.levels[levelIdx].depth);
     });
   });
 });
 
 test('member levels', () => {
-  TestData.TEST_METADATA.cubes.forEach((mdCube: any, cubeIdx: number): void => {
-    mdCube.dimensions.forEach((mdDimension: any, dimensionIdx: number): void => {
-      mdDimension.hierarchies.forEach((mdHierarchy: any, hierarchyIdx: number): void => {
-        mdHierarchy.levels.forEach((mdLevel: any, levelIdx: number): void => {
-          expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members).toHaveLength(mdLevel.members.length);
-          mdLevel.members.forEach((mdMember: any, memberIdx: number) => {
-            expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].name).toBe(mdMember.name);
-            expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].children).toHaveLength(mdMember.childMembers.length);
-            mdMember.childMembers.forEach((mdChildMember: any, childMemberIdx: number) => {
-              // we just test one layer down
-              expect(datasets[cubeIdx].dimensions[dimensionIdx].hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].children[childMemberIdx].name).toBe(mdChildMember.name);
-            });
-          });
+  const mdDimension = TestData.TEST_METADATA.cubes[0].dimensions[1];
+  const dimension = datasets[0].dimensions[1];
+  mdDimension.hierarchies.forEach((mdHierarchy: any, hierarchyIdx: number): void => {
+    mdHierarchy.levels.forEach((mdLevel: any, levelIdx: number): void => {
+      expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].members).toHaveLength(mdLevel.members.length);
+      mdLevel.members.forEach((mdMember: any, memberIdx: number) => {
+        expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].name).toBe(mdMember.name);
+        expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].children).toHaveLength(mdMember.childMembers.length);
+        mdMember.childMembers.forEach((mdChildMember: any, childMemberIdx: number) => {
+          // we just test one layer down
+          expect(dimension.hierarchies[hierarchyIdx].levels[levelIdx].members[memberIdx].children[childMemberIdx].name).toBe(mdChildMember.name);
         });
       });
     });
@@ -104,8 +95,8 @@ test('foodmart (big)', async () => {
   await fmd.getMetadata().then((metadata): any => {
     const datasets = Dataset.loadFromMetadata(metadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
     expect(datasets).not.toBeNull();
-    expect(datasets.length).toBe(6);
-    const storeDataset = datasets[3];
+    expect(datasets.length).toBe(11);
+    const storeDataset = datasets[7];
     expect(storeDataset.name).toBe("Store");
     expect(storeDataset.measures).toHaveLength(2);
     expect(storeDataset.dimensions).toHaveLength(4);

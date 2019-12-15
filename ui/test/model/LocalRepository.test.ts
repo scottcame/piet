@@ -16,7 +16,7 @@ beforeEach(async () => {
 test('local repository browse', async () => {
   await repo.init().then(async () => {
     expect(repo).not.toBeNull();
-    expect(datasets.length).toBe(2);
+    expect(datasets.length).toBe(6);
     return repo.browseAnalyses().then((aa: Analysis[]) => {
       expect(aa).toHaveLength(2);
     });

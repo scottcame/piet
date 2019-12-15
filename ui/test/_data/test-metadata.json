@@ -357,6 +357,37 @@
             }
           ]
         }
+      ],
+      "measureGroups": [
+        {
+          "name": "F1",
+          "measureReferences": [
+            "F1_M1"
+          ],
+          "dimensionReferences": [
+            "D1"
+          ]
+        },
+        {
+          "name": "F2",
+          "measureReferences": [
+            "F2_M1"
+          ],
+          "dimensionReferences": [
+            "D2"
+          ]
+        },
+        {
+          "name": "F3",
+          "measureReferences": [
+            "F3_M1",
+            "F3_M2"
+          ],
+          "dimensionReferences": [
+            "D1",
+            "D2"
+          ]
+        }
       ]
     },
     {
@@ -712,6 +743,37 @@
               ],
               "hasAll": true
             }
+          ]
+        }
+      ],
+      "measureGroups": [
+        {
+          "name": "F1",
+          "measureReferences": [
+            "F1_M1"
+          ],
+          "dimensionReferences": [
+            "D1"
+          ]
+        },
+        {
+          "name": "F2",
+          "measureReferences": [
+            "F2_M1"
+          ],
+          "dimensionReferences": [
+            "D2"
+          ]
+        },
+        {
+          "name": "F3",
+          "measureReferences": [
+            "F3_M1",
+            "F3_M2"
+          ],
+          "dimensionReferences": [
+            "D1",
+            "D2"
           ]
         }
       ]

@@ -39,7 +39,7 @@ beforeEach(async () => {
 test('initial state', () => {
   expect(workspace.analyses).toHaveLength(0);
   expect(controller.analysesDropdownModel.items).toHaveLength(0);
-  expect(controller.datasetsDropdownModel.items).toHaveLength(2);
+  expect(controller.datasetsDropdownModel.items).toHaveLength(6);
   expect(controller.datasetRootTreeNode).toBeNull();
 });
 

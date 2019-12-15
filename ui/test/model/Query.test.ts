@@ -67,7 +67,7 @@ test('query levels', async () => {
 // import * as stringify from 'json-stringify-safe';
 
 test('query MDX 1 measure 1 row dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -82,7 +82,7 @@ test('query MDX 1 measure 1 row dim', async () => {
 });
 
 test('query MDX 2 measures row dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   let queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -101,7 +101,7 @@ test('query MDX 2 measures row dim', async () => {
 });
 
 test('query MDX 1 measure 2 row dims', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -121,7 +121,7 @@ test('query MDX 1 measure 2 row dims', async () => {
 });
 
 test('query MDX no measures -> null', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryLevel = new QueryLevel();
   queryLevel.setRowOrientation(true);
@@ -131,7 +131,7 @@ test('query MDX no measures -> null', async () => {
 });
 
 test('query MDX 1 measure 1 row dim 1 col dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -151,7 +151,7 @@ test('query MDX 1 measure 1 row dim 1 col dim', async () => {
 });
 
 test('query MDX 1 measure 1 row dim 2 col dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -176,7 +176,7 @@ test('query MDX 1 measure 1 row dim 2 col dim', async () => {
 });
 
 test('query MDX 2 measures 1 row dim 1 col dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   let queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -200,7 +200,7 @@ test('query MDX 2 measures 1 row dim 1 col dim', async () => {
 });
 
 test('query MDX simple 2 level hierarchize', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -220,7 +220,7 @@ test('query MDX simple 2 level hierarchize', async () => {
 });
 
 test('query MDX simple 3 level hierarchize', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -245,7 +245,7 @@ test('query MDX simple 3 level hierarchize', async () => {
 });
 
 test('query MDX simple 2 level hierarchize plus additional level', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -270,7 +270,7 @@ test('query MDX simple 2 level hierarchize plus additional level', async () => {
 });
 
 test('query MDX simple 2 level hierarchize plus 2 additional levels', async () => {
-  const analysis = new Analysis(foodmartDatasets[3], "test");
+  const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure();
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
