@@ -19,6 +19,10 @@
   font-size: .625rem;
 }
 
+.max-h-128 {
+  max-height: 128px;
+}
+
 /* custom style to set the height of the html body. 88px is the approximate height of the nav header. */
 
 .app-height {

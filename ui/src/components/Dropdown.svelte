@@ -59,10 +59,12 @@
     </div>
   </button>
   {#if open}
-    <div class="absolute w-full bg-gray-100 border border-gray-700 shadow-xl">
-      {#each dropdownModel.labels as label, idx}
-        <div class="block px-4 py-1 text-gray-800 hover:bg-gray-300" on:click="{e => selectItem(idx)}">{label}</div>
-      {/each}
+    <div class="absolute w-full bg-gray-100 border border-gray-700 shadow-xl max-h-128 overflow-y-auto">
+      <div>
+        {#each dropdownModel.labels as label, idx}
+          <div class="block px-4 py-1 text-gray-800 hover:bg-gray-300" on:click="{e => selectItem(idx)}">{label}</div>
+        {/each}
+      </div>
     </div>
   {/if}
 </div>
