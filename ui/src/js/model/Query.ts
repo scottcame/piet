@@ -273,15 +273,11 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
     const ret = new QueryLevel();
     ret._uniqueName = o._uniqueName;
     ret._filterSelected = o._filterSelected;
-    ret._sumSelected = o._sumSelected;
     ret._rowOrientation = o._rowOrientation;
     return Promise.resolve(ret);
   }
   get uniqueName(): string {
     return this._uniqueName;
-  }
-  get sumSelected(): boolean {
-    return this._sumSelected;
   }
   get filterSelected(): boolean {
     return this._filterSelected;
@@ -295,15 +291,6 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;
     return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
-  }
-  async setSumSelected(value: boolean): Promise<void> {
-    if (this._sumSelected !== value) {
-      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
-        this._sumSelected = value;
-        return super.notifyListenersOfPropertyEdit("sumSelected");
-      });
-    }
-    return Promise.resolve();
   }
   async setFilterSelected(value: boolean): Promise<void> {
     if (this._filterSelected !== value) {

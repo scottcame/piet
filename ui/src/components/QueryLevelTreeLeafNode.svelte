@@ -17,11 +17,6 @@
     dispatchNodeChangeEvent();
   }
 
-  function sumClicked() {
-    sumSelected = !sumSelected;
-    dispatchNodeChangeEvent();
-  }
-
   function orientationClicked() {
     rowOrientation = !rowOrientation;
     dispatchNodeChangeEvent();
@@ -45,7 +40,6 @@
       if (level.uniqueName === treeModelNode.uniqueName) {
         selected = true;
         rowOrientation = level.rowOrientation;
-        sumSelected = level.sumSelected;
         filterSelected = level.filterSelected;
       }
     });
@@ -72,9 +66,6 @@
           <rect x="10.1" y="6" width="8" height="8"/>
         {/if}
       </svg>
-    </div>
-    <div class="{sumSelected ? 'bg-gray-900 text-gray-200' : 'text-gray-900 bg-transparent'} border border-gray-900 px-px leading-none py-px mr-1" on:click|stopPropagation={sumClicked}>
-      &#x03A3;
     </div>
     <div class="items-center mr-1 border border-gray-900 {filterSelected ? 'bg-gray-900 text-gray-200' : ''}" on:click|stopPropagation={filterClicked}>
       <svg x="0" y="0" viewBox="0 0 20 20" class="stroke-current" height="14" fill="none" stroke-width="1.4">

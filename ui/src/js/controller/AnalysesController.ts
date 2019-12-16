@@ -305,8 +305,7 @@ export class AnalysesController {
           queryLevel = existingLevels.get(0);
           const promises: Promise<void>[] = [
             queryLevel.setFilterSelected(treeModelLevelNodeEvent.filterSelected),
-            queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation),
-            queryLevel.setSumSelected(treeModelLevelNodeEvent.sumSelected)
+            queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation)
           ];
           ret = Promise.all(promises).then(() => {
             return Promise.resolve();
