@@ -2,7 +2,7 @@ import { Dataset } from "./Dataset";
 import { Identifiable, Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent } from "./Persistence";
 import { Repository } from "./Repository";
 import { ListChangeEventListener, ListChangeEvent, List } from "../collections/List";
-import { Query, QueryMeasure, QueryLevel } from "./Query";
+import { Query, QueryMeasure, QueryLevel, QueryFilter } from "./Query";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -18,6 +18,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   private editEventListeners: EditEventListener[];
   private queryMeasuresListChangeEventListener: QueryDirtyListListener<QueryMeasure>;
   private queryLevelsListChangeEventListener: QueryDirtyListListener<QueryLevel>;
+  private queryFiltersListChangeEventListener: QueryDirtyListListener<QueryFilter>;
 
   constructor(dataset: Dataset = null, name: string = null, id: number = undefined) {
 
@@ -130,6 +131,14 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       this.initCheckpoint();
       return this.notifyPropertyEditEventListeners("query");
     }));
+    this.queryFiltersListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
+      return this.initCheckpoint();
+    }, (): Promise<void> => {
+      return this.notifyPropertyEditEventListeners("query");
+    }, this._query.filters, new QueryDirtyEditEventListener((): Promise<void> => {
+      this.initCheckpoint();
+      return this.notifyPropertyEditEventListeners("query");
+    }));
   }
 
   private initCheckpoint(): Promise<void> {
@@ -173,6 +182,9 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this._query.measures.forEach((m: QueryMeasure): void => {
       m.cancelEdits();
     });
+    this._query.filters.forEach((f: QueryFilter): void => {
+      f.cancelEdits();
+    });
     return this.notifyEditEventListeners(EditEvent.EDIT_CANCEL);
   }
 
@@ -183,6 +195,9 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     });
     this._query.measures.forEach((m: QueryMeasure): void => {
       m.checkpointEdits();
+    });
+    this._query.filters.forEach((f: QueryFilter): void => {
+      f.checkpointEdits();
     });
     return this.notifyEditEventListeners(EditEvent.EDIT_CHECKPOINT);
   }

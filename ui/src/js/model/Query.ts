@@ -1,18 +1,20 @@
 import { Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent, Cloneable } from "./Persistence";
 import { Repository } from "./Repository";
-import { List, CloneableList } from "../collections/List";
+import { List, CloneableList, ListChangeEventListener, ListChangeEvent } from "../collections/List";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export class Query implements Cloneable<Query>, Serializable<Query> {
   private _measures: CloneableList<QueryMeasure>;
   private _levels: CloneableList<QueryLevel>;
+  private _filters: CloneableList<QueryFilter>;
   nonEmpty: boolean;
   private datasetName: string;
 
   constructor(datasetName = null) {
     this._measures = new CloneableList();
     this._levels = new CloneableList();
+    this._filters = new CloneableList();
     this.nonEmpty = true;
     this.datasetName = datasetName;
   }
@@ -25,6 +27,10 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     return this._levels;
   }
 
+  get filters(): List<QueryFilter> {
+    return this._filters;
+  }
+
   serialize(repository: Repository): any {
     const mArray: any[] = [];
     this._measures.forEach((measure: QueryMeasure): void => {
@@ -34,11 +40,16 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     this._levels.forEach((level: QueryLevel): void => {
       lArray.push(level.serialize(repository));
     });
+    const fArray: any[] = [];
+    this._filters.forEach((filter: QueryFilter): void => {
+      fArray.push(filter.serialize(repository));
+    });
     return {
       nonEmpty: this.nonEmpty,
       datasetName: this.datasetName,
       _measures: mArray,
-      _levels: lArray
+      _levels: lArray,
+      _filters: fArray
     };
   }
 
@@ -57,10 +68,16 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
       return new QueryLevel().deserialize(l, repository);
     });
     const ll = await Promise.all(lPromises);
+    const fPromises: Promise<QueryFilter>[] = o._filters.map((f: any): Promise<QueryFilter> => {
+      return new QueryFilter().deserialize(f, repository);
+    });
+    const ff = await Promise.all(fPromises);
     ret._levels = new CloneableList();
     ret._levels.addAll(ll);
     ret._measures = new CloneableList();
     ret._measures.addAll(qq);
+    ret._filters = new CloneableList();
+    ret._filters.addAll(ff);
     return Promise.resolve(ret);
   }
 
@@ -68,6 +85,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     const ret = new Query();
     ret._measures = this._measures.clone();
     ret._levels = this._levels.clone();
+    ret._filters = this._filters.clone();
     ret.datasetName = this.datasetName;
     return ret;
   }
@@ -330,5 +348,100 @@ export class QueryMeasure extends AbstractQueryObject implements Cloneable<Query
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;
     return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
+  }
+}
+
+export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryFilter>, Serializable<QueryFilter> {
+  readonly levelMemberNames: List<string>;
+  private _filterOnlyHierarchy: boolean;
+  private _include: boolean;
+  private _levelUniqueName: string;
+  constructor(levelUniqueName: string = null) {
+    super();
+    this.levelMemberNames = new List<string>();
+    this._filterOnlyHierarchy = false;
+    this._include = true;
+    this._levelUniqueName = levelUniqueName;
+    this.levelMemberNames.addChangeEventListener(new FilterMemberNameListEventListener(
+      (_event: ListChangeEvent): Promise<void> => {
+        return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
+      },
+      (_event: ListChangeEvent): Promise<void> => {
+        return super.notifyListenersOfPropertyEdit("levelMemberNames");
+      }
+    ));
+  }
+  serialize(_repository: Repository): any {
+    return {
+      _levelUniqueName: this._levelUniqueName,
+      _filterOnlyHierarchy: this._filterOnlyHierarchy,
+      _include: this._include,
+      levelMemberNames: this.levelMemberNames.map((name: string): string => {
+        return name;
+      })
+    };
+  }
+  deserialize(o: any, _repository: Repository): Promise<QueryFilter> {
+    const ret = new QueryFilter();
+    ret._levelUniqueName = o._levelUniqueName;
+    ret._include = o._include;
+    ret._filterOnlyHierarchy = o._filterOnlyHierarchy;
+    const newNames: string[] = [];
+    o.levelMemberNames.forEach((name: any): void => {
+      newNames.push(name);
+    });
+    ret.levelMemberNames.set(newNames);
+    return Promise.resolve(ret);
+  }
+  clone(): QueryFilter {
+    const ret = new QueryFilter();
+    ret._levelUniqueName = this._levelUniqueName;
+    ret._include = this._include;
+    ret._filterOnlyHierarchy = this._filterOnlyHierarchy;
+    const newNames: string[] = [];
+    this.levelMemberNames.forEach((name: any): void => {
+      newNames.push(name);
+    });
+    ret.levelMemberNames.set(newNames);
+    return ret;
+  }
+  get filterOnlyHierarchy(): boolean {
+    return this._filterOnlyHierarchy;
+  }
+  get include(): boolean {
+    return this._include;
+  }
+  async setFilterOnlyHierarchy(value: boolean): Promise<void> {
+    if (value !== this._filterOnlyHierarchy) {
+      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
+        this._filterOnlyHierarchy = value;
+        return super.notifyListenersOfPropertyEdit("filterOnlyHierarchy");
+      });
+    }
+    return Promise.resolve();
+  }
+  async setInclude(value: boolean): Promise<void> {
+    if (value !== this._include) {
+      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
+        this._include = value;
+        return super.notifyListenersOfPropertyEdit("include");
+      });
+    }
+    return Promise.resolve();
+  }
+}
+
+class FilterMemberNameListEventListener implements ListChangeEventListener {
+  private listWillChangeCallback: (event: ListChangeEvent) => Promise<void>;
+  private listChangedCallback: (event: ListChangeEvent) => Promise<void>;
+  constructor(listWillChangeCallback: (event: ListChangeEvent) => Promise<void>, listChangedCallback: (event: ListChangeEvent) => Promise<void>) {
+    this.listWillChangeCallback = listWillChangeCallback;
+    this.listChangedCallback = listChangedCallback;
+  }
+  listWillChange(event: ListChangeEvent): Promise<void> {
+    return this.listWillChangeCallback(event);
+  }
+  listChanged(event: ListChangeEvent): Promise<void> {
+    return this.listChangedCallback(event);
   }
 }

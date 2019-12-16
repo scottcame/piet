@@ -3,7 +3,7 @@ import { FoodmartMetadata } from '../_data/TestData';
 import { LocalRepository } from '../../src/js/model/Repository';
 import { List } from '../../src/js/collections/List';
 import { Analysis } from '../../src/js/model/Analysis';
-import { QueryLevel, QueryMeasure } from '../../src/js/model/Query';
+import { QueryLevel, QueryMeasure, QueryFilter } from '../../src/js/model/Query';
 
 let repository: LocalRepository;
 const testDatasets: List<Dataset> = new List();
@@ -58,6 +58,50 @@ test('query levels', async () => {
               expect(analysis.dirty).toBe(false);
               });
             });
+        });
+      });
+    });
+  });
+});
+
+test('query filters', async () => {
+  const analysis = new Analysis(testDatasets.get(0), "test-name");
+  expect(analysis.query.filters).toHaveLength(0);
+  expect(analysis.dirty).toBe(false);
+  let queryFilter = new QueryFilter("[D1].[D1].[D1_DESCRIPTION]");
+  await analysis.query.filters.add(queryFilter).then(async () => {
+    expect(analysis.query.filters).toHaveLength(1);
+    expect(analysis.dirty).toBe(true);
+    await analysis.cancelEdits().then(async () => {
+      expect(analysis.query.filters).toHaveLength(0);
+      expect(analysis.dirty).toBe(false);
+      await analysis.query.filters.add(queryFilter).then(async () => {
+        expect(analysis.query.filters).toHaveLength(1);
+        expect(analysis.dirty).toBe(true);
+        await analysis.checkpointEdits().then(async () => {
+          expect(analysis.dirty).toBe(false);
+          await queryFilter.setInclude(false).then(async () => {
+            expect(analysis.dirty).toBe(true);
+            await analysis.checkpointEdits().then(async () => {
+              expect(analysis.dirty).toBe(false);
+              await queryFilter.levelMemberNames.add("D1 One").then(async () => {
+                expect(analysis.dirty).toBe(true);
+                expect(queryFilter.levelMemberNames).toHaveLength(1);
+                await analysis.checkpointEdits().then(async () => {
+                  expect(analysis.dirty).toBe(false);
+                  expect(queryFilter.levelMemberNames).toHaveLength(1);
+                  await queryFilter.levelMemberNames.add("D1 Two").then(async () => {
+                    expect(analysis.dirty).toBe(true);
+                    expect(queryFilter.levelMemberNames).toHaveLength(2);
+                    await analysis.cancelEdits().then(async () => {
+                      queryFilter = analysis.query.filters.get(0);
+                      expect(queryFilter.levelMemberNames).toHaveLength(1);
+                    });
+                  });
+                });
+              });
+            });
+          });
         });
       });
     });
