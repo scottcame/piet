@@ -9,9 +9,7 @@ const datasets: List<Dataset> = new List();
 beforeEach(async () => {
   repository = new LocalRepository();
   return repository.init().then(async () => {
-    console.log("Initted");
     return repository.browseDatasets().then(async (d: Dataset[]) => {
-      console.log("after browse");
       return datasets.set(d);
     });
   });
