@@ -54,7 +54,7 @@ if (production) {
   // experiment found that purge only takes about .4 seconds...
   postcssPlugins.push(purgecss({
     content: [
-      './src/**/*.svelte'
+      './src/**/*.svelte', './public/index.html'
     ],
     defaultExtractor: content => content.match(/[A-Za-z0-9:_/\-]+/g) || []
   }));
