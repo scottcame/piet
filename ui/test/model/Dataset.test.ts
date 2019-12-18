@@ -102,3 +102,11 @@ test('foodmart (big)', async () => {
     expect(storeDataset.dimensions).toHaveLength(4);
   });
 });
+
+test('find level on dataset', () => {
+  let level = datasets[0].findLevel("[D1].[D1].[D1_DESCRIPTION]");
+  expect(level).not.toBeNull();
+  expect(level.uniqueName).toBe("[D1].[D1].[D1_DESCRIPTION]");
+  level = datasets[0].findLevel("[D1].[D1].[nope]");
+  expect(level).toBeNull();
+});

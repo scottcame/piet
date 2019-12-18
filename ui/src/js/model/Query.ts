@@ -31,6 +31,16 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     return this._filters;
   }
 
+  findFilter(levelUniqueName: string): QueryFilter {
+    let ret: QueryFilter = null;
+    this._filters.forEach((f: QueryFilter): void => {
+      if (f.levelUniqueName === levelUniqueName) {
+        ret = f;
+      }
+    });
+    return ret;
+  }
+
   serialize(repository: Repository): any {
     const mArray: any[] = [];
     this._measures.forEach((measure: QueryMeasure): void => {
@@ -61,15 +71,15 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     ret.datasetName = o.datasetName;
     ret.nonEmpty = o.nonEmpty;
     const mPromises: Promise<QueryMeasure>[] = o._measures.map((m: any): Promise<QueryMeasure> => {
-      return new QueryMeasure().deserialize(m, repository);
+      return new QueryMeasure(ret).deserialize(m, repository);
     });
     const qq = await Promise.all(mPromises);
     const lPromises: Promise<QueryLevel>[] = o._levels.map((l: any): Promise<QueryLevel> => {
-      return new QueryLevel().deserialize(l, repository);
+      return new QueryLevel(ret).deserialize(l, repository);
     });
     const ll = await Promise.all(lPromises);
     const fPromises: Promise<QueryFilter>[] = o._filters.map((f: any): Promise<QueryFilter> => {
-      return new QueryFilter().deserialize(f, repository);
+      return new QueryFilter(null, ret).deserialize(f, repository);
     });
     const ff = await Promise.all(fPromises);
     ret._levels = new CloneableList();
@@ -200,7 +210,11 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
 
 export abstract class AbstractQueryObject implements Editable {
   protected _dirty: boolean;
+  protected _parent: Query;
   private editEventListeners: EditEventListener[] = [];
+  constructor(parent: Query) {
+    this._parent = parent;
+  }
   get dirty(): boolean {
     return this._dirty;
   }
@@ -251,13 +265,14 @@ export abstract class AbstractQueryObject implements Editable {
 export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLevel>, Serializable<QueryLevel> {
   private _uniqueName: string;
   private _sumSelected = false;
-  private _filterSelected = false;
   private _rowOrientation = true;
+  constructor(parent: Query) {
+    super(parent);
+  }
   clone(): QueryLevel {
-    const ret = new QueryLevel();
+    const ret = new QueryLevel(this._parent);
     ret._uniqueName = this._uniqueName;
     ret._sumSelected = this._sumSelected;
-    ret._filterSelected = this._filterSelected;
     ret._rowOrientation = this._rowOrientation;
     return ret;
   }
@@ -265,22 +280,21 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
     return {
       _uniqueName: this._uniqueName,
       _sumSelected: this._sumSelected,
-      _filterSelected: this._filterSelected,
       _rowOrientation: this._rowOrientation
     };
   }
   deserialize(o: any, _repository: Repository): Promise<QueryLevel> {
-    const ret = new QueryLevel();
+    const ret = new QueryLevel(this._parent);
     ret._uniqueName = o._uniqueName;
-    ret._filterSelected = o._filterSelected;
     ret._rowOrientation = o._rowOrientation;
     return Promise.resolve(ret);
   }
   get uniqueName(): string {
     return this._uniqueName;
   }
-  get filterSelected(): boolean {
-    return this._filterSelected;
+  get filterActive(): boolean {
+    const buddyFilter = this._parent.findFilter(this._uniqueName);
+    return buddyFilter !== null && buddyFilter.levelMemberNames.length > 0;
   }
   get rowOrientation(): boolean {
     return this._rowOrientation;
@@ -291,15 +305,6 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;
     return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
-  }
-  async setFilterSelected(value: boolean): Promise<void> {
-    if (this._filterSelected !== value) {
-      return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
-        this._filterSelected = value;
-        return super.notifyListenersOfPropertyEdit("filterSelected");
-      });
-    }
-    return Promise.resolve();
   }
   async setRowOrientation(value: boolean): Promise<void> {
     if (this._rowOrientation !== value) {
@@ -314,8 +319,11 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
 
 export class QueryMeasure extends AbstractQueryObject implements Cloneable<QueryMeasure>, Serializable<QueryMeasure> {
   private _uniqueName: string;
+  constructor(parent: Query) {
+    super(parent);
+  }
   clone(): QueryMeasure {
-    const ret = new QueryMeasure();
+    const ret = new QueryMeasure(this._parent);
     ret._uniqueName = this._uniqueName;
     return ret;
   }
@@ -325,7 +333,7 @@ export class QueryMeasure extends AbstractQueryObject implements Cloneable<Query
     };
   }
   deserialize(o: any, _repository: Repository): Promise<QueryMeasure> {
-    const ret = new QueryMeasure();
+    const ret = new QueryMeasure(this._parent);
     ret._uniqueName = o._uniqueName;
     return Promise.resolve(ret);
   }
@@ -343,8 +351,8 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
   private _filterOnlyHierarchy: boolean;
   private _include: boolean;
   private _levelUniqueName: string;
-  constructor(levelUniqueName: string = null) {
-    super();
+  constructor(levelUniqueName: string = null, parent: Query) {
+    super(parent);
     this.levelMemberNames = new List<string>();
     this._filterOnlyHierarchy = false;
     this._include = true;
@@ -363,14 +371,13 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
       _levelUniqueName: this._levelUniqueName,
       _filterOnlyHierarchy: this._filterOnlyHierarchy,
       _include: this._include,
-      levelMemberNames: this.levelMemberNames.map((name: string): string => {
+      levelMemberNames: this.levelMemberNames.asArray().map((name: string): string => {
         return name;
       })
     };
   }
   deserialize(o: any, _repository: Repository): Promise<QueryFilter> {
-    const ret = new QueryFilter();
-    ret._levelUniqueName = o._levelUniqueName;
+    const ret = new QueryFilter(o._levelUniqueName, this._parent);
     ret._include = o._include;
     ret._filterOnlyHierarchy = o._filterOnlyHierarchy;
     const newNames: string[] = [];
@@ -381,8 +388,7 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
     return Promise.resolve(ret);
   }
   clone(): QueryFilter {
-    const ret = new QueryFilter();
-    ret._levelUniqueName = this._levelUniqueName;
+    const ret = new QueryFilter(this._levelUniqueName, this._parent);
     ret._include = this._include;
     ret._filterOnlyHierarchy = this._filterOnlyHierarchy;
     const newNames: string[] = [];
@@ -397,6 +403,9 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
   }
   get include(): boolean {
     return this._include;
+  }
+  get levelUniqueName(): string {
+    return this._levelUniqueName;
   }
   async setFilterOnlyHierarchy(value: boolean): Promise<void> {
     if (value !== this._filterOnlyHierarchy) {
@@ -415,6 +424,16 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
       });
     }
     return Promise.resolve();
+  }
+  async update(filterOnlyHierarchy: boolean, include: boolean, levelMemberNames: string[]): Promise<void> {
+    // we do these all at once so we don't fire separate events (thus executing queries mid-flight)
+    if (filterOnlyHierarchy != this._filterOnlyHierarchy) {
+      this._filterOnlyHierarchy = filterOnlyHierarchy;
+    }
+    if (include != this._include) {
+      this._include = include;
+    }
+    return this.levelMemberNames.set(levelMemberNames).then(); // adequate to trigger edits (clumsy...)
   }
 }
 

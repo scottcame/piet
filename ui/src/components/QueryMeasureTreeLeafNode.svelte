@@ -1,6 +1,6 @@
 <script>
 
-  import { TreeModelMeasureNodeEvent } from '../js/ui/model/Tree';
+  import { TreeMeasureNodeEvent } from '../js/ui/model/Tree';
   import { createEventDispatcher } from 'svelte';
 
   export let treeModelNode;
@@ -11,7 +11,7 @@
 
   function toggleSelected() {
     selected = !selected;
-    dispatch('nodeEvent', new TreeModelMeasureNodeEvent(treeModelNode.uniqueName, selected));
+    dispatch('nodeEvent', new TreeMeasureNodeEvent(treeModelNode.uniqueName, selected));
   }
 
   $: {

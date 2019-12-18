@@ -27,7 +27,7 @@ test('query measures', async () => {
   const analysis = new Analysis(testDatasets.get(0), "test-name");
   expect(analysis.query).not.toBeNull();
   expect(analysis.query.measures).toHaveLength(0);
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(analysis.query);
   await analysis.query.measures.add(queryMeasure).then(async () => {
     expect(analysis.query.measures).toHaveLength(1);
     expect(analysis.dirty).toBe(true);
@@ -40,7 +40,7 @@ test('query measures', async () => {
 test('query levels', async () => {
   const analysis = new Analysis(testDatasets.get(0), "test-name");
   expect(analysis.query.levels).toHaveLength(0);
-  const queryLevel = new QueryLevel();
+  const queryLevel = new QueryLevel(analysis.query);
   queryLevel.setRowOrientation(true);
   await analysis.query.levels.add(queryLevel).then(async () => {
     expect(analysis.query.levels).toHaveLength(1);
@@ -52,12 +52,6 @@ test('query levels', async () => {
         expect(analysis.dirty).toBe(true);
         await analysis.checkpointEdits().then(async () => {
           expect(analysis.dirty).toBe(false);
-          await analysis.query.levels.get(0).setFilterSelected(true).then(async () => {
-            expect(analysis.dirty).toBe(true);
-            await analysis.checkpointEdits().then(async () => {
-              expect(analysis.dirty).toBe(false);
-              });
-            });
         });
       });
     });
@@ -68,7 +62,7 @@ test('query filters', async () => {
   const analysis = new Analysis(testDatasets.get(0), "test-name");
   expect(analysis.query.filters).toHaveLength(0);
   expect(analysis.dirty).toBe(false);
-  let queryFilter = new QueryFilter("[D1].[D1].[D1_DESCRIPTION]");
+  let queryFilter = new QueryFilter("[D1].[D1].[D1_DESCRIPTION]", analysis.query);
   await analysis.query.filters.add(queryFilter).then(async () => {
     expect(analysis.query.filters).toHaveLength(1);
     expect(analysis.dirty).toBe(true);
@@ -113,10 +107,10 @@ test('query filters', async () => {
 test('query MDX 1 measure 1 row dim', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    const queryLevel = new QueryLevel();
+    const queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(() => {
@@ -128,13 +122,13 @@ test('query MDX 1 measure 1 row dim', async () => {
 test('query MDX 2 measures row dim', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  let queryMeasure = new QueryMeasure();
+  let queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    queryMeasure = new QueryMeasure();
+    queryMeasure = new QueryMeasure(q);
     queryMeasure.setUniqueName("[Measures].[Grocery Sqft]");
     await q.measures.add(queryMeasure).then(async () => {
-      const queryLevel = new QueryLevel();
+      const queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
@@ -147,14 +141,14 @@ test('query MDX 2 measures row dim', async () => {
 test('query MDX 1 measure 2 row dims', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
@@ -167,7 +161,7 @@ test('query MDX 1 measure 2 row dims', async () => {
 test('query MDX no measures -> null', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryLevel = new QueryLevel();
+  const queryLevel = new QueryLevel(q);
   queryLevel.setRowOrientation(true);
   await q.levels.add(queryLevel).then(() => {
     expect(q.asMDX()).toBeNull();
@@ -177,14 +171,14 @@ test('query MDX no measures -> null', async () => {
 test('query MDX 1 measure 1 row dim 1 col dim', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
       queryLevel.setRowOrientation(false);
       await q.levels.add(queryLevel).then(() => {
@@ -197,18 +191,18 @@ test('query MDX 1 measure 1 row dim 1 col dim', async () => {
 test('query MDX 1 measure 1 row dim 2 col dim', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
       queryLevel.setRowOrientation(false);
       await q.levels.add(queryLevel).then(async () => {
-        queryLevel = new QueryLevel();
+        queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
         queryLevel.setRowOrientation(false);
         await q.levels.add(queryLevel).then(() => {
@@ -222,17 +216,17 @@ test('query MDX 1 measure 1 row dim 2 col dim', async () => {
 test('query MDX 2 measures 1 row dim 1 col dim', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  let queryMeasure = new QueryMeasure();
+  let queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    queryMeasure = new QueryMeasure();
+    queryMeasure = new QueryMeasure(q);
     queryMeasure.setUniqueName("[Measures].[Grocery Sqft]");
     await q.measures.add(queryMeasure).then(async () => {
-      let queryLevel = new QueryLevel();
+      let queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
-        queryLevel = new QueryLevel();
+        queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(false);
         await q.levels.add(queryLevel).then(() => {
@@ -246,14 +240,14 @@ test('query MDX 2 measures 1 row dim 1 col dim', async () => {
 test('query MDX simple 2 level hierarchize', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store].[Stores].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
@@ -266,18 +260,18 @@ test('query MDX simple 2 level hierarchize', async () => {
 test('query MDX simple 3 level hierarchize', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store].[Stores].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
-        queryLevel = new QueryLevel();
+        queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Store].[Stores].[Store City]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
@@ -291,18 +285,18 @@ test('query MDX simple 3 level hierarchize', async () => {
 test('query MDX simple 2 level hierarchize plus additional level', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store].[Stores].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
-        queryLevel = new QueryLevel();
+        queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
@@ -316,22 +310,22 @@ test('query MDX simple 2 level hierarchize plus additional level', async () => {
 test('query MDX simple 2 level hierarchize plus 2 additional levels', async () => {
   const analysis = new Analysis(foodmartDatasets[7], "test");
   const q = analysis.query;
-  const queryMeasure = new QueryMeasure();
+  const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
-    let queryLevel = new QueryLevel();
+    let queryLevel = new QueryLevel(q);
     queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
-      queryLevel = new QueryLevel();
+      queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store].[Stores].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
-        queryLevel = new QueryLevel();
+        queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(async () => {
-          queryLevel = new QueryLevel();
+          queryLevel = new QueryLevel(q);
           queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
           queryLevel.setRowOrientation(true);
           await q.levels.add(queryLevel).then(() => {
@@ -351,7 +345,7 @@ test('persistence', async () => {
       return datasets.set(dd).then(async () => {
         const analysis = new Analysis(datasets.get(0), "test-name");
         analysis.setDescription("test-description");
-        const queryMeasure = new QueryMeasure();
+        const queryMeasure = new QueryMeasure(analysis.query);
         queryMeasure.setUniqueName("[Measures].[Store Sqft]");
         await analysis.query.measures.add(queryMeasure).then(async () => {
           const serializedAnalysis = analysis.serialize(repository);
@@ -376,7 +370,7 @@ test('persistence', async () => {
           expect(deserializedAnalysis.id).toBeUndefined();
           expect(deserializedAnalysis.query.measures.get(0).uniqueName).toBe(queryMeasure.uniqueName);
           expect(deserializedAnalysis.query.levels).toHaveLength(0);
-          const queryLevel = new QueryLevel();
+          const queryLevel = new QueryLevel(analysis.query);
           queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
           queryLevel.setRowOrientation(true);
           await analysis.query.levels.add(queryLevel).then(async () => {
@@ -393,7 +387,7 @@ test('persistence', async () => {
                 nonEmpty: true,
                 datasetName: 'Test',
                 _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
-                _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true, _sumSelected: false, _filterSelected: false }]
+                _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true, _sumSelected: false }]
               }
             });
             deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
@@ -401,6 +395,25 @@ test('persistence', async () => {
             expect(deserializedAnalysis.query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
           });
         });
+      });
+    });
+  });
+});
+
+test('level filter active', async () => {
+  const analysis = new Analysis(testDatasets.get(0), "test-name");
+  expect(analysis.query.findFilter("[D1].[D1].[D1_DESCRIPTION]")).toBeNull();
+  const queryFilter = new QueryFilter("[D1].[D1].[D1_DESCRIPTION]", analysis.query);
+  const queryLevel = new QueryLevel(analysis.query);
+  queryLevel.setRowOrientation(true);
+  queryLevel.setUniqueName("[D1].[D1].[D1_DESCRIPTION]");
+  expect(queryLevel.filterActive).toBe(false);
+  await analysis.query.levels.add(queryLevel).then(async () => {
+    await analysis.query.filters.add(queryFilter).then(async () => {
+      expect(analysis.query.findFilter("[D1].[D1].[D1_DESCRIPTION]")).not.toBeNull();
+      expect(queryLevel.filterActive).toBe(false); // still false because we haven't added any level members to the filter yet
+      await queryFilter.levelMemberNames.set(["D1 One"]).then(() => {
+        expect(queryLevel.filterActive).toBe(true);
       });
     });
   });

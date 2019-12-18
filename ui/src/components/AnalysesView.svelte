@@ -7,6 +7,7 @@
   import Menu from './Menu.svelte';
   import SelectTable from './SelectTable.svelte';
   import MondrianResultTable from './MondrianResultTable.svelte';
+  import QueryFilterModal from './QueryFilterModal.svelte';
 
   import { AnalysesController } from '../js/controller/AnalysesController';
 
@@ -66,6 +67,7 @@
 {#await initPromise}
 <div></div>
 {:then _x}
+
 <div class="w-full h-full mt-24 text-center {viewProperties.analysesInWorkspace ? 'hidden' : ''}">
   No analyses in workspace. Choose "New" or "Browse" from analyses menu above to bring analyses into your workspace.
 </div>
@@ -85,6 +87,7 @@
     <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultTable tableModel={controller.mondrianResultTableModel}/></div>
   </div>
 </div>
+
 <Modal visible={viewProperties.showNewAnalysisModal}>
   <span slot="header">New Analysis: Choose Dataset</span>
   <div slot="body">
@@ -97,6 +100,7 @@
     </div>
   </div>
 </Modal>
+
 <Modal visible={viewProperties.showBrowseAnalysisModal}>
   <span slot="header">Browse Analyses</span>
   <div slot="body">
@@ -110,6 +114,7 @@
     </div>
   </div>
 </Modal>
+
 <Modal visible={viewProperties.showAnalysisMetadataModal}>
   <span slot="header">Edit Analysis Metadata</span>
   <div slot="body">
@@ -134,6 +139,7 @@
     </div>
   </div>
 </Modal>
+
 <Modal visible={viewProperties.showAbandonEditsModal}>
   <span slot="header">Discard edits</span>
   <div slot="body">
@@ -146,6 +152,7 @@
     </div>
   </div>
 </Modal>
+
 <Modal visible={viewProperties.showDeleteConfirmationModal}>
   <span slot="header">Confirm delete</span>
   <div slot="body">
@@ -158,4 +165,7 @@
     </div>
   </div>
 </Modal>
+
+<QueryFilterModal visible={viewProperties.showQueryFilterModal} analysisController={controller}/>
+
 {/await}

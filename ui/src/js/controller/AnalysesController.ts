@@ -2,9 +2,9 @@ import { Repository } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
 import { Analysis } from "../model/Analysis";
-import { QueryMeasure, QueryLevel } from "../model/Query";
+import { QueryMeasure, QueryLevel, QueryFilter } from "../model/Query";
 import { DatasetAdapterFactory } from "../ui/adapters/DatasetAdapterFactory";
-import { TreeModelContainerNode, TreeModelEvent, TreeModelLeafNodeType, TreeModelLevelNodeEvent } from "../ui/model/Tree";
+import { TreeModelContainerNode, TreeModelLeafNodeType, TreeLevelNodeEvent, TreeEvent } from "../ui/model/Tree";
 import { Dataset } from "../model/Dataset";
 import { List, ListChangeEvent } from "../collections/List";
 import { AnalysisAdapterFactory } from "../ui/adapters/AnalysisAdapterFactory";
@@ -13,6 +13,7 @@ import { EditEventListener, EditEvent, PropertyEditEvent } from "../model/Persis
 import { DefaultObservableChangeEventListener, ObservableChangeEvent } from "../util/Observable";
 import { MondrianResult } from "../model/MondrianResult";
 import { MondrianResultTableModel } from "../ui/model/MondrianResultTable";
+import { QueryFilterTableModel } from "../ui/model/QueryFilterTableModel";
 
 export class AnalysesController {
 
@@ -25,7 +26,8 @@ export class AnalysesController {
     showBrowseAnalysisModal: false,
     showAnalysisMetadataModal: false,
     showAbandonEditsModal: false,
-    showDeleteConfirmationModal: false
+    showDeleteConfirmationModal: false,
+    showQueryFilterModal: false
   };
 
   static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
@@ -44,6 +46,7 @@ export class AnalysesController {
   datasetsDropdownModel: DropdownModel<Dataset>;
   browseAnalysesTableModel: TableModel<Analysis>;
   mondrianResultTableModel: MondrianResultTableModel;
+  queryFilterTableModel: QueryFilterTableModel;
 
   datasets: List<Dataset>;
 
@@ -67,13 +70,15 @@ export class AnalysesController {
     this.currentAnalysisEditListener = new CurrentAnalysisEditListener(this, viewPropertyUpdater);
     this.datasets = new List();
     this.mondrianResultTableModel = new MondrianResultTableModel();
+    this.queryFilterTableModel = new QueryFilterTableModel();
   }
 
   async init(): Promise<void> {
 
-    return this.repository.browseDatasets().then((repoDatasets: Dataset[]) => {
+    return this.repository.browseDatasets().then(async (repoDatasets: Dataset[]) => {
 
       return this.datasets.set(repoDatasets).then(() => {
+
         this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
         this.browseAnalysesTableModel = new TableModel<Analysis>(AnalysisAdapterFactory.COLUMN_LABELS);
         this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
@@ -98,6 +103,7 @@ export class AnalysesController {
         this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
           this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
         }));
+
       });
   
     });
@@ -264,6 +270,30 @@ export class AnalysesController {
     this.viewPropertyUpdater.update('showAnalysisMetadataModal', true);
   }
 
+  async closeQueryFilterModal(editsMade: boolean): Promise<void> {
+    if (editsMade) {
+      const selectedMemberNames = this.queryFilterTableModel.selectedMemberNames;
+      const filterModeInclude = this.queryFilterTableModel.filterModeInclude;
+      let qf = this.currentAnalysis.query.findFilter(this.queryFilterTableModel.levelUniqueName);
+      let firstStep = Promise.resolve(qf);
+      if (!qf) {
+        qf = new QueryFilter(this.queryFilterTableModel.levelUniqueName, this.currentAnalysis.query);
+        firstStep = this.currentAnalysis.query.filters.add(qf);
+      }
+      return firstStep.then(async (qf: QueryFilter) => {
+        return qf.update(false, filterModeInclude, selectedMemberNames).then(() => {
+          this.viewPropertyUpdater.update('showQueryFilterModal', false);
+        });
+      });
+      // todo next:
+      //  5. then... return this.executeQuery()
+      //  6. write controller test for above scenarios; also tests for new methods on other objects (e.g., QueryLevel.filterSelected()...and rename this too)
+      //  7. shore up QueryFilterTableModel tests (event, in particular)
+    }
+    this.viewPropertyUpdater.update('showQueryFilterModal', false);
+    return Promise.resolve();
+  }
+
   async confirmEditAnalysisMetadata(analysisTitle: string, analysisDescription: string): Promise<void> {
     // todo: handle validation logic...Modal.svelte needs to be passed some kind of validation class...
     const promises: Promise<void>[] = [];
@@ -277,13 +307,14 @@ export class AnalysesController {
     this.closeEditAnalysisMetadataModal();
   }
 
-  async handleDatasetTreeNodeEvent(event: TreeModelEvent): Promise<void> {
+  async handleDatasetTreeNodeEvent(event: TreeEvent): Promise<void> {
 
     let ret = Promise.resolve();
+    let executeQueryAfter = true;
 
     if (event.type === TreeModelLeafNodeType.MEASURE) {
       if (event.selected) {
-        const queryMeasure = new QueryMeasure();
+        const queryMeasure = new QueryMeasure(this.currentAnalysis.query);
         queryMeasure.setUniqueName(event.uniqueName);
         ret = this.currentAnalysis.query.measures.add(queryMeasure).then();
       } else {
@@ -295,25 +326,30 @@ export class AnalysesController {
         }
       }
     } else {
-      const treeModelLevelNodeEvent = event as TreeModelLevelNodeEvent;
+      const treeModelLevelNodeEvent = event as TreeLevelNodeEvent;
       if (event.selected) {
         const existingLevels = this.currentAnalysis.query.levels.filter((level: QueryLevel): boolean => {
           return level.uniqueName === treeModelLevelNodeEvent.uniqueName;
         });
-        let queryLevel: QueryLevel = null;
-        if (existingLevels.length) {
-          queryLevel = existingLevels.get(0);
-          const promises: Promise<void>[] = [
-            queryLevel.setFilterSelected(treeModelLevelNodeEvent.filterSelected),
-            queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation)
-          ];
-          ret = Promise.all(promises).then(() => {
-            return Promise.resolve();
-          });
+        if (treeModelLevelNodeEvent.filterSelected) {
+          this.queryFilterTableModel.init(this.currentAnalysis, treeModelLevelNodeEvent.uniqueName);
+          this.viewPropertyUpdater.update('showQueryFilterModal', true);
+          executeQueryAfter = false; // we don't want to execute the query now, because we need to do it after the query filter modal is closed
         } else {
-          queryLevel = new QueryLevel();
-          queryLevel.setUniqueName(treeModelLevelNodeEvent.uniqueName);
-          ret = this.currentAnalysis.query.levels.add(queryLevel).then();
+          let queryLevel: QueryLevel = null;
+          if (existingLevels.length) {
+            queryLevel = existingLevels.get(0);
+            const promises: Promise<void>[] = [
+              queryLevel.setRowOrientation(treeModelLevelNodeEvent.rowOrientation)
+            ];
+            ret = Promise.all(promises).then(() => {
+              return Promise.resolve();
+            });
+          } else {
+            queryLevel = new QueryLevel(this.currentAnalysis.query);
+            queryLevel.setUniqueName(treeModelLevelNodeEvent.uniqueName);
+            ret = this.currentAnalysis.query.levels.add(queryLevel).then();
+          }
         }
       } else {
         const existingLevels = this.currentAnalysis.query.levels.filter((level: QueryLevel): boolean => {
@@ -326,7 +362,7 @@ export class AnalysesController {
     }
 
     return ret.then(() => {
-      return this.executeQuery();
+      return executeQueryAfter ? this.executeQuery() : Promise.resolve();
     });
 
   }

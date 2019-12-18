@@ -294,6 +294,28 @@ export class Dataset implements Editable {
     return this._connectionName;
   }
 
+  findLevel(levelUniqueName: string): Level {
+    let ret = null;
+    const names = levelUniqueName.split(".");
+    const dimName = names[0].replace(/\[(.+)\]/, "$1");
+    const dimension = this.findDimension(dimName);
+    if (dimension) {
+      const hierarchyUniqueName = names[0] + "." + names[1];
+      const hierarchies = dimension.hierarchies.filter((h: Hierarchy): boolean => {
+        return h.uniqueName === hierarchyUniqueName;
+      });
+      if (hierarchies.length) {
+        const levels = hierarchies[0].levels.filter((level: Level): boolean => {
+          return level.uniqueName === levelUniqueName;
+        });
+        if (levels.length) {
+          ret = levels[0];
+        }
+      }
+    }
+    return ret;
+  }
+
   private findMeasure(name: string): Measure {
     let ret: Measure = null;
     this.measures.forEach((measure: Measure): void => {

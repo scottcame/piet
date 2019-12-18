@@ -1,6 +1,6 @@
 <script>
 
-  import { TreeModelLevelNodeEvent } from '../js/ui/model/Tree';
+  import { TreeLevelNodeEvent } from '../js/ui/model/Tree';
   import { createEventDispatcher } from 'svelte';
 
   export let treeModelNode;
@@ -9,7 +9,7 @@
   let selected = false;
   let rowOrientation = true;
   let sumSelected = false;
-  let filterSelected = false;
+  let filterActive = false;
   const dispatch = createEventDispatcher();
 
   function toggleSelected() {
@@ -23,24 +23,22 @@
   }
 
   function filterClicked() {
-    filterSelected = !filterSelected;
-    dispatchNodeChangeEvent();
+    dispatch('nodeEvent', new TreeLevelNodeEvent(treeModelNode.uniqueName, selected, rowOrientation, true));
   }
 
   function dispatchNodeChangeEvent() {
-    dispatch('nodeEvent', new TreeModelLevelNodeEvent(treeModelNode.uniqueName, selected, rowOrientation, filterSelected, sumSelected));
+    dispatch('nodeEvent', new TreeLevelNodeEvent(treeModelNode.uniqueName, selected, rowOrientation, false));
   }
 
   $: {
     selected = false;
     rowOrientation = true;
     sumSelected = false;
-    filterSelected = false;
     currentAnalysis.query.levels.forEach((level) => {
       if (level.uniqueName === treeModelNode.uniqueName) {
         selected = true;
         rowOrientation = level.rowOrientation;
-        filterSelected = level.filterSelected;
+        filterActive = level.filterActive;
       }
     });
   }
@@ -67,7 +65,7 @@
         {/if}
       </svg>
     </div>
-    <div class="items-center mr-1 border border-gray-900 {filterSelected ? 'bg-gray-900 text-gray-200' : ''}" on:click|stopPropagation={filterClicked}>
+    <div class="items-center mr-1 border border-gray-900 {filterActive ? 'bg-gray-900 text-gray-200' : ''}" on:click|stopPropagation={filterClicked}>
       <svg x="0" y="0" viewBox="0 0 20 20" class="stroke-current" height="14" fill="none" stroke-width="1.4">
         <polygon points="3,3 4,7 8,10 8,17 12,17 12,10 16,7 17,3 3,3"/>
       </svg>
