@@ -283,12 +283,9 @@ export class AnalysesController {
       return firstStep.then(async (qf: QueryFilter) => {
         return qf.update(false, filterModeInclude, selectedMemberNames).then(() => {
           this.viewPropertyUpdater.update('showQueryFilterModal', false);
+          return this.executeQuery();
         });
       });
-      // todo next:
-      //  5. then... return this.executeQuery()
-      //  6. write controller test for above scenarios; also tests for new methods on other objects (e.g., QueryLevel.filterSelected()...and rename this too)
-      //  7. shore up QueryFilterTableModel tests (event, in particular)
     }
     this.viewPropertyUpdater.update('showQueryFilterModal', false);
     return Promise.resolve();

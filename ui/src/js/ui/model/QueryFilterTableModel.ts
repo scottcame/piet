@@ -111,13 +111,7 @@ export class QueryFilterTableModel {
     }
   }
 
-  // next up: write a test for this bad boy
-  // then... wire into the modal ui
-  // then... add a select(index) method
-  // then... add a search(regexString) method
-  //  ... and wire those ^^^ into the UI too
-
-  // change bespoke filter component into just ordinary use of <Modal> in analyses view. shouldn't be a big deal to add the "include/exclude" checkbox and "hide level from results" checkbox.
+  // todo add a search(regexString) method and wire into a type-ahead box in UI
 
 }
 
