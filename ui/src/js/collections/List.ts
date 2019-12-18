@@ -90,6 +90,18 @@ export class List<T> implements Iterable<T> {
     return new Promise<T>(null);
   }
 
+  async addAt(item: T, index: number): Promise<T> {
+    if (index >= this.a.length) {
+      index = this.a.length;
+    }
+    return this.notifyListeners(new ListChangeEvent(index, ListChangeEventType.ADD, ListChangeEventTiming.PRE)).then(async () => {
+      this.a.splice(index, 0, item);
+      return this.notifyListeners(new ListChangeEvent(index, ListChangeEventType.ADD, ListChangeEventTiming.POST)).then(() => {
+        return Promise.resolve(item);
+      });
+    });
+  }
+
   get(index: number): T {
     return this.a[index];
   }

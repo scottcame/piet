@@ -57,6 +57,20 @@ test('remove at', async () => {
   }).not.toThrow();
 });
 
+test('insert at', async () => {
+  await list.addAll([1,2,3]).then(async () => {
+    await list.addAt(1.5, 1).then(async () => {
+      expect(list.asArray()).toMatchObject([1,1.5,2,3]);
+      await list.addAt(0.5, 0).then(async () => {
+        expect(list.asArray()).toMatchObject([0.5,1,1.5,2,3]);
+        await list.addAt(99, 100).then(async () => {
+          expect(list.asArray()).toMatchObject([0.5,1,1.5,2,3,99]);
+        });
+      });
+    });
+  });
+});
+
 test('get at nonexistent index', () => {
   expect(() => {
     list.get(0);
