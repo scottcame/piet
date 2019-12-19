@@ -68,6 +68,13 @@ export class Level extends MetadataObject implements Cloneable<Level> {
     return ret;
   }
 
+  isHierarchicalDescendantOf(levelUniqueName: string): boolean {
+    const parentNames = this.parent.levels.map((level: Level): string => {
+      return level.uniqueName;
+    });
+    return parentNames.includes(levelUniqueName) && parentNames.indexOf(this.uniqueName) > parentNames.indexOf(levelUniqueName);
+  }
+
 }
 
 export class Hierarchy extends MetadataObject implements Cloneable<Hierarchy> {
@@ -311,6 +318,23 @@ export class Dataset implements Editable {
         if (levels.length) {
           ret = levels[0];
         }
+      }
+    }
+    return ret;
+  }
+
+  findHierarchy(hierarchyUniqueName: string): Hierarchy {
+    let ret = null;
+    const names = hierarchyUniqueName.split(".");
+    const dimName = names[0].replace(/\[(.+)\]/, "$1");
+    const dimension = this.findDimension(dimName);
+    if (dimension) {
+      const hierarchyUniqueName = names[0] + "." + names[1];
+      const hierarchies = dimension.hierarchies.filter((h: Hierarchy): boolean => {
+        return h.uniqueName === hierarchyUniqueName;
+      });
+      if (hierarchies.length) {
+        ret = hierarchies[0];
       }
     }
     return ret;

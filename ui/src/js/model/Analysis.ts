@@ -27,7 +27,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this.id = id;
     this.dataset = dataset;
     this._name = name;
-    this._query = dataset ? new Query(dataset.name) : new Query();
+    this._query = new Query(this);
 
     this.initQueryComponentListListeners();
 
@@ -41,7 +41,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
         id: this.dataset.id,
         cube: this.dataset.name
       },
-      _query: this._query ? this._query.serialize(repository) : new Query(this.dataset.name),
+      _query: this._query ? this._query.serialize(repository) : new Query(this),
       editCheckpoint: this.editCheckpoint ? this.editCheckpoint.serialize(repository) : null
     };
     if (this.id !== undefined) {
@@ -76,7 +76,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
         if (this.editCheckpoint === null) {
           this.checkpointEdits();
         }
-        const q: Query =  await new Query().deserialize(o._query, repository);
+        const q: Query =  await new Query(this).deserialize(o._query, repository);
         this._query = q;
         this.initQueryComponentListListeners();
         return Promise.resolve(this);

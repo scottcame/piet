@@ -1,6 +1,8 @@
 import { Serializable, Editable, EditEventListener, EditEvent, PropertyEditEvent, Cloneable } from "./Persistence";
 import { Repository } from "./Repository";
 import { List, CloneableList, ListChangeEventListener, ListChangeEvent } from "../collections/List";
+import { Analysis } from "./Analysis";
+import { Level } from "./Dataset";
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -9,14 +11,14 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
   private _levels: CloneableList<QueryLevel>;
   private _filters: CloneableList<QueryFilter>;
   nonEmpty: boolean;
-  private datasetName: string;
+  private _parent: Analysis;
 
-  constructor(datasetName = null) {
+  constructor(parent: Analysis) {
     this._measures = new CloneableList();
     this._levels = new CloneableList();
     this._filters = new CloneableList();
     this.nonEmpty = true;
-    this.datasetName = datasetName;
+    this._parent = parent;
   }
 
   get measures(): List<QueryMeasure> {
@@ -29,6 +31,14 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
 
   get filters(): List<QueryFilter> {
     return this._filters;
+  }
+
+  get datasetName(): string {
+    return this._parent ? this._parent.dataset.name : null;
+  }
+
+  get parent(): Analysis {
+    return this._parent;
   }
 
   findFilter(levelUniqueName: string): QueryFilter {
@@ -67,8 +77,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     if (o === null) {
       return Promise.resolve(null);
     }
-    const ret = new Query();
-    ret.datasetName = o.datasetName;
+    const ret = new Query(this._parent);
     ret.nonEmpty = o.nonEmpty;
     const mPromises: Promise<QueryMeasure>[] = o._measures.map((m: any): Promise<QueryMeasure> => {
       return new QueryMeasure(ret).deserialize(m, repository);
@@ -92,11 +101,10 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
   }
 
   clone(): Query {
-    const ret = new Query();
+    const ret = new Query(this._parent);
     ret._measures = this._measures.clone();
     ret._levels = this._levels.clone();
     ret._filters = this._filters.clone();
-    ret.datasetName = this.datasetName;
     return ret;
   }
 
@@ -112,7 +120,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
       if (levels.length === 1) {
         ret = "{" + levels[0].uniqueName + ".Members}";
       } else {
-        const sibs: QueryLevel[] = [];
+        let sibs: QueryLevel[] = [];
         let newLevels: QueryLevel[] = [];
         const firstLevelHierarchyName: string = levels[0].hierarchyName;
         levels.slice(1).forEach((level: QueryLevel): void => {
@@ -124,6 +132,17 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
         });
         if (sibs.length) {
           sibs.push(levels[0]);
+          const sibNames = sibs.map((ql: QueryLevel): string => {
+            return ql.uniqueName;
+          });
+          const sortedSibs = [];
+          sibs[0]._parent.parent.dataset.findHierarchy(firstLevelHierarchyName).levels.forEach((datasetLevel: Level): void => {
+            const sibIndex = sibNames.indexOf(datasetLevel.uniqueName);
+            if (sibIndex !== -1) {
+              sortedSibs.push(sibs[sibIndex]);
+            }
+          });
+          sibs = sortedSibs;
         } else {
           newLevels = [levels[0]].concat(newLevels);
         }
@@ -210,7 +229,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
 
 export abstract class AbstractQueryObject implements Editable {
   protected _dirty: boolean;
-  protected _parent: Query;
+  readonly _parent: Query;
   private editEventListeners: EditEventListener[] = [];
   constructor(parent: Query) {
     this._parent = parent;

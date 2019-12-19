@@ -110,3 +110,17 @@ test('find level on dataset', () => {
   level = datasets[0].findLevel("[D1].[D1].[nope]");
   expect(level).toBeNull();
 });
+
+test('level hierarchical relationship', async () => {
+  const fmd = FoodmartMetadata.getInstance();
+  await fmd.getMetadata().then((metadata): any => {
+    const datasets = Dataset.loadFromMetadata(metadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
+    const storeDataset = datasets[7];
+    const stateLevel = storeDataset.findLevel("[Store].[Stores].[Store State]");
+    expect(stateLevel).not.toBeNull();
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store Country]")).toBe(true);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store State]")).toBe(false);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store City]")).toBe(false);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store Name]")).toBe(false);
+  });
+});

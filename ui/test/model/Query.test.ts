@@ -275,7 +275,7 @@ test('query MDX simple 3 level hierarchize', async () => {
         queryLevel.setUniqueName("[Store].[Stores].[Store City]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].Members},{[Store].[Stores].[Store Country].Members}}) ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].Members}}) ON ROWS FROM [Store]");
         });
       });
     });
@@ -300,7 +300,7 @@ test('query MDX simple 2 level hierarchize plus additional level', async () => {
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].Members}}),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}}),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
         });
       });
     });
@@ -329,7 +329,7 @@ test('query MDX simple 2 level hierarchize plus 2 additional levels', async () =
           queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
           queryLevel.setRowOrientation(true);
           await q.levels.add(queryLevel).then(() => {
-            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].Members}}),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
+            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}}),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
           });
         });
       });
