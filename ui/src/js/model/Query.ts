@@ -350,12 +350,26 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   }
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;
+    this._parent.levels.asArray().forEach((level: QueryLevel): void => {
+      if (this.hierarchyName === level.hierarchyName && this._rowOrientation !== level._rowOrientation) {
+        // setting the unique name determines what hierarchy this level is in. once we know that, we need
+        // to make sure this level has the same axis orientation as other levels in its hierarchy
+        this._rowOrientation = level._rowOrientation;
+      }
+    });
     return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
   }
   async setRowOrientation(value: boolean): Promise<void> {
     if (this._rowOrientation !== value) {
       return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
         this._rowOrientation = value;
+        this._parent.levels.asArray().forEach((level: QueryLevel): void => {
+          if (this.hierarchyName === level.hierarchyName && this._rowOrientation !== level._rowOrientation) {
+            // changing the row orientation of this level forces the orientation of other levels in its same hierarchy
+            // to be the same
+            level._rowOrientation = this._rowOrientation;
+          }
+        });
         return super.notifyListenersOfPropertyEdit("rowOrientation");
       });
     }

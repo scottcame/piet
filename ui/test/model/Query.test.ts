@@ -538,7 +538,6 @@ test('three level query with filtering (include)', async () => {
                     await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
                       expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))}) ON ROWS FROM [Store]");
                       await analysis.query.filters.get(0).levelMemberNames.clear().then(async () => {
-                        console.log(q.asMDX());
                         expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].[WA]},Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store State].[WA]})}) ON ROWS FROM [Store]");
                       });
                     });
@@ -587,6 +586,33 @@ test('three level query with filtering on <3 levels (include)', async () => {
                     });
                   });
                 });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+test('changing axis orientation within a hierarchy', async () => {
+  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure(q);
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    const queryLevel1 = new QueryLevel(q);
+    await queryLevel1.setUniqueName("[Store].[Stores].[Store Country]").then(async () => {
+      await q.levels.add(queryLevel1).then(async () => {
+        const queryLevel2 = new QueryLevel(q);
+        await queryLevel2.setUniqueName("[Store].[Stores].[Store State]").then(async () => {
+          await q.levels.add(queryLevel2).then(async () => {
+            await queryLevel2.setRowOrientation(false).then(async () => {
+              expect(queryLevel1.rowOrientation).toBe(false);
+              const queryLevel3 = new QueryLevel(q);
+              expect(queryLevel3.rowOrientation).toBe(true); 
+              await queryLevel3.setUniqueName("[Store].[Stores].[Store City]").then(async () => {
+                expect(queryLevel3.rowOrientation).toBe(false); 
               });
             });
           });
