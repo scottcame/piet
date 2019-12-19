@@ -442,3 +442,156 @@ test('level memberMDXSet', async () => {
     });
   });
 });
+
+test('two level query with filtering (include)', async () => {
+  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure(q);
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel(q);
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel(q);
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      let queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+      await q.levels.add(queryLevel).then(async () => {
+        await analysis.query.filters.add(queryFilter).then(async () => {
+          await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
+            expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]})}) ON ROWS FROM [Store]");
+            await queryFilter.levelMemberNames.add("Canada").then(async () => {
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})}) ON ROWS FROM [Store]");
+              queryFilter = new QueryFilter("[Store].[Stores].[Store State]", q);
+              await analysis.query.filters.add(queryFilter).then(async () => {
+                await queryFilter.levelMemberNames.set(["WA","OR","BC"]).then(async () => {
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].[WA],[Store].[Stores].[Store State].[OR],[Store].[Stores].[Store State].[BC]},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})}) ON ROWS FROM [Store]");
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+test('two level query with filtering (exclude)', async () => {
+  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure(q);
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel(q);
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel(q);
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      const queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+      await q.levels.add(queryLevel).then(async () => {
+        await analysis.query.filters.add(queryFilter).then(async () => {
+          await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
+            await queryFilter.setInclude(false).then(async () => {
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})})}) ON ROWS FROM [Store]");
+              await queryFilter.levelMemberNames.add("Canada").then(async () => {
+                expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})}) ON ROWS FROM [Store]");
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+test('three level query with filtering (include)', async () => {
+  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure(q);
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel(q);
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel(q);
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      await q.levels.add(queryLevel).then(async () => {
+        queryLevel = new QueryLevel(q);
+        queryLevel.setUniqueName("[Store].[Stores].[Store City]");
+        queryLevel.setRowOrientation(true);
+        let queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+        await q.levels.add(queryLevel).then(async () => {
+          await analysis.query.filters.add(queryFilter).then(async () => {
+            await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},{[Store].[Stores].[Store Country].[USA]})}) ON ROWS FROM [Store]");
+              queryFilter = new QueryFilter("[Store].[Stores].[Store State]", q);
+              await analysis.query.filters.add(queryFilter).then(async () => {
+                await queryFilter.levelMemberNames.set(["WA"]).then(async () => {
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))}) ON ROWS FROM [Store]");
+                  queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
+                  await analysis.query.filters.add(queryFilter).then(async () => {
+                    await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
+                      expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))}) ON ROWS FROM [Store]");
+                      await analysis.query.filters.get(0).levelMemberNames.clear().then(async () => {
+                        console.log(q.asMDX());
+                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].[WA]},Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store State].[WA]})}) ON ROWS FROM [Store]");
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});
+
+test('three level query with filtering on <3 levels (include)', async () => {
+  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure(q);
+  queryMeasure.setUniqueName("[Measures].[Store Sqft]");
+  await q.measures.add(queryMeasure).then(async () => {
+    let queryLevel = new QueryLevel(q);
+    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setRowOrientation(true);
+    await q.levels.add(queryLevel).then(async () => {
+      queryLevel = new QueryLevel(q);
+      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setRowOrientation(true);
+      await q.levels.add(queryLevel).then(async () => {
+        queryLevel = new QueryLevel(q);
+        queryLevel.setUniqueName("[Store].[Stores].[Store City]");
+        queryLevel.setRowOrientation(true);
+        let queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+        await q.levels.add(queryLevel).then(async () => {
+          await analysis.query.filters.add(queryFilter).then(async () => {
+            await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
+              queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
+              await analysis.query.filters.add(queryFilter).then(async () => {
+                await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store Country].[USA]})}) ON ROWS FROM [Store]");
+                  await analysis.query.filters.clear().then(async () => {
+                    queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
+                    await analysis.query.filters.add(queryFilter).then(async () => {
+                      await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
+                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]}}) ON ROWS FROM [Store]");
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
+  });
+});

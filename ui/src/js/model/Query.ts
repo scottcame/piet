@@ -149,7 +149,11 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
         if (levels.length === 2) {
           const twoLevelBase = "{" + levels[0].memberMDXSet + "},{" + levels[1].memberMDXSet + "}";
           if (sibs.length) {
-            ret = "Hierarchize({" + twoLevelBase + "})";
+            if (levels[0].filterActive) {
+              ret = "Hierarchize({" + "{" + levels[0].memberMDXSet + "},Exists({" + levels[1].memberMDXSet + "},{" + levels[0].memberMDXSet + "})" + "})";
+            } else {
+              ret = "Hierarchize({" + twoLevelBase + "})";
+            }
           } else {
             ret = joinVerb + "(" + twoLevelBase + ")";
           }
@@ -158,9 +162,17 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
           let subsequentLevels = levels.slice(1);
           if (sibs.length) {
             base = "Hierarchize({";
-            base += sibs.map((level: QueryLevel): string => {
-              return "{" + level.memberMDXSet + "}";
-            }).join(",");
+            let pastExistsConstraintClause: string = null;
+            sibs.forEach((level: QueryLevel, levelIndex: number): void => {
+              let constrainedMemberSet = "{" + level.memberMDXSet + "}";
+              if (pastExistsConstraintClause) {
+                constrainedMemberSet = "Exists({" + level.memberMDXSet + "}," + pastExistsConstraintClause + ")";
+              }
+              if (level.filterActive) {
+                pastExistsConstraintClause = constrainedMemberSet;
+              }
+              base += (constrainedMemberSet + (levelIndex === sibs.length-1 ? "" : ","));
+            });
             base += "})";
             subsequentLevels = newLevels;
           }
