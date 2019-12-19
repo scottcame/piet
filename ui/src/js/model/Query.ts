@@ -118,7 +118,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     if (levels && levels.length) {
       ret = "";
       if (levels.length === 1) {
-        ret = "{" + levels[0].uniqueName + ".Members}";
+        ret = "{" + levels[0].memberMDXSet + "}";
       } else {
         let sibs: QueryLevel[] = [];
         let newLevels: QueryLevel[] = [];
@@ -147,19 +147,19 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
           newLevels = [levels[0]].concat(newLevels);
         }
         if (levels.length === 2) {
-          const twoLevelBase = "{" + levels[0].uniqueName + ".Members},{" + levels[1].uniqueName + ".Members}";
+          const twoLevelBase = "{" + levels[0].memberMDXSet + "},{" + levels[1].memberMDXSet + "}";
           if (sibs.length) {
             ret = "Hierarchize({" + twoLevelBase + "})";
           } else {
             ret = joinVerb + "(" + twoLevelBase + ")";
           }
         } else {
-          let base = "{" + levels[0].uniqueName + ".Members}";
+          let base = "{" + levels[0].memberMDXSet + "}";
           let subsequentLevels = levels.slice(1);
           if (sibs.length) {
             base = "Hierarchize({";
             base += sibs.map((level: QueryLevel): string => {
-              return "{" + level.uniqueName + ".Members}";
+              return "{" + level.memberMDXSet + "}";
             }).join(",");
             base += "})";
             subsequentLevels = newLevels;
@@ -320,6 +320,21 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   }
   get hierarchyName(): string {
     return this._uniqueName.split(".").slice(0,2).join(".");
+  }
+  get memberMDXSet(): string {
+    let ret = this._uniqueName + ".Members";
+    const buddyFilter = this._parent.findFilter(this._uniqueName);
+    if (this.filterActive) {
+      const memberNames = buddyFilter.levelMemberNames.asArray().map((lmn: string): string => {
+        return this._uniqueName + ".[" + lmn + "]";
+      }).join(",");
+      if (buddyFilter.include) {
+        ret = memberNames;
+      } else {
+        ret = "Except(" + ret + ",{" + memberNames + "})";
+      }
+    }
+    return ret;
   }
   async setUniqueName(value: string): Promise<void> {
     this._uniqueName = value;

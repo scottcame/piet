@@ -418,3 +418,27 @@ test('level filter active', async () => {
     });
   });
 });
+
+test('level memberMDXSet', async () => {
+  const analysis = new Analysis(testDatasets.get(0), "test-name");
+  const queryFilter = new QueryFilter("[D2].[D2].[D2_DESCRIPTION]", analysis.query);
+  const queryLevel = new QueryLevel(analysis.query);
+  queryLevel.setRowOrientation(true);
+  queryLevel.setUniqueName("[D2].[D2].[D2_DESCRIPTION]");
+  expect(queryLevel.filterActive).toBe(false);
+  await analysis.query.levels.add(queryLevel).then(async () => {
+    await analysis.query.filters.add(queryFilter).then(async () => {
+      expect(queryLevel.memberMDXSet).toBe("[D2].[D2].[D2_DESCRIPTION].Members");
+      expect(queryFilter.include).toBe(true);
+      await queryFilter.levelMemberNames.set(["D2 One"]).then(async () => {
+        expect(queryLevel.memberMDXSet).toBe("[D2].[D2].[D2_DESCRIPTION].[D2 One]");
+        await queryFilter.levelMemberNames.add("D2 Two").then(async () => {
+          expect(queryLevel.memberMDXSet).toBe("[D2].[D2].[D2_DESCRIPTION].[D2 One],[D2].[D2].[D2_DESCRIPTION].[D2 Two]");
+          await queryFilter.setInclude(false).then(async () => {
+            expect(queryLevel.memberMDXSet).toBe("Except([D2].[D2].[D2_DESCRIPTION].Members,{[D2].[D2].[D2_DESCRIPTION].[D2 One],[D2].[D2].[D2_DESCRIPTION].[D2 Two]})");
+          });
+        });
+      });
+    });
+  });
+});
