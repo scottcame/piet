@@ -4,6 +4,12 @@
   export let analysisController;
 
   let queryFilterTableModel;
+  let searchText = "";
+  let searchRegex;
+  
+  $: {
+    searchRegex = new RegExp(searchText);
+  }
 
   analysisController.queryFilterTableModel.addQueryFilterTableModelListener({
     tableModelUpdated: function(event) {
@@ -28,11 +34,14 @@
         </div>
         <div class="mx-2 my-2 text-xxs">
           <div class="font-medium pb-1">Values:</div>
-          <div class="max-h-screen-33 overflow-y-auto border">
+          <div class="flex inline items-center w-full border p-1 mb-1">
+            <input class="text-xxs w-full outline-none" type="search" placeholder="Search..." bind:value={searchText}>
+          </div>
+          <div class="max-h-screen-33 h-screen-33 overflow-y-auto border">
             <table class="table-auto border w-full">
               <tbody>
                 {#each [...Array(queryFilterTableModel.rowCount).keys()] as rowIndex}
-                  <tr class="border">
+                  <tr class="border {searchText.trim() === "" || searchRegex.test(queryFilterTableModel.getValueAt(rowIndex)) ? '' : 'hidden'}">
                       <td class="w-5">
                           <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {queryFilterTableModel.getRowSelectedAt(rowIndex) ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => toggleRow(rowIndex) }></div>
                       </td>
