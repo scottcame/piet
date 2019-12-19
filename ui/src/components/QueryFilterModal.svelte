@@ -26,22 +26,24 @@
         <div class="bg-gray-300 p-2 font-semibold">
             <div name="header">Edit Filter for {queryFilterTableModel.columnHeader}</div>
         </div>
-        <div class="mx-1 my-2 text-xxs overflow-y-auto">
+        <div class="mx-2 my-2 text-xxs">
           <div class="font-medium pb-1">Values:</div>
-          <table class="table-auto border w-full">
-            <tbody>
-              {#each [...Array(queryFilterTableModel.rowCount).keys()] as rowIndex}
-                <tr class="border">
-                    <td class="w-5">
-                        <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {queryFilterTableModel.getRowSelectedAt(rowIndex) ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => toggleRow(rowIndex) }></div>
-                    </td>
-                    <td class="py-1 text-left items-start">{queryFilterTableModel.getValueAt(rowIndex)}</td>
-                </tr>
-              {/each}
-            </tbody>
-          </table>
+          <div class="max-h-screen-33 overflow-y-auto border">
+            <table class="table-auto border w-full">
+              <tbody>
+                {#each [...Array(queryFilterTableModel.rowCount).keys()] as rowIndex}
+                  <tr class="border">
+                      <td class="w-5">
+                          <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {queryFilterTableModel.getRowSelectedAt(rowIndex) ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => toggleRow(rowIndex) }></div>
+                      </td>
+                      <td class="py-1 text-left items-start">{queryFilterTableModel.getValueAt(rowIndex)}</td>
+                  </tr>
+                {/each}
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="border-0 m-1 text-xxs">
+        <div class="border-0 m-1 mt-4 text-xxs">
           <div class="flex flex-inline mb-1">
             <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {queryFilterTableModel.filterModeInclude ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => queryFilterTableModel.filterModeInclude = true }></div><div>Include only these values in the results</div>
           </div>
