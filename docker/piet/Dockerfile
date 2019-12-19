@@ -1,6 +1,7 @@
 FROM tomcat:9.0-jdk8
 
 COPY *.war /usr/local/tomcat/webapps/
+COPY server.xml /usr/local/tomcat/conf/
 
 RUN mv /usr/local/tomcat/webapps/piet*.war /usr/local/tomcat/webapps/piet.war
 
