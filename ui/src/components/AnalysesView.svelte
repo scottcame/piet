@@ -8,6 +8,7 @@
   import SelectTable from './SelectTable.svelte';
   import MondrianResultTable from './MondrianResultTable.svelte';
   import QueryFilterModal from './QueryFilterModal.svelte';
+  import LabeledCheckbox from './LabeledCheckbox.svelte';
 
   import { AnalysesController } from '../js/controller/AnalysesController';
 
@@ -133,12 +134,8 @@
     </div>
     <div class="m-1 mt-4">
       {#if viewProperties.currentAnalysis}
-      <div class="flex flex-inline mb-1">
-        <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {viewProperties.currentAnalysis.filterParentAggregates ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => controller.toggleFilterParentAggregates() }></div><div>Filter parent aggregates</div>
-      </div>
-      <div class="flex flex-inline">
-        <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {viewProperties.currentAnalysis.nonEmpty ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => controller.toggleNonEmpty() }></div><div>Hide empty cells</div>
-      </div>
+        <LabeledCheckbox value={viewProperties.currentAnalysis.filterParentAggregates} on:click={ e => controller.toggleFilterParentAggregates() } label="Filter parent aggregates"/>
+        <LabeledCheckbox value={viewProperties.currentAnalysis.nonEmpty} on:click={ e => controller.toggleNonEmpty() } label="Hide empty cells"/>
       {/if}
     </div>
   </div>

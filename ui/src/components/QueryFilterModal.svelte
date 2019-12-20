@@ -1,5 +1,7 @@
 <script>
   
+  import LabeledCheckbox from './LabeledCheckbox.svelte';
+
   export let visible = false;
   export let analysisController;
 
@@ -53,12 +55,14 @@
           </div>
         </div>
         <div class="border-0 m-1 mt-4 text-xxs">
-          <div class="flex flex-inline mb-1">
+          <LabeledCheckbox value={queryFilterTableModel.filterModeInclude} on:click={ e => queryFilterTableModel.filterModeInclude = true } label="Include only these values in the results"/>
+          <LabeledCheckbox value={!queryFilterTableModel.filterModeInclude} on:click={ e => queryFilterTableModel.filterModeInclude = false } label="Exclude these values from the results"/>
+          <!-- <div class="flex flex-inline mb-1">
             <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {queryFilterTableModel.filterModeInclude ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => queryFilterTableModel.filterModeInclude = true }></div><div>Include only these values in the results</div>
           </div>
           <div class="flex flex-inline">
             <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {!queryFilterTableModel.filterModeInclude ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => queryFilterTableModel.filterModeInclude = false }></div><div>Exclude these values from the results</div>
-          </div>
+          </div> -->
         </div>
         <div class="flex flex-inline justify-center mb-4 mt-2 flex-none">
           <div class="border-2 mr-2 p-2 hover:bg-gray-200" on:click={e => { analysisController.closeQueryFilterModal(true); }}>OK</div>
