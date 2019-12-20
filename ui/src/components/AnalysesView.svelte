@@ -116,7 +116,7 @@
 </Modal>
 
 <Modal visible={viewProperties.showAnalysisMetadataModal}>
-  <span slot="header">Edit Analysis Metadata</span>
+  <span slot="header">Analysis Properties{viewProperties.currentAnalysis ? (": " + viewProperties.currentAnalysis.name) : ''}</span>
   <div slot="body">
     <div class="w-full mr-1 flex flex-col">
       <div class="flex flex-col mb-1">
@@ -130,6 +130,16 @@
           id="input-analysis-description" type="text" rows="3"
           bind:this={analysisDescriptionInput}/>
       </div>
+    </div>
+    <div class="m-1 mt-4">
+      {#if viewProperties.currentAnalysis}
+      <div class="flex flex-inline mb-1">
+        <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {viewProperties.currentAnalysis.filterParentAggregates ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => controller.toggleFilterParentAggregates() }></div><div>Filter parent aggregates</div>
+      </div>
+      <div class="flex flex-inline">
+        <div class="mr-2 ml-1 border w-4 h-4 hover:bg-gray-300 {viewProperties.currentAnalysis.nonEmpty ? 'bg-gray-900 hover:bg-gray-900' : ''}" on:click={ e => controller.toggleNonEmpty() }></div><div>Hide empty cells</div>
+      </div>
+      {/if}
     </div>
   </div>
   <div slot="buttons">

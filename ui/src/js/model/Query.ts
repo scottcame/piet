@@ -11,6 +11,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
   private _levels: CloneableList<QueryLevel>;
   private _filters: CloneableList<QueryFilter>;
   nonEmpty: boolean;
+  filterParentAggregates: boolean;
   private _parent: Analysis;
 
   constructor(parent: Analysis) {
@@ -18,6 +19,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     this._levels = new CloneableList();
     this._filters = new CloneableList();
     this.nonEmpty = true;
+    this.filterParentAggregates = true;
     this._parent = parent;
   }
 
@@ -66,6 +68,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     });
     return {
       nonEmpty: this.nonEmpty,
+      filterParentAggregates: this.filterParentAggregates,
       datasetName: this.datasetName,
       _measures: mArray,
       _levels: lArray,
@@ -79,6 +82,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     }
     const ret = new Query(this._parent);
     ret.nonEmpty = o.nonEmpty;
+    ret.filterParentAggregates = o.filterParentAggregates;
     const mPromises: Promise<QueryMeasure>[] = o._measures.map((m: any): Promise<QueryMeasure> => {
       return new QueryMeasure(ret).deserialize(m, repository);
     });
@@ -102,6 +106,8 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
 
   clone(): Query {
     const ret = new Query(this._parent);
+    ret.nonEmpty = this.nonEmpty;
+    ret.filterParentAggregates = this.filterParentAggregates;
     ret._measures = this._measures.clone();
     ret._levels = this._levels.clone();
     ret._filters = this._filters.clone();
@@ -154,6 +160,9 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
             } else {
               ret = "Hierarchize({" + twoLevelBase + "})";
             }
+            if (levels[0]._parent.filterParentAggregates) {
+              ret = "VisualTotals(" + ret + ")";
+            }
           } else {
             ret = joinVerb + "(" + twoLevelBase + ")";
           }
@@ -174,6 +183,9 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
               base += (constrainedMemberSet + (levelIndex === sibs.length-1 ? "" : ","));
             });
             base += "})";
+            if (levels[0]._parent.filterParentAggregates) {
+              base = "VisualTotals(" + base + ")";
+            }
             subsequentLevels = newLevels;
           }
           const rest = Query.crossJoinLevels(subsequentLevels, nonEmpty);
@@ -226,7 +238,7 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
       });
 
       if (rowLevels.length) {
-        ret += ((this.nonEmpty ? ", NON EMPTY " : "") + Query.levelsString(rowLevels, this.nonEmpty) + " ON ROWS");
+        ret += ((this.nonEmpty ? ", NON EMPTY " : ", ") + Query.levelsString(rowLevels, this.nonEmpty) + " ON ROWS");
       }
       
       ret += " FROM [" + cubeName + "]";

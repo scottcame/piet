@@ -251,7 +251,7 @@ test('query MDX simple 2 level hierarchize', async () => {
       queryLevel.setUniqueName("[Store].[Stores].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
-        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}}) ON ROWS FROM [Store]");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}})) ON ROWS FROM [Store]");
       });
     });
   });
@@ -275,7 +275,7 @@ test('query MDX simple 3 level hierarchize', async () => {
         queryLevel.setUniqueName("[Store].[Stores].[Store City]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].Members}}) ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].Members}})) ON ROWS FROM [Store]");
         });
       });
     });
@@ -300,7 +300,7 @@ test('query MDX simple 2 level hierarchize plus additional level', async () => {
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}}),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}})),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
         });
       });
     });
@@ -329,7 +329,7 @@ test('query MDX simple 2 level hierarchize plus 2 additional levels', async () =
           queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
           queryLevel.setRowOrientation(true);
           await q.levels.add(queryLevel).then(() => {
-            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}}),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
+            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}})),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
           });
         });
       });
@@ -460,13 +460,13 @@ test('two level query with filtering (include)', async () => {
       await q.levels.add(queryLevel).then(async () => {
         await analysis.query.filters.add(queryFilter).then(async () => {
           await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
-            expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]})}) ON ROWS FROM [Store]");
+            expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]})})) ON ROWS FROM [Store]");
             await queryFilter.levelMemberNames.add("Canada").then(async () => {
-              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})}) ON ROWS FROM [Store]");
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})) ON ROWS FROM [Store]");
               queryFilter = new QueryFilter("[Store].[Stores].[Store State]", q);
               await analysis.query.filters.add(queryFilter).then(async () => {
                 await queryFilter.levelMemberNames.set(["WA","OR","BC"]).then(async () => {
-                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].[WA],[Store].[Stores].[Store State].[OR],[Store].[Stores].[Store State].[BC]},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})}) ON ROWS FROM [Store]");
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].[WA],[Store].[Stores].[Store State].[OR],[Store].[Stores].[Store State].[BC]},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})) ON ROWS FROM [Store]");
                 });
               });
             });
@@ -495,9 +495,9 @@ test('two level query with filtering (exclude)', async () => {
         await analysis.query.filters.add(queryFilter).then(async () => {
           await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
             await queryFilter.setInclude(false).then(async () => {
-              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})})}) ON ROWS FROM [Store]");
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})})})) ON ROWS FROM [Store]");
               await queryFilter.levelMemberNames.add("Canada").then(async () => {
-                expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})}) ON ROWS FROM [Store]");
+                expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})})) ON ROWS FROM [Store]");
               });
             });
           });
@@ -528,17 +528,17 @@ test('three level query with filtering (include)', async () => {
         await q.levels.add(queryLevel).then(async () => {
           await analysis.query.filters.add(queryFilter).then(async () => {
             await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
-              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},{[Store].[Stores].[Store Country].[USA]})}) ON ROWS FROM [Store]");
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},{[Store].[Stores].[Store Country].[USA]})})) ON ROWS FROM [Store]");
               queryFilter = new QueryFilter("[Store].[Stores].[Store State]", q);
               await analysis.query.filters.add(queryFilter).then(async () => {
                 await queryFilter.levelMemberNames.set(["WA"]).then(async () => {
-                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))}) ON ROWS FROM [Store]");
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))})) ON ROWS FROM [Store]");
                   queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
                   await analysis.query.filters.add(queryFilter).then(async () => {
                     await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
-                      expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))}) ON ROWS FROM [Store]");
+                      expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))})) ON ROWS FROM [Store]");
                       await analysis.query.filters.get(0).levelMemberNames.clear().then(async () => {
-                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].[WA]},Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store State].[WA]})}) ON ROWS FROM [Store]");
+                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].[WA]},Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store State].[WA]})})) ON ROWS FROM [Store]");
                       });
                     });
                   });
@@ -576,12 +576,12 @@ test('three level query with filtering on <3 levels (include)', async () => {
               queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
               await analysis.query.filters.add(queryFilter).then(async () => {
                 await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
-                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store Country].[USA]})}) ON ROWS FROM [Store]");
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store Country].[USA]})})) ON ROWS FROM [Store]");
                   await analysis.query.filters.clear().then(async () => {
                     queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
                     await analysis.query.filters.add(queryFilter).then(async () => {
                       await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
-                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]}}) ON ROWS FROM [Store]");
+                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]}})) ON ROWS FROM [Store]");
                       });
                     });
                   });

@@ -33,7 +33,7 @@ export class AnalysesController {
   static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
   static SAVE_MENU_ITEM_LABEL = "Save";
   static DELETE_MENU_ITEM_LABEL = "Delete";
-  static EDIT_METADATA_MENU_ITEM_LABEL = "Edit metadata...";
+  static EDIT_METADATA_MENU_ITEM_LABEL = "Properties...";
   static CLOSE_MENU_ITEM_LABEL = "Close";
 
   readonly repository: Repository;
@@ -300,8 +300,18 @@ export class AnalysesController {
     } else {
       promises.push(this.currentAnalysis.setDescription(analysisDescription.trim()));
     }
-    await Promise.all(promises);
-    this.closeEditAnalysisMetadataModal();
+    return Promise.all(promises).then(() => {
+      this.closeEditAnalysisMetadataModal();
+      return this.executeQuery();
+    });
+  }
+
+  async toggleNonEmpty(): Promise<void> {
+    return this.currentAnalysis.setNonEmpty(!this.currentAnalysis.nonEmpty);
+  }
+
+  async toggleFilterParentAggregates(): Promise<void> {
+    return this.currentAnalysis.setFilterParentAggregates(!this.currentAnalysis.filterParentAggregates);
   }
 
   async handleDatasetTreeNodeEvent(event: TreeEvent): Promise<void> {

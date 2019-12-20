@@ -98,6 +98,26 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     return this._name;
   }
 
+  get nonEmpty(): boolean {
+    return this.query.nonEmpty;
+  }
+
+  async setNonEmpty(value: boolean): Promise<void> {
+    this.initCheckpoint();
+    this.query.nonEmpty = value;
+    return this.notifyPropertyEditEventListeners("nonEmpty");
+  }
+
+  get filterParentAggregates(): boolean {
+    return this.query.filterParentAggregates;
+  }
+
+  async setFilterParentAggregates(value: boolean): Promise<void> {
+    this.initCheckpoint();
+    this.query.filterParentAggregates = value;
+    return this.notifyPropertyEditEventListeners("filterParentAggregates");
+  }
+
   async setName(value: string): Promise<void> {
     this.initCheckpoint();
     this._name = value;
