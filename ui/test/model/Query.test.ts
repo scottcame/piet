@@ -359,7 +359,6 @@ test('persistence', async () => {
             description: 'test-description',
             _query: {
               nonEmpty: true,
-              datasetName: 'Test',
               _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
               _levels: []
             }
@@ -385,9 +384,8 @@ test('persistence', async () => {
               description: 'test-description',
               _query: {
                 nonEmpty: true,
-                datasetName: 'Test',
                 _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
-                _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true, _sumSelected: false }]
+                _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true }]
               }
             });
             deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);

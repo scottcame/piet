@@ -69,7 +69,6 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     return {
       nonEmpty: this.nonEmpty,
       filterParentAggregates: this.filterParentAggregates,
-      datasetName: this.datasetName,
       _measures: mArray,
       _levels: lArray,
       _filters: fArray
@@ -307,7 +306,6 @@ export abstract class AbstractQueryObject implements Editable {
 
 export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLevel>, Serializable<QueryLevel> {
   private _uniqueName: string;
-  private _sumSelected = false;
   private _rowOrientation = true;
   constructor(parent: Query) {
     super(parent);
@@ -315,14 +313,12 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   clone(): QueryLevel {
     const ret = new QueryLevel(this._parent);
     ret._uniqueName = this._uniqueName;
-    ret._sumSelected = this._sumSelected;
     ret._rowOrientation = this._rowOrientation;
     return ret;
   }
   serialize(_repository: Repository): any {
     return {
       _uniqueName: this._uniqueName,
-      _sumSelected: this._sumSelected,
       _rowOrientation: this._rowOrientation
     };
   }

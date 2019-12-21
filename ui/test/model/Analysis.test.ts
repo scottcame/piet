@@ -16,7 +16,6 @@ beforeEach(async () => {
 });
 
 test('persistence', async () => {
-  console.log("start of test");
   const analysis = new Analysis(datasets.get(0), "test-name");
   analysis.setDescription("test-description");
   const serializedAnalysis = analysis.serialize(repository);
@@ -30,8 +29,7 @@ test('persistence', async () => {
     _query: {
       _measures: [],
       _levels: [],
-      nonEmpty: true,
-      datasetName: 'Test'
+      nonEmpty: true
     }
   });
   const deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
