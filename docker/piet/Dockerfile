@@ -3,6 +3,11 @@ FROM tomcat:9.0-jdk8
 COPY *.war /usr/local/tomcat/webapps/
 COPY server.xml /usr/local/tomcat/conf/
 
+RUN mkdir -p /opt/tomcat/shared/config/
+
+COPY catalina.properties /usr/local/tomcat/conf/
+COPY application.properties /usr/local/tomcat/shared/config/
+
 RUN mv /usr/local/tomcat/webapps/piet*.war /usr/local/tomcat/webapps/piet.war
 
 RUN cd /tmp && \
