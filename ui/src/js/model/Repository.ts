@@ -28,8 +28,8 @@ export interface Repository {
   browseDatasets(): Promise<Dataset[]>;
   browseAnalyses(): Promise<Analysis[]>;
   searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
-  saveAnalysis(analysis: Analysis): Promise<number>;
-  deleteAnalysis(analysis: Analysis): Promise<number>;
+  saveAnalysis(analysis: Analysis): Promise<string>;
+  deleteAnalysis(analysis: Analysis): Promise<string>;
   saveWorkspace(): Promise<void>;
   executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult>;
 }
@@ -104,8 +104,8 @@ export abstract class AbstractBaseRepository implements Repository {
   abstract browseDatasets(): Promise<Dataset[]>;
   abstract browseAnalyses(): Promise<Analysis[]>;
   abstract searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
-  abstract saveAnalysis(analysis: Analysis): Promise<number>;
-  abstract deleteAnalysis(analysis: Analysis): Promise<number>;
+  abstract saveAnalysis(analysis: Analysis): Promise<string>;
+  abstract deleteAnalysis(analysis: Analysis): Promise<string>;
   abstract executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult>;
 
 }
@@ -203,22 +203,30 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     return this.db.analyses.toArray().then(async dbAnalyses => {
       const promises: Promise<Analysis>[] = [];
       dbAnalyses.forEach(dbAnalysis => {
+        dbAnalysis.id = "" + dbAnalysis.id;
         promises.push(new Analysis().deserialize(dbAnalysis, this));
       });
       return Promise.all(promises);
     });
   }
 
-  async saveAnalysis(analysis: Analysis): Promise<number> {
-    return this.db.analyses.put(analysis.serialize(this));
+  async saveAnalysis(analysis: Analysis): Promise<string> {
+    const dbAnalysis = analysis.serialize(this);
+    if (dbAnalysis.id) {
+      dbAnalysis.id = Number.parseInt(dbAnalysis.id);
+    }
+    return this.db.analyses.put(dbAnalysis).then((id: number) => {
+      return Promise.resolve("" + id);
+    });
   }
 
   async searchAnalyses(_query: RepositoryQuery): Promise<Analysis[]> {
     return this.browseAnalyses(); // for now, ignore the query string
   }
 
-  async deleteAnalysis(analysis: Analysis): Promise<number> {
-    return this.db.analyses.delete(analysis.id).then(() => {
+  async deleteAnalysis(analysis: Analysis): Promise<string> {
+    const id: number = Number.parseInt(analysis.id);
+    return this.db.analyses.delete(id).then(() => {
       return analysis.id;
     });
   }
@@ -303,14 +311,14 @@ export class RemoteRepository extends AbstractBaseRepository {
     return this.browseAnalyses();
   }
 
-  saveAnalysis(_analysis: Analysis): Promise<number> {
+  saveAnalysis(_analysis: Analysis): Promise<string> {
     console.log("We don't yet save analyses to the remote repo");
-    return Promise.resolve(0);
+    return Promise.resolve("");
   }
 
-  deleteAnalysis(_analysis: Analysis): Promise<number> {
+  deleteAnalysis(_analysis: Analysis): Promise<string> {
     console.log("We don't yet delete analyses from the remote repo");
-    return Promise.resolve(0);
+    return Promise.resolve("");
   }
   
   async executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult> {

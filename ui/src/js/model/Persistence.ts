@@ -3,7 +3,7 @@ import { Repository } from "./Repository";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export interface Identifiable {
-  readonly id: number;
+  readonly id: string;
 }
 
 export interface Serializable<T> {

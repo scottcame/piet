@@ -8,7 +8,7 @@ import { Query, QueryMeasure, QueryLevel, QueryFilter } from "./Query";
 
 export class Analysis implements Identifiable, Serializable<Analysis>, Editable {
 
-  id: number;
+  id: string;
   dataset: Dataset;
   private _name: string = null;
   private _description: string = null;
@@ -20,7 +20,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   private queryLevelsListChangeEventListener: QueryDirtyListListener<QueryLevel>;
   private queryFiltersListChangeEventListener: QueryDirtyListListener<QueryFilter>;
 
-  constructor(dataset: Dataset = null, name: string = null, id: number = undefined) {
+  constructor(dataset: Dataset = null, name: string = null, id: string = undefined) {
 
     this.editEventListeners = [];
     this.editCheckpoint = null;

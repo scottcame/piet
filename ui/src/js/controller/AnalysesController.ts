@@ -253,10 +253,11 @@ export class AnalysesController {
     let ret = Promise.resolve();
     if (this.currentAnalysis !== null) {
       ret = this.currentAnalysis.checkpointEdits().then(async () => {
-        const newId = await this.repository.saveAnalysis(this.currentAnalysis);
-        if (this.currentAnalysis.id === undefined) {
-          this.currentAnalysis.id = newId;
-        }
+        return this.repository.saveAnalysis(this.currentAnalysis).then(async (newId) => {
+          if (this.currentAnalysis.id === undefined) {
+            this.currentAnalysis.id = newId;
+          }
+        });
       });
     }
     return ret;

@@ -29,9 +29,10 @@ test('local repository save', async () => {
       const originalLength = aa.length;
       const analysis = new Analysis(datasets.get(0), "test-name");
       analysis.setDescription("test-description");
-      await expect(repo.saveAnalysis(analysis)).resolves.toEqual(originalLength + 1);
-      return repo.browseAnalyses().then((aa: Analysis[]) => {
-        expect(aa[originalLength].name).toBe("test-name");
+      await expect(repo.saveAnalysis(analysis)).resolves.toEqual("" + (originalLength + 1)).then(async () => {
+        return repo.browseAnalyses().then((aa: Analysis[]) => {
+          expect(aa[originalLength].name).toBe("test-name");
+        });
       });
     });
   });
