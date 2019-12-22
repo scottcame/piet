@@ -18,6 +18,9 @@ import com.cascadia_analytics.piet.domain.DatasetRef;
 @DataMongoTest
 public class AnalysisRepositoryTest {
 	
+	// A thorough test here is really not necessary, as we are relying 100% on Spring Data mongo functionality
+	// This is included more as a demonstration and to convince ourselves that the Spring Data stuff is configured properly
+	
     @Autowired
     private AnalysisRepository analysisRepository;
     
