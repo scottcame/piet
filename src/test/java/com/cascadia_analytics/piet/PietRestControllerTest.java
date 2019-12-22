@@ -1,6 +1,7 @@
 package com.cascadia_analytics.piet;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.apache.commons.logging.Log;
@@ -48,12 +49,29 @@ public class PietRestControllerTest {
 		Analysis foundAnalysis = restTemplate.getForObject("http://localhost:" + port + "/analysis?id=" + id.getId(), Analysis.class);
 		assertNotNull(foundAnalysis);
 		assertEquals(foundAnalysis.getName(), analysis.getName());
+		assertNotNull(foundAnalysis.getCreateDateTime());
+		assertEquals(foundAnalysis.getCreateDateTime(), foundAnalysis.getUpdateDateTime());
+		assertEquals(1, foundAnalysis.getReadCounter());
 		foundAnalysis.setName("Updated name of A1");
 		IdContainer id2 = restTemplate.postForObject("http://localhost:" + port + "/analysis", foundAnalysis, IdContainer.class);
 		Analysis foundAnalysis2 = restTemplate.getForObject("http://localhost:" + port + "/analysis?id=" + id2.getId(), Analysis.class);
 		assertNotNull(foundAnalysis2);
 		assertEquals(foundAnalysis2.getName(), foundAnalysis.getName());
-		
+		assertNotEquals(foundAnalysis2.getCreateDateTime(), foundAnalysis2.getUpdateDateTime());
+		assertEquals(2, foundAnalysis2.getReadCounter());
+	}
+	
+	@Test
+	public void testReadCounter() throws Exception {
+		Analysis analysis = getDemoAnalysis();
+		IdContainer id = restTemplate.postForObject("http://localhost:" + port + "/analysis", analysis, IdContainer.class);
+		Analysis foundAnalysis = restTemplate.getForObject("http://localhost:" + port + "/analysis?id=" + id.getId(), Analysis.class);
+		assertNotNull(foundAnalysis);
+		assertEquals(1, foundAnalysis.getReadCounter());
+		foundAnalysis = restTemplate.getForObject("http://localhost:" + port + "/analysis?id=" + id.getId(), Analysis.class);
+		assertEquals(2, foundAnalysis.getReadCounter());
+		foundAnalysis = restTemplate.getForObject("http://localhost:" + port + "/analysis?id=" + id.getId(), Analysis.class);
+		assertEquals(3, foundAnalysis.getReadCounter());
 	}
 	
 	@Test

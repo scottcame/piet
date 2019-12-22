@@ -1,5 +1,6 @@
 package com.cascadia_analytics.piet;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.apache.commons.logging.Log;
@@ -38,21 +39,37 @@ public class PietRestController {
 		Analysis ret = null;
 		Optional<Analysis> foundAnalysis = analysisRepository.findById(id);
 		if (foundAnalysis.isPresent()) {
-			System.out.println(foundAnalysis.get().getId());
-			ret = foundAnalysis.get();
+			ret = saveAnalysis(foundAnalysis.get(), true, false);
 		}
 		return ret;
 	}
 	
 	@PostMapping(path="/analysis", consumes="application/json", produces="application/json")
 	public IdContainer saveAnalysis(@RequestBody Analysis analysis) throws Exception {
-		Analysis savedAnalysis = analysisRepository.save(analysis);
+		Analysis savedAnalysis = saveAnalysis(analysis, false, true);
 		return new IdContainer(savedAnalysis.getId());
+	}
+
+	private Analysis saveAnalysis(Analysis analysis, boolean updateReadCounter, boolean updateTime) {
+		Date now = new Date();
+		if (analysis.getCreateDateTime() == null) {
+			analysis.setCreateDateTime(now);
+		}
+		if (updateTime) {
+			analysis.setUpdateDateTime(now);
+		}
+		if (updateReadCounter) {
+			analysis.setReadCounter(analysis.getReadCounter() + 1);
+		}
+		Analysis savedAnalysis = analysisRepository.save(analysis);
+		return savedAnalysis;
 	}
 	
 	@DeleteMapping(path="/analysis/{id}")
 	public void deleteAnalysis(@PathVariable String id) throws Exception {
 		analysisRepository.deleteById(id);
 	}
+	
+	
 
 }

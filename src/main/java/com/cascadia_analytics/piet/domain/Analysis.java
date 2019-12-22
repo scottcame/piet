@@ -1,5 +1,7 @@
 package com.cascadia_analytics.piet.domain;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -17,6 +19,10 @@ public class Analysis {
 	
 	@JsonProperty("_query")
 	private Query query;
+	
+	private Date createDateTime;
+	private Date updateDateTime;
+	private long readCounter;
 
 	public String getId() {
 		return id;
@@ -56,6 +62,30 @@ public class Analysis {
 
 	public void setQuery(Query query) {
 		this.query = query;
+	}
+
+	public Date getCreateDateTime() {
+		return createDateTime;
+	}
+
+	public void setCreateDateTime(Date createDateTime) {
+		this.createDateTime = createDateTime;
+	}
+
+	public Date getUpdateDateTime() {
+		return updateDateTime;
+	}
+
+	public long getReadCounter() {
+		return readCounter;
+	}
+
+	public void setUpdateDateTime(Date updateDateTime) {
+		this.updateDateTime = updateDateTime;
+	}
+
+	public void setReadCounter(long readCounter) {
+		this.readCounter = readCounter;
 	}
 	
 }
