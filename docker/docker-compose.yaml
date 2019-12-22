@@ -19,3 +19,8 @@ services:
     container_name: mongo
     networks:
       - "piet"
+    volumes:
+      - type: bind
+        source: /opt/data/piet/mongo
+        target: /data/db
+  
