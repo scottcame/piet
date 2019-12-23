@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class QueryFilter {
 	
-	@JsonProperty("_uniqueName")
+	@JsonProperty("_levelUniqueName")
 	private String levelUniqueName;
 
 	@JsonProperty("_filterOnlyHierarchy")

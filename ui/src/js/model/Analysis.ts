@@ -71,6 +71,10 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       this.dataset = d;
       this._description = o.description;
 
+      if (!o.editCheckpoint) {
+        o.editCheckpoint = null;
+      }
+
       return new Analysis().deserialize(o.editCheckpoint, repository).then(async (ec: Analysis): Promise<any> => {
         this.editCheckpoint = ec;
         if (this.editCheckpoint === null) {

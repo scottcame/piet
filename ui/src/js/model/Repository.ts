@@ -302,23 +302,45 @@ export class RemoteRepository extends AbstractBaseRepository {
     return ret;
   }
 
-  browseAnalyses(): Promise<Analysis[]> {
-    console.log("We don't yet retrieve analyses from the remote repo");
-    return Promise.resolve([]);
+  async browseAnalyses(): Promise<Analysis[]> {
+    return fetch(this.remoteRepositoryUrl + "/analyses", {
+      method: "GET"
+    }).then(async (response: Response) => {
+      return response.json().then(async (json: any): Promise<any> => {
+        const promises: Promise<Analysis>[] = [];
+        json.forEach((dbAnalysis: any): void => {
+          promises.push(new Analysis().deserialize(dbAnalysis, this));
+        });
+        return Promise.all(promises);
+      });
+    });
   }
 
   searchAnalyses(_query: RepositoryQuery): Promise<Analysis[]> {
     return this.browseAnalyses();
   }
 
-  saveAnalysis(_analysis: Analysis): Promise<string> {
-    console.log("We don't yet save analyses to the remote repo");
-    return Promise.resolve("");
+  async saveAnalysis(analysis: Analysis): Promise<string> {
+    const dbAnalysis = analysis.serialize(this);
+    return fetch(this.remoteRepositoryUrl + "/analysis", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(dbAnalysis)
+    }).then(async (response: Response) => {
+      return response.json().then(async (json: any): Promise<string> => {
+        return Promise.resolve(json.id);
+      });
+    });
   }
 
-  deleteAnalysis(_analysis: Analysis): Promise<string> {
-    console.log("We don't yet delete analyses from the remote repo");
-    return Promise.resolve("");
+  async deleteAnalysis(analysis: Analysis): Promise<string> {
+    return fetch(this.remoteRepositoryUrl + "/analysis/" + analysis.id, {
+      method: "DELETE"
+    }).then(async (_response: Response) => {
+      return Promise.resolve(analysis.id);
+    });
   }
   
   async executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult> {

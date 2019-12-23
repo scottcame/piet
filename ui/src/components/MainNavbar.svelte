@@ -87,6 +87,8 @@
       <div class="flex inline items-center">
         <img src='img/piet-logo.jpg' alt='logo'/>
         <span class='text-2xl pl-2 text-grey-800'>Piet</span>
+        <!-- <img src='img/platform-logo.png' alt='logo' class="h-20"/>
+        <span class='text-2xl pl-2 text-grey-800'>Query Tool</span> -->
       </div>
 		</a>
 	</div>

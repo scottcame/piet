@@ -254,7 +254,7 @@ export class AnalysesController {
     if (this.currentAnalysis !== null) {
       ret = this.currentAnalysis.checkpointEdits().then(async () => {
         return this.repository.saveAnalysis(this.currentAnalysis).then(async (newId) => {
-          if (this.currentAnalysis.id === undefined) {
+          if (!this.currentAnalysis.id) {
             this.currentAnalysis.id = newId;
           }
         });

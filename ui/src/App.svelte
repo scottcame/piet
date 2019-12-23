@@ -15,7 +15,7 @@
   // default nav
   currentView.set("analyses");
 
-  const repository = ConfigurationProperties.MONDRIAN_REST_URL ? new RemoteRepository(ConfigurationProperties.MONDRIAN_REST_URL) : new LocalRepository();
+  const repository = ConfigurationProperties.MONDRIAN_REST_URL ? new RemoteRepository(ConfigurationProperties.MONDRIAN_REST_URL, ConfigurationProperties.REMOTE_REPOSITORY_URL) : new LocalRepository();
 
   repository.init().then(() => {
     initialized = true;
