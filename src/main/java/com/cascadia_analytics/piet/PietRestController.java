@@ -31,7 +31,10 @@ public class PietRestController {
 	
 	@GetMapping(path="/analyses", produces="application/json")
 	public Analysis[] getAnalyses() throws Exception {
-		return analysisRepository.findAll().toArray(new Analysis[0]);
+		Analysis[] ret = analysisRepository.findAll().toArray(new Analysis[0]);
+		// TODO: handle read counter...actually need to rethink this and return just "summary attributes"
+		//  on browseAnalyses(), then use GET /analysis by id to get the specific one requested by user.
+		return ret;
 	}
 	
 	@GetMapping(path="/analysis", produces="application/json")
