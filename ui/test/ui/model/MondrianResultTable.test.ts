@@ -13,6 +13,16 @@ test('null result', () => {
   expect(tableModel.rowCount).toBe(0);
 });
 
+test('empty result', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_EMPTY);
+  const tableModel = new MondrianResultTableModel();
+  tableModel.result = result;
+  expect(tableModel.rowCount).toBe(0);
+  expect(tableModel.columnCount).toBe(0);
+  expect(tableModel.headerRows).toHaveLength(0);
+  expect(tableModel.rowHeaders).toHaveLength(0);
+});
+
 test('header rows 2m1r1c', () => {
   const result = MondrianResult.fromJSON(TestData.TEST_RESULT_2M1R1C);
   const tableModel = new MondrianResultTableModel();

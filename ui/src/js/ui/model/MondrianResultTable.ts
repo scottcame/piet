@@ -37,7 +37,7 @@ export class MondrianResultTableModel {
   }
 
   get columnCount(): number {
-    return this._mondrianResult ? this._headerRows[0].length : 0;
+    return this._mondrianResult && this._mondrianResult.cells.length ? this._headerRows[0].length : 0;
   }
 
   get topLeftEmptyColumnCount(): number {

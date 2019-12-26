@@ -12,6 +12,7 @@ import * as testResult1m2hr0c from './mondrian-results-1m2hr0c.json';
 import * as testResult1m2hr1c from './mondrian-results-1m2hr1c.json';
 import * as testResult1m2x2hr1c from './mondrian-results-1m2x2hr0c.json';
 import * as testResult1m2h2r0c from './mondrian-results-1m2h2r0c.json';
+import * as testResultEmpty from './mondrian-results-empty.json';
 
 export class TestData {
 
@@ -47,6 +48,9 @@ export class TestData {
 
   // SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(Hierarchize({{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].Members}}),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]
   static TEST_RESULT_1M2H2R0C: any = testResult1m2h2r0c;
+
+  // SELECT NON EMPTY NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].[Mid-Size Grocery]},{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store State].[OR],[Store].[Stores].[Store State].[WA]} ON ROWS FROM [Store]
+  static TEST_RESULT_EMPTY: any = testResultEmpty;
 
 }
 

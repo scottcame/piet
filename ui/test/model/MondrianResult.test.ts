@@ -1,4 +1,4 @@
-import { MondrianResult } from "../../src/js/model/MondrianResult";
+import { MondrianResult, MondrianResultAxis } from "../../src/js/model/MondrianResult";
 import { TestData } from "../_data/TestData";
 
 test('2 measures 1 row 1 column', () => {
@@ -26,4 +26,17 @@ test('1 measure no rows or columns', () => {
   expect(result.rowAxis).toBeNull();
   expect(result.rowCaptions).toHaveLength(0);
   expect(result.columnCaptions).toMatchObject(["MeasuresLevel"]);
+});
+
+test('Empty results', () => {
+  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_EMPTY);
+  expect(result).not.toBeNull();
+  expect(result.cells).toHaveLength(0);
+  expect(result.columnCaptions).toHaveLength(0);
+  expect(result.rowCaptions).toHaveLength(0);
+  result.axes.forEach((axis: MondrianResultAxis): void => {
+    expect(axis.positions).toHaveLength(0);
+    expect(axis.axisHeaders).toHaveLength(0);
+    expect(axis.axisLevelUniqueNames).toHaveLength(0);
+  });
 });

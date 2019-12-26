@@ -73,6 +73,6 @@
       </tbody>
     </table>
   {:else}
-    <div class="p-2">No results available. Make sure you have added a measure to your analysis.</div>
+    <div class="p-2">No results available. Make sure you have added a measure to your analysis, and that your filters haven't removed all results.</div>
   {/if}
 </div>
