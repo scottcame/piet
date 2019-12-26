@@ -2,6 +2,7 @@
 
   export let tableModel;
   export let selectedIndex = null;
+  export let noRowsLabel = "No objects found.";
 
   let modelRows = [];
 
@@ -17,6 +18,7 @@
 
 </script>
 
+{#if modelRows.length}
 <table class="table-auto border w-full">
   <tbody>
       {#each modelRows as modelRow, rowIndex}
@@ -31,3 +33,6 @@
       {/each}
   </tbody>
 </table>
+{:else}
+<div class="text-xs">{noRowsLabel}</div>
+{/if}

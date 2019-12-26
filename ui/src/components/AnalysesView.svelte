@@ -105,7 +105,7 @@
 <Modal visible={viewProperties.showBrowseAnalysisModal}>
   <span slot="header">Browse Analyses</span>
   <div slot="body">
-    <SelectTable tableModel={controller.browseAnalysesTableModel} bind:selectedIndex={browseAnalysesSelectedIndex}/>
+    <SelectTable tableModel={controller.browseAnalysesTableModel} noRowsLabel="No analyses found in repository." bind:selectedIndex={browseAnalysesSelectedIndex}/>
   </div>
   <div slot="buttons">
     <div class="flex flex-inline justify-center mb-4 flex-none">
