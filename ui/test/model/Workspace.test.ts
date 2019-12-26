@@ -59,10 +59,10 @@ class MockRepository implements Repository {
   searchAnalyses(_query: RepositoryQuery): Promise<Analysis[]> {
     throw new Error("Method not implemented.");
   }
-  saveAnalysis(_analysis: Analysis): Promise<number> {
+  saveAnalysis(_analysis: Analysis): Promise<string> {
     throw new Error("Method not implemented.");
   }
-  deleteAnalysis(_analysis: Analysis): Promise<number> {
+  deleteAnalysis(_analysis: Analysis): Promise<string> {
     throw new Error("Method not implemented.");
   }
   executeQuery(_mdx: string): Promise<import("../../src/js/model/MondrianResult").MondrianResult> {
