@@ -256,6 +256,9 @@ export class AnalysesController {
         return this.repository.saveAnalysis(this.currentAnalysis).then(async (newId) => {
           if (!this.currentAnalysis.id) {
             this.currentAnalysis.id = newId;
+            // have to call these explicitly because this.currentAnalysisEditListener wont pick up edits to the id (it's not observed) 
+            this.updateSaveAnalysisMenuItem();
+            this.updateCancelEditsMenuItem();
           }
         });
       });

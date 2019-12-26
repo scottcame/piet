@@ -153,7 +153,6 @@ test('workspace persistence', async () => {
       });
     });
   });
-
 });
 
 test('Basic browse', async () => {
@@ -180,7 +179,22 @@ test('Basic browse', async () => {
       });
     }); 
   });
+});
 
+test('Saving makes clean', async () => {
+  await controller.browseAnalyses().then(async () => {
+    expect(viewProperties.showBrowseAnalysisModal).toBe(true);
+    await controller.browseAnalysesOpenSelection(0).then(async () => {
+      expect(controller.currentAnalysis.name).toBe("Analysis 1");
+      await controller.currentAnalysis.setDescription("A new description...").then(async () => {
+        expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(true);
+        await controller.saveCurrentAnalysis().then(async () => {
+          expect(controller.currentAnalysis.dirty).toBe(false);
+          expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(false);
+        });
+      });
+    }); 
+  });
 });
 
 test('Dataset tree model query test: measure events', async () => {
