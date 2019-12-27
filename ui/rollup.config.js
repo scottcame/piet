@@ -114,6 +114,7 @@ export default {
 
     babel({
       extensions: ['.js', '.svelte', '.ts', '.mjs'],
+      include: ['src/**', 'node_modules/svelte/**'],
       presets: [
         [
           "@babel/env",
@@ -121,7 +122,8 @@ export default {
             targets: {
               ie: '11',
             },
-            useBuiltIns: false // cannot use babel polyfill due to IE11.  see documentation in index.html for details.
+            corejs: 3,
+            useBuiltIns: "usage"
           },
         ]
       ],

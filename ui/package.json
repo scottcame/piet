@@ -16,6 +16,7 @@
     "@typescript-eslint/eslint-plugin": "^2.9.0",
     "@typescript-eslint/parser": "^2.9.0",
     "autoprefixer": "^9.7.3",
+    "core-js": "^3.6.1",
     "cssnano": "^4.1.10",
     "dexie": "^2.0.4",
     "eslint-plugin-jest": "^23.1.1",
