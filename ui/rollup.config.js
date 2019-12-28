@@ -20,6 +20,7 @@ import cssnano from 'cssnano';
 
 const production = process.env.DEV!=="true";
 console.log("Performing a " + (production ? "production" : "dev") + " build");
+if (!production) console.log("Note: dev builds do not include babel transpilation");
 
 let playground = false;
 if (process.env.PLAYGROUND === "true") {
@@ -83,6 +84,17 @@ fs.readFile('public/tailwind-gen.css', (err, css) => {
 
 export default {
 
+  onwarn(warning, warn) {
+    if (
+      // ignore these warnings introduced by Vega
+      warning.code === 'CIRCULAR_DEPENDENCY' && /node_modules\/(?:vega-.+|d3-.+)/.test(warning.importer) ||
+      warning.code === 'THIS_IS_UNDEFINED' && /node_modules\/(?:vega-.+|fast-json-.+)/.test(warning.loc.file)
+    ) {
+      return;
+    }
+    warn(warning);
+  },
+
   input: playground ? 'src/playground-main.ts' : 'src/main.ts',
 
   output: {
@@ -95,7 +107,7 @@ export default {
   plugins: [
 
     eslint(),
-    json({ include: "test/_data/**" }),
+    json(),
 
     svelte({
       // enable run-time checks when not in production
@@ -108,13 +120,24 @@ export default {
     }),
 
     builtins(),
-    resolve(),
+    resolve({
+			browser: true,
+			dedupe: importee => importee === 'svelte' || importee.startsWith('svelte/')
+		}),
     commonjs(),
     typescript(),
 
-    babel({
+    // don't transpile in dev mode, as Chrome (our dev browser) handles es6 javascript just fine, and transpiling doubles the rollup bundling time
+    production && babel({
       extensions: ['.js', '.svelte', '.ts', '.mjs'],
-      include: ['src/**', 'node_modules/svelte/**'],
+      include: [
+        'src/**', 'node_modules/svelte/**',
+        // the following are required for vega / vega-lite, as they utilize es6 features that are not available in IE11 (ugh!)
+				'node_modules/fast-json-patch/**', 'node_modules/d3-array/**', 'node_modules/d3-scale/**', 'node_modules/d3-force/**', 'node_modules/d3-delaunay/**', 'node_modules/delaunator/**',
+        'node_modules/vega*/**',
+        // end vega dependencies
+      ],
+      runtimeHelpers: true,
       presets: [
         [
           "@babel/env",
@@ -123,10 +146,18 @@ export default {
               ie: '11',
             },
             corejs: 3,
-            useBuiltIns: "usage"
+            useBuiltIns: "entry"
           },
         ]
       ],
+      plugins: [
+        [
+          '@babel/plugin-transform-runtime',
+          {
+            useESModules: false
+          }
+        ]
+      ]
     }),
 
     // Watch the `public` directory and refresh the browser on changes when not in production

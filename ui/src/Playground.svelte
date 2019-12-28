@@ -1,19 +1,59 @@
 <script>
 
-  import { MondrianResult } from './js/model/MondrianResult';
-  import * as resultData from '../test/_data/mondrian-results-1m2h2r0c.json';
-  import MondrianResultTable from './components/MondrianResultTable.svelte';
-  import { MondrianResultTableModel } from './js/ui/model/MondrianResultTable';
+  import vegaEmbed from 'vega-embed';
 
-  const result = MondrianResult.fromJSON(resultData);
-  const tableModel = new MondrianResultTableModel();
-  tableModel.result = result;
+  let mA=62;
+	let mB=30;
+	let vA=100;
+	let vB=180;
+
+  let a=[];
+	for(let i = 0; i < 100; i++){
+		let yA=Math.exp(-Math.pow((i-mA),2)/vA);
+		let yB=Math.exp(-Math.pow((i-mB),2)/vB);
+		a.push({Trait: i, Frequency: yA, Gender: "Group A"});
+		a.push({Trait: i, Frequency:yB, Gender: "Group B"});
+		a.push({Trait: i, Proportion:yA/(yA+yB), Gender: "A"});
+		a.push({Trait: i, Proportion:yB/(yA+yB), Gender: "B"});
+	};
+
+  let vegaLiteSpec = {
+			$schema: 'https://vega.github.io/schema/vega-lite/v2.0.json',
+			config: {
+				"width": 600,
+				"height": 200,
+				description: 'A simple bar chart with embedded data.'
+			},
+			data: {
+				values: a
+			},
+			"vconcat": [
+				{
+					transform: [{filter: {field: 'Gender', oneOf: ['Group A', 'Group B']}}],
+					width: 600,
+					mark: 'line',
+					encoding: {
+						x: {field: 'Trait', type: 'quantitative'},
+						y: {field: 'Frequency', type: 'quantitative'},
+						color: {field: 'Gender', type: 'nominal'}
+					}
+				},
+				{
+					transform: [{filter: {field: 'Gender', oneOf: ['A','B']}}],
+					width: 600,
+					mark: 'area',
+					encoding: {
+						x: {field: 'Trait', type: 'quantitative'},
+						y: {field: 'Proportion', type: 'quantitative',"axis": null,
+      "stack": "normalize"},
+						color: {field: 'Gender', type: 'nominal'}
+					}
+				}
+			]
+		};
+
+  vegaEmbed("#viz", vegaLiteSpec);
 
 </script>
 
-<div class="text-sm mb-8 mt-1 ml-1">This is the playground. You can use it to experiment with UI elements without breaking the main app code. Access it by running <span class="font-mono inline bg-gray-200 p-1">npm run playground</span>. Typically, we don't
-  commit changes to this file to git...</div>
-
-<div class="m-1">
-  <MondrianResultTable tableModel={tableModel}/>
-</div>
+<div id="viz"></div>
