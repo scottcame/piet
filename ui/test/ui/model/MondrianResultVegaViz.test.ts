@@ -22,21 +22,21 @@ test('1 measure 1 row no columns', () => {
       "values": [
         {
           "v": 66307,
-          "x": "CA"
+          "d": "CA"
         },
         {
           "v": 44906,
-          "x": "OR"
+          "d": "OR"
         },
         {
           "v": 116025,
-          "x": "WA"
+          "d": "WA"
         }
       ]
     },
     "encoding": {
       "x": {
-        "field": "x",
+        "field": "d",
         "type": "nominal",
         "axis": {
           "title": "Store State",
@@ -164,5 +164,49 @@ test('1 measure 1 row 1 column', () => {
     "width": "container",
     "height": "container",
     "mark": "circle"
+  });
+});
+
+test('1 measure 0 rows 1 column', () => {
+  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R1C));
+  expect(spec).toMatchObject({
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+      "values": [
+        {
+          "v": 66307,
+          "d": "CA"
+        },
+        {
+          "v": 44906,
+          "d": "OR"
+        },
+        {
+          "v": 116025,
+          "d": "WA"
+        }
+      ]
+    },
+    "encoding": {
+      "y": {
+        "field": "d",
+        "type": "nominal",
+        "axis": {
+          "title": "Store State",
+          "grid": true
+        }
+      },
+      "x": {
+        "field": "v",
+        "type": "quantitative",
+        "axis": {
+          "title": "Units Ordered",
+          "grid": true
+        }
+      }
+    },
+    "width": "container",
+    "height": "container",
+    "mark": "bar"
   });
 });

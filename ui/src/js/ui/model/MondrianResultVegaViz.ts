@@ -7,7 +7,10 @@ export class MondrianResultVegaViz {
   getVegaLiteSpecForResult(result: MondrianResult): VegaLiteSpec {
     let ret: VegaLiteSpec = null;
     if (result) {
-      if (result.columnAxis.axisLevelUniqueNames.length === 1 && result.rowAxis.axisLevelUniqueNames.length === 1) {
+      if (result.columnAxis.axisLevelUniqueNames.length === 2 && !result.rowAxis) {
+        // one col and one measure (no rows)
+        ret = this.createSpec1m0r1c(result);
+      } else if (result.columnAxis.axisLevelUniqueNames.length === 1 && result.rowAxis.axisLevelUniqueNames.length === 1) {
         // 1 row level, 0 column levels (beyond the measures)
         if (result.columnAxis.positions.length === 1) {
           // only one measure
@@ -85,25 +88,41 @@ export class MondrianResultVegaViz {
   }
 
   private createSpec1m1r0c(result: MondrianResult): VegaLiteSpec {
+    return this.createSpec1x1(result, "y");
+  }
+
+  private createSpec1m0r1c(result: MondrianResult): VegaLiteSpec {
+    return this.createSpec1x1(result, "x");
+  }
+
+  private createSpec1x1(result: MondrianResult, measureOn: "x"|"y"): VegaLiteSpec {
     const ret = new VegaLiteSpec(this.fitToContainer);
-    ret.data.values = result.rowAxis.positions.map((position: MondrianResultAxisPosition, idx: number): Record<string, string|number> => {
+    const axis = measureOn === "y" ? result.rowAxis : result.columnAxis;
+    ret.data.values = axis.positions.map((position: MondrianResultAxisPosition, idx: number): Record<string, string|number> => {
       const ret = {
         v: result.cells[idx].value,
-        x: position.positionMembers[0].memberValue
+        d: position.positionMembers[0].memberValue
       };
       return ret;
     });
     ret.mark = "bar";
-    ret.encoding.x = new PositionChannel();
-    ret.encoding.x.field = "x";
-    ret.encoding.x.type = "nominal";
-    ret.encoding.x.axis = new Axis();
-    ret.encoding.x.axis.title = result.rowAxis.axisHeaders[0];
-    ret.encoding.y = new PositionChannel();
-    ret.encoding.y.field = "v";
-    ret.encoding.y.type = "quantitative";
-    ret.encoding.y.axis = new Axis();
-    ret.encoding.y.axis.title = result.columnAxis.positions[0].positionMembers[0].memberValue;
+    const d = new PositionChannel();
+    d.field = "d";
+    d.type = "nominal";
+    d.axis = new Axis();
+    d.axis.title = axis.axisHeaders[0];
+    const m = new PositionChannel();
+    m.field = "v";
+    m.type = "quantitative";
+    m.axis = new Axis();
+    m.axis.title = result.columnAxis.positions[0].positionMembers[measureOn === "y" ? 0 : 1].memberValue;
+    if (measureOn === "y") {
+      ret.encoding.x = d;
+      ret.encoding.y = m;
+    } else {
+      ret.encoding.y = d;
+      ret.encoding.x = m;
+    }
     return ret;
   }
 
@@ -132,6 +151,7 @@ export class Data {
 export class Encoding {
   x?: PositionChannel;
   y?: PositionChannel;
+  row?: FacetChannel;
   column?: FacetChannel;
   color?: EncodingChannel;
   size?: EncodingChannel;
