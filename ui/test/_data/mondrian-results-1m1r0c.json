@@ -1,0 +1,142 @@
+{
+  "cells": [
+    {
+      "formattedValue": "66307.0",
+      "value": 66307.0,
+      "ordinal": 0,
+      "coordinates": [
+        0,
+        0
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "44906.0",
+      "value": 44906.0,
+      "ordinal": 1,
+      "coordinates": [
+        0,
+        1
+      ],
+      "error": null
+    },
+    {
+      "formattedValue": "116025.0",
+      "value": 116025.0,
+      "ordinal": 2,
+      "coordinates": [
+        0,
+        2
+      ],
+      "error": null
+    }
+  ],
+  "axes": [
+    {
+      "ordinal": 0,
+      "name": "COLUMNS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Measures"
+          ],
+          "memberDimensionCaptions": [
+            "Measures"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Measures].[MeasuresLevel]",
+              "memberLevelCaption": "MeasuresLevel",
+              "memberValue": "Units Ordered",
+              "parentMember": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "ordinal": 1,
+      "name": "ROWS",
+      "positions": [
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "CA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "OR",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        },
+        {
+          "memberDimensionNames": [
+            "Store"
+          ],
+          "memberDimensionCaptions": [
+            "Store"
+          ],
+          "positionMembers": [
+            {
+              "memberLevelName": "[Store].[Stores].[Store State]",
+              "memberLevelCaption": "Store State",
+              "memberValue": "WA",
+              "parentMember": {
+                "memberLevelName": "[Store].[Stores].[Store Country]",
+                "memberLevelCaption": "Store Country",
+                "memberValue": "USA",
+                "parentMember": {
+                  "memberLevelName": "[Store].[Stores].[(All)]",
+                  "memberLevelCaption": "(All)",
+                  "memberValue": "All Stores",
+                  "parentMember": null
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

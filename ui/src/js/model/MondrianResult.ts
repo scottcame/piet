@@ -3,7 +3,7 @@
   export class MondrianResult {
     cells: MondrianResultCell[];
     axes: MondrianResultAxis[];
-    columnAxis: MondrianResultAxis = null;;
+    columnAxis: MondrianResultAxis = null;
     rowAxis: MondrianResultAxis = null;
     columnCaptions: string[] = [];
     rowCaptions: string[] = [];
