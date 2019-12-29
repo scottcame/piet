@@ -124,3 +124,45 @@ test('2 measures 1 row no columns', () => {
     "mark": "bar"
   });
 });
+
+test('1 measure 1 row 1 column', () => {
+  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R1C));
+  expect(spec).toMatchObject({
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+      "values": [
+        {"v": 23112, "y": "Canada", "x": "Deluxe Supermarket"},
+        {"v": null, "y": "Canada", "x": "Gourmet Supermarket"},
+        {"v": 34452, "y": "Canada", "x": "Mid-Size Grocery"},
+        {"v": null, "y": "Canada", "x": "Small Grocery"},
+        {"v": null, "y": "Canada", "x": "Supermarket"},
+        {"v": null, "y": "Mexico", "x": "Deluxe Supermarket"},
+        {"v": 34452, "y": "Mexico", "x": "Gourmet Supermarket"},
+        {"v": null, "y": "Mexico", "x": "Mid-Size Grocery"},
+        {"v": null, "y": "Mexico", "x": "Small Grocery"},
+        {"v": 61381, "y": "Mexico", "x": "Supermarket"},
+        {"v": 34452, "y": "USA", "x": "Deluxe Supermarket"},
+        {"v": null, "y": "USA", "x": "Gourmet Supermarket"},
+        {"v": null, "y": "USA", "x": "Mid-Size Grocery"},
+        {"v": 61381, "y": "USA", "x": "Small Grocery"},
+        {"v": 23759, "y": "USA", "x": "Supermarket"}
+      ]
+    },
+    "encoding": {
+      "x": {
+        "field": "x",
+        "type": "nominal",
+        "axis": {"title": "Store Type", "grid": true}
+      },
+      "y": {
+        "field": "y",
+        "type": "nominal",
+        "axis": {"title": "Store Country", "grid": true}
+      },
+      "size": {"field": "v", "type": "quantitative", "title": "Store Sqft"}
+    },
+    "width": "container",
+    "height": "container",
+    "mark": "circle"
+  });
+});

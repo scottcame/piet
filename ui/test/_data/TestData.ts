@@ -2,6 +2,7 @@ import { createReadStream } from 'fs';
 import { createGunzip } from 'zlib';
 
 import * as testMetadata from './test-metadata.json';
+import * as testResult1m1r1c from './mondrian-results-1m1r1c.json';
 import * as testResult2m1r1c from './mondrian-results-2m1r1c.json';
 import * as testResult2m1r2c from './mondrian-results-2m1r2c.json';
 import * as testResult2m2r1c from './mondrian-results-2m2r1c.json';
@@ -20,6 +21,9 @@ export class TestData {
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
   static TEST_METADATA: any = testMetadata;
+
+  // SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}, {[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]
+  static TEST_RESULT_1M1R1C: any = testResult1m1r1c;
 
   // SELECT NON EMPTY CrossJoin({[Store Type].[Store Type].[Store Type].Members}, {[Measures].[Store Sqft], [Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]
   static TEST_RESULT_2M1R1C: any = testResult2m1r1c;

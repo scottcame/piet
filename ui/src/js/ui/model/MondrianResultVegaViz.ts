@@ -15,8 +15,40 @@ export class MondrianResultVegaViz {
         } else {
           ret = this.createSpecNm1r0c(result);
         }
+      } else if (result.columnAxis.axisLevelUniqueNames.length === 2 && result.rowAxis.axisLevelUniqueNames.length === 1) {
+        ret = this.createSpec1m1r1c(result);
       }
     }
+    return ret;
+  }
+
+  private createSpec1m1r1c(result: MondrianResult): VegaLiteSpec {
+    const ret = new VegaLiteSpec(this.fitToContainer);
+    result.rowAxis.positions.forEach((rowPosition: MondrianResultAxisPosition, rowIndex: number): void => {
+      result.columnAxis.positions.forEach((columnPosition: MondrianResultAxisPosition, columnIndex: number): void => {
+        const value = {
+          v: result.cells[rowIndex + columnIndex].value,
+          y: rowPosition.positionMembers[0].memberValue,
+          x: columnPosition.positionMembers[0].memberValue
+        };
+        ret.data.values.push(value);
+      });
+    });
+    ret.mark = "circle";
+    ret.encoding.x = new PositionChannel();
+    ret.encoding.x.field = "x";
+    ret.encoding.x.type = "nominal";
+    ret.encoding.x.axis = new Axis();
+    ret.encoding.x.axis.title = result.columnAxis.axisHeaders[0];
+    ret.encoding.y = new PositionChannel();
+    ret.encoding.y.field = "y";
+    ret.encoding.y.type = "nominal";
+    ret.encoding.y.axis = new Axis();
+    ret.encoding.y.axis.title = result.rowAxis.axisHeaders[0];
+    ret.encoding.size = new EncodingChannel();
+    ret.encoding.size.field = "v";
+    ret.encoding.size.type = "quantitative";
+    ret.encoding.size.title = result.columnAxis.positions[0].positionMembers[1].memberValue;
     return ret;
   }
 
@@ -108,6 +140,7 @@ export class Encoding {
 export class EncodingChannel {
   field: string;
   type: "quantitative" | "temporal" | "ordinal" | "nominal";
+  title?: string;
 }
 
 export class PositionChannel extends EncodingChannel {
