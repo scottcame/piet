@@ -39,4 +39,6 @@ test('Empty results', () => {
     expect(axis.axisHeaders).toHaveLength(0);
     expect(axis.axisLevelUniqueNames).toHaveLength(0);
   });
+  expect(result.columnAxis).not.toBeNull();
+  expect(result.rowAxis).not.toBeNull();
 });

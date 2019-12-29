@@ -2,11 +2,20 @@ import { MondrianResult } from "../../../src/js/model/MondrianResult";
 import { TestData } from "../../_data/TestData";
 import { MondrianResultVegaViz } from "../../../src/js/ui/model/MondrianResultVegaViz";
 
+const mondrianResultVegaViz = new MondrianResultVegaViz();
+
+test('null result', () => {
+  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(null);
+  expect(spec).toBeNull();
+});
+
+test('empty result', () => {
+  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_EMPTY));
+  expect(spec).toBeNull();
+});
+
 test('1 measure 1 row no columns', () => {
-  const result = MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R0C);
-  expect(1).toBe(1);
-  const mondrianResultVegaViz = new MondrianResultVegaViz();
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(result);
+  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R0C));
   expect(spec).toMatchObject({
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
     "data": {
