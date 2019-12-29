@@ -25,6 +25,17 @@
       ret.rowCaptions = ret.rowAxis ? ret.rowAxis.axisHeaders : [];
       return ret;
     }
+    get measureCaptions(): string[] {
+      const ret = [];
+      this.columnAxis.positions.forEach((position: MondrianResultAxisPosition): void => {
+        position.positionMembers.forEach((positionMember: MondrianResultAxisPositionMember): void => {
+          if (positionMember.memberLevelName === "[Measures].[MeasuresLevel]" && !ret.includes(positionMember.memberValue)) {
+            ret.push(positionMember.memberValue);
+          }
+        });
+      });
+      return ret;
+    }
 }
 
 export class MondrianResultCell {

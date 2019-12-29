@@ -17,6 +17,7 @@ test('2 measures 1 row 1 column', () => {
   expect(result.axes[1].positions).toHaveLength(3);
   expect(result.columnCaptions).toMatchObject(['Store Type', 'MeasuresLevel']);
   expect(result.rowCaptions).toMatchObject(['Store Country']);
+  expect(result.measureCaptions).toMatchObject([ 'Store Sqft', 'Grocery Sqft' ]);
 });
 
 test('1 measure no rows or columns', () => {
@@ -26,6 +27,7 @@ test('1 measure no rows or columns', () => {
   expect(result.rowAxis).toBeNull();
   expect(result.rowCaptions).toHaveLength(0);
   expect(result.columnCaptions).toMatchObject(["MeasuresLevel"]);
+  expect(result.measureCaptions).toMatchObject(["Units Ordered"]);
 });
 
 test('Empty results', () => {
@@ -41,4 +43,5 @@ test('Empty results', () => {
   });
   expect(result.columnAxis).not.toBeNull();
   expect(result.rowAxis).not.toBeNull();
+  expect(result.measureCaptions).toHaveLength(0);
 });

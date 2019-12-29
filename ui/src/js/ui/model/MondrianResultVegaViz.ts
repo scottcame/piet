@@ -8,8 +8,12 @@ export class MondrianResultVegaViz {
     let ret: VegaLiteSpec = null;
     if (result) {
       if (result.columnAxis.axisLevelUniqueNames.length === 2 && !result.rowAxis) {
-        // one col and one measure (no rows)
-        ret = this.createSpec1m0r1c(result);
+        if (result.measureCaptions.length === 1) {
+          // one col and one measure (no rows)
+          ret = this.createSpec1m0r1c(result);
+        } else {
+          ret = this.createSpecNm0r1c(result);
+        }
       } else if (result.columnAxis.axisLevelUniqueNames.length === 1 && result.rowAxis.axisLevelUniqueNames.length === 1) {
         // 1 row level, 0 column levels (beyond the measures)
         if (result.columnAxis.positions.length === 1) {
@@ -56,35 +60,76 @@ export class MondrianResultVegaViz {
   }
 
   private createSpecNm1r0c(result: MondrianResult): VegaLiteSpec {
+    return this.createSpecNx1(result, "y");
+  }
+
+  private createSpecNm0r1c(result: MondrianResult): VegaLiteSpec {
+    return this.createSpecNx1(result, "x");
+  }
+
+  private createSpecNx1(result: MondrianResult, measureOn: "x"|"y"): VegaLiteSpec {
+
     const ret = new VegaLiteSpec(this.fitToContainer);
-    result.rowAxis.positions.forEach((rowPosition: MondrianResultAxisPosition, rowIndex: number): void => {
+
+    const rowPositions = measureOn === "y" ? result.rowAxis.positions : [null];
+
+    const groups: string[] = [];
+
+    rowPositions.forEach((rowPosition: MondrianResultAxisPosition, rowIndex: number): void => {
       result.columnAxis.positions.forEach((columnPosition: MondrianResultAxisPosition, columnIndex: number): void => {
+        const g = rowPosition ? rowPosition.positionMembers[0].memberValue : columnPosition.positionMembers[0].memberValue;
+        if (!groups.includes(g)) {
+          groups.push(g);
+        }
         const value = {
           v: result.cells[rowIndex + columnIndex].value,
-          g: rowPosition.positionMembers[0].memberValue,
-          x: columnPosition.positionMembers[0].memberValue
+          g: g,
+          d: rowPosition ? columnPosition.positionMembers[0].memberValue : columnPosition.positionMembers[1].memberValue
         };
         ret.data.values.push(value);
       });
     });
+
     ret.mark = "bar";
-    ret.encoding.column = new FacetChannel();
-    ret.encoding.column.field = "g";
-    ret.encoding.column.type = "nominal";
-    ret.encoding.column.title = result.rowAxis.axisHeaders[0];
-    ret.encoding.x = new PositionChannel();
-    ret.encoding.x.field = "x";
-    ret.encoding.x.type = "nominal";
-    ret.encoding.x.axis = new Axis();
-    ret.encoding.y = new PositionChannel();
-    ret.encoding.y.field = "v";
-    ret.encoding.y.type = "quantitative";
-    ret.encoding.y.axis = new Axis();
-    ret.encoding.y.axis.title = result.columnAxis.positions[0].positionMembers[0].memberValue;
+
+    const groupChannel = new FacetChannel();
+    groupChannel.field = "g";
+    groupChannel.type = "nominal";
+    groupChannel.title = result.rowAxis ? result.rowAxis.axisHeaders[0] : result.columnAxis.axisHeaders[0];
+
+    const dChannel = new PositionChannel();
+    dChannel.field = "d";
+    dChannel.type = "nominal";
+    dChannel.axis = new Axis();
+
+    const mChannel = new PositionChannel();
+    mChannel.field = "v";
+    mChannel.type = "quantitative";
+    mChannel.axis = new Axis();
+    mChannel.axis.title = result.columnAxis.positions[0].positionMembers[measureOn === "y" ? 0 : 1].memberValue;
+
     // todo: align to size of container
-    ret.height = 200;
-    ret.width = 90; // this is the width of each column facet, so need to do the math based upon how many columns...
+    let height = 300;
+    let width = 300;
+    const minViableSize = 90; // determined by trial/error
+
+    if (measureOn === "y") {
+      ret.encoding.column = groupChannel;
+      ret.encoding.x = dChannel;
+      ret.encoding.y = mChannel;
+      width = minViableSize;
+    } else {
+      ret.encoding.row = groupChannel;
+      ret.encoding.y = dChannel;
+      ret.encoding.x = mChannel;
+      height = minViableSize;
+    }
+
+    ret.height = height;
+    ret.width = width;
+
     return ret;
+
   }
 
   private createSpec1m1r0c(result: MondrianResult): VegaLiteSpec {

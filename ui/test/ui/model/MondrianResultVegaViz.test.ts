@@ -67,32 +67,32 @@ test('2 measures 1 row no columns', () => {
         {
           "v": 66307,
           "g": "CA",
-          "x": "Units Ordered"
+          "d": "Units Ordered"
         },
         {
           "v": 60877,
           "g": "CA",
-          "x": "Units Shipped"
+          "d": "Units Shipped"
         },
         {
           "v": 60877,
           "g": "OR",
-          "x": "Units Ordered"
+          "d": "Units Ordered"
         },
         {
           "v": 44906,
           "g": "OR",
-          "x": "Units Shipped"
+          "d": "Units Shipped"
         },
         {
           "v": 44906,
           "g": "WA",
-          "x": "Units Ordered"
+          "d": "Units Ordered"
         },
         {
           "v": 40908,
           "g": "WA",
-          "x": "Units Shipped"
+          "d": "Units Shipped"
         }
       ]
     },
@@ -103,7 +103,7 @@ test('2 measures 1 row no columns', () => {
         "type": "nominal"
       },
       "x": {
-        "field": "x",
+        "field": "d",
         "type": "nominal",
         "axis": {
           "title": "",
@@ -120,7 +120,94 @@ test('2 measures 1 row no columns', () => {
       }
     },
     "width": 90,
-    "height": 200,
+    "height": 300,
+    "mark": "bar"
+  });
+});
+
+test('2 measures 0 rows 1 column', () => {
+  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_2M0R1C));
+  expect(spec).toMatchObject({
+    "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
+    "data": {
+      "values": [
+        {
+          "v": 146045,
+          "g": "Deluxe Supermarket",
+          "d": "Store Sqft"
+        },
+        {
+          "v": 99290,
+          "g": "Deluxe Supermarket",
+          "d": "Grocery Sqft"
+        },
+        {
+          "v": 47447,
+          "g": "Gourmet Supermarket",
+          "d": "Store Sqft"
+        },
+        {
+          "v": 32181,
+          "g": "Gourmet Supermarket",
+          "d": "Grocery Sqft"
+        },
+        {
+          "v": 109343,
+          "g": "Mid-Size Grocery",
+          "d": "Store Sqft"
+        },
+        {
+          "v": 80264,
+          "g": "Mid-Size Grocery",
+          "d": "Grocery Sqft"
+        },
+        {
+          "v": 75281,
+          "g": "Small Grocery",
+          "d": "Store Sqft"
+        },
+        {
+          "v": 52604,
+          "g": "Small Grocery",
+          "d": "Grocery Sqft"
+        },
+        {
+          "v": 193480,
+          "g": "Supermarket",
+          "d": "Store Sqft"
+        },
+        {
+          "v": 134029,
+          "g": "Supermarket",
+          "d": "Grocery Sqft"
+        }
+      ]
+    },
+    "encoding": {
+      "row": {
+        "title": "Store Type",
+        "field": "g",
+        "type": "nominal"
+      },
+      "y": {
+        "field": "d",
+        "type": "nominal",
+        "axis": {
+          "title": "",
+          "grid": true
+        }
+      },
+      "x": {
+        "field": "v",
+        "type": "quantitative",
+        "axis": {
+          "title": "Store Sqft",
+          "grid": true
+        }
+      }
+    },
+    "width": 300,
+    "height": 90,
     "mark": "bar"
   });
 });
