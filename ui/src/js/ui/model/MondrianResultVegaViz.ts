@@ -12,9 +12,43 @@ export class MondrianResultVegaViz {
         if (result.columnAxis.positions.length === 1) {
           // only one measure
           ret = this.createSpec1m1r0c(result);
+        } else {
+          ret = this.createSpecNm1r0c(result);
         }
       }
     }
+    return ret;
+  }
+
+  private createSpecNm1r0c(result: MondrianResult): VegaLiteSpec {
+    const ret = new VegaLiteSpec(this.fitToContainer);
+    result.rowAxis.positions.forEach((rowPosition: MondrianResultAxisPosition, rowIndex: number): void => {
+      result.columnAxis.positions.forEach((columnPosition: MondrianResultAxisPosition, columnIndex: number): void => {
+        const value = {
+          v: result.cells[rowIndex + columnIndex].value,
+          g: rowPosition.positionMembers[0].memberValue,
+          x: columnPosition.positionMembers[0].memberValue
+        };
+        ret.data.values.push(value);
+      });
+    });
+    ret.mark = "bar";
+    ret.encoding.column = new FacetChannel();
+    ret.encoding.column.field = "g";
+    ret.encoding.column.type = "nominal";
+    ret.encoding.column.title = result.rowAxis.axisHeaders[0];
+    ret.encoding.x = new PositionChannel();
+    ret.encoding.x.field = "x";
+    ret.encoding.x.type = "nominal";
+    ret.encoding.x.axis = new Axis();
+    ret.encoding.y = new PositionChannel();
+    ret.encoding.y.field = "v";
+    ret.encoding.y.type = "quantitative";
+    ret.encoding.y.axis = new Axis();
+    ret.encoding.y.axis.title = result.columnAxis.positions[0].positionMembers[0].memberValue;
+    // todo: align to size of container
+    ret.height = 200;
+    ret.width = 90; // this is the width of each column facet, so need to do the math based upon how many columns...
     return ret;
   }
 
@@ -87,4 +121,5 @@ export class Axis {
 
 export class FacetChannel extends EncodingChannel {
   spacing?: number;
+  title = "";
 }

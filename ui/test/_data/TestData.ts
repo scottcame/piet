@@ -9,6 +9,7 @@ import * as testResult2m2r2c from './mondrian-results-2m2r2c.json';
 import * as testResult1m0r0c from './mondrian-results-1m0r0c.json';
 import * as testResult1m0r1c from './mondrian-results-1m0r1c.json';
 import * as testResult1m1r0c from './mondrian-results-1m1r0c.json';
+import * as testResult2m1r0c from './mondrian-results-2m1r0c.json';
 import * as testResult1m2hr0c from './mondrian-results-1m2hr0c.json';
 import * as testResult1m2hr1c from './mondrian-results-1m2hr1c.json';
 import * as testResult1m2x2hr1c from './mondrian-results-1m2x2hr0c.json';
@@ -40,6 +41,9 @@ export class TestData {
 
   // SELECT NON EMPTY {[Store].[Stores].[Store State].Members} ON ROWS, {[Measures].[Units Ordered]} ON COLUMNS FROM [Warehouse]
   static TEST_RESULT_1M1R0C: any = testResult1m1r0c;
+
+  // SELECT NON EMPTY {[Store].[Stores].[Store State].Members} ON ROWS, {[Measures].[Units Ordered],[Measures].[Units Shipped]} ON COLUMNS FROM [Warehouse]
+  static TEST_RESULT_2M1R0C: any = testResult2m1r0c;
 
   // SELECT NON EMPTY Hierarchize({{[Store].[Stores].[Store Country].Members}, {[Store].[Stores].[Store City].Members}}) ON ROWS, {[Measures].[Store Sqft]} ON COLUMNS FROM [Store]
   static TEST_RESULT_1M2HR0C: any = testResult1m2hr0c;
