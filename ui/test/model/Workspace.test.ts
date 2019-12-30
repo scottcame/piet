@@ -3,17 +3,31 @@ import { LocalRepository, Repository, RepositoryQuery } from '../../src/js/model
 import { List } from '../../src/js/collections/List';
 import { Analysis } from '../../src/js/model/Analysis';
 import { Dataset } from '../../src/js/model/Dataset';
-
-const repo: LocalRepository = new LocalRepository();
-const workspace = new Workspace(repo);
-
-// we will eventually evolve this test as the workspace functionality becomes more involved
+import { MondrianResult } from '../../src/js/model/MondrianResult';
 
 test('model initialization', () => {
+  const repo = new LocalRepository();
+  const workspace = repo.workspace;
   expect(workspace.analyses.length).toBe(0);
 });
 
-/* eslint-disable jest/no-focused-tests */
+test('analysis deserialization fail', async () => {
+  const repo = new LocalRepository();
+  return repo.init().then(async () => {
+    return repo.browseDatasets().then(async (repoDatasets: Dataset[]) => {
+      const analysis = new Analysis(null, "Analysis 1");
+      analysis.dataset = repoDatasets[0];
+      return repo.workspace.analyses.add(analysis).then(async () => {
+        expect(repo.workspace.analyses).toHaveLength(1);
+        return repo.init().then(async () => {
+          expect(repo.workspace.analyses).toHaveLength(1);
+          repo.wipeDatasetsForTesting();
+          return expect(repo.init()).rejects.toMatch(/dataset.+not found/);
+        });
+      });
+    });
+  });
+});
 
 test('minimizing workspace saves', async () => {
   const mock = new MockRepository();
@@ -65,7 +79,10 @@ class MockRepository implements Repository {
   deleteAnalysis(_analysis: Analysis): Promise<string> {
     throw new Error("Method not implemented.");
   }
-  executeQuery(_mdx: string): Promise<import("../../src/js/model/MondrianResult").MondrianResult> {
+  executeQuery(_mdx: string): Promise<MondrianResult> {
+    throw new Error("Method not implemented.");
+  }
+  clearWorkspace(): Promise<void> {
     throw new Error("Method not implemented.");
   }
   

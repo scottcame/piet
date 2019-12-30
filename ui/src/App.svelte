@@ -13,6 +13,7 @@
 
   let initialized = false;
   let initializationFailureMessage = null;
+  let includeErrorRefreshHint = true;
 
   // default nav
   currentView.set("analyses");
@@ -23,6 +24,11 @@
     initialized = true;
     console.log("Initialization complete");
   }).catch((reason) => {
+    if (/dataset.+not found/.test(reason)) {
+      reason = "The analyses in your workspace are out of sync with available datasets and cannot be restored. Refresh the page to continue.";
+      repository.clearWorkspace();
+      includeErrorRefreshHint = false;
+    }
     initializationFailureMessage = reason;
   });
 
@@ -39,7 +45,7 @@
     </div>
   {/if}
   {#if initializationFailureMessage}
-    <ErrorModal message={initializationFailureMessage}/>
+    <ErrorModal message={initializationFailureMessage} includeRefreshHint={includeErrorRefreshHint}/>
   {/if}
   <MainNavbar
     initialized={initialized}

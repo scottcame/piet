@@ -21,7 +21,7 @@ beforeAll(async () => {
 beforeEach(async () => {
   repository.simulateBrowseDatasetsError = false;
   repository.simulateQueryExecutionError = false;
-  await repository.refreshWorkspace().then(async () => {
+  await repository.clearWorkspace().then(async () => {
     await repository.refreshDatabase().then(async () => {
       controller = new AnalysesController(repository, {
         update(field, value): void {
@@ -359,3 +359,4 @@ test('execute query with error', async () => {
     });
   });
 });
+

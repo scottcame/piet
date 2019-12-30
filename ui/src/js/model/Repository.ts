@@ -31,6 +31,7 @@ export interface Repository {
   saveAnalysis(analysis: Analysis): Promise<string>;
   deleteAnalysis(analysis: Analysis): Promise<string>;
   saveWorkspace(): Promise<void>;
+  clearWorkspace(): Promise<void>;
   executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult>;
 }
 
@@ -101,6 +102,12 @@ export abstract class AbstractBaseRepository implements Repository {
     });
   }
 
+  async clearWorkspace(): Promise<void> {
+    return this.workspaceDb.workspaces.toCollection().delete().then(() => {
+      this.workspace.analyses.clear();
+    });
+  }
+
   abstract browseDatasets(): Promise<Dataset[]>;
   abstract browseAnalyses(): Promise<Analysis[]>;
   abstract searchAnalyses(query: RepositoryQuery): Promise<Analysis[]>;
@@ -144,14 +151,8 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
   }
 
-  // these refresh methods would not exist on a real repository; they are just here to support easily restoring the repo
+  // this refresh method would not exist on a real repository; it is just here to support easily restoring the repo
   // to a known good state for unit testing and demos
-
-  async refreshWorkspace(): Promise<void> {
-    return this.workspaceDb.workspaces.toCollection().delete().then(() => {
-      this.workspace.analyses.clear();
-    });
-  }
 
   async refreshDatabase(): Promise<void> {
     return this.workspaceDb.workspaces.toCollection().delete().then(() => {
@@ -169,6 +170,10 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
         return Promise.all(promises).then();
       });
     });
+  }
+
+  wipeDatasetsForTesting(): void {
+    this.datasets = [];
   }
 
   async getPersistedWorkspace(): Promise<Workspace> {

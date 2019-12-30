@@ -64,3 +64,10 @@ test('editing', () => {
   expect(analysis.description).toBe("new-description");
 });
 
+test('deserialization dataset errors', async () => {
+  const analysis = new Analysis(datasets.get(0), "test-name");
+  analysis.setDescription("test-description");
+  const serializedAnalysis = analysis.serialize(repository);
+  repository.wipeDatasetsForTesting();
+  return expect(new Analysis().deserialize(serializedAnalysis, repository)).rejects.toMatch(/dataset.+not found/);
+});

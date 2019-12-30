@@ -69,6 +69,10 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
         }
       });
 
+      if (d === null) {
+        return Promise.reject("dataset " + o.datasetRef.id + ":" + o.datasetRef.cube + " not found deserializing Analysis " + o.name);
+      }
+
       this._name = o.name;
       this.id = o.id;
       this.dataset = d;
