@@ -44,6 +44,9 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       _query: this._query ? this._query.serialize(repository) : new Query(this),
       editCheckpoint: this.editCheckpoint ? this.editCheckpoint.serialize(repository) : null
     };
+    if (this.dataset.measureGroupName !== undefined) {
+      ret.datasetRef.measureGroupName = this.dataset.measureGroupName;
+    }
     if (this.id !== undefined) {
       ret.id = this.id;
     }
@@ -61,7 +64,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       let d: Dataset = null;
 
       datasets.forEach((dd: Dataset) => {
-        if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube) {
+        if (dd.id === o.datasetRef.id && dd.name === o.datasetRef.cube && (o.datasetRef.measureGroupName === undefined || (o.datasetRef.measureGroupName === dd.measureGroupName))) {
           d = dd;
         }
       });
