@@ -99,9 +99,9 @@
         <div class="relative mr-1" on:click={toggleResultsViewMode}>
           <div class="relative flex items-center text-black p-1 rounded border border-gray-700 cursor-pointer">
             {#if resultsViewMode === "table"}
-              <IconTable/>
-            {:else}
               <IconViz/>
+            {:else}
+              <IconTable/>
             {/if}
           </div>
         </div>
