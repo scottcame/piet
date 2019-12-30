@@ -45,3 +45,8 @@ test('local repository delete', async () => {
     });
   });
 });
+
+test("Local repository browseDatasets error", async () => {
+  repo.simulateBrowseDatasetsError = true;
+  return expect(repo.init()).rejects.toMatch(/simulated.+error/);
+});

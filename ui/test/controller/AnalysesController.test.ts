@@ -19,6 +19,8 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
+  repository.simulateBrowseDatasetsError = false;
+  repository.simulateQueryExecutionError = false;
   await repository.refreshWorkspace().then(async () => {
     await repository.refreshDatabase().then(async () => {
       controller = new AnalysesController(repository, {
@@ -41,6 +43,7 @@ test('initial state', () => {
   expect(controller.analysesDropdownModel.items).toHaveLength(0);
   expect(controller.datasetsDropdownModel.items).toHaveLength(6);
   expect(controller.datasetRootTreeNode).toBeNull();
+  expect(viewProperties.errorModalMessage).toBeNull();
 });
 
 test('new analysis', async () => {
@@ -334,6 +337,25 @@ test('Dataset tree model query test: filters', async () => {
           });
         });
       });
+    });
+  });
+});
+
+test('controller init browseDatasets error', async () => {
+  repository.simulateBrowseDatasetsError = true;
+  return controller.init().then(() => {
+    expect(viewProperties.errorModalMessage).toMatch(/simulated.+error/);
+  });
+});
+
+test('execute query with error', async () => {
+  controller.newAnalysis();
+  controller.datasetsDropdownModel.selectedIndex.value = 0;
+  await controller.chooseNewAnalysisDataset().then(async () => {
+    const event = new TreeMeasureNodeEvent("[Measures].[F1_M1]", true);
+    repository.simulateQueryExecutionError = true;
+    await controller.handleDatasetTreeNodeEvent(event).then(async () => {
+      expect(viewProperties.errorModalMessage).toMatch(/simulated.+error/);
     });
   });
 });

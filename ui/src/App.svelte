@@ -2,6 +2,7 @@
 
   import MainNavbar from './components/MainNavbar.svelte';
   import MainContainer from './components/MainContainer.svelte';
+  import ErrorModal from './components/ErrorModal.svelte';
   import { currentView } from './js/Stores';
   import { List } from './js/collections/List';
   import { Workspace } from './js/model/Workspace';
@@ -11,6 +12,7 @@
   import { ConfigurationProperties } from './ConfigurationProperties';
 
   let initialized = false;
+  let initializationFailureMessage = null;
 
   // default nav
   currentView.set("analyses");
@@ -20,6 +22,8 @@
   repository.init().then(() => {
     initialized = true;
     console.log("Initialization complete");
+  }).catch((reason) => {
+    initializationFailureMessage = reason;
   });
 
   let navBarController;
@@ -27,12 +31,15 @@
 </script>
 
 <div class="text-sm h-full">
-  {#if !initialized}
+  {#if !initialized && !initializationFailureMessage}
     <div class="absolute top-0 left-0 h-full w-full opacity-75 bg-gray-200 items-center">
       <div class="h-full w-full absolute flex items-center justify-center top-0 left-0 text-center z-10">
         <div class="flex p-8 border border-gray-500"><div class="spinner"></div><div class="ml-4">Initializing connections...</div></div>
       </div>
     </div>
+  {/if}
+  {#if initializationFailureMessage}
+    <ErrorModal message={initializationFailureMessage}/>
   {/if}
   <MainNavbar
     initialized={initialized}

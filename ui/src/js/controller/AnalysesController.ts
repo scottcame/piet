@@ -28,7 +28,8 @@ export class AnalysesController {
     showAnalysisMetadataModal: false,
     showAbandonEditsModal: false,
     showDeleteConfirmationModal: false,
-    showQueryFilterModal: false
+    showQueryFilterModal: false,
+    errorModalMessage: null
   };
 
   static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
@@ -89,6 +90,7 @@ export class AnalysesController {
         /* eslint-disable @typescript-eslint/no-this-alias */
         const self = this;
     
+        this.viewPropertyUpdater.update("errorModalMessage", null);
         this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
     
         this.workspace.analyses.addChangeEventListener({
@@ -109,6 +111,8 @@ export class AnalysesController {
 
       });
   
+    }).catch((reason) => {
+      this.viewPropertyUpdater.update("errorModalMessage", reason);
     });
 
   }
@@ -389,6 +393,10 @@ export class AnalysesController {
       ret = this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
         this.mondrianResultTableModel.result = result;
         this.mondrianResultVegaViz.result = result;
+      }).catch((reason) => {
+        this.mondrianResultTableModel.result = null;
+        this.mondrianResultVegaViz.result = null;
+        this.viewPropertyUpdater.update("errorModalMessage", reason);
       });
     } else {
       this.mondrianResultTableModel.result = null;

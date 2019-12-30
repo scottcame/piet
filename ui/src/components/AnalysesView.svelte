@@ -85,6 +85,10 @@
   No analyses in workspace. Choose "New" or "Browse" from analyses menu above to bring analyses into your workspace.
 </div>
 
+<div class="w-full h-full mt-24 text-center {viewProperties.errorModalMessage ? '' : 'hidden'}">
+  Analytics server appears to be down; please contact an administrator.
+</div>
+
 <div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
   <div class="w-1/4 h-full select-none pt-2 pr-2 border-2 overflow-y-auto">
     <div class="flex flex-inline items-center justify-between mb-2">

@@ -112,10 +112,11 @@ export abstract class AbstractBaseRepository implements Repository {
 
 export class LocalRepository extends AbstractBaseRepository implements Repository {
 
-  // todo: once we create an actual rest repository, factor out the workspace persistence stuff that is always persisting to indexeddb
-
   private datasets: Dataset[];
   private db: RepositoryDatabase;
+
+  simulateBrowseDatasetsError = false;
+  simulateQueryExecutionError = false;
 
   constructor() {
     super();
@@ -123,9 +124,6 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
   async init(): Promise<void> {
-
-    // this works for now because the datasets are statically populated. once that's no longer true, you'll have to wait until the repository is
-    // initialized with them, so that when the analyses in the workspace are deserialized, the datasets are there.
 
     return super.init().then(async () => {
       return this.browseDatasets().then(async () => {
@@ -140,6 +138,8 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
           return ret;
         });
       });
+    }).catch((reason) => {
+      return Promise.reject(reason);
     });
 
   }
@@ -182,6 +182,10 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
   async browseDatasets(): Promise<Dataset[]> {
+    if (this.simulateBrowseDatasetsError) {
+      console.log("Simulating browseDatasets error");
+      return Promise.reject("Local Repository simulated browseDatasets error");
+    }
     const fakeDelay = ConfigurationProperties.LOCAL_REPOSITORY_DATASETS_DELAY; // use this to simulate mondrian-rest taking awhile to return dataset metadata
     let ret = Promise.resolve(this.datasets);
     if (!this.datasets) {
@@ -232,6 +236,10 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
   async executeQuery(mdx: string, _dataset: Dataset): Promise<MondrianResult> {
+    if (this.simulateQueryExecutionError) {
+      console.log("Simulating executeQuery error");
+      return Promise.reject("Local Repository simulated executeQuery error");
+    }
     console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
     let ret: MondrianResult = null;
     if (/F1_M1/.test(mdx)) {
@@ -268,6 +276,8 @@ export class RemoteRepository extends AbstractBaseRepository {
       return this.browseDatasets().then(async (_ds) => {
         return Promise.resolve();
       });
+    }).catch((reason) => {
+      return Promise.reject(reason);
     });
   }
 
@@ -278,6 +288,9 @@ export class RemoteRepository extends AbstractBaseRepository {
         ret = this.inflightBrowseDatasetsPromise;
       } else {
         ret = fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
+          if (!response.ok) {
+            return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
+          }
           return response.json().then(async (json: any): Promise<any> => {
             const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async (connectionName): Promise<Dataset[]> => {
               const metadataUrl = this.mondrianRestUrl + "/getMetadata?connectionName=" + connectionName;
@@ -356,6 +369,9 @@ export class RemoteRepository extends AbstractBaseRepository {
           query: mdx
         })
       }).then(async (response: Response) => {
+        if (!response.ok) {
+          return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
+        }
         return response.json().then(async (json: any): Promise<any> => {
           return Promise.resolve(MondrianResult.fromJSON(json));
         });
