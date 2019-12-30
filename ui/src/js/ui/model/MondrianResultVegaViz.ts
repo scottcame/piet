@@ -1,6 +1,6 @@
 import { MondrianResult, MondrianResultAxisPosition } from '../../model/MondrianResult';
 
-export class MondrianResultVegaViz {
+export class MondrianResultVizModel {
 
   fitToContainer = true;
   private _vegaLiteSpec: VegaLiteSpec;
@@ -244,8 +244,8 @@ export class FacetChannel extends EncodingChannel {
 }
 
 export class MondrianResultVizModelChangeEvent {
-  readonly target: MondrianResultVegaViz;
-  constructor(target: MondrianResultVegaViz) {
+  readonly target: MondrianResultVizModel;
+  constructor(target: MondrianResultVizModel) {
     this.target = target;
   }
 }

@@ -1,8 +1,8 @@
 import { MondrianResult } from "../../../src/js/model/MondrianResult";
 import { TestData } from "../../_data/TestData";
-import { MondrianResultVegaViz } from "../../../src/js/ui/model/MondrianResultVegaViz";
+import { MondrianResultVizModel } from "../../../src/js/ui/model/MondrianResultVegaViz";
 
-const mondrianResultVegaViz = new MondrianResultVegaViz();
+const mondrianResultVegaViz = new MondrianResultVizModel();
 
 test('null result', () => {
   mondrianResultVegaViz.result = null;

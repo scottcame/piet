@@ -14,7 +14,7 @@ import { DefaultObservableChangeEventListener, ObservableChangeEvent } from "../
 import { MondrianResult } from "../model/MondrianResult";
 import { MondrianResultTableModel } from "../ui/model/MondrianResultTable";
 import { QueryFilterTableModel } from "../ui/model/QueryFilterTableModel";
-import { MondrianResultVegaViz } from "../ui/model/MondrianResultVegaViz";
+import { MondrianResultVizModel } from "../ui/model/MondrianResultVegaViz";
 
 export class AnalysesController {
 
@@ -47,7 +47,7 @@ export class AnalysesController {
   datasetsDropdownModel: DropdownModel<Dataset>;
   browseAnalysesTableModel: TableModel<Analysis>;
   mondrianResultTableModel: MondrianResultTableModel;
-  mondrianResultVegaViz: MondrianResultVegaViz;
+  mondrianResultVegaViz: MondrianResultVizModel;
   queryFilterTableModel: QueryFilterTableModel;
 
   datasets: List<Dataset>;
@@ -72,7 +72,7 @@ export class AnalysesController {
     this.currentAnalysisEditListener = new CurrentAnalysisEditListener(this, viewPropertyUpdater);
     this.datasets = new List();
     this.mondrianResultTableModel = new MondrianResultTableModel();
-    this.mondrianResultVegaViz = new MondrianResultVegaViz();
+    this.mondrianResultVegaViz = new MondrianResultVizModel();
     this.queryFilterTableModel = new QueryFilterTableModel();
   }
 
