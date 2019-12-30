@@ -14,6 +14,11 @@ test('empty result', () => {
   expect(mondrianResultVegaViz.vegaLiteSpec).toBeNull();
 });
 
+test('measure only result', () => {
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R0C));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toBeNull();
+});
+
 test('1 measure 1 row no columns', () => {
   mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R0C));
   expect(mondrianResultVegaViz.vegaLiteSpec).toMatchObject({

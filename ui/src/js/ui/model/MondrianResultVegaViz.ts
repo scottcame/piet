@@ -15,7 +15,7 @@ export class MondrianResultVegaViz {
         } else {
           ret = this.createSpecNm0r1c(result);
         }
-      } else if (result.columnAxis.axisLevelUniqueNames.length === 1 && result.rowAxis.axisLevelUniqueNames.length === 1) {
+      } else if (result.columnAxis.axisLevelUniqueNames.length === 1 && result.rowAxis && result.rowAxis.axisLevelUniqueNames.length === 1) {
         // 1 row level, 0 column levels (beyond the measures)
         if (result.columnAxis.positions.length === 1) {
           // only one measure
@@ -23,7 +23,7 @@ export class MondrianResultVegaViz {
         } else {
           ret = this.createSpecNm1r0c(result);
         }
-      } else if (result.columnAxis.axisLevelUniqueNames.length === 2 && result.rowAxis.axisLevelUniqueNames.length === 1) {
+      } else if (result.columnAxis.axisLevelUniqueNames.length === 2 && result.rowAxis && result.rowAxis.axisLevelUniqueNames.length === 1) {
         ret = this.createSpec1m1r1c(result);
       }
     }
