@@ -3,8 +3,9 @@ import { MondrianResult, MondrianResultAxisPosition } from '../../model/Mondrian
 export class MondrianResultVegaViz {
 
   fitToContainer = true;
+  private _vegaLiteSpec: VegaLiteSpec;
 
-  getVegaLiteSpecForResult(result: MondrianResult): VegaLiteSpec {
+  set result(result: MondrianResult) {
     let ret: VegaLiteSpec = null;
     if (result) {
       if (result.columnAxis.axisLevelUniqueNames.length === 2 && !result.rowAxis) {
@@ -26,7 +27,14 @@ export class MondrianResultVegaViz {
         ret = this.createSpec1m1r1c(result);
       }
     }
-    return ret;
+    this._vegaLiteSpec = ret;
+    this.changeListeners.forEach((listener: MondrianResultVizModelChangeListener): void => {
+      listener.mondrianResultVizModelChanged(new MondrianResultVizModelChangeEvent(this));
+    });
+  }
+
+  get vegaLiteSpec(): VegaLiteSpec {
+    return this._vegaLiteSpec;
   }
 
   private createSpec1m1r1c(result: MondrianResult): VegaLiteSpec {
@@ -171,6 +179,19 @@ export class MondrianResultVegaViz {
     return ret;
   }
 
+  private changeListeners: MondrianResultVizModelChangeListener[] = [];
+
+  addMondrianResultVizModelChangeListener(listener: MondrianResultVizModelChangeListener): void {
+    this.changeListeners.push(listener);
+  }
+
+  removeMondrianResultVizModelChangeListener(listener: MondrianResultVizModelChangeListener): void {
+    const currentIndex = this.changeListeners.indexOf(listener);
+    if (currentIndex !== -1) {
+      this.changeListeners.splice(currentIndex, 1);
+    }
+  }
+
 }
 
 export class VegaLiteSpec {
@@ -220,4 +241,15 @@ export class Axis {
 export class FacetChannel extends EncodingChannel {
   spacing?: number;
   title = "";
+}
+
+export class MondrianResultVizModelChangeEvent {
+  readonly target: MondrianResultVegaViz;
+  constructor(target: MondrianResultVegaViz) {
+    this.target = target;
+  }
+}
+
+export interface MondrianResultVizModelChangeListener {
+  mondrianResultVizModelChanged(event: MondrianResultVizModelChangeEvent): void;
 }

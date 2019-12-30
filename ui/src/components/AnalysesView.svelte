@@ -1,14 +1,16 @@
 <script>
 
-  import IconMenu from './icons/IconMenu.svelte';
   import TreeContainerNode from './TreeContainerNode.svelte';
   import Dropdown from './Dropdown.svelte';
   import Modal from './Modal.svelte';
   import Menu from './Menu.svelte';
   import SelectTable from './SelectTable.svelte';
   import MondrianResultTable from './MondrianResultTable.svelte';
+  import MondrianResultViz from './MondrianResultViz.svelte';
   import QueryFilterModal from './QueryFilterModal.svelte';
   import LabeledCheckbox from './LabeledCheckbox.svelte';
+  import IconTable from './icons/IconTable.svelte';
+  import IconViz from './icons/IconViz.svelte';
 
   import { AnalysesController } from '../js/controller/AnalysesController';
 
@@ -63,6 +65,16 @@
     controller.handleDatasetTreeNodeEvent(event);
   }
 
+  let resultsViewMode = "table";
+
+  function toggleResultsViewMode() {
+    if (resultsViewMode === "table") {
+      resultsViewMode = "viz";
+    } else {
+      resultsViewMode = "table";
+    }
+  }
+
 </script>
 
 {#await initPromise}
@@ -83,9 +95,24 @@
   <div class="w-3/4 flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
       <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
-      <Menu items={controller.menuItems}/>
+      <div class="flex flex-inline">
+        <div class="relative mr-1" on:click={toggleResultsViewMode}>
+          <div class="relative flex items-center text-black p-1 rounded border border-gray-700 cursor-pointer">
+            {#if resultsViewMode === "table"}
+              <IconTable/>
+            {:else}
+              <IconViz/>
+            {/if}
+          </div>
+        </div>
+        <Menu items={controller.menuItems}/>
+      </div>
     </div>
-    <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultTable tableModel={controller.mondrianResultTableModel}/></div>
+    {#if resultsViewMode === "table"}
+      <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultTable tableModel={controller.mondrianResultTableModel}/></div>
+    {:else}
+      <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultViz mondrianResultVegaViz={controller.mondrianResultVegaViz}/></div>
+    {/if}
   </div>
 </div>
 

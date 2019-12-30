@@ -7,7 +7,7 @@ import * as testDatasetMetadata from '../../../test/_data/test-metadata.json';
 import * as testAnalyses from '../../../test/_data/test-analyses.json';
 import { MondrianResult } from "./MondrianResult";
 
-import * as testResult2m1r1c from '../../../test/_data/mondrian-results-2m1r1c.json';
+import * as testResult1m1r0c from '../../../test/_data/mondrian-results-1m1r0c.json';
 import * as testResult2m1r2c from '../../../test/_data/mondrian-results-2m1r2c.json';
 import * as testResult2m2r1c from '../../../test/_data/mondrian-results-2m2r1c.json';
 import * as testResult2m2r2c from '../../../test/_data/mondrian-results-2m2r2c.json';
@@ -235,7 +235,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
     let ret: MondrianResult = null;
     if (/F1_M1/.test(mdx)) {
-      ret = MondrianResult.fromJSON(testResult2m1r1c);
+      ret = MondrianResult.fromJSON(testResult1m1r0c);
     } else if (/F2_M1/.test(mdx)) {
       ret = MondrianResult.fromJSON(testResult2m1r2c);
     } else if (/F3_M1/.test(mdx)) {

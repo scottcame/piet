@@ -5,18 +5,18 @@ import { MondrianResultVegaViz } from "../../../src/js/ui/model/MondrianResultVe
 const mondrianResultVegaViz = new MondrianResultVegaViz();
 
 test('null result', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(null);
-  expect(spec).toBeNull();
+  mondrianResultVegaViz.result = null;
+  expect(mondrianResultVegaViz.vegaLiteSpec).toBeNull();
 });
 
 test('empty result', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_EMPTY));
-  expect(spec).toBeNull();
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_EMPTY));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toBeNull();
 });
 
 test('1 measure 1 row no columns', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R0C));
-  expect(spec).toMatchObject({
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R0C));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toMatchObject({
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
     "data": {
       "values": [
@@ -59,8 +59,8 @@ test('1 measure 1 row no columns', () => {
 });
 
 test('2 measures 1 row no columns', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_2M1R0C));
-  expect(spec).toMatchObject({
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_2M1R0C));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toMatchObject({
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
     "data": {
       "values": [
@@ -126,8 +126,8 @@ test('2 measures 1 row no columns', () => {
 });
 
 test('2 measures 0 rows 1 column', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_2M0R1C));
-  expect(spec).toMatchObject({
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_2M0R1C));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toMatchObject({
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
     "data": {
       "values": [
@@ -213,8 +213,8 @@ test('2 measures 0 rows 1 column', () => {
 });
 
 test('1 measure 1 row 1 column', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R1C));
-  expect(spec).toMatchObject({
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_1M1R1C));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toMatchObject({
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
     "data": {
       "values": [
@@ -255,8 +255,8 @@ test('1 measure 1 row 1 column', () => {
 });
 
 test('1 measure 0 rows 1 column', () => {
-  const spec = mondrianResultVegaViz.getVegaLiteSpecForResult(MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R1C));
-  expect(spec).toMatchObject({
+  mondrianResultVegaViz.result = (MondrianResult.fromJSON(TestData.TEST_RESULT_1M0R1C));
+  expect(mondrianResultVegaViz.vegaLiteSpec).toMatchObject({
     "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
     "data": {
       "values": [
