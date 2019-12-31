@@ -12,7 +12,6 @@ import * as testResult2m1r2c from '../../../test/_data/mondrian-results-2m1r2c.j
 import * as testResult2m2r1c from '../../../test/_data/mondrian-results-2m2r1c.json';
 import * as testResult2m2r2c from '../../../test/_data/mondrian-results-2m2r2c.json';
 import * as testResult1m0r1c from '../../../test/_data/mondrian-results-1m0r1c.json';
-import { ConfigurationProperties } from "../../ConfigurationProperties";
 
 
 const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
@@ -119,6 +118,9 @@ export abstract class AbstractBaseRepository implements Repository {
 
 export class LocalRepository extends AbstractBaseRepository implements Repository {
 
+  // use this to simulate mondrian-rest taking awhile to return dataset metadata
+  static readonly LOCAL_REPOSITORY_DATASETS_DELAY = 0;
+
   private datasets: Dataset[];
   private db: RepositoryDatabase;
 
@@ -191,7 +193,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
       console.log("Simulating browseDatasets error");
       return Promise.reject("Local Repository simulated browseDatasets error");
     }
-    const fakeDelay = ConfigurationProperties.LOCAL_REPOSITORY_DATASETS_DELAY; // use this to simulate mondrian-rest taking awhile to return dataset metadata
+    const fakeDelay = LocalRepository.LOCAL_REPOSITORY_DATASETS_DELAY;
     let ret = Promise.resolve(this.datasets);
     if (!this.datasets) {
       ret = new Promise((resolve) => {

@@ -18,7 +18,9 @@ import cssnano from 'cssnano';
 
 //import sizes from 'rollup-plugin-sizes';
 
-const production = process.env.DEV!=="true";
+const production = process.env.DEV !== "true";
+const remote = process.env.REMOTE === "true";
+
 console.log("Performing a " + (production ? "production" : "dev") + " build");
 if (!production) console.log("Note: dev builds do not include babel transpilation");
 
@@ -95,7 +97,7 @@ export default {
     warn(warning);
   },
 
-  input: playground ? 'src/playground-main.ts' : 'src/main.ts',
+  input: playground ? 'src/playground-main.ts' : (remote ? 'src/main-remote.ts' : 'src/main-local.ts'),
 
   output: {
     sourcemap: !production,

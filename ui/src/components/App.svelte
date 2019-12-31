@@ -1,24 +1,24 @@
 <script>
 
-  import MainNavbar from './components/MainNavbar.svelte';
-  import MainContainer from './components/MainContainer.svelte';
-  import ErrorModal from './components/ErrorModal.svelte';
-  import { currentView } from './js/Stores';
-  import { List } from './js/collections/List';
-  import { Workspace } from './js/model/Workspace';
-  import { LocalRepository, RemoteRepository } from './js/model/Repository';
+  import MainNavbar from './MainNavbar.svelte';
+  import MainContainer from './MainContainer.svelte';
+  import ErrorModal from './ErrorModal.svelte';
+  import { currentView } from '../js/Stores';
+  import { List } from '../js/collections/List';
+  import { Workspace } from '../js/model/Workspace';
+  import { LocalRepository, RemoteRepository } from '../js/model/Repository';
 
-  // this file does not exist by default. copy from ConfigurationProperties.template.ts to ConfigurationProperties.ts.
-  import { ConfigurationProperties } from './ConfigurationProperties';
+  export let remote;
 
   let initialized = false;
   let initializationFailureMessage = null;
   let includeErrorRefreshHint = true;
+  let navBarController;
 
   // default nav
   currentView.set("analyses");
 
-  const repository = ConfigurationProperties.MONDRIAN_REST_URL ? new RemoteRepository(ConfigurationProperties.MONDRIAN_REST_URL, ConfigurationProperties.REMOTE_REPOSITORY_URL) : new LocalRepository();
+  const repository = remote ? new RemoteRepository("/mondrian-rest", "/piet") : new LocalRepository();
 
   repository.init().then(() => {
     initialized = true;
@@ -31,8 +31,6 @@
     }
     initializationFailureMessage = reason;
   });
-
-  let navBarController;
 
 </script>
 
