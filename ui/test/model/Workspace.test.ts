@@ -1,5 +1,5 @@
 import { Workspace } from '../../src/js/model/Workspace';
-import { LocalRepository, Repository, RepositoryQuery } from '../../src/js/model/Repository';
+import { LocalRepository, Repository, RepositoryQuery, PietConfiguration } from '../../src/js/model/Repository';
 import { List } from '../../src/js/collections/List';
 import { Analysis } from '../../src/js/model/Analysis';
 import { Dataset } from '../../src/js/model/Dataset';
@@ -52,6 +52,7 @@ class MockRepository implements Repository {
   
   analyses: List<Analysis>;
   workspace: Workspace;
+  readonly pietConfiguration = new PietConfiguration();
 
   constructor() {
     this.analyses = new List();

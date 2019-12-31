@@ -10,6 +10,8 @@
   import { createEventDispatcher } from 'svelte';
 
   export let initialized = false;
+  export let applicationTitle;
+  export let logoImageUrl;
 
 	const dispatch = createEventDispatcher();
 
@@ -85,10 +87,8 @@
   <div>
 		<a href="/">
       <div class="flex inline items-center">
-        <img src='img/piet-logo.jpg' alt='logo'/>
-        <span class='text-2xl pl-2 text-grey-800'>Piet</span>
-        <!-- <img src='img/platform-logo.png' alt='logo' class="h-20"/>
-        <span class='text-2xl pl-2 text-grey-800'>Query Tool</span> -->
+        <img src='{logoImageUrl}' alt='logo' class="h-12"/>
+        <span class='text-2xl pl-2 text-grey-800'>{applicationTitle}</span>
       </div>
 		</a>
 	</div>

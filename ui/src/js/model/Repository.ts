@@ -17,12 +17,18 @@ import * as testResult1m0r1c from '../../../test/_data/mondrian-results-1m0r1c.j
 const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
 const WORKSPACE_INDEXEDDB_NAME = "PietWorkspace";
 
+export class PietConfiguration {
+  readonly applicationTitle: string = "Piet";
+  readonly logoImageUrl: string = "img/piet-logo.jpg";
+}
+
 export class RepositoryQuery {
   query: string;
 }
 
 export interface Repository {
   readonly workspace: Workspace;
+  readonly pietConfiguration: PietConfiguration;
   init(): Promise<void>;
   browseDatasets(): Promise<Dataset[]>;
   browseAnalyses(): Promise<Analysis[]>;
@@ -66,6 +72,8 @@ export abstract class AbstractBaseRepository implements Repository {
 
   protected workspaceDb: WorkspaceDatabase;
   private readonly _workspace: Workspace;
+
+  readonly pietConfiguration = new PietConfiguration();
 
   constructor() {
     this.workspaceDb = new WorkspaceDatabase();

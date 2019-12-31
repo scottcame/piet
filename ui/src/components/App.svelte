@@ -47,6 +47,8 @@
   {/if}
   <MainNavbar
     initialized={initialized}
+    applicationTitle={repository.pietConfiguration.applicationTitle}
+    logoImageUrl={repository.pietConfiguration.logoImageUrl}
     on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
     on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
   />
