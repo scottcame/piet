@@ -2,12 +2,13 @@ import { LocalRepository } from "../../src/js/model/Repository";
 import { Analysis } from "../../src/js/model/Analysis";
 import { Dataset } from "../../src/js/model/Dataset";
 import { List } from "../../src/js/collections/List";
+import { LoggerFactory } from "../../src/js/util/LoggerFactory";
 
 let repository: LocalRepository;
 const datasets: List<Dataset> = new List();
 
 beforeEach(async () => {
-  repository = new LocalRepository();
+  repository = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
   return repository.init().then(async () => {
     return repository.browseDatasets().then(async (d: Dataset[]) => {
       return datasets.set(d);

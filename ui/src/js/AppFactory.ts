@@ -1,5 +1,4 @@
 import App from '../components/App.svelte';
-import * as pkg from '../../package.json';
 
 export class AppFactory {
 
@@ -12,7 +11,6 @@ export class AppFactory {
   }
 
   makeApp(remote: boolean): App {
-    console.log(pkg.name + " " + pkg.version);
     return new App({
       target: document.body,
       props: {

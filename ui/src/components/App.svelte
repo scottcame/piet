@@ -22,7 +22,7 @@
 
   repository.init().then(() => {
     initialized = true;
-    console.log("Initialization complete");
+    repository.log.info("Initialization complete");
   }).catch((reason) => {
     if (/dataset.+not found/.test(reason)) {
       reason = "The analyses in your workspace are out of sync with available datasets and cannot be restored. Refresh the page to continue.";

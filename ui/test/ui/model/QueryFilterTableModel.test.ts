@@ -4,13 +4,14 @@ import { Dataset } from "../../../src/js/model/Dataset";
 import { Analysis } from "../../../src/js/model/Analysis";
 import { QueryFilterTableModel, QueryFilterTableModelListener, QueryFilterTableModelEvent } from "../../../src/js/ui/model/QueryFilterTableModel";
 import { QueryFilter } from "../../../src/js/model/Query";
+import { LoggerFactory } from "../../../src/js/util/LoggerFactory";
 
 let repository: LocalRepository;
 const datasets: List<Dataset> = new List();
 const model = new QueryFilterTableModel();
 
 beforeEach(async () => {
-  repository = new LocalRepository();
+  repository = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
   return repository.init().then(async () => {
     return repository.browseDatasets().then(async (d: Dataset[]) => {
       return datasets.set(d);

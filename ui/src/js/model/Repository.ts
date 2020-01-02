@@ -12,7 +12,9 @@ import * as testResult2m1r2c from '../../../test/_data/mondrian-results-2m1r2c.j
 import * as testResult2m2r1c from '../../../test/_data/mondrian-results-2m2r1c.json';
 import * as testResult2m2r2c from '../../../test/_data/mondrian-results-2m2r2c.json';
 import * as testResult1m0r1c from '../../../test/_data/mondrian-results-1m0r1c.json';
+import { LoggerFactory, LogLevel } from "../util/LoggerFactory";
 
+import * as pkg from '../../../package.json';
 
 const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
 const WORKSPACE_INDEXEDDB_NAME = "PietWorkspace";
@@ -29,6 +31,7 @@ export class RepositoryQuery {
 export interface Repository {
   readonly workspace: Workspace;
   readonly pietConfiguration: PietConfiguration;
+  readonly log: LoggerFactory;
   init(): Promise<void>;
   browseDatasets(): Promise<Dataset[]>;
   browseAnalyses(): Promise<Analysis[]>;
@@ -74,10 +77,12 @@ export abstract class AbstractBaseRepository implements Repository {
   private readonly _workspace: Workspace;
 
   readonly pietConfiguration = new PietConfiguration();
+  readonly log: LoggerFactory;
 
-  constructor() {
+  constructor(logLevel = LogLevel.ERROR) {
     this.workspaceDb = new WorkspaceDatabase();
     this._workspace = new Workspace(this);
+    this.log = new LoggerFactory(logLevel);
   }
 
   get workspace(): Workspace {
@@ -85,14 +90,16 @@ export abstract class AbstractBaseRepository implements Repository {
   }
 
   async init(): Promise<void> {
+    this.log.always("Initializing " + this.repositoryLabel + ": " + pkg.name + " " + pkg.version);
+    this.log.always("Repository log level is: " + LoggerFactory.getLabelForLevel(this.log.level));
     return Dexie.exists(WORKSPACE_INDEXEDDB_NAME).then(async exists => {
       let ret = Promise.resolve();
       if (exists) {
-        console.log("Restoring workspace...");
+        this.log.info("Restoring workspace...");
         ret = this.workspaceDb.workspaces.toArray().then(async workspaces => {
           if (workspaces[0]) {
             const savedWorkspace = await new Workspace(this, false).deserialize(workspaces[0], this);
-            console.log("...restored " + savedWorkspace.analyses.length + " analyses");
+            this.log.info("...restored " + savedWorkspace.analyses.length + " analyses");
             this._workspace.autosaveChanges = false;
             this._workspace.analyses.setFromList(savedWorkspace.analyses);
             this._workspace.autosaveChanges = true;
@@ -105,7 +112,7 @@ export abstract class AbstractBaseRepository implements Repository {
 
   async saveWorkspace(): Promise<void> {
     return this.workspaceDb.workspaces.put(this.workspace.serialize(this)).then(() => {
-      console.log("Saved workspace");
+      this.log.info("Saved workspace");
     });
   }
 
@@ -121,6 +128,7 @@ export abstract class AbstractBaseRepository implements Repository {
   abstract saveAnalysis(analysis: Analysis): Promise<string>;
   abstract deleteAnalysis(analysis: Analysis): Promise<string>;
   abstract executeQuery(mdx: string, dataset: Dataset): Promise<MondrianResult>;
+  protected abstract repositoryLabel: string;
 
 }
 
@@ -129,14 +137,15 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   // use this to simulate mondrian-rest taking awhile to return dataset metadata
   static readonly LOCAL_REPOSITORY_DATASETS_DELAY = 0;
 
+  protected readonly repositoryLabel = "Local Repository";
   private datasets: Dataset[];
   private db: RepositoryDatabase;
 
   simulateBrowseDatasetsError = false;
   simulateQueryExecutionError = false;
 
-  constructor() {
-    super();
+  constructor(logLevel = LogLevel.DEBUG) {
+    super(logLevel);
     this.db = new RepositoryDatabase();
   }
 
@@ -147,10 +156,10 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
         return Dexie.exists(LOCAL_REPOSITORY_INDEXEDDB_NAME).then(async exists => {
           let ret = Promise.resolve();
           if (!exists) {
-            console.log("No Piet database found, creating and populating...");
+            this.log.info("No Piet database found, creating and populating...");
             ret = this.refreshDatabase();
           } else {
-            console.log("Piet database exists, skipping population.");
+            this.log.info("Piet database exists, skipping population.");
           }
           return ret;
         });
@@ -198,22 +207,22 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
   async browseDatasets(): Promise<Dataset[]> {
     if (this.simulateBrowseDatasetsError) {
-      console.log("Simulating browseDatasets error");
+      this.log.info("Simulating browseDatasets error");
       return Promise.reject("Local Repository simulated browseDatasets error");
     }
     const fakeDelay = LocalRepository.LOCAL_REPOSITORY_DATASETS_DELAY;
     let ret = Promise.resolve(this.datasets);
     if (!this.datasets) {
       ret = new Promise((resolve) => {
-        console.log("Populating datasets (simulated delay of " + fakeDelay + " ms)...");
+        this.log.info("Populating datasets (simulated delay of " + fakeDelay + " ms)...");
         setTimeout(() => {
           this.datasets = Dataset.loadFromMetadata(testDatasetMetadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=test");
-          console.log("Datasets populated");
+          this.log.info("Datasets populated");
           resolve(this.datasets);
         }, fakeDelay);
       });
     } else {
-      console.log("Returning cached datasets");
+      this.log.info("Returning cached datasets");
     }
     return ret;
   }
@@ -252,10 +261,10 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
 
   async executeQuery(mdx: string, _dataset: Dataset): Promise<MondrianResult> {
     if (this.simulateQueryExecutionError) {
-      console.log("Simulating executeQuery error");
+      this.log.info("Simulating executeQuery error");
       return Promise.reject("Local Repository simulated executeQuery error");
     }
-    console.log(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
+    this.log.info(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
     let ret: MondrianResult = null;
     if (/F1_M1/.test(mdx)) {
       ret = MondrianResult.fromJSON(testResult1m1r0c);
@@ -279,11 +288,13 @@ export class RemoteRepository extends AbstractBaseRepository {
   private remoteRepositoryUrl: string;
   private datasets: Dataset[];
   private inflightBrowseDatasetsPromise: Promise<Dataset[]> = null;
+  protected readonly repositoryLabel;
 
   constructor(mondrianRestUrl: string, remoteRepositoryUrl: string) {
     super();
     this.mondrianRestUrl = mondrianRestUrl;
     this.remoteRepositoryUrl = remoteRepositoryUrl;
+    this.repositoryLabel = "Remote Repository [" + this.remoteRepositoryUrl + "]";
   }
 
   async init(): Promise<void> {

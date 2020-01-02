@@ -2,11 +2,12 @@ import { LocalRepository } from "../../../src/js/model/Repository";
 import { Analysis } from "../../../src/js/model/Analysis";
 import { AnalysisAdapterFactory } from "../../../src/js/ui/adapters/AnalysisAdapterFactory";
 import { List } from "../../../src/js/collections/List";
+import { LoggerFactory } from "../../../src/js/util/LoggerFactory";
 
 const adapterFactory = AnalysisAdapterFactory.getInstance();
+const repo = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
 
 test('table row construction', async () => {
-  const repo: LocalRepository = new LocalRepository();
   return repo.init().then(async () => {
     return repo.browseAnalyses().then((repoAnalyses: Analysis[]): void => {
       const tableRows = adapterFactory.getAnalysesRowList(repoAnalyses);
@@ -21,7 +22,6 @@ test('table row construction', async () => {
 });
 
 test('table row filtering', async () => {
-  const repo: LocalRepository = new LocalRepository();
   return repo.init().then(async () => {
     return repo.browseAnalyses().then(async (repoAnalyses: Analysis[]): Promise<void> => {
       const excludedRows = new List<Analysis>();

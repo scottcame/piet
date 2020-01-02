@@ -4,6 +4,7 @@ import { LocalRepository } from '../../src/js/model/Repository';
 import { List } from '../../src/js/collections/List';
 import { Analysis } from '../../src/js/model/Analysis';
 import { QueryLevel, QueryMeasure, QueryFilter } from '../../src/js/model/Query';
+import { LoggerFactory } from '../../src/js/util/LoggerFactory';
 
 let repository: LocalRepository;
 const testDatasets: List<Dataset> = new List();
@@ -15,9 +16,9 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-  repository = new LocalRepository();
+  repository = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
   return repository.init().then(async () => {
-    return repository.browseDatasets().then((d: Dataset[]) => {
+    return repository.browseDatasets().then(async (d: Dataset[]) => {
       return testDatasets.set(d).then();
     });
   });
@@ -338,7 +339,6 @@ test('query MDX simple 2 level hierarchize plus 2 additional levels', async () =
 });
 
 test('persistence', async () => {
-  const repository = new LocalRepository();
   return repository.init().then(async () => {
     const datasets: List<Dataset> = new List();
     return repository.browseDatasets().then(async (dd: Dataset[]) => {

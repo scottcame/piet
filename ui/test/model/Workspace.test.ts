@@ -4,15 +4,16 @@ import { List } from '../../src/js/collections/List';
 import { Analysis } from '../../src/js/model/Analysis';
 import { Dataset } from '../../src/js/model/Dataset';
 import { MondrianResult } from '../../src/js/model/MondrianResult';
+import { LoggerFactory } from '../../src/js/util/LoggerFactory';
 
 test('model initialization', () => {
-  const repo = new LocalRepository();
+  const repo = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
   const workspace = repo.workspace;
   expect(workspace.analyses.length).toBe(0);
 });
 
 test('analysis deserialization fail', async () => {
-  const repo = new LocalRepository();
+  const repo = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
   return repo.init().then(async () => {
     return repo.browseDatasets().then(async (repoDatasets: Dataset[]) => {
       const analysis = new Analysis(null, "Analysis 1");
@@ -53,6 +54,7 @@ class MockRepository implements Repository {
   analyses: List<Analysis>;
   workspace: Workspace;
   readonly pietConfiguration = new PietConfiguration();
+  log: LoggerFactory;
 
   constructor() {
     this.analyses = new List();

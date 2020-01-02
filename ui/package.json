@@ -67,11 +67,10 @@
     "start": "sirv public",
     "start:dev": "sirv public --dev",
     "lint": "eslint --ext ts src/js test",
-    "jest": "jest",
-    "jest-ignore-remote": "jest --testPathIgnorePatterns RemoteRepository\\.test\\.ts",
+    "jest-ignore-remote": "PIET_REPO_LOG_LEVEL=none jest --testPathIgnorePatterns RemoteRepository\\.test\\.ts",
     "test": "run-s lint jest-ignore-remote",
-    "test-remote": "jest --testPathPattern RemoteRepository\\.test\\.ts",
-    "atest": "jest -i",
+    "test-remote": "PIET_REPO_LOG_LEVEL=none jest --testPathPattern RemoteRepository\\.test\\.ts",
+    "atest": "PIET_REPO_LOG_LEVEL=debug jest -i",
     "build:tailwind": "tailwind build tailwind.css -o public/tailwind-gen.css"
   },
   "dependencies": {}

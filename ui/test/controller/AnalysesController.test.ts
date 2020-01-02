@@ -5,16 +5,17 @@ import { Workspace } from "../../src/js/model/Workspace";
 import { TreeMeasureNodeEvent, TreeLevelNodeEvent } from "../../src/js/ui/model/Tree";
 import { QueryMeasure, QueryLevel } from "../../src/js/model/Query";
 import { Dataset } from "../../src/js/model/Dataset";
+import { LoggerFactory } from "../../src/js/util/LoggerFactory";
 
 let controller: AnalysesController;
 const viewProperties = AnalysesController.VIEW_PROPERTIES;
 
-const repository = new LocalRepository();
+const repository = new LocalRepository(LoggerFactory.getLevelForString(process.env.PIET_REPO_LOG_LEVEL));
 const workspace = repository.workspace;
 
 beforeAll(async () => {
   await repository.init().then(() => {
-    console.log("Repository initialization complete");
+    repository.log.info("Repository initialization complete");
   });
 });
 
@@ -32,7 +33,7 @@ beforeEach(async () => {
         }
       });
       await controller.init().then(() => {
-        console.log("Controller initialization complete");
+        repository.log.info("Controller initialization complete");
       });
     });
   }); 
