@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cascadia_analytics.piet.domain.Analysis;
 import com.cascadia_analytics.piet.domain.IdContainer;
+import com.cascadia_analytics.piet.domain.PietConfiguration;
 import com.cascadia_analytics.piet.repository.AnalysisRepository;
 
 @RestController
@@ -25,8 +26,17 @@ public class PietRestController {
 	@Autowired
 	private AnalysisRepository analysisRepository;
 	
+	@Autowired
+	private PietConfiguration pietConfiguration;
+	
 	public PietRestController() {
 		log.trace("Created " + this.getClass().getName());
+//		pietConfiguration = new PietConfiguration();
+	}
+	
+	@GetMapping(path="/config", produces="application/json")
+	public PietConfiguration getConfiguration() throws Exception {
+		return pietConfiguration;
 	}
 	
 	@GetMapping(path="/analyses", produces="application/json")

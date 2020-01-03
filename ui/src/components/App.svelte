@@ -14,6 +14,8 @@
   let initializationFailureMessage = null;
   let includeErrorRefreshHint = true;
   let navBarController;
+  let title;
+  let logoImageUrl;
 
   // default nav
   currentView.set("analyses");
@@ -22,6 +24,8 @@
 
   repository.init().then(() => {
     initialized = true;
+    title = repository.pietConfiguration.applicationTitle;
+    logoImageUrl = repository.pietConfiguration.logoImageUrl;
     repository.log.info("Initialization complete");
   }).catch((reason) => {
     if (/dataset.+not found/.test(reason)) {
@@ -47,8 +51,8 @@
   {/if}
   <MainNavbar
     initialized={initialized}
-    applicationTitle={repository.pietConfiguration.applicationTitle}
-    logoImageUrl={repository.pietConfiguration.logoImageUrl}
+    applicationTitle={title}
+    logoImageUrl={logoImageUrl}
     on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
     on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
   />

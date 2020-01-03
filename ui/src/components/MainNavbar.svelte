@@ -84,34 +84,34 @@
 </script>
 
 <nav class="flex items-center justify-between flex-wrap bg-gray-100 p-4 pt-2 pb-5 select-none">
-  <div>
-		<a href="/">
-      <div class="flex inline items-center">
-        <img src='{logoImageUrl}' alt='logo' class="h-12"/>
-        <span class='text-2xl pl-2 text-grey-800'>{applicationTitle}</span>
-      </div>
-		</a>
-	</div>
   {#if initialized}
-  <div class="flex flex-inline justify-end items-center text-gray-500">
     <div>
-      {#each navs as nav}
-        <div
-          class="relative block inline-block mr-5 cursor-default {nav.disabled ? '' : (nav.active ? 'text-gray-900' : 'hover:text-gray-900 cursor-pointer')}"
-          on:click={nav.disabled ? () => {} : () => {selectNav(nav)}}>
-          <div>{nav.name}</div>
-          <div class="text-sm mt-1 underline border-t absolute inset-below justify-between flex flex-row {nav.active ? '' : 'hidden'}">
-            {#each nav.subnav as subnav, idx}
-              <div class="px-8 {idx===0 ? 'pl-0' : ''} {idx===(nav.subnav.length-1) ? 'pr-0' : ''} cursor-pointer" on:click={subnav.action}>{subnav.name}</div>
-            {/each}
-          </div>
+      <a href="/">
+        <div class="flex inline items-center">
+          <img src='{logoImageUrl}' alt='logo' class="h-12"/>
+          <span class='text-2xl pl-2 text-grey-800'>{applicationTitle}</span>
         </div>
-      {/each}
+      </a>
     </div>
-    <div class="flex inline items-center ml-2 bg-white pl-2">
-      <IconSearch/>
-      <input class="text-sm p-2" type="search" placeholder="Search..." disabled>
+    <div class="flex flex-inline justify-end items-center text-gray-500">
+      <div>
+        {#each navs as nav}
+          <div
+            class="relative block inline-block mr-5 cursor-default {nav.disabled ? '' : (nav.active ? 'text-gray-900' : 'hover:text-gray-900 cursor-pointer')}"
+            on:click={nav.disabled ? () => {} : () => {selectNav(nav)}}>
+            <div>{nav.name}</div>
+            <div class="text-sm mt-1 underline border-t absolute inset-below justify-between flex flex-row {nav.active ? '' : 'hidden'}">
+              {#each nav.subnav as subnav, idx}
+                <div class="px-8 {idx===0 ? 'pl-0' : ''} {idx===(nav.subnav.length-1) ? 'pr-0' : ''} cursor-pointer" on:click={subnav.action}>{subnav.name}</div>
+              {/each}
+            </div>
+          </div>
+        {/each}
+      </div>
+      <div class="flex inline items-center ml-2 bg-white pl-2">
+        <IconSearch/>
+        <input class="text-sm p-2" type="search" placeholder="Search..." disabled>
+      </div>
     </div>
-  </div>
   {/if}
 </nav>

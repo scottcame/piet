@@ -20,8 +20,10 @@ const LOCAL_REPOSITORY_INDEXEDDB_NAME = "PietLocalRepository";
 const WORKSPACE_INDEXEDDB_NAME = "PietWorkspace";
 
 export class PietConfiguration {
-  readonly applicationTitle: string = "Piet";
-  readonly logoImageUrl: string = "img/piet-logo.jpg";
+  applicationTitle = "Piet";
+  logoImageUrl = "img/piet-logo.jpg";
+  logLevel = "error";
+  apiVersion: string = null;
 }
 
 export class RepositoryQuery {
@@ -76,13 +78,21 @@ export abstract class AbstractBaseRepository implements Repository {
   protected workspaceDb: WorkspaceDatabase;
   private readonly _workspace: Workspace;
 
-  readonly pietConfiguration = new PietConfiguration();
-  readonly log: LoggerFactory;
+  protected _pietConfiguration = new PietConfiguration();
+  protected _log: LoggerFactory;
 
   constructor(logLevel = LogLevel.ERROR) {
     this.workspaceDb = new WorkspaceDatabase();
     this._workspace = new Workspace(this);
-    this.log = new LoggerFactory(logLevel);
+    this._log = new LoggerFactory(logLevel);
+  }
+
+  get log(): LoggerFactory {
+    return this._log;
+  }
+
+  get pietConfiguration(): PietConfiguration {
+    return this._pietConfiguration;
   }
 
   get workspace(): Workspace {
@@ -147,6 +157,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   constructor(logLevel = LogLevel.DEBUG) {
     super(logLevel);
     this.db = new RepositoryDatabase();
+    this._pietConfiguration.logLevel = LoggerFactory.getLabelForLevel(logLevel);
   }
 
   async init(): Promise<void> {
@@ -288,7 +299,7 @@ export class RemoteRepository extends AbstractBaseRepository {
   private remoteRepositoryUrl: string;
   private datasets: Dataset[];
   private inflightBrowseDatasetsPromise: Promise<Dataset[]> = null;
-  protected readonly repositoryLabel;
+  protected readonly repositoryLabel: string;
 
   constructor(mondrianRestUrl: string, remoteRepositoryUrl: string) {
     super();
@@ -299,12 +310,36 @@ export class RemoteRepository extends AbstractBaseRepository {
 
   async init(): Promise<void> {
     return super.init().then(async () => {
-      return this.browseDatasets().then(async (_ds) => {
-        return Promise.resolve();
+      return this.getConfig().then(async (config) => {
+        this._log.always("Remote API Version: " + config.apiVersion);
+        this._log.always("Setting log level to " + config.logLevel + " from remote config");
+        this._pietConfiguration = config;
+        this._log.level = LoggerFactory.getLevelForString(config.logLevel);
+        return this.browseDatasets().then(async (_ds) => {
+          return Promise.resolve();
+        });
       });
     }).catch((reason) => {
       return Promise.reject(reason);
     });
+  }
+
+  private async getConfig(): Promise<PietConfiguration> {
+    let ret = Promise.resolve(null);
+    ret = fetch(this.remoteRepositoryUrl + "/config").then(async (response: Response) => {
+      if (!response.ok) {
+        return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
+      }
+      return response.json().then(async (json: any): Promise<PietConfiguration> => {
+        const pc = new PietConfiguration();
+        pc.apiVersion = json.apiVersion;
+        pc.applicationTitle = json.applicationTitle;
+        pc.logoImageUrl = json.logoImageUrl;
+        pc.logLevel = json.logLevel;
+        return Promise.resolve(pc);
+      });
+    });
+    return ret;
   }
 
   async browseDatasets(): Promise<Dataset[]> {

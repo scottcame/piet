@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.cascadia_analytics</groupId>
   <artifactId>piet</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.0.0</version>
   <name>Piet</name>
   <packaging>war</packaging>
 
@@ -59,6 +59,13 @@
   <build>
 
     <defaultGoal>install</defaultGoal>
+    
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
 
     <plugins>
 
@@ -87,6 +94,7 @@
       </plugin>
 
       <plugin>
+      
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
         <configuration>

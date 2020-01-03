@@ -18,8 +18,9 @@ import org.springframework.test.annotation.DirtiesContext;
 import com.cascadia_analytics.piet.domain.Analysis;
 import com.cascadia_analytics.piet.domain.DatasetRef;
 import com.cascadia_analytics.piet.domain.IdContainer;
+import com.cascadia_analytics.piet.domain.PietConfiguration;
 
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties={"piet.ui.logLevel=info"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // forces recreation of repository with fresh database after each test
 public class PietRestControllerTest {
 	
@@ -34,6 +35,13 @@ public class PietRestControllerTest {
 	@BeforeAll
 	public static void beforeAll() {
 		log.trace("Before " + PietRestControllerTest.class.getName());
+	}
+	
+	@Test
+	public void testGetConfiguration() throws Exception {
+		PietConfiguration pietConfiguration = restTemplate.getForObject("http://localhost:" + port + "/config", PietConfiguration.class);
+		assertEquals(PietConfiguration.DEFAULT_APPLICATION_TITLE, pietConfiguration.getApplicationTitle());
+		assertEquals("info", pietConfiguration.getLogLevel()); // note properties override on @SpringBootTest above
 	}
 	
 	@Test

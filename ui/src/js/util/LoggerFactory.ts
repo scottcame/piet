@@ -14,7 +14,7 @@ export class LoggerFactory {
   private static levelStrings = ['none','always','error','warn','info','debug'];
   private static levels = [LogLevel.NONE, LogLevel.ALWAYS, LogLevel.ERROR, LogLevel.WARN, LogLevel.INFO, LogLevel.DEBUG];
   
-  readonly level: LogLevel;
+  level: LogLevel;
 
   constructor(level: LogLevel) {
     this.level = level;
