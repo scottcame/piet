@@ -5,6 +5,7 @@
 
   export let treeModelNode;
   export let currentAnalysis;
+  export let enabled = true;
 
   let selected = false;
   let rowOrientation = true;
@@ -13,17 +14,23 @@
   const dispatch = createEventDispatcher();
 
   function toggleSelected() {
-    selected = !selected;
-    dispatchNodeChangeEvent();
+    if (enabled) {
+      selected = !selected;
+      dispatchNodeChangeEvent();
+    }
   }
 
   function orientationClicked() {
-    rowOrientation = !rowOrientation;
-    dispatchNodeChangeEvent();
+    if (enabled) {
+      rowOrientation = !rowOrientation;
+      dispatchNodeChangeEvent();
+    }
   }
 
   function filterClicked() {
-    dispatch('nodeEvent', new TreeLevelNodeEvent(treeModelNode.uniqueName, selected, rowOrientation, true));
+    if (enabled) {
+      dispatch('nodeEvent', new TreeLevelNodeEvent(treeModelNode.uniqueName, selected, rowOrientation, true));
+    }
   }
 
   function dispatchNodeChangeEvent() {
@@ -45,7 +52,7 @@
 
 </script>
 
-<div class="flex justify-between items-center text-gray-900 py-px my-px hover:bg-gray-200 ml-1 { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
+<div class="flex justify-between items-center text-gray-900 py-px my-px {enabled ? 'hover:bg-gray-200' : ''} ml-1 { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
 
   <div class="items-center flex pl-1">
     <div class="flex inline items-center">

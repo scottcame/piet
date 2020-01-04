@@ -5,13 +5,16 @@
 
   export let treeModelNode;
   export let currentAnalysis;
+  export let enabled = true;
 
   let selected = false;
   const dispatch = createEventDispatcher();
 
   function toggleSelected() {
-    selected = !selected;
-    dispatch('nodeEvent', new TreeMeasureNodeEvent(treeModelNode.uniqueName, selected));
+    if (enabled) {
+      selected = !selected;
+      dispatch('nodeEvent', new TreeMeasureNodeEvent(treeModelNode.uniqueName, selected));
+    }
   }
 
   $: {
@@ -25,7 +28,7 @@
 
 </script>
 
-<div class="flex justify-between items-center text-gray-900 ml-1 my-px hover:bg-gray-200 { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
+<div class="flex justify-between items-center text-gray-900 ml-1 my-px { enabled ? 'hover:bg-gray-200' : ''} { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
 
   <div class="items-center flex pl-1">
     <div class="flex inline items-center">

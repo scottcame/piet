@@ -3,6 +3,7 @@
   import IconMenu from './icons/IconMenu.svelte';
 
   export let items = [];
+  export let enabled = true;
 
   // each item is: { label: "Item label", action: (e) => { ... }, enabled: true|false }
 
@@ -17,25 +18,29 @@
   }
 
   function toggleOpen(event) {
-    open = !open;
-    if (open) {
-      document.addEventListener("click", outsideClickListener);
-    } else {
-      document.removeEventListener("click", outsideClickListener);
+    if (enabled) {
+      open = !open;
+      if (open) {
+        document.addEventListener("click", outsideClickListener);
+      } else {
+        document.removeEventListener("click", outsideClickListener);
+      }
     }
   }
 
   function handleClick(item, event) {
-    toggleOpen();
-    if (item.enabled) {
-      item.action(event);
+    if (enabled) {
+      toggleOpen();
+      if (item.enabled) {
+        item.action(event);
+      }
     }
   }
 
 </script>
 
 <div class="relative" bind:this="{containerDiv}">
-  <div class="relative flex items-center text-black p-1 rounded border border-gray-700 cursor-pointer" on:click={toggleOpen}><IconMenu/></div>
+  <div class="relative flex items-center {enabled ? 'text-black cursor-pointer' : 'text-gray-500'} p-1 rounded border border-gray-700" on:click={toggleOpen}><IconMenu/></div>
   {#if open}
     <div class="absolute right-0 w-48 bg-gray-100 border border-gray-700 shadow-xl cursor-pointer select-none">
       {#each items as item}

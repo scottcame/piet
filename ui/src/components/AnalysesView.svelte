@@ -68,10 +68,12 @@
   let resultsViewMode = "table";
 
   function toggleResultsViewMode() {
-    if (resultsViewMode === "table") {
-      resultsViewMode = "viz";
-    } else {
-      resultsViewMode = "table";
+    if (!viewProperties.executingQuery) {
+      if (resultsViewMode === "table") {
+        resultsViewMode = "viz";
+      } else {
+        resultsViewMode = "table";
+      }
     }
   }
 
@@ -86,23 +88,22 @@
 </div>
 
 <div class="w-full h-full mt-24 text-center {viewProperties.errorModalMessage ? '' : 'hidden'}">
-  <!-- Analytics server appears to be down; please contact an administrator. -->
   {viewProperties.errorModalMessage}
 </div>
 
 <div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
-  <div class="w-1/4 h-full select-none pt-2 pr-2 border-2 overflow-y-auto">
+  <div class="w-1/4 h-full select-none pt-2 pr-2 border-2 overflow-y-auto {viewProperties.executingQuery ? 'opacity-75' : ''}">
     <div class="flex flex-inline items-center justify-between mb-2">
-      <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true" initialSelectionIndex="0"/>
+      <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true" initialSelectionIndex="0" enabled={!viewProperties.executingQuery}/>
     </div>
-    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis}/>
+    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis} enabled={!viewProperties.executingQuery}/>
   </div>
   <div class="w-3/4 flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
       <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
       <div class="flex flex-inline">
         <div class="relative mr-1" on:click={toggleResultsViewMode}>
-          <div class="relative flex items-center text-black p-1 rounded border border-gray-700 cursor-pointer">
+          <div class="relative flex items-center p-1 rounded border border-gray-700 {viewProperties.executingQuery ? 'text-gray-500' : 'text-black cursor-pointer'}">
             {#if resultsViewMode === "table"}
               <IconViz/>
             {:else}
@@ -110,14 +111,18 @@
             {/if}
           </div>
         </div>
-        <Menu items={controller.menuItems}/>
+        <Menu items={controller.menuItems} enabled={!viewProperties.executingQuery}/>
       </div>
     </div>
-    {#if resultsViewMode === "table"}
-      <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultTable tableModel={controller.mondrianResultTableModel}/></div>
+    <div class="overflow-y-auto border border-2 border-gray-500">
+    {#if viewProperties.executingQuery}
+      <div class="p-2">Executing query...</div>
+    {:else if resultsViewMode === "table"}
+      <MondrianResultTable tableModel={controller.mondrianResultTableModel}/>
     {:else}
-      <div class="overflow-y-auto border border-2 border-gray-500"><MondrianResultViz mondrianResultVegaViz={controller.mondrianResultVegaViz}/></div>
+      <MondrianResultViz mondrianResultVegaViz={controller.mondrianResultVegaViz}/>
     {/if}
+    </div>
   </div>
 </div>
 

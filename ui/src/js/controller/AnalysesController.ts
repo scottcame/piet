@@ -29,7 +29,8 @@ export class AnalysesController {
     showAbandonEditsModal: false,
     showDeleteConfirmationModal: false,
     showQueryFilterModal: false,
-    errorModalMessage: null
+    errorModalMessage: null,
+    executingQuery: false
   };
 
   static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
@@ -91,6 +92,7 @@ export class AnalysesController {
         const self = this;
     
         this.viewPropertyUpdater.update("errorModalMessage", null);
+        this.viewPropertyUpdater.update("executingQuery", false);
         this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
     
         this.workspace.analyses.addChangeEventListener({
@@ -390,6 +392,7 @@ export class AnalysesController {
     if (this.currentAnalysis) {
       const mdx = this.currentAnalysis.query.asMDX();
       const dataset = this.currentAnalysis.dataset;
+      this.viewPropertyUpdater.update("executingQuery", true);
       ret = this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
         this.mondrianResultTableModel.result = result;
         this.mondrianResultVegaViz.result = result;
@@ -397,6 +400,8 @@ export class AnalysesController {
         this.mondrianResultTableModel.result = null;
         this.mondrianResultVegaViz.result = null;
         this.viewPropertyUpdater.update("errorModalMessage", reason);
+      }).finally(() => {
+        this.viewPropertyUpdater.update("executingQuery", false);
       });
     } else {
       this.mondrianResultTableModel.result = null;

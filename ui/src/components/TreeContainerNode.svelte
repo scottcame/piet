@@ -8,6 +8,7 @@
 	export let treeModelNode;
 	export let collapsable = true;
 	export let currentAnalysis;
+	export let enabled = true;
 
 	let expanded = true;
 	const dispatch = createEventDispatcher();
@@ -17,7 +18,7 @@
 	}
 
 	function toggle() {
-		if (collapsable) {
+		if (enabled && collapsable) {
 			expanded = !expanded;
 		}
 	}
@@ -33,7 +34,9 @@
 	}
 
 	function dispatchNodeChangeEvent(event) {
-		dispatch('nodeEvent', event);
+		if (enabled) {
+			dispatch('nodeEvent', event);
+		}
 	}
 
 </script>
@@ -51,13 +54,13 @@
 				{#each treeModelNode.children as child}
 					<li>
 						{#if child.hasChildren()}
-							<svelte:self treeModelNode={child} collapsable={collapsable} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis}/>
+							<svelte:self treeModelNode={child} collapsable={collapsable} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis} enabled={enabled}/>
 						{:else}
 							{#if child.type === "level"}
-								<QueryLevelTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis}/>
+								<QueryLevelTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis} enabled={enabled}/>
 							{:else}
 								<!-- currently only these two types of leaf -->
-								<QueryMeasureTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis}/>
+								<QueryMeasureTreeLeafNode treeModelNode={child} on:nodeEvent={dispatchNodeChangeEvent} currentAnalysis={currentAnalysis} enabled={enabled}/>
 							{/if}
 						{/if}
 					</li>

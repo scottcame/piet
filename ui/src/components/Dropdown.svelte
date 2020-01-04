@@ -7,6 +7,8 @@
   export let defaultLabel = "Choose...";
   export let initialSelectionIndex = null;
   export let showCaret = false;
+  export let enabled = true;
+
   let dropdownLabel = defaultLabel;
   let open = false;
   let containerDiv;
@@ -37,13 +39,15 @@
   }
 
   function toggleOpen(event) {
-    open = !open;
-    if (open) {
-      document.addEventListener("click", outsideClickListener);
-      document.addEventListener("keydown", escapeKeyListener);
-    } else {
-      document.removeEventListener("click", outsideClickListener);
-      document.removeEventListener("keydown", escapeKeyListener);
+    if (enabled) {
+      open = !open;
+      if (open) {
+        document.addEventListener("click", outsideClickListener);
+        document.addEventListener("keydown", escapeKeyListener);
+      } else {
+        document.removeEventListener("click", outsideClickListener);
+        document.removeEventListener("keydown", escapeKeyListener);
+      }
     }
   }
 
