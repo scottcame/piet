@@ -23,8 +23,8 @@ test('measures', () => {
   expect(datasets[0].measures[0].name).toBe("F1_M1");
   expect(datasets[0].measures[0].description).toBe("F1_M1");
   expect(datasets[0].measureGroupName).toBe("F1");
-  expect(datasets[2].measures).toHaveLength(2);
-  expect(datasets[2].measures.map((measure: Measure): string => { return measure.name; })).toMatchObject(["F3_M1","F3_M2"]);
+  expect(datasets[2].measures).toHaveLength(4);
+  expect(datasets[2].measures.map((measure: Measure): string => { return measure.name; })).toMatchObject(["F3_M1","F3_M2","F3_MH","F3_M3"]);
 });
 
 test('dimensions', () => {

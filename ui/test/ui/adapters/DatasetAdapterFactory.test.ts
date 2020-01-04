@@ -48,3 +48,18 @@ test('tree model', () => {
   expect(child.label).toBe("D1_DESCRIPTION");
   expect(child instanceof TreeModelLeafNode).toBeTruthy();
 });
+
+test('hidden and calculated measures', () => {
+  const ds = datasets[2];
+  const rootTreeModelNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(ds);
+  let children = rootTreeModelNode.children;
+  const child = children[0];
+  expect(child.label).toBe("Measures");
+  children = (child as TreeModelContainerNode).children;
+  expect(children).toHaveLength(3);
+  expect(children[0].label).toBe("F3_M1");
+  expect(children[1].label).toBe("F3_M2");
+  // F3_MH is hidden
+  // F3_M3 is a calculated measure assigned, by annotation, to Measure Group F3
+  expect(children[2].label).toBe("F3_M3");
+});

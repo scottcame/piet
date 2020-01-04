@@ -31,6 +31,12 @@
           "calculated": false
         },
         {
+          "name": "F3_MH",
+          "caption": "F3_MH",
+          "visible": false,
+          "calculated": false
+        },
+        {
           "name": "F3_M3",
           "caption": "F3_M3",
           "visible": true,
@@ -81,6 +87,14 @@
                     {
                       "name": "F3_M2",
                       "caption": "F3_M2",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_MH",
+                      "caption": "F3_MH",
                       "childMemberCount": 0,
                       "childMembers": [],
                       "childMembersPopulated": true,
@@ -381,7 +395,9 @@
           "name": "F3",
           "measureReferences": [
             "F3_M1",
-            "F3_M2"
+            "F3_M2",
+            "F3_MH",
+            "F3_M3"
           ],
           "dimensionReferences": [
             "D1",
@@ -419,6 +435,12 @@
           "calculated": false
         },
         {
+          "name": "F3_MH",
+          "caption": "F3_MH",
+          "visible": false,
+          "calculated": false
+        },
+        {
           "name": "F3_M3",
           "caption": "F3_M3",
           "visible": true,
@@ -469,6 +491,14 @@
                     {
                       "name": "F3_M2",
                       "caption": "F3_M2",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_MH",
+                      "caption": "F3_MH",
                       "childMemberCount": 0,
                       "childMembers": [],
                       "childMembersPopulated": true,
@@ -769,7 +799,9 @@
           "name": "F3",
           "measureReferences": [
             "F3_M1",
-            "F3_M2"
+            "F3_M2",
+            "F3_MH",
+            "F3_M3"
           ],
           "dimensionReferences": [
             "D1",
