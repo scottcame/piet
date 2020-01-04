@@ -86,7 +86,8 @@
 </div>
 
 <div class="w-full h-full mt-24 text-center {viewProperties.errorModalMessage ? '' : 'hidden'}">
-  Analytics server appears to be down; please contact an administrator.
+  <!-- Analytics server appears to be down; please contact an administrator. -->
+  {viewProperties.errorModalMessage}
 </div>
 
 <div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">

@@ -328,6 +328,10 @@ export class RemoteRepository extends AbstractBaseRepository {
   private async getConfig(): Promise<PietConfiguration> {
     let ret = Promise.resolve(null);
     ret = fetch(this.remoteRepositoryUrl + "/config").then(async (response: Response) => {
+      if (response.redirected) {
+        location.reload(true);
+        return Promise.reject("Your session has timed out. Reloading application.");
+      }
       if (!response.ok) {
         return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
       }
@@ -351,6 +355,10 @@ export class RemoteRepository extends AbstractBaseRepository {
         ret = this.inflightBrowseDatasetsPromise;
       } else {
         ret = fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
+          if (response.redirected) {
+            location.reload(true);
+            return Promise.reject("Your session has timed out. Reloading application.");
+          }
           if (!response.ok) {
             return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
           }
@@ -382,6 +390,10 @@ export class RemoteRepository extends AbstractBaseRepository {
     return fetch(this.remoteRepositoryUrl + "/analyses", {
       method: "GET"
     }).then(async (response: Response) => {
+      if (response.redirected) {
+        location.reload(true);
+        return Promise.reject("Your session has timed out. Reloading application.");
+      }
       return response.json().then(async (json: any): Promise<any> => {
         const promises: Promise<Analysis>[] = [];
         json.forEach((dbAnalysis: any): void => {
@@ -405,6 +417,10 @@ export class RemoteRepository extends AbstractBaseRepository {
       },
       body: JSON.stringify(dbAnalysis)
     }).then(async (response: Response) => {
+      if (response.redirected) {
+        location.reload(true);
+        return Promise.reject("Your session has timed out. Once application reloads, save the analysis again.");
+      }
       return response.json().then(async (json: any): Promise<string> => {
         return Promise.resolve(json.id);
       });
@@ -414,7 +430,11 @@ export class RemoteRepository extends AbstractBaseRepository {
   async deleteAnalysis(analysis: Analysis): Promise<string> {
     return fetch(this.remoteRepositoryUrl + "/analysis/" + analysis.id, {
       method: "DELETE"
-    }).then(async (_response: Response) => {
+    }).then(async (response: Response) => {
+      if (response.redirected) {
+        location.reload(true);
+        return Promise.reject("Your session has timed out. Once application reloads, delete the analysis again.");
+      }
       return Promise.resolve(analysis.id);
     });
   }
@@ -432,6 +452,10 @@ export class RemoteRepository extends AbstractBaseRepository {
           query: mdx
         })
       }).then(async (response: Response) => {
+        if (response.redirected) {
+          location.reload(true);
+          return Promise.reject("Your session has timed out. Reloading application.");
+        }
         if (!response.ok) {
           return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
         }
