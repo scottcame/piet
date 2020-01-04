@@ -11,6 +11,7 @@ public class PietConfiguration {
 	public static final String DEFAULT_APPLICATION_TITLE = "Piet";
 	public static final String DEFAULT_LOGO_IMAGE_URL = "img/piet-logo.jpg";
 	public static final String DEFAULT_LOG_LEVEL = "error";
+	public static final String DEFAULT_MONDRIAN_REST_URL = "/mondrian-rest";
 	
 	@Value("${piet.ui.applicationTitle:" + DEFAULT_APPLICATION_TITLE + "}")
 	private String applicationTitle;
@@ -23,6 +24,9 @@ public class PietConfiguration {
 	
 	@Value("${piet.ui.apiVersion}")
 	private String apiVersion;
+
+	@Value("${piet.ui.mondrian.rest.url:" + DEFAULT_MONDRIAN_REST_URL + "}")
+	private String mondrianRestUrl;
 
 	public String getApplicationTitle() {
 		return applicationTitle;
@@ -54,6 +58,14 @@ public class PietConfiguration {
 
 	public void setApiVersion(String apiVersion) {
 		this.apiVersion = apiVersion;
+	}
+
+	public String getMondrianRestUrl() {
+		return mondrianRestUrl;
+	}
+
+	public void setMondrianRestUrl(String mondrianRestUrl) {
+		this.mondrianRestUrl = mondrianRestUrl;
 	}
 	
 }

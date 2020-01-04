@@ -24,6 +24,7 @@ export class PietConfiguration {
   logoImageUrl = "img/piet-logo.jpg";
   logLevel = "error";
   apiVersion: string = null;
+  mondrianRestUrl = "/mondrian-rest";
 }
 
 export class RepositoryQuery {
@@ -301,20 +302,20 @@ export class RemoteRepository extends AbstractBaseRepository {
   private inflightBrowseDatasetsPromise: Promise<Dataset[]> = null;
   protected readonly repositoryLabel: string;
 
-  constructor(mondrianRestUrl: string, remoteRepositoryUrl: string) {
+  constructor(remoteRepositoryUrl: string) {
     super();
-    this.mondrianRestUrl = mondrianRestUrl;
     this.remoteRepositoryUrl = remoteRepositoryUrl;
     this.repositoryLabel = "Remote Repository [" + this.remoteRepositoryUrl + "]";
   }
 
   async init(): Promise<void> {
-    return super.init().then(async () => {
-      return this.getConfig().then(async (config) => {
-        this._log.always("Remote API Version: " + config.apiVersion);
-        this._log.always("Setting log level to " + config.logLevel + " from remote config");
-        this._pietConfiguration = config;
-        this._log.level = LoggerFactory.getLevelForString(config.logLevel);
+    return this.getConfig().then(async (config: PietConfiguration) => {
+      this._log.always("Remote API Version: " + config.apiVersion);
+      this._log.always("Setting log level to " + config.logLevel + " from remote config");
+      this._pietConfiguration = config;
+      this._log.level = LoggerFactory.getLevelForString(config.logLevel);
+      this.mondrianRestUrl = config.mondrianRestUrl;
+      return super.init().then(async () => {
         return this.browseDatasets().then(async (_ds) => {
           return Promise.resolve();
         });
@@ -336,6 +337,7 @@ export class RemoteRepository extends AbstractBaseRepository {
         pc.applicationTitle = json.applicationTitle;
         pc.logoImageUrl = json.logoImageUrl;
         pc.logLevel = json.logLevel;
+        pc.mondrianRestUrl = json.mondrianRestUrl;
         return Promise.resolve(pc);
       });
     });

@@ -20,7 +20,7 @@
   // default nav
   currentView.set("analyses");
 
-  const repository = remote ? new RemoteRepository("/mondrian-rest", "/piet") : new LocalRepository();
+  const repository = remote ? new RemoteRepository("/piet") : new LocalRepository();
 
   repository.init().then(() => {
     initialized = true;
@@ -49,6 +49,7 @@
   {#if initializationFailureMessage}
     <ErrorModal message={initializationFailureMessage} includeRefreshHint={includeErrorRefreshHint}/>
   {/if}
+  {#if initialized}
   <MainNavbar
     initialized={initialized}
     applicationTitle={title}
@@ -57,4 +58,5 @@
     on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
   />
   <MainContainer repository={repository} bind:navBarController={navBarController}/>
+  {/if}
 </div>
