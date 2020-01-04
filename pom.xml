@@ -134,6 +134,7 @@
               <artifactId>${project.artifactId}</artifactId>
               <version>${project.version}</version>
               <type>${project.packaging}</type>
+              <destFileName>piet.war</destFileName>
             </artifactItem>
           </artifactItems>
           <outputDirectory>docker/piet</outputDirectory>
