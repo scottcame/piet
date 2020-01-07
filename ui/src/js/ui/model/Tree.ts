@@ -29,6 +29,8 @@ export class TreeModelLeafNode extends TreeModelNode {
 export class TreeModelContainerNode extends TreeModelNode {
 
   children: TreeModelNode[];
+  header = false;
+  root = false;
 
   constructor(uniqueName: string, label: string = null, type: string = null) {
     super(uniqueName, label, type);

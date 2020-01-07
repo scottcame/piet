@@ -19,16 +19,18 @@
 
   $: {
     selected = false;
-    currentAnalysis.query.measures.forEach((measure) => {
-      if (measure.uniqueName === treeModelNode.uniqueName) {
-        selected = true;
-      }
-    });
+    if (currentAnalysis) {
+      currentAnalysis.query.measures.forEach((measure) => {
+        if (measure.uniqueName === treeModelNode.uniqueName) {
+          selected = true;
+        }
+      });
+    }
   }
 
 </script>
 
-<div class="flex justify-between items-center text-gray-900 ml-1 my-px { enabled ? 'hover:bg-gray-200' : ''} { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
+<div class="flex justify-between items-center text-gray-900 my-px { enabled ? 'hover:bg-gray-200' : ''} { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
 
   <div class="items-center flex pl-1">
     <div class="flex inline items-center">

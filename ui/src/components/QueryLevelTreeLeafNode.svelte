@@ -41,18 +41,20 @@
     selected = false;
     rowOrientation = true;
     sumSelected = false;
-    currentAnalysis.query.levels.forEach((level) => {
-      if (level.uniqueName === treeModelNode.uniqueName) {
-        selected = true;
-        rowOrientation = level.rowOrientation;
-        filterActive = level.filterActive;
-      }
-    });
+    if (currentAnalysis) {
+      currentAnalysis.query.levels.forEach((level) => {
+        if (level.uniqueName === treeModelNode.uniqueName) {
+          selected = true;
+          rowOrientation = level.rowOrientation;
+          filterActive = level.filterActive;
+        }
+      });
+    }
   }
 
 </script>
 
-<div class="flex justify-between items-center text-gray-900 py-px my-px {enabled ? 'hover:bg-gray-200' : ''} ml-1 { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
+<div class="flex justify-between items-center text-gray-900 py-px my-px {enabled ? 'hover:bg-gray-200' : ''} { selected ? 'border border-gray-400' : '' }" on:click="{toggleSelected}">
 
   <div class="items-center flex pl-1">
     <div class="flex inline items-center">

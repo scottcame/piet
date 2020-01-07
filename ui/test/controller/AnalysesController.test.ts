@@ -92,7 +92,7 @@ test('correct dataset root tree node', async () => {
           expect(workspace.analyses).toHaveLength(1);
           controller.analysesDropdownModel.selectedIndex.value = 0;
           expect(workspace.analyses.get(0).dataset).toBe(datasets[1]);
-          expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets[1].label));
+          expect(controller.datasetRootTreeNode.label).toBe(DatasetAdapterFactory.buildRootLabel(datasets[1]));
         });
       });
     });

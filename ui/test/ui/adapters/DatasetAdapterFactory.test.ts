@@ -11,7 +11,7 @@ test('tree model', () => {
   const ds = datasets[0];
   const rootTreeModelNode = DatasetAdapterFactory.getInstance().createRootTreeModelNode(ds);
   expect(rootTreeModelNode instanceof TreeModelContainerNode).toBeTruthy();
-  expect(rootTreeModelNode.label).toBe("Dataset: " + ds.label);
+  expect(rootTreeModelNode.label).toBe("Dataset: " + ds.schemaName + " [" + ds.name + "]");
   expect(rootTreeModelNode.type).toBe('dataset');
   expect(rootTreeModelNode.hasChildren()).toBeTruthy();
   let children = rootTreeModelNode.children;

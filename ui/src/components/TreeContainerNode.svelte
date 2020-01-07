@@ -11,6 +11,7 @@
 	export let enabled = true;
 
 	let expanded = true;
+	let hidden = false;
 	const dispatch = createEventDispatcher();
 
 	if (collapsable === "false") {
@@ -23,11 +24,13 @@
 		}
 	}
 
-	function getLabelWeightClass(treeModelNode) {
-		let ret = "font-light";
-		if (treeModelNode.type === "dataset") {
-			ret = "font-semibold";
-		} else if (/measures|dimensions?|hierarchy/.test(treeModelNode.type)) {
+	function getLabelClassString(treeModelNode) {
+		let ret = null;
+		if (treeModelNode.root) {
+			ret = "font-semibold w-full text-center uppercase";
+		} else if (treeModelNode.header) {
+			ret = "font-medium pl-1 py-px w-full bg-gray-300 uppercase"
+		} else {
 			ret = "font-medium";
 		}
 		return ret;
@@ -39,18 +42,21 @@
 		}
 	}
 
+	$: hidden = treeModelNode && treeModelNode.children.length <= 1 && !treeModelNode.header;
+
+
 </script>
 
-<div class="pl-2 text-xs">
+<div class="text-xs">
 
-	{#if treeModelNode }
+	{#if treeModelNode}
 
-		<div class="flex inline items-center text-gray-900 my-1">
-			<span on:click={toggle} class="{getLabelWeightClass(treeModelNode)} uppercase">{treeModelNode.label}</span>
+		<div class="flex inline items-center text-gray-900 ml-1 {hidden ? 'hidden' : (treeModelNode.header ? 'my-2' : 'my-1')}">
+			<span on:click={toggle} class="{getLabelClassString(treeModelNode)}">{treeModelNode.label}</span>
 		</div>
 
 		{#if expanded}
-			<ul class="{collapsable ? 'border-l border-grey-300' : ''}">
+			<ul class="{collapsable ? 'border-l border-grey-300' : ''} {hidden ? '' : 'ml-2'}">
 				{#each treeModelNode.children as child}
 					<li>
 						{#if child.hasChildren()}
