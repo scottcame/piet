@@ -76,6 +76,9 @@ class WorkspaceChangeListener implements ListChangeEventListener, EditEventListe
     }
     return Promise.resolve();
   }
+  notifyPendingPropertyEdit(_event: PropertyEditEvent): Promise<void> {
+    return Promise.resolve();
+  }
   listChanged(_event: ListChangeEvent): Promise<void> {
     let ret = Promise.resolve();
     if (this.emitNotifications) {

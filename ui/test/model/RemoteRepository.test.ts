@@ -1,15 +1,15 @@
-import { RemoteRepository } from "../../src/js/model/Repository";
 import { Dataset } from "../../src/js/model/Dataset";
 import { MondrianResult } from "../../src/js/model/MondrianResult";
+import { RemoteRepository } from "../../src/js/model/Repository";
 
-const MONDRIAN_REST_URL = "http://localhost:58080/mondrian-rest/";
-
-const repository = new RemoteRepository(MONDRIAN_REST_URL, null);
+// const MONDRIAN_REST_URL = "http://localhost:58080/mondrian-rest/";
+// const repository = new RemoteRepository(MONDRIAN_REST_URL, null);
+const repository = new RemoteRepository(null);
 
 // if we get a timeout on this test, it's because mondrian-rest takes a long time to initialize the foodmart database
 jest.setTimeout(65000); // on my macbook, it tends to take just under 60 seconds for the foodmart database to initialize and a response to come back. ymmv.
 
-test('browse datasets', async () => {
+test.skip('browse datasets', async () => {
   return repository.init().then(async () => {
     return repository.browseDatasets().then((datasets: Dataset[]) => {
       expect(datasets).toHaveLength(8);
@@ -24,7 +24,7 @@ test('browse datasets', async () => {
   });
 });
 
-test('query', async() => {
+test.skip('query', async() => {
   return repository.init().then(async () => {
     return repository.browseDatasets().then(async (datasets: Dataset[]) => {
       const testDatasets: Dataset[] = datasets.filter((d: Dataset): boolean => {

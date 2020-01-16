@@ -8,7 +8,7 @@ COPY catalina.properties /usr/local/tomcat/conf/
 COPY application.properties /usr/local/tomcat/shared/config/
 
 RUN cd /tmp && \
-  curl -O http://central.maven.org/maven2/org/ojbc/mondrian-rest/1.4.7/mondrian-rest-1.4.7.war && \
-  mv mondrian-rest-1.4.7.war /usr/local/tomcat/webapps/mondrian-rest.war
+  curl -o mondrian-rest.war https://repo1.maven.org/maven2/org/ojbc/mondrian-rest/1.4.8/mondrian-rest-1.4.8.war && \
+  mv mondrian-rest.war /usr/local/tomcat/webapps/
 
 COPY *.war /usr/local/tomcat/webapps/

@@ -176,8 +176,8 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
           return ret;
         });
       });
-    }).catch((reason) => {
-      return Promise.reject(reason);
+    }).catch((error: RepositoryError) => {
+      return Promise.reject(error);
     });
 
   }
@@ -220,7 +220,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   async browseDatasets(): Promise<Dataset[]> {
     if (this.simulateBrowseDatasetsError) {
       this.log.info("Simulating browseDatasets error");
-      return Promise.reject("Local Repository simulated browseDatasets error");
+      return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Local Repository simulated browseDatasets error"));
     }
     const fakeDelay = LocalRepository.LOCAL_REPOSITORY_DATASETS_DELAY;
     let ret = Promise.resolve(this.datasets);
@@ -274,7 +274,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   async executeQuery(mdx: string, _dataset: Dataset): Promise<MondrianResult> {
     if (this.simulateQueryExecutionError) {
       this.log.info("Simulating executeQuery error");
-      return Promise.reject("Local Repository simulated executeQuery error");
+      return Promise.reject(new RepositoryError(RepositoryErrorType.QUERY_ERROR, "Local Repository simulated executeQuery error"));
     }
     this.log.info(mdx ? mdx : "[Query.asMDX() returned null, indicating unexecutable query]");
     let ret: MondrianResult = null;
@@ -283,7 +283,12 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
     } else if (/F2_M1/.test(mdx)) {
       ret = MondrianResult.fromJSON(testResult2m1r2c);
     } else if (/F3_M1/.test(mdx)) {
-      ret = MondrianResult.fromJSON(testResult2m2r1c);
+      if (/D2_ROLLUP/.test(mdx)) {
+        this.log.info("Simulating query timeout");
+        return Promise.reject(new RepositoryError(RepositoryErrorType.QUERY_TIMEOUT, "Query timeout"));
+      } else {
+        ret = MondrianResult.fromJSON(testResult2m2r1c);
+      }
     } else if (/F3_M2/.test(mdx)) {
       ret = MondrianResult.fromJSON(testResult2m2r2c);
     } else if (/F3_M3/.test(mdx)) {
@@ -330,10 +335,10 @@ export class RemoteRepository extends AbstractBaseRepository {
     ret = fetch(this.remoteRepositoryUrl + "/config").then(async (response: Response) => {
       if (response.redirected) {
         location.reload(true);
-        return Promise.reject("Your session has timed out. Reloading application.");
+        return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Reloading application."));
       }
       if (!response.ok) {
-        return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
+        return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Analytics server appears to be unavailable; please contact an administrator."));
       }
       return response.json().then(async (json: any): Promise<PietConfiguration> => {
         const pc = new PietConfiguration();
@@ -357,10 +362,10 @@ export class RemoteRepository extends AbstractBaseRepository {
         ret = fetch(this.mondrianRestUrl + "/getConnections").then(async (response: Response) => {
           if (response.redirected) {
             location.reload(true);
-            return Promise.reject("Your session has timed out. Reloading application.");
+            return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Reloading application."));
           }
           if (!response.ok) {
-            return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
+            return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Analytics server appears to be unavailable; please contact an administrator."));
           }
           return response.json().then(async (json: any): Promise<any> => {
             const promises: Promise<Dataset[]>[] = Object.getOwnPropertyNames(json).map(async (connectionName): Promise<Dataset[]> => {
@@ -392,7 +397,7 @@ export class RemoteRepository extends AbstractBaseRepository {
     }).then(async (response: Response) => {
       if (response.redirected) {
         location.reload(true);
-        return Promise.reject("Your session has timed out. Reloading application.");
+        return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Reloading application."));
       }
       return response.json().then(async (json: any): Promise<any> => {
         const promises: Promise<Analysis>[] = [];
@@ -419,7 +424,7 @@ export class RemoteRepository extends AbstractBaseRepository {
     }).then(async (response: Response) => {
       if (response.redirected) {
         location.reload(true);
-        return Promise.reject("Your session has timed out. Once application reloads, save the analysis again.");
+        return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Once application reloads, save the analysis again."));
       }
       return response.json().then(async (json: any): Promise<string> => {
         return Promise.resolve(json.id);
@@ -433,7 +438,7 @@ export class RemoteRepository extends AbstractBaseRepository {
     }).then(async (response: Response) => {
       if (response.redirected) {
         location.reload(true);
-        return Promise.reject("Your session has timed out. Once application reloads, delete the analysis again.");
+        return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Once application reloads, delete the analysis again."));
       }
       return Promise.resolve(analysis.id);
     });
@@ -454,10 +459,20 @@ export class RemoteRepository extends AbstractBaseRepository {
       }).then(async (response: Response) => {
         if (response.redirected) {
           location.reload(true);
-          return Promise.reject("Your session has timed out. Reloading application.");
+          return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Reloading application."));
         }
         if (!response.ok) {
-          return Promise.reject("Analytics server appears to be unavailable; please contact an administrator.");
+          return response.json().then(async (json: any): Promise<any> => {
+            if (json.reason) {
+              if (/.+while parsing.+/.test(json.reason)) {
+                return Promise.reject(new RepositoryError(RepositoryErrorType.QUERY_ERROR, "Invalid query"));
+              } else if (/.+Query timeout of.+reached/.test(json.reason)) {
+                return Promise.reject(new RepositoryError(RepositoryErrorType.QUERY_TIMEOUT, "Query timeout"));
+              }
+            } else {
+              return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Analytics server appears to be unavailable; please contact an administrator."));
+            }
+          });
         }
         return response.json().then(async (json: any): Promise<any> => {
           return Promise.resolve(MondrianResult.fromJSON(json));
@@ -467,4 +482,19 @@ export class RemoteRepository extends AbstractBaseRepository {
     return ret;
   }
 
+}
+
+export enum RepositoryErrorType {
+  GENERIC = "generic",
+  QUERY_TIMEOUT = "query-timeout",
+  QUERY_ERROR = "query-error"
+}
+
+export class RepositoryError {
+  readonly type: RepositoryErrorType;
+  readonly message: string;
+  constructor(type: RepositoryErrorType, message: string) {
+    this.type = type;
+    this.message = message;
+  }
 }

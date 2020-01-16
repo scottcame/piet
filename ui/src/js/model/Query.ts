@@ -23,15 +23,15 @@ export class Query implements Cloneable<Query>, Serializable<Query> {
     this._parent = parent;
   }
 
-  get measures(): List<QueryMeasure> {
+  get measures(): CloneableList<QueryMeasure> {
     return this._measures;
   }
 
-  get levels(): List<QueryLevel> {
+  get levels(): CloneableList<QueryLevel> {
     return this._levels;
   }
 
-  get filters(): List<QueryFilter> {
+  get filters(): CloneableList<QueryFilter> {
     return this._filters;
   }
 
@@ -302,6 +302,13 @@ export abstract class AbstractQueryObject implements Editable {
     });
     return Promise.all(promises).then();
   }
+  protected async notifyListenersOfPendingPropertyEdit(property: string): Promise<void> {
+    const promises: Promise<void>[] = [];
+    this.editEventListeners.forEach((listener: EditEventListener): void => {
+      promises.push(listener.notifyPendingPropertyEdit(new PropertyEditEvent(this, property)));
+    });
+    return Promise.all(promises).then();
+  }
 }
 
 export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLevel>, Serializable<QueryLevel> {
@@ -370,15 +377,17 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
   async setRowOrientation(value: boolean): Promise<void> {
     if (this._rowOrientation !== value) {
       return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
-        this._rowOrientation = value;
-        this._parent.levels.asArray().forEach((level: QueryLevel): void => {
-          if (this.hierarchyName === level.hierarchyName && this._rowOrientation !== level._rowOrientation) {
-            // changing the row orientation of this level forces the orientation of other levels in its same hierarchy
-            // to be the same
-            level._rowOrientation = this._rowOrientation;
-          }
+        return super.notifyListenersOfPendingPropertyEdit("rowOrientation").then(async () => {
+          this._rowOrientation = value;
+          this._parent.levels.asArray().forEach((level: QueryLevel): void => {
+            if (this.hierarchyName === level.hierarchyName && this._rowOrientation !== level._rowOrientation) {
+              // changing the row orientation of this level forces the orientation of other levels in its same hierarchy
+              // to be the same
+              level._rowOrientation = this._rowOrientation;
+            }
+          });
+          return super.notifyListenersOfPropertyEdit("rowOrientation");
         });
-        return super.notifyListenersOfPropertyEdit("rowOrientation");
       });
     }
     return Promise.resolve();
@@ -427,7 +436,7 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
     this._levelUniqueName = levelUniqueName;
     this.levelMemberNames.addChangeEventListener(new FilterMemberNameListEventListener(
       (_event: ListChangeEvent): Promise<void> => {
-        return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN);
+        return super.notifyListenersOfPendingPropertyEdit("levelMemberNames");
       },
       (_event: ListChangeEvent): Promise<void> => {
         return super.notifyListenersOfPropertyEdit("levelMemberNames");
@@ -478,8 +487,10 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
   async setFilterOnlyHierarchy(value: boolean): Promise<void> {
     if (value !== this._filterOnlyHierarchy) {
       return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
-        this._filterOnlyHierarchy = value;
-        return super.notifyListenersOfPropertyEdit("filterOnlyHierarchy");
+        return super.notifyListenersOfPendingPropertyEdit("filterOnlyHierarchy").then(async () => {
+          this._filterOnlyHierarchy = value;
+          return super.notifyListenersOfPropertyEdit("filterOnlyHierarchy");
+        });
       });
     }
     return Promise.resolve();
@@ -487,8 +498,10 @@ export class QueryFilter extends AbstractQueryObject implements Cloneable<QueryF
   async setInclude(value: boolean): Promise<void> {
     if (value !== this._include) {
       return super.notifyListenersOfEdit(EditEvent.EDIT_BEGIN).then(() => {
-        this._include = value;
-        return super.notifyListenersOfPropertyEdit("include");
+        return super.notifyListenersOfPendingPropertyEdit("include").then(async () => {
+          this._include = value;
+          return super.notifyListenersOfPropertyEdit("include");
+        });
       });
     }
     return Promise.resolve();

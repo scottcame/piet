@@ -1,4 +1,4 @@
-import { Repository } from "../model/Repository";
+import { Repository, RepositoryError, RepositoryErrorType } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
 import { Analysis } from "../model/Analysis";
@@ -30,6 +30,7 @@ export class AnalysesController {
     showDeleteConfirmationModal: false,
     showQueryFilterModal: false,
     errorModalMessage: null,
+    executeQueryErrorModalType: null,
     executingQuery: false
   };
 
@@ -113,8 +114,8 @@ export class AnalysesController {
 
       });
   
-    }).catch((reason) => {
-      this.viewPropertyUpdater.update("errorModalMessage", reason);
+    }).catch((error: RepositoryError) => {
+      this.viewPropertyUpdater.update("errorModalMessage", error.message);
     });
 
   }
@@ -396,10 +397,16 @@ export class AnalysesController {
       ret = this.repository.executeQuery(mdx, dataset).then((result: MondrianResult): void => {
         this.mondrianResultTableModel.result = result;
         this.mondrianResultVegaViz.result = result;
-      }).catch((reason) => {
+      }).catch((error: RepositoryError) => {
         this.mondrianResultTableModel.result = null;
         this.mondrianResultVegaViz.result = null;
-        this.viewPropertyUpdater.update("errorModalMessage", reason);
+        if (error.type === RepositoryErrorType.QUERY_TIMEOUT) {
+          this.viewPropertyUpdater.update("executeQueryErrorModalType", "timeout");
+        } else if (error.type === RepositoryErrorType.QUERY_ERROR) {
+          this.viewPropertyUpdater.update("executeQueryErrorModalType", "parse");
+        } else {
+          this.viewPropertyUpdater.update("errorModalMessage", error.message);
+        }
       }).finally(() => {
         this.viewPropertyUpdater.update("executingQuery", false);
       });
@@ -408,6 +415,13 @@ export class AnalysesController {
       this.mondrianResultVegaViz.result = null;
     }
     return ret;
+  }
+
+  async undoLastAnalysisEdit(): Promise<void> {
+    return this.currentAnalysis.undo().then(async () => {
+      this.viewPropertyUpdater.update("executeQueryErrorModalType", null);
+      return this.executeQuery();
+    });
   }
 
 }
@@ -427,6 +441,9 @@ class CurrentAnalysisEditListener implements EditEventListener {
   }
   notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
     this.viewPropertyUpdater.update("currentAnalysis", this.controller.currentAnalysis);
+    return Promise.resolve();
+  }
+  notifyPendingPropertyEdit(_event: PropertyEditEvent): Promise<void> {
     return Promise.resolve();
   }
 }

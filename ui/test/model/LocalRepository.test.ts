@@ -1,4 +1,4 @@
-import { LocalRepository } from "../../src/js/model/Repository";
+import { LocalRepository, RepositoryErrorType, RepositoryError } from "../../src/js/model/Repository";
 import { Analysis } from "../../src/js/model/Analysis";
 import { List } from "../../src/js/collections/List";
 import { Dataset } from "../../src/js/model/Dataset";
@@ -49,5 +49,10 @@ test('local repository delete', async () => {
 
 test("Local repository browseDatasets error", async () => {
   repo.simulateBrowseDatasetsError = true;
-  return expect(repo.init()).rejects.toMatch(/simulated.+error/);
+  return repo.init().then(() => {
+    throw new Error("Fail");
+  }).catch((e: RepositoryError) => {
+    expect(e.type).toBe(RepositoryErrorType.GENERIC);
+    expect(e.message).toMatch(/simulated.+error/);
+  });
 });

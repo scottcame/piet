@@ -356,7 +356,7 @@ test('execute query with error', async () => {
     const event = new TreeMeasureNodeEvent("[Measures].[F1_M1]", true);
     repository.simulateQueryExecutionError = true;
     await controller.handleDatasetTreeNodeEvent(event).then(async () => {
-      expect(viewProperties.errorModalMessage).toMatch(/simulated.+error/);
+      expect(viewProperties.executeQueryErrorModalType).toBe("parse");
     });
   });
 });

@@ -15,6 +15,7 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
   private _query: Query;
 
   private editCheckpoint: Analysis;
+  private undoAction: () => Promise<void>;
   private editEventListeners: EditEventListener[];
   private queryMeasuresListChangeEventListener: QueryDirtyListListener<QueryMeasure>;
   private queryLevelsListChangeEventListener: QueryDirtyListListener<QueryLevel>;
@@ -30,7 +31,12 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this._query = new Query(this);
 
     this.initQueryComponentListListeners();
+    this.undoAction = (): Promise<void> => { return Promise.resolve(); };
 
+  }
+
+  async undo(): Promise<void> {
+    return this.undoAction();
   }
 
   serialize(repository: Repository): any {
@@ -113,63 +119,106 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     return this.query.nonEmpty;
   }
 
-  async setNonEmpty(value: boolean): Promise<void> {
-    this.initCheckpoint();
-    this.query.nonEmpty = value;
-    return this.notifyPropertyEditEventListeners("nonEmpty");
-  }
-
   get filterParentAggregates(): boolean {
     return this.query.filterParentAggregates;
-  }
-
-  async setFilterParentAggregates(value: boolean): Promise<void> {
-    this.initCheckpoint();
-    this.query.filterParentAggregates = value;
-    return this.notifyPropertyEditEventListeners("filterParentAggregates");
-  }
-
-  async setName(value: string): Promise<void> {
-    this.initCheckpoint();
-    this._name = value;
-    return this.notifyPropertyEditEventListeners("name");
   }
 
   get description(): string {
     return this._description;
   }
 
+  async setNonEmpty(value: boolean): Promise<void> {
+    return this.initCheckpoint().then(async () => {
+      return this.notifyOfPendingPropertyEdit("nonEmpty").then(async () => {
+        const currentValue = this.nonEmpty;
+        this.undoAction = (): Promise<void> => {
+          return this.setNonEmpty(currentValue);
+        };
+        this.query.nonEmpty = value;
+        return this.notifyOfPropertyEdit("nonEmpty");
+      });
+    });
+  }
+
+  async setFilterParentAggregates(value: boolean): Promise<void> {
+    return this.initCheckpoint().then(async () => {
+      return this.notifyOfPendingPropertyEdit("filterParentAggregates").then(async () => {
+        const currentValue = this.filterParentAggregates;
+        this.undoAction = (): Promise<void> => {
+          return this.setFilterParentAggregates(currentValue);
+        };
+        this.query.filterParentAggregates = value;
+        return this.notifyOfPropertyEdit("filterParentAggregates");
+      });
+    });
+  }
+
+  async setName(value: string): Promise<void> {
+    return this.initCheckpoint().then(async () => {
+      return this.notifyOfPendingPropertyEdit("name").then(async () => {
+        const currentValue = this._name;
+        this.undoAction = (): Promise<void> => {
+          return this.setName(currentValue);
+        };
+        this._name = value;
+        return this.notifyOfPropertyEdit("name");
+      });
+    });
+  }
+
   async setDescription(value: string): Promise<void> {
-    this.initCheckpoint();
-    this._description = value;
-    return this.notifyPropertyEditEventListeners("description");
+    return this.initCheckpoint().then(async () => {
+      return this.notifyOfPendingPropertyEdit("description").then(async () => {
+        const currentValue = this._description;
+        this.undoAction = (): Promise<void> => {
+          return this.setDescription(currentValue);
+        };
+        this._description = value;
+        return this.notifyOfPropertyEdit("description");
+      });
+    });
   }
 
   private initQueryComponentListListeners(): void {
     this.queryMeasuresListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
-      return this.initCheckpoint();
+      const listClone = this.query.measures.clone();
+      this.undoAction = async (): Promise<void> => {
+        return this.query.measures.setFromList(listClone).then((_n: number): Promise<void> => {
+          return Promise.resolve();
+        });
+      };
+      return this.initCheckpoint().then(async () => {
+        return this.notifyOfPendingPropertyEdit("query");
+      });
     }, (): Promise<void> => {
-      return this.notifyPropertyEditEventListeners("query");
-    }, this._query.measures, new QueryDirtyEditEventListener((): Promise<void> => {
-      this.initCheckpoint();
-      return this.notifyPropertyEditEventListeners("query");
-    }));
-    this.queryLevelsListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
-      return this.initCheckpoint();
+      return this.notifyOfPropertyEdit("query");
+    }, this._query.measures);
+    this.queryLevelsListChangeEventListener = new QueryDirtyListListener(async (): Promise<void> => {
+      const listClone = this.query.levels.clone();
+      this.undoAction = async (): Promise<void> => {
+        return this.query.levels.setFromList(listClone).then((_n: number): Promise<void> => {
+          return Promise.resolve();
+        });
+      };
+      return this.initCheckpoint().then(async () => {
+        return this.notifyOfPendingPropertyEdit("query");
+      });
     }, (): Promise<void> => {
-      return this.notifyPropertyEditEventListeners("query");
-    }, this._query.levels, new QueryDirtyEditEventListener((): Promise<void> => {
-      this.initCheckpoint();
-      return this.notifyPropertyEditEventListeners("query");
-    }));
+      return this.notifyOfPropertyEdit("query");
+    }, this._query.levels);
     this.queryFiltersListChangeEventListener = new QueryDirtyListListener((): Promise<void> => {
-      return this.initCheckpoint();
+      const listClone = this.query.filters.clone();
+      this.undoAction = async (): Promise<void> => {
+        return this.query.filters.setFromList(listClone).then((_n: number): Promise<void> => {
+          return Promise.resolve();
+        });
+      };
+      return this.initCheckpoint().then(async () => {
+        return this.notifyOfPendingPropertyEdit("query");
+      });
     }, (): Promise<void> => {
-      return this.notifyPropertyEditEventListeners("query");
-    }, this._query.filters, new QueryDirtyEditEventListener((): Promise<void> => {
-      this.initCheckpoint();
-      return this.notifyPropertyEditEventListeners("query");
-    }));
+      return this.notifyOfPropertyEdit("query");
+    }, this._query.filters);
   }
 
   private initCheckpoint(): Promise<void> {
@@ -180,9 +229,18 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
       this.editCheckpoint._query = this.query.clone();
       return this.notifyEditEventListeners(EditEvent.EDIT_BEGIN);
     }
+    return Promise.resolve();
   }
 
-  private async notifyPropertyEditEventListeners(property: string): Promise<void> {
+  private async notifyOfPendingPropertyEdit(property: string): Promise<void> {
+    const promises: Promise<void>[] = [];
+    this.editEventListeners.forEach((listener: EditEventListener) => {
+      promises.push(listener.notifyPendingPropertyEdit(new PropertyEditEvent(this, property)));
+    });
+    return Promise.all(promises).then();
+  }
+
+  private async notifyOfPropertyEdit(property: string): Promise<void> {
     const promises: Promise<void>[] = [];
     this.editEventListeners.forEach((listener: EditEventListener) => {
       promises.push(listener.notifyPropertyEdit(new PropertyEditEvent(this, property)));
@@ -200,9 +258,8 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 
   cancelEdits(): Promise<void> {
     if (this.editCheckpoint) {
-      // set the properties, not the instance variables
-      this.setDescription(this.editCheckpoint._description);
-      this.setName(this.editCheckpoint._name);
+      this._description = this.editCheckpoint._description;
+      this._name = this.editCheckpoint._name;
       this._query = this.editCheckpoint._query;
       this.initQueryComponentListListeners();
     }
@@ -258,15 +315,16 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
 }
 
 class QueryDirtyEditEventListener implements EditEventListener {
-  private editCallback: () => Promise<void>;
-  constructor(editCallback: () => Promise<void>) {
-    this.editCallback = editCallback;
-  }
+  editCompleteCallback: () => Promise<void>;
+  pendingEditCallback: () => Promise<void>;
   notifyEdit(_event: EditEvent): Promise<void> {
-    return this.editCallback();
+    return Promise.resolve();
+  }
+  notifyPendingPropertyEdit(_event: PropertyEditEvent): Promise<void> {
+    return this.pendingEditCallback();
   }
   notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
-    return this.editCallback();
+    return this.editCompleteCallback();
   }
 }
 
@@ -275,11 +333,13 @@ class QueryDirtyListListener<T extends Editable> implements ListChangeEventListe
   private editCompleteCallback: () => Promise<void>;
   private targetList: List<T>;
   private queryDirtyEditEventListener: QueryDirtyEditEventListener;
-  constructor(pendingEditCallback: () => Promise<void>, editCompleteCallback: () => Promise<void>, targetList: List<T>, queryDirtyEditEventListener: QueryDirtyEditEventListener) {
+  constructor(pendingEditCallback: () => Promise<void>, editCompleteCallback: () => Promise<void>, targetList: List<T>) {
     this.pendingEditCallback = pendingEditCallback;
     this.editCompleteCallback = editCompleteCallback;
     this.targetList = targetList;
-    this.queryDirtyEditEventListener = queryDirtyEditEventListener;
+    this.queryDirtyEditEventListener = new QueryDirtyEditEventListener();
+    this.queryDirtyEditEventListener.pendingEditCallback = pendingEditCallback;
+    this.queryDirtyEditEventListener.editCompleteCallback = editCompleteCallback;
     targetList.addChangeEventListener(this);
     this.targetList.forEach((item: T): void => {
       item.addEditEventListener(this.queryDirtyEditEventListener);

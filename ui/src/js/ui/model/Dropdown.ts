@@ -27,6 +27,9 @@ export class DropdownModel<T extends Editable> {
       notifyEdit(_event: EditEvent): Promise<void> {
         return Promise.resolve();
       },
+      notifyPendingPropertyEdit(_event: PropertyEditEvent): Promise<void> {
+        return Promise.resolve();
+      },
       notifyPropertyEdit(_event: PropertyEditEvent): Promise<void> {
         self.updateLabels();
         return Promise.resolve();

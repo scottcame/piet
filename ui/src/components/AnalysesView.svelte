@@ -79,6 +79,10 @@
     }
   }
 
+  function undoLastAnalysisEdit() {
+    controller.undoLastAnalysisEdit();
+  }
+
 </script>
 
 {#await initPromise}
@@ -91,6 +95,14 @@
 
 <div class="w-full h-full mt-24 text-center {viewProperties.errorModalMessage ? '' : 'hidden'}">
   {viewProperties.errorModalMessage}
+</div>
+
+<div class="w-full h-full mt-24 text-center {viewProperties.executeQueryErrorModalType ? '' : 'hidden'}">
+  {#if viewProperties.executeQueryErrorModalType === "timeout"}
+    Query timed out, click <span class="underline cursor-pointer" on:click={undoLastAnalysisEdit}>here</span> to continue.
+  {:else}
+    Query error, click <span class="underline cursor-pointer" on:click={undoLastAnalysisEdit}>here</span> to continue.
+  {/if}
 </div>
 
 <div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
