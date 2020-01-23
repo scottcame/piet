@@ -303,11 +303,11 @@ export class Dataset implements Editable {
 
   findLevel(levelUniqueName: string): Level {
     let ret = null;
-    const names = levelUniqueName.split(".");
-    const dimName = names[0].replace(/\[(.+)\]/, "$1");
+    const names = levelUniqueName.match(/(\[[^\]]+\])\.(\[[^\]]+\])\.(\[[^\]]+\])/);
+    const dimName = names[1].replace(/\[(.+)\]/, "$1");
     const dimension = this.findDimension(dimName);
     if (dimension) {
-      const hierarchyUniqueName = names[0] + "." + names[1];
+      const hierarchyUniqueName = names[1] + "." + names[2];
       const hierarchies = dimension.hierarchies.filter((h: Hierarchy): boolean => {
         return h.uniqueName === hierarchyUniqueName;
       });
@@ -325,11 +325,11 @@ export class Dataset implements Editable {
 
   findHierarchy(hierarchyUniqueName: string): Hierarchy {
     let ret = null;
-    const names = hierarchyUniqueName.split(".");
-    const dimName = names[0].replace(/\[(.+)\]/, "$1");
+    const names = hierarchyUniqueName.match(/(\[[^\]]+\])\.(\[[^\]]+\])/);
+    const dimName = names[1].replace(/\[(.+)\]/, "$1");
     const dimension = this.findDimension(dimName);
     if (dimension) {
-      const hierarchyUniqueName = names[0] + "." + names[1];
+      const hierarchyUniqueName = names[1] + "." + names[2];
       const hierarchies = dimension.hierarchies.filter((h: Hierarchy): boolean => {
         return h.uniqueName === hierarchyUniqueName;
       });

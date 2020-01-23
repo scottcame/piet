@@ -9,10 +9,12 @@ import { LoggerFactory } from '../../src/js/util/LoggerFactory';
 let repository: LocalRepository;
 const testDatasets: List<Dataset> = new List();
 let foodmartDatasets: Dataset[];
+let storeDataset: Dataset;
 
 beforeAll(async () => {
   const metadata = await FoodmartMetadata.getInstance().getMetadata();
   foodmartDatasets = Dataset.loadFromMetadata(metadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
+  storeDataset = foodmartDatasets[3];
 });
 
 beforeEach(async () => {
@@ -59,11 +61,24 @@ test('query levels', async () => {
   });
 });
 
+test('query level hierarchy name', async () => {
+  const analysis = new Analysis(testDatasets.get(0), "test-name");
+  const q = analysis.query;
+  const queryMeasure = new QueryMeasure(q);
+  queryMeasure.setUniqueName("[Measures].[F1_M1]");
+  return q.measures.add(queryMeasure).then(async () => {
+    const queryLevel = new QueryLevel(q);
+    queryLevel.setUniqueName("[D1].[D1.D1].[D1_DESCRIPTION]");
+    queryLevel.setRowOrientation(true);
+    expect(queryLevel.hierarchyName).toBe("[D1].[D1.D1]");
+  });
+});
+
 test('query filters', async () => {
   const analysis = new Analysis(testDatasets.get(0), "test-name");
   expect(analysis.query.filters).toHaveLength(0);
   expect(analysis.dirty).toBe(false);
-  let queryFilter = new QueryFilter("[D1].[D1].[D1_DESCRIPTION]", analysis.query);
+  let queryFilter = new QueryFilter("[D1].[D1.D1].[D1_DESCRIPTION]", analysis.query);
   await analysis.query.filters.add(queryFilter).then(async () => {
     expect(analysis.query.filters).toHaveLength(1);
     expect(analysis.dirty).toBe(true);
@@ -106,22 +121,22 @@ test('query filters', async () => {
 // import * as stringify from 'json-stringify-safe';
 
 test('query MDX 1 measure 1 row dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     const queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(() => {
-      expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+      expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY {[Store].[Store].[Store Country].Members} ON ROWS FROM [Store]");
     });
   });
 });
 
 test('query MDX 2 measures row dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   let queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -130,37 +145,37 @@ test('query MDX 2 measures row dim', async () => {
     queryMeasure.setUniqueName("[Measures].[Grocery Sqft]");
     await q.measures.add(queryMeasure).then(async () => {
       const queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+      queryLevel.setUniqueName("[Store].[Store].[Store Country]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
-        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft],[Measures].[Grocery Sqft]} ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft],[Measures].[Grocery Sqft]} ON COLUMNS, NON EMPTY {[Store].[Store].[Store Country].Members} ON ROWS FROM [Store]");
       });
     });
   });
 });
 
 test('query MDX 1 measure 2 row dims', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
-        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin({[Store].[Stores].[Store Country].Members},{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin({[Store].[Store].[Store Country].Members},{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
       });
     });
   });
 });
 
 test('query MDX no measures -> null', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryLevel = new QueryLevel(q);
   queryLevel.setRowOrientation(true);
@@ -170,33 +185,33 @@ test('query MDX no measures -> null', async () => {
 });
 
 test('query MDX 1 measure 1 row dim 1 col dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
       queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
       queryLevel.setRowOrientation(false);
       await q.levels.add(queryLevel).then(() => {
-        expect(q.asMDX()).toEqual("SELECT NON EMPTY NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Store].[Store Country].Members} ON ROWS FROM [Store]");
       });
     });
   });
 });
 
 test('query MDX 1 measure 1 row dim 2 col dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
@@ -207,7 +222,7 @@ test('query MDX 1 measure 1 row dim 2 col dim', async () => {
         queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
         queryLevel.setRowOrientation(false);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY NonEmptyCrossJoin(NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members}),{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY NonEmptyCrossJoin(NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members}),{[Measures].[Store Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Store].[Store Country].Members} ON ROWS FROM [Store]");
         });
       });
     });
@@ -215,7 +230,7 @@ test('query MDX 1 measure 1 row dim 2 col dim', async () => {
 });
 
 test('query MDX 2 measures 1 row dim 1 col dim', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   let queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
@@ -224,14 +239,14 @@ test('query MDX 2 measures 1 row dim 1 col dim', async () => {
     queryMeasure.setUniqueName("[Measures].[Grocery Sqft]");
     await q.measures.add(queryMeasure).then(async () => {
       let queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+      queryLevel.setUniqueName("[Store].[Store].[Store Country]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
         queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(false);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Measures].[Store Sqft],[Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Stores].[Store Country].Members} ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Measures].[Store Sqft],[Measures].[Grocery Sqft]}) ON COLUMNS, NON EMPTY {[Store].[Store].[Store Country].Members} ON ROWS FROM [Store]");
         });
       });
     });
@@ -239,44 +254,44 @@ test('query MDX 2 measures 1 row dim 1 col dim', async () => {
 });
 
 test('query MDX simple 2 level hierarchize', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(() => {
-        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}})) ON ROWS FROM [Store]");
+        expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].Members},{[Store].[Store].[Store State].Members}})) ON ROWS FROM [Store]");
       });
     });
   });
 });
 
 test('query MDX simple 3 level hierarchize', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
         queryLevel = new QueryLevel(q);
-        queryLevel.setUniqueName("[Store].[Stores].[Store City]");
+        queryLevel.setUniqueName("[Store].[Store].[Store City]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].Members}})) ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].Members},{[Store].[Store].[Store State].Members},{[Store].[Store].[Store City].Members}})) ON ROWS FROM [Store]");
         });
       });
     });
@@ -284,24 +299,24 @@ test('query MDX simple 3 level hierarchize', async () => {
 });
 
 test('query MDX simple 2 level hierarchize plus additional level', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
         queryLevel = new QueryLevel(q);
         queryLevel.setUniqueName("[Store Type].[Store Type].[Store Type]");
         queryLevel.setRowOrientation(true);
         await q.levels.add(queryLevel).then(() => {
-          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}})),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
+          expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(VisualTotals(Hierarchize({{[Store].[Store].[Store Country].Members},{[Store].[Store].[Store State].Members}})),{[Store Type].[Store Type].[Store Type].Members}) ON ROWS FROM [Store]");
         });
       });
     });
@@ -309,17 +324,17 @@ test('query MDX simple 2 level hierarchize plus additional level', async () => {
 });
 
 test('query MDX simple 2 level hierarchize plus 2 additional levels', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
         queryLevel = new QueryLevel(q);
@@ -330,7 +345,7 @@ test('query MDX simple 2 level hierarchize plus 2 additional levels', async () =
           queryLevel.setUniqueName("[Has coffee bar].[Has coffee bar].[Has coffee bar]");
           queryLevel.setRowOrientation(true);
           await q.levels.add(queryLevel).then(() => {
-            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members}})),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
+            expect(q.asMDX()).toEqual("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY NonEmptyCrossJoin(VisualTotals(Hierarchize({{[Store].[Store].[Store Country].Members},{[Store].[Store].[Store State].Members}})),NonEmptyCrossJoin({[Store Type].[Store Type].[Store Type].Members},{[Has coffee bar].[Has coffee bar].[Has coffee bar].Members})) ON ROWS FROM [Store]");
           });
         });
       });
@@ -353,7 +368,7 @@ test('persistence', async () => {
           expect(serializedAnalysis).toMatchObject({
             datasetRef: {
               id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
-              cube: 'Test'
+              cube: 'Test_F1'
             },
             name: 'test-name',
             description: 'test-description',
@@ -370,7 +385,7 @@ test('persistence', async () => {
           expect(deserializedAnalysis.query.measures.get(0).uniqueName).toBe(queryMeasure.uniqueName);
           expect(deserializedAnalysis.query.levels).toHaveLength(0);
           const queryLevel = new QueryLevel(analysis.query);
-          queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+          queryLevel.setUniqueName("[Store].[Store].[Store Country]");
           queryLevel.setRowOrientation(true);
           await analysis.query.levels.add(queryLevel).then(async () => {
             const serializedAnalysis = analysis.serialize(repository);
@@ -378,14 +393,14 @@ test('persistence', async () => {
             expect(serializedAnalysis).toMatchObject({
               datasetRef: {
                 id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
-                cube: 'Test'
+                cube: 'Test_F1'
               },
               name: 'test-name',
               description: 'test-description',
               _query: {
                 nonEmpty: true,
                 _measures: [ { _uniqueName: '[Measures].[Store Sqft]' } ],
-                _levels: [ { _uniqueName: '[Store].[Stores].[Store Country]', _rowOrientation: true }]
+                _levels: [ { _uniqueName: '[Store].[Store].[Store Country]', _rowOrientation: true }]
               }
             });
             deserializedAnalysis = await new Analysis().deserialize(serializedAnalysis, repository);
@@ -442,29 +457,29 @@ test('level memberMDXSet', async () => {
 });
 
 test('two level query with filtering (include)', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
-      let queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+      let queryFilter = new QueryFilter("[Store].[Store].[Store Country]", q);
       await q.levels.add(queryLevel).then(async () => {
         await analysis.query.filters.add(queryFilter).then(async () => {
           await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
-            expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]})})) ON ROWS FROM [Store]");
+            expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA]},Exists({[Store].[Store].[Store State].Members},{[Store].[Store].[Store Country].[USA]})})) ON ROWS FROM [Store]");
             await queryFilter.levelMemberNames.add("Canada").then(async () => {
-              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})) ON ROWS FROM [Store]");
-              queryFilter = new QueryFilter("[Store].[Stores].[Store State]", q);
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA],[Store].[Store].[Store Country].[Canada]},Exists({[Store].[Store].[Store State].Members},{[Store].[Store].[Store Country].[USA],[Store].[Store].[Store Country].[Canada]})})) ON ROWS FROM [Store]");
+              queryFilter = new QueryFilter("[Store].[Store].[Store State]", q);
               await analysis.query.filters.add(queryFilter).then(async () => {
                 await queryFilter.levelMemberNames.set(["WA","OR","BC"]).then(async () => {
-                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]},Exists({[Store].[Stores].[Store State].[WA],[Store].[Stores].[Store State].[OR],[Store].[Stores].[Store State].[BC]},{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})) ON ROWS FROM [Store]");
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA],[Store].[Store].[Store Country].[Canada]},Exists({[Store].[Store].[Store State].[WA],[Store].[Store].[Store State].[OR],[Store].[Store].[Store State].[BC]},{[Store].[Store].[Store Country].[USA],[Store].[Store].[Store Country].[Canada]})})) ON ROWS FROM [Store]");
                 });
               });
             });
@@ -476,26 +491,26 @@ test('two level query with filtering (include)', async () => {
 });
 
 test('two level query with filtering (exclude)', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
-      const queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+      const queryFilter = new QueryFilter("[Store].[Store].[Store Country]", q);
       await q.levels.add(queryLevel).then(async () => {
         await analysis.query.filters.add(queryFilter).then(async () => {
           await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
             await queryFilter.setInclude(false).then(async () => {
-              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA]})})})) ON ROWS FROM [Store]");
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{Except([Store].[Store].[Store Country].Members,{[Store].[Store].[Store Country].[USA]})},Exists({[Store].[Store].[Store State].Members},{Except([Store].[Store].[Store Country].Members,{[Store].[Store].[Store Country].[USA]})})})) ON ROWS FROM [Store]");
               await queryFilter.levelMemberNames.add("Canada").then(async () => {
-                expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})},Exists({[Store].[Stores].[Store State].Members},{Except([Store].[Stores].[Store Country].Members,{[Store].[Stores].[Store Country].[USA],[Store].[Stores].[Store Country].[Canada]})})})) ON ROWS FROM [Store]");
+                expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{Except([Store].[Store].[Store Country].Members,{[Store].[Store].[Store Country].[USA],[Store].[Store].[Store Country].[Canada]})},Exists({[Store].[Store].[Store State].Members},{Except([Store].[Store].[Store Country].Members,{[Store].[Store].[Store Country].[USA],[Store].[Store].[Store Country].[Canada]})})})) ON ROWS FROM [Store]");
               });
             });
           });
@@ -506,37 +521,37 @@ test('two level query with filtering (exclude)', async () => {
 });
 
 test('three level query with filtering (include)', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
         queryLevel = new QueryLevel(q);
-        queryLevel.setUniqueName("[Store].[Stores].[Store City]");
+        queryLevel.setUniqueName("[Store].[Store].[Store City]");
         queryLevel.setRowOrientation(true);
-        let queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+        let queryFilter = new QueryFilter("[Store].[Store].[Store Country]", q);
         await q.levels.add(queryLevel).then(async () => {
           await analysis.query.filters.add(queryFilter).then(async () => {
             await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
-              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},{[Store].[Stores].[Store Country].[USA]})})) ON ROWS FROM [Store]");
-              queryFilter = new QueryFilter("[Store].[Stores].[Store State]", q);
+              expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA]},Exists({[Store].[Store].[Store State].Members},{[Store].[Store].[Store Country].[USA]}),Exists({[Store].[Store].[Store City].Members},{[Store].[Store].[Store Country].[USA]})})) ON ROWS FROM [Store]");
+              queryFilter = new QueryFilter("[Store].[Store].[Store State]", q);
               await analysis.query.filters.add(queryFilter).then(async () => {
                 await queryFilter.levelMemberNames.set(["WA"]).then(async () => {
-                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].Members},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))})) ON ROWS FROM [Store]");
-                  queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA]},Exists({[Store].[Store].[Store State].[WA]},{[Store].[Store].[Store Country].[USA]}),Exists({[Store].[Store].[Store City].Members},Exists({[Store].[Store].[Store State].[WA]},{[Store].[Store].[Store Country].[USA]}))})) ON ROWS FROM [Store]");
+                  queryFilter = new QueryFilter("[Store].[Store].[Store City]", q);
                   await analysis.query.filters.add(queryFilter).then(async () => {
                     await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
-                      expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},Exists({[Store].[Stores].[Store State].[WA]},{[Store].[Stores].[Store Country].[USA]}))})) ON ROWS FROM [Store]");
+                      expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA]},Exists({[Store].[Store].[Store State].[WA]},{[Store].[Store].[Store Country].[USA]}),Exists({[Store].[Store].[Store City].[Bellingham],[Store].[Store].[Store City].[Tacoma]},Exists({[Store].[Store].[Store State].[WA]},{[Store].[Store].[Store Country].[USA]}))})) ON ROWS FROM [Store]");
                       await analysis.query.filters.get(0).levelMemberNames.clear().then(async () => {
-                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].[WA]},Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store State].[WA]})})) ON ROWS FROM [Store]");
+                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].Members},{[Store].[Store].[Store State].[WA]},Exists({[Store].[Store].[Store City].[Bellingham],[Store].[Store].[Store City].[Tacoma]},{[Store].[Store].[Store State].[WA]})})) ON ROWS FROM [Store]");
                       });
                     });
                   });
@@ -551,35 +566,35 @@ test('three level query with filtering (include)', async () => {
 });
 
 test('three level query with filtering on <3 levels (include)', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     let queryLevel = new QueryLevel(q);
-    queryLevel.setUniqueName("[Store].[Stores].[Store Country]");
+    queryLevel.setUniqueName("[Store].[Store].[Store Country]");
     queryLevel.setRowOrientation(true);
     await q.levels.add(queryLevel).then(async () => {
       queryLevel = new QueryLevel(q);
-      queryLevel.setUniqueName("[Store].[Stores].[Store State]");
+      queryLevel.setUniqueName("[Store].[Store].[Store State]");
       queryLevel.setRowOrientation(true);
       await q.levels.add(queryLevel).then(async () => {
         queryLevel = new QueryLevel(q);
-        queryLevel.setUniqueName("[Store].[Stores].[Store City]");
+        queryLevel.setUniqueName("[Store].[Store].[Store City]");
         queryLevel.setRowOrientation(true);
-        let queryFilter = new QueryFilter("[Store].[Stores].[Store Country]", q);
+        let queryFilter = new QueryFilter("[Store].[Store].[Store Country]", q);
         await q.levels.add(queryLevel).then(async () => {
           await analysis.query.filters.add(queryFilter).then(async () => {
             await queryFilter.levelMemberNames.set(["USA"]).then(async () => {
-              queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
+              queryFilter = new QueryFilter("[Store].[Store].[Store City]", q);
               await analysis.query.filters.add(queryFilter).then(async () => {
                 await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
-                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].[USA]},Exists({[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store Country].[USA]}),Exists({[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]},{[Store].[Stores].[Store Country].[USA]})})) ON ROWS FROM [Store]");
+                  expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].[USA]},Exists({[Store].[Store].[Store State].Members},{[Store].[Store].[Store Country].[USA]}),Exists({[Store].[Store].[Store City].[Bellingham],[Store].[Store].[Store City].[Tacoma]},{[Store].[Store].[Store Country].[USA]})})) ON ROWS FROM [Store]");
                   await analysis.query.filters.clear().then(async () => {
-                    queryFilter = new QueryFilter("[Store].[Stores].[Store City]", q);
+                    queryFilter = new QueryFilter("[Store].[Store].[Store City]", q);
                     await analysis.query.filters.add(queryFilter).then(async () => {
                       await queryFilter.levelMemberNames.set(["Bellingham","Tacoma"]).then(async () => {
-                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Stores].[Store Country].Members},{[Store].[Stores].[Store State].Members},{[Store].[Stores].[Store City].[Bellingham],[Store].[Stores].[Store City].[Tacoma]}})) ON ROWS FROM [Store]");
+                        expect(q.asMDX()).toBe("SELECT NON EMPTY {[Measures].[Store Sqft]} ON COLUMNS, NON EMPTY VisualTotals(Hierarchize({{[Store].[Store].[Store Country].Members},{[Store].[Store].[Store State].Members},{[Store].[Store].[Store City].[Bellingham],[Store].[Store].[Store City].[Tacoma]}})) ON ROWS FROM [Store]");
                       });
                     });
                   });
@@ -594,22 +609,22 @@ test('three level query with filtering on <3 levels (include)', async () => {
 });
 
 test('changing axis orientation within a hierarchy', async () => {
-  const analysis = new Analysis(foodmartDatasets[7], "test");
+  const analysis = new Analysis(storeDataset, "test");
   const q = analysis.query;
   const queryMeasure = new QueryMeasure(q);
   queryMeasure.setUniqueName("[Measures].[Store Sqft]");
   await q.measures.add(queryMeasure).then(async () => {
     const queryLevel1 = new QueryLevel(q);
-    await queryLevel1.setUniqueName("[Store].[Stores].[Store Country]").then(async () => {
+    await queryLevel1.setUniqueName("[Store].[Store].[Store Country]").then(async () => {
       await q.levels.add(queryLevel1).then(async () => {
         const queryLevel2 = new QueryLevel(q);
-        await queryLevel2.setUniqueName("[Store].[Stores].[Store State]").then(async () => {
+        await queryLevel2.setUniqueName("[Store].[Store].[Store State]").then(async () => {
           await q.levels.add(queryLevel2).then(async () => {
             await queryLevel2.setRowOrientation(false).then(async () => {
               expect(queryLevel1.rowOrientation).toBe(false);
               const queryLevel3 = new QueryLevel(q);
               expect(queryLevel3.rowOrientation).toBe(true); 
-              await queryLevel3.setUniqueName("[Store].[Stores].[Store City]").then(async () => {
+              await queryLevel3.setUniqueName("[Store].[Store].[Store City]").then(async () => {
                 expect(queryLevel3.rowOrientation).toBe(false); 
               });
             });

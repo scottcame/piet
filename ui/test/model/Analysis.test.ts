@@ -24,7 +24,7 @@ test('persistence', async () => {
     expect(serializedAnalysis).toMatchObject({
       datasetRef: {
         id: 'http://localhost:58080/mondrian-rest/getMetadata?connectionName=test',
-        cube: 'Test'
+        cube: 'Test_F1'
       },
       name: 'test-name',
       description: 'test-description',

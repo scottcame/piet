@@ -11,20 +11,18 @@ test('dataset', () => {
   for (const i of [...Array(6).keys()]) {
     expect(datasets[i].schemaName).toBe("Test");
     expect(datasets[i].id).toBe(datasetId);
-    const expectedName = i <= 2 ? "Test" : "Test_Secure";
+    const expectedName = i <= 2 ? "Test_F" + (i+1) : "Test_F" + (i-2) + "_Secure";
     expect(datasets[i].name).toBe(expectedName);
     expect(datasets[i].description).toBe(expectedName);
-    expect(datasets[i].measureGroupName).toBe("F" + ((i%3)+1));
   }
 });
 
 test('measures', () => {
-  expect(datasets[0].measures).toHaveLength(1);
+  expect(datasets[0].measures).toHaveLength(2);
   expect(datasets[0].measures[0].name).toBe("F1_M1");
   expect(datasets[0].measures[0].description).toBe("F1_M1");
-  expect(datasets[0].measureGroupName).toBe("F1");
-  expect(datasets[2].measures).toHaveLength(4);
-  expect(datasets[2].measures.map((measure: Measure): string => { return measure.name; })).toMatchObject(["F3_M1","F3_M2","F3_MH","F3_M3"]);
+  expect(datasets[2].measures).toHaveLength(5);
+  expect(datasets[2].measures.map((measure: Measure): string => { return measure.name; })).toMatchObject(["F3_M1","F3_M2","F3_MH","Fact Count","F3_M3"]);
 });
 
 test('dimensions', () => {
@@ -68,8 +66,8 @@ test('member levels', () => {
 });
 
 test('level mdx string', () => {
-  expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString()).toBe("[D1].[D1].[D1_DESCRIPTION].Members"); 
-  expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString(false)).toBe("[D1].[D1].[D1_DESCRIPTION]"); 
+  expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString()).toBe("[D1].[D1.D1].[D1_DESCRIPTION].Members"); 
+  expect(datasets[0].dimensions[1].hierarchies[0].levels[1].asMdxString(false)).toBe("[D1].[D1.D1].[D1_DESCRIPTION]"); 
 });
 
 test('measures mdx string', () => {
@@ -95,19 +93,21 @@ test('foodmart (big)', async () => {
   await fmd.getMetadata().then((metadata): any => {
     const datasets = Dataset.loadFromMetadata(metadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
     expect(datasets).not.toBeNull();
-    expect(datasets.length).toBe(11);
-    const storeDataset = datasets[7];
+    expect(datasets.length).toBe(7);
+    const storeDataset = datasets[3];
     expect(storeDataset.name).toBe("Store");
-    expect(storeDataset.measures).toHaveLength(2);
+    expect(storeDataset.measures).toHaveLength(3);
     expect(storeDataset.dimensions).toHaveLength(4);
   });
 });
 
 test('find level on dataset', () => {
-  let level = datasets[0].findLevel("[D1].[D1].[D1_DESCRIPTION]");
+  const h = datasets[0].findHierarchy("[D1].[D1.D1]");
+  expect(h).not.toBeNull();
+  let level = datasets[0].findLevel("[D1].[D1.D1].[D1_DESCRIPTION]");
   expect(level).not.toBeNull();
-  expect(level.uniqueName).toBe("[D1].[D1].[D1_DESCRIPTION]");
-  level = datasets[0].findLevel("[D1].[D1].[nope]");
+  expect(level.uniqueName).toBe("[D1].[D1.D1].[D1_DESCRIPTION]");
+  level = datasets[0].findLevel("[D1].[D1.D1].[nope]");
   expect(level).toBeNull();
 });
 
@@ -115,12 +115,12 @@ test('level hierarchical relationship', async () => {
   const fmd = FoodmartMetadata.getInstance();
   await fmd.getMetadata().then((metadata): any => {
     const datasets = Dataset.loadFromMetadata(metadata, "http://localhost:58080/mondrian-rest/getMetadata?connectionName=foodmart");
-    const storeDataset = datasets[7];
-    const stateLevel = storeDataset.findLevel("[Store].[Stores].[Store State]");
+    const storeDataset = datasets[3];
+    const stateLevel = storeDataset.findLevel("[Store].[Store].[Store State]");
     expect(stateLevel).not.toBeNull();
-    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store Country]")).toBe(true);
-    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store State]")).toBe(false);
-    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store City]")).toBe(false);
-    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Stores].[Store Name]")).toBe(false);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Store].[Store Country]")).toBe(true);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Store].[Store State]")).toBe(false);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Store].[Store City]")).toBe(false);
+    expect(stateLevel.isHierarchicalDescendantOf("[Store].[Store].[Store Name]")).toBe(false);
   });
 });

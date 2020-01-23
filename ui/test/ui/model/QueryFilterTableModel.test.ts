@@ -21,7 +21,7 @@ beforeEach(async () => {
 
 test('basic', async () => {
   const analysis = new Analysis(datasets.get(0), "test-name", null);
-  model.init(analysis, "[D1].[D1].[D1_DESCRIPTION]");
+  model.init(analysis, "[D1].[D1.D1].[D1_DESCRIPTION]");
   expect(model.columnHeader).toBe("D1_DESCRIPTION");
   expect(model.rowCount).toBe(2);
   expect(model.getValueAt(0)).toBe("D1 One");
@@ -30,7 +30,7 @@ test('basic', async () => {
   expect(model.getRowSelectedAt(1)).toBe(false);
   expect(analysis.query.filters).toHaveLength(0);
   expect(model.selectedMemberNames).toHaveLength(0);
-  const queryFilter = new QueryFilter("[D1].[D1].[D1_DESCRIPTION]", analysis.query);
+  const queryFilter = new QueryFilter("[D1].[D1.D1].[D1_DESCRIPTION]", analysis.query);
   await analysis.query.filters.add(queryFilter).then(async () => {
     await queryFilter.levelMemberNames.add("D1 One").then(async () => {
       expect(model.rowCount).toBe(2);

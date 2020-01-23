@@ -346,7 +346,7 @@ export class QueryLevel extends AbstractQueryObject implements Cloneable<QueryLe
     return this._rowOrientation;
   }
   get hierarchyName(): string {
-    return this._uniqueName.split(".").slice(0,2).join(".");
+    return this._uniqueName.replace(/(\[[^\]]+\])\.(\[[^\]]+\])\.(\[[^\]]+\])/, "$1.$2");
   }
   get memberMDXSet(): string {
     let ret = this._uniqueName + ".Members";

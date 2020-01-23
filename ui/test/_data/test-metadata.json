@@ -3,8 +3,8 @@
   "connectionName": "test",
   "cubes": [
     {
-      "name": "Test",
-      "caption": "Test",
+      "name": "Test_F1",
+      "caption": "Test_F1",
       "measures": [
         {
           "name": "F1_M1",
@@ -13,34 +13,10 @@
           "calculated": false
         },
         {
-          "name": "F2_M1",
-          "caption": "F2_M1",
-          "visible": true,
-          "calculated": false
-        },
-        {
-          "name": "F3_M1",
-          "caption": "F3_M1",
-          "visible": true,
-          "calculated": false
-        },
-        {
-          "name": "F3_M2",
-          "caption": "F3_M2",
-          "visible": true,
-          "calculated": false
-        },
-        {
-          "name": "F3_MH",
-          "caption": "F3_MH",
+          "name": "Fact Count",
+          "caption": "Fact Count",
           "visible": false,
           "calculated": false
-        },
-        {
-          "name": "F3_M3",
-          "caption": "F3_M3",
-          "visible": true,
-          "calculated": true
         }
       ],
       "dimensions": [
@@ -69,40 +45,8 @@
                       "isAll": false
                     },
                     {
-                      "name": "F2_M1",
-                      "caption": "F2_M1",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_M1",
-                      "caption": "F3_M1",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_M2",
-                      "caption": "F3_M2",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_MH",
-                      "caption": "F3_MH",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_M3",
-                      "caption": "F3_M3",
+                      "name": "Fact Count",
+                      "caption": "Fact Count",
                       "childMemberCount": 0,
                       "childMembers": [],
                       "childMembersPopulated": true,
@@ -121,7 +65,7 @@
           "type": "",
           "hierarchies": [
             {
-              "name": "D1",
+              "name": "D1.D1",
               "caption": "D1",
               "levels": [
                 {
@@ -186,236 +130,14 @@
               ],
               "hasAll": true
             }
-          ]
-        },
-        {
-          "name": "D2",
-          "caption": "D2",
-          "type": "",
-          "hierarchies": [
-            {
-              "name": "D2",
-              "caption": "D2",
-              "levels": [
-                {
-                  "name": "(All)",
-                  "caption": "(All)",
-                  "depth": 0,
-                  "cardinality": 1,
-                  "populated": true,
-                  "members": [
-                    {
-                      "name": "All",
-                      "caption": "All",
-                      "childMemberCount": 2,
-                      "childMembers": [
-                        {
-                          "name": "D2 A",
-                          "caption": "D2 A",
-                          "childMemberCount": 2,
-                          "childMembers": [
-                            {
-                              "name": "D2 One",
-                              "caption": "D2 One",
-                              "childMemberCount": 0,
-                              "childMembers": [],
-                              "childMembersPopulated": true,
-                              "isAll": false
-                            },
-                            {
-                              "name": "D2 Two",
-                              "caption": "D2 Two",
-                              "childMemberCount": 0,
-                              "childMembers": [],
-                              "childMembersPopulated": true,
-                              "isAll": false
-                            }
-                          ],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        },
-                        {
-                          "name": "D2 B",
-                          "caption": "D2 B",
-                          "childMemberCount": 1,
-                          "childMembers": [
-                            {
-                              "name": "D2 Three",
-                              "caption": "D2 Three",
-                              "childMemberCount": 0,
-                              "childMembers": [],
-                              "childMembersPopulated": true,
-                              "isAll": false
-                            }
-                          ],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        }
-                      ],
-                      "childMembersPopulated": true,
-                      "isAll": true
-                    }
-                  ]
-                },
-                {
-                  "name": "D2_ROLLUP",
-                  "caption": "D2_ROLLUP",
-                  "depth": 1,
-                  "cardinality": -2147483648,
-                  "populated": true,
-                  "members": [
-                    {
-                      "name": "D2 A",
-                      "caption": "D2 A",
-                      "childMemberCount": 2,
-                      "childMembers": [
-                        {
-                          "name": "D2 One",
-                          "caption": "D2 One",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        },
-                        {
-                          "name": "D2 Two",
-                          "caption": "D2 Two",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        }
-                      ],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "D2 A",
-                      "caption": "D2 A",
-                      "childMemberCount": 2,
-                      "childMembers": [
-                        {
-                          "name": "D2 One",
-                          "caption": "D2 One",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        },
-                        {
-                          "name": "D2 Two",
-                          "caption": "D2 Two",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        }
-                      ],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "D2 B",
-                      "caption": "D2 B",
-                      "childMemberCount": 1,
-                      "childMembers": [
-                        {
-                          "name": "D2 Three",
-                          "caption": "D2 Three",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        }
-                      ],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    }
-                  ]
-                },
-                {
-                  "name": "D2_DESCRIPTION",
-                  "caption": "D2_DESCRIPTION",
-                  "depth": 2,
-                  "cardinality": -2147483648,
-                  "populated": true,
-                  "members": [
-                    {
-                      "name": "D2 One",
-                      "caption": "D2 One",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "D2 Two",
-                      "caption": "D2 Two",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "D2 Three",
-                      "caption": "D2 Three",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    }
-                  ]
-                }
-              ],
-              "hasAll": true
-            }
-          ]
-        }
-      ],
-      "measureGroups": [
-        {
-          "name": "F1",
-          "measureReferences": [
-            "F1_M1"
-          ],
-          "dimensionReferences": [
-            "D1"
-          ]
-        },
-        {
-          "name": "F2",
-          "measureReferences": [
-            "F2_M1"
-          ],
-          "dimensionReferences": [
-            "D2"
-          ]
-        },
-        {
-          "name": "F3",
-          "measureReferences": [
-            "F3_M1",
-            "F3_M2",
-            "F3_MH",
-            "F3_M3"
-          ],
-          "dimensionReferences": [
-            "D1",
-            "D2"
           ]
         }
       ]
     },
     {
-      "name": "Test_Secure",
-      "caption": "Test_Secure",
+      "name": "Test_F2",
+      "caption": "Test_F2",
       "measures": [
-        {
-          "name": "F1_M1",
-          "caption": "F1_M1",
-          "visible": true,
-          "calculated": false
-        },
         {
           "name": "F2_M1",
           "caption": "F2_M1",
@@ -423,28 +145,10 @@
           "calculated": false
         },
         {
-          "name": "F3_M1",
-          "caption": "F3_M1",
-          "visible": true,
-          "calculated": false
-        },
-        {
-          "name": "F3_M2",
-          "caption": "F3_M2",
-          "visible": true,
-          "calculated": false
-        },
-        {
-          "name": "F3_MH",
-          "caption": "F3_MH",
+          "name": "Fact Count",
+          "caption": "Fact Count",
           "visible": false,
           "calculated": false
-        },
-        {
-          "name": "F3_M3",
-          "caption": "F3_M3",
-          "visible": true,
-          "calculated": true
         }
       ],
       "dimensions": [
@@ -465,14 +169,6 @@
                   "populated": true,
                   "members": [
                     {
-                      "name": "F1_M1",
-                      "caption": "F1_M1",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
                       "name": "F2_M1",
                       "caption": "F2_M1",
                       "childMemberCount": 0,
@@ -481,32 +177,8 @@
                       "isAll": false
                     },
                     {
-                      "name": "F3_M1",
-                      "caption": "F3_M1",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_M2",
-                      "caption": "F3_M2",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_MH",
-                      "caption": "F3_MH",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "F3_M3",
-                      "caption": "F3_M3",
+                      "name": "Fact Count",
+                      "caption": "Fact Count",
                       "childMemberCount": 0,
                       "childMembers": [],
                       "childMembersPopulated": true,
@@ -520,85 +192,12 @@
           ]
         },
         {
-          "name": "D1",
-          "caption": "D1",
-          "type": "",
-          "hierarchies": [
-            {
-              "name": "D1",
-              "caption": "D1",
-              "levels": [
-                {
-                  "name": "(All)",
-                  "caption": "(All)",
-                  "depth": 0,
-                  "cardinality": 1,
-                  "populated": true,
-                  "members": [
-                    {
-                      "name": "All",
-                      "caption": "All",
-                      "childMemberCount": 2,
-                      "childMembers": [
-                        {
-                          "name": "D1 One",
-                          "caption": "D1 One",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        },
-                        {
-                          "name": "D1 Two",
-                          "caption": "D1 Two",
-                          "childMemberCount": 0,
-                          "childMembers": [],
-                          "childMembersPopulated": true,
-                          "isAll": false
-                        }
-                      ],
-                      "childMembersPopulated": true,
-                      "isAll": true
-                    }
-                  ]
-                },
-                {
-                  "name": "D1_DESCRIPTION",
-                  "caption": "D1_DESCRIPTION",
-                  "depth": 1,
-                  "cardinality": 5,
-                  "populated": true,
-                  "members": [
-                    {
-                      "name": "D1 One",
-                      "caption": "D1 One",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    },
-                    {
-                      "name": "D1 Two",
-                      "caption": "D1 Two",
-                      "childMemberCount": 0,
-                      "childMembers": [],
-                      "childMembersPopulated": true,
-                      "isAll": false
-                    }
-                  ]
-                }
-              ],
-              "hasAll": true
-            }
-          ]
-        },
-        {
           "name": "D2",
           "caption": "D2",
           "type": "",
           "hierarchies": [
             {
-              "name": "D2",
+              "name": "D2.D2",
               "caption": "D2",
               "levels": [
                 {
@@ -694,6 +293,313 @@
                       "isAll": false
                     },
                     {
+                      "name": "D2 B",
+                      "caption": "D2 B",
+                      "childMemberCount": 1,
+                      "childMembers": [
+                        {
+                          "name": "D2 Three",
+                          "caption": "D2 Three",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                },
+                {
+                  "name": "D2_DESCRIPTION",
+                  "caption": "D2_DESCRIPTION",
+                  "depth": 2,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D2 One",
+                      "caption": "D2 One",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 Two",
+                      "caption": "D2 Two",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 Three",
+                      "caption": "D2 Three",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Test_F3",
+      "caption": "Test_F3",
+      "measures": [
+        {
+          "name": "F3_M1",
+          "caption": "F3_M1",
+          "visible": true,
+          "calculated": false
+        },
+        {
+          "name": "F3_M2",
+          "caption": "F3_M2",
+          "visible": true,
+          "calculated": false
+        },
+        {
+          "name": "F3_MH",
+          "caption": "F3_MH",
+          "visible": false,
+          "calculated": false
+        },
+        {
+          "name": "Fact Count",
+          "caption": "Fact Count",
+          "visible": false,
+          "calculated": false
+        },
+        {
+          "name": "F3_M3",
+          "caption": "F3_M3",
+          "visible": true,
+          "calculated": true
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "Measures",
+          "caption": "Measures",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "Measures",
+              "caption": "Measures",
+              "levels": [
+                {
+                  "name": "MeasuresLevel",
+                  "caption": "MeasuresLevel",
+                  "depth": 0,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "F3_M1",
+                      "caption": "F3_M1",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_M2",
+                      "caption": "F3_M2",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_MH",
+                      "caption": "F3_MH",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "Fact Count",
+                      "caption": "Fact Count",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_M3",
+                      "caption": "F3_M3",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": false
+            }
+          ]
+        },
+        {
+          "name": "D1",
+          "caption": "D1",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "D1.D1",
+              "caption": "D1",
+              "levels": [
+                {
+                  "name": "(All)",
+                  "caption": "(All)",
+                  "depth": 0,
+                  "cardinality": 1,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "All",
+                      "caption": "All",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D1 One",
+                          "caption": "D1 One",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D1 Two",
+                          "caption": "D1 Two",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": true
+                    }
+                  ]
+                },
+                {
+                  "name": "D1_DESCRIPTION",
+                  "caption": "D1_DESCRIPTION",
+                  "depth": 1,
+                  "cardinality": 5,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D1 One",
+                      "caption": "D1 One",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D1 Two",
+                      "caption": "D1 Two",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": true
+            }
+          ]
+        },
+        {
+          "name": "D2",
+          "caption": "D2",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "D2.D2",
+              "caption": "D2",
+              "levels": [
+                {
+                  "name": "(All)",
+                  "caption": "(All)",
+                  "depth": 0,
+                  "cardinality": 1,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "All",
+                      "caption": "All",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D2 A",
+                          "caption": "D2 A",
+                          "childMemberCount": 2,
+                          "childMembers": [
+                            {
+                              "name": "D2 One",
+                              "caption": "D2 One",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            },
+                            {
+                              "name": "D2 Two",
+                              "caption": "D2 Two",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            }
+                          ],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D2 B",
+                          "caption": "D2 B",
+                          "childMemberCount": 1,
+                          "childMembers": [
+                            {
+                              "name": "D2 Three",
+                              "caption": "D2 Three",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            }
+                          ],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": true
+                    }
+                  ]
+                },
+                {
+                  "name": "D2_ROLLUP",
+                  "caption": "D2_ROLLUP",
+                  "depth": 1,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
                       "name": "D2 A",
                       "caption": "D2 A",
                       "childMemberCount": 2,
@@ -775,37 +681,685 @@
             }
           ]
         }
+      ]
+    },
+    {
+      "name": "Test_F1_Secure",
+      "caption": "Test_F1_Secure",
+      "measures": [
+        {
+          "name": "F1_M1",
+          "caption": "F1_M1",
+          "visible": true,
+          "calculated": false
+        },
+        {
+          "name": "Fact Count",
+          "caption": "Fact Count",
+          "visible": false,
+          "calculated": false
+        }
       ],
-      "measureGroups": [
+      "dimensions": [
         {
-          "name": "F1",
-          "measureReferences": [
-            "F1_M1"
-          ],
-          "dimensionReferences": [
-            "D1"
+          "name": "Measures",
+          "caption": "Measures",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "Measures",
+              "caption": "Measures",
+              "levels": [
+                {
+                  "name": "MeasuresLevel",
+                  "caption": "MeasuresLevel",
+                  "depth": 0,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "F1_M1",
+                      "caption": "F1_M1",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "Fact Count",
+                      "caption": "Fact Count",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": false
+            }
           ]
         },
         {
-          "name": "F2",
-          "measureReferences": [
-            "F2_M1"
-          ],
-          "dimensionReferences": [
-            "D2"
+          "name": "D1",
+          "caption": "D1",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "D1.D1",
+              "caption": "D1",
+              "levels": [
+                {
+                  "name": "(All)",
+                  "caption": "(All)",
+                  "depth": 0,
+                  "cardinality": 1,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "All",
+                      "caption": "All",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D1 One",
+                          "caption": "D1 One",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D1 Two",
+                          "caption": "D1 Two",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": true
+                    }
+                  ]
+                },
+                {
+                  "name": "D1_DESCRIPTION",
+                  "caption": "D1_DESCRIPTION",
+                  "depth": 1,
+                  "cardinality": 5,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D1 One",
+                      "caption": "D1 One",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D1 Two",
+                      "caption": "D1 Two",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Test_F2_Secure",
+      "caption": "Test_F2_Secure",
+      "measures": [
+        {
+          "name": "F2_M1",
+          "caption": "F2_M1",
+          "visible": true,
+          "calculated": false
+        },
+        {
+          "name": "Fact Count",
+          "caption": "Fact Count",
+          "visible": false,
+          "calculated": false
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "Measures",
+          "caption": "Measures",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "Measures",
+              "caption": "Measures",
+              "levels": [
+                {
+                  "name": "MeasuresLevel",
+                  "caption": "MeasuresLevel",
+                  "depth": 0,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "F2_M1",
+                      "caption": "F2_M1",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "Fact Count",
+                      "caption": "Fact Count",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": false
+            }
           ]
         },
         {
-          "name": "F3",
-          "measureReferences": [
-            "F3_M1",
-            "F3_M2",
-            "F3_MH",
-            "F3_M3"
-          ],
-          "dimensionReferences": [
-            "D1",
-            "D2"
+          "name": "D2",
+          "caption": "D2",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "D2.D2",
+              "caption": "D2",
+              "levels": [
+                {
+                  "name": "(All)",
+                  "caption": "(All)",
+                  "depth": 0,
+                  "cardinality": 1,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "All",
+                      "caption": "All",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D2 A",
+                          "caption": "D2 A",
+                          "childMemberCount": 2,
+                          "childMembers": [
+                            {
+                              "name": "D2 One",
+                              "caption": "D2 One",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            },
+                            {
+                              "name": "D2 Two",
+                              "caption": "D2 Two",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            }
+                          ],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D2 B",
+                          "caption": "D2 B",
+                          "childMemberCount": 1,
+                          "childMembers": [
+                            {
+                              "name": "D2 Three",
+                              "caption": "D2 Three",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            }
+                          ],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": true
+                    }
+                  ]
+                },
+                {
+                  "name": "D2_ROLLUP",
+                  "caption": "D2_ROLLUP",
+                  "depth": 1,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D2 A",
+                      "caption": "D2 A",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D2 One",
+                          "caption": "D2 One",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D2 Two",
+                          "caption": "D2 Two",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 B",
+                      "caption": "D2 B",
+                      "childMemberCount": 1,
+                      "childMembers": [
+                        {
+                          "name": "D2 Three",
+                          "caption": "D2 Three",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                },
+                {
+                  "name": "D2_DESCRIPTION",
+                  "caption": "D2_DESCRIPTION",
+                  "depth": 2,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D2 One",
+                      "caption": "D2 One",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 Two",
+                      "caption": "D2 Two",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 Three",
+                      "caption": "D2 Three",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Test_F3_Secure",
+      "caption": "Test_F3_Secure",
+      "measures": [
+        {
+          "name": "F3_M1",
+          "caption": "F3_M1",
+          "visible": true,
+          "calculated": false
+        },
+        {
+          "name": "F3_M2",
+          "caption": "F3_M2",
+          "visible": true,
+          "calculated": false
+        },
+        {
+          "name": "F3_MH",
+          "caption": "F3_MH",
+          "visible": false,
+          "calculated": false
+        },
+        {
+          "name": "Fact Count",
+          "caption": "Fact Count",
+          "visible": false,
+          "calculated": false
+        },
+        {
+          "name": "F3_M3",
+          "caption": "F3_M3",
+          "visible": true,
+          "calculated": true
+        }
+      ],
+      "dimensions": [
+        {
+          "name": "Measures",
+          "caption": "Measures",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "Measures",
+              "caption": "Measures",
+              "levels": [
+                {
+                  "name": "MeasuresLevel",
+                  "caption": "MeasuresLevel",
+                  "depth": 0,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "F3_M1",
+                      "caption": "F3_M1",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_M2",
+                      "caption": "F3_M2",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_MH",
+                      "caption": "F3_MH",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "Fact Count",
+                      "caption": "Fact Count",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "F3_M3",
+                      "caption": "F3_M3",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": false
+            }
+          ]
+        },
+        {
+          "name": "D1",
+          "caption": "D1",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "D1.D1",
+              "caption": "D1",
+              "levels": [
+                {
+                  "name": "(All)",
+                  "caption": "(All)",
+                  "depth": 0,
+                  "cardinality": 1,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "All",
+                      "caption": "All",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D1 One",
+                          "caption": "D1 One",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D1 Two",
+                          "caption": "D1 Two",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": true
+                    }
+                  ]
+                },
+                {
+                  "name": "D1_DESCRIPTION",
+                  "caption": "D1_DESCRIPTION",
+                  "depth": 1,
+                  "cardinality": 5,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D1 One",
+                      "caption": "D1 One",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D1 Two",
+                      "caption": "D1 Two",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": true
+            }
+          ]
+        },
+        {
+          "name": "D2",
+          "caption": "D2",
+          "type": "",
+          "hierarchies": [
+            {
+              "name": "D2.D2",
+              "caption": "D2",
+              "levels": [
+                {
+                  "name": "(All)",
+                  "caption": "(All)",
+                  "depth": 0,
+                  "cardinality": 1,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "All",
+                      "caption": "All",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D2 A",
+                          "caption": "D2 A",
+                          "childMemberCount": 2,
+                          "childMembers": [
+                            {
+                              "name": "D2 One",
+                              "caption": "D2 One",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            },
+                            {
+                              "name": "D2 Two",
+                              "caption": "D2 Two",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            }
+                          ],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D2 B",
+                          "caption": "D2 B",
+                          "childMemberCount": 1,
+                          "childMembers": [
+                            {
+                              "name": "D2 Three",
+                              "caption": "D2 Three",
+                              "childMemberCount": 0,
+                              "childMembers": [],
+                              "childMembersPopulated": true,
+                              "isAll": false
+                            }
+                          ],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": true
+                    }
+                  ]
+                },
+                {
+                  "name": "D2_ROLLUP",
+                  "caption": "D2_ROLLUP",
+                  "depth": 1,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D2 A",
+                      "caption": "D2 A",
+                      "childMemberCount": 2,
+                      "childMembers": [
+                        {
+                          "name": "D2 One",
+                          "caption": "D2 One",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        },
+                        {
+                          "name": "D2 Two",
+                          "caption": "D2 Two",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 B",
+                      "caption": "D2 B",
+                      "childMemberCount": 1,
+                      "childMembers": [
+                        {
+                          "name": "D2 Three",
+                          "caption": "D2 Three",
+                          "childMemberCount": 0,
+                          "childMembers": [],
+                          "childMembersPopulated": true,
+                          "isAll": false
+                        }
+                      ],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                },
+                {
+                  "name": "D2_DESCRIPTION",
+                  "caption": "D2_DESCRIPTION",
+                  "depth": 2,
+                  "cardinality": -2147483648,
+                  "populated": true,
+                  "members": [
+                    {
+                      "name": "D2 One",
+                      "caption": "D2 One",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 Two",
+                      "caption": "D2 Two",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    },
+                    {
+                      "name": "D2 Three",
+                      "caption": "D2 Three",
+                      "childMemberCount": 0,
+                      "childMembers": [],
+                      "childMembersPopulated": true,
+                      "isAll": false
+                    }
+                  ]
+                }
+              ],
+              "hasAll": true
+            }
           ]
         }
       ]
