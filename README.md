@@ -29,6 +29,11 @@ curl -S https://raw.githubusercontent.com/scottcame/piet/master/docker/docker-co
 
 This Docker Compose file starts the Piet application container itself, as well as the accompanying [mongodb](https://www.mongodb.com/) container for storage of persisted analyses.
 
+After the containers start, the application will be available at http://localhost/piet. *Note* that it takes awhile for the first connection to the demo backend (up to 60 seconds or so, on a 2019 vintage MacBook Pro) because
+the demo version loads the mondrian foodmart database and schema. (You will see a spinner in Piet with the message "Initializing Connections...").
+Most "regular" data sources don't require this much time to start, and if a data source is slow upon first access, mondrian-rest can be configured to initialize data sources
+at container startup time rather than lazily upon first access, allowing for a better user experience. See the readme in the mondrian-rest codebase for more information on how to configure the controller.
+
 #### Features
 
 Piet allows the user to create _Analyses_ from available _Datasets_. An instance of Piet is configured with a set of Mondrian connections (the configuration is actually a configuration of
