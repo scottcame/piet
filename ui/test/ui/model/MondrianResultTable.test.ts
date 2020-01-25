@@ -1,3 +1,18 @@
+// Copyright 2020 National Police Foundation
+// Copyright 2020 Scott Came Consulting LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import { MondrianResult } from "../../../src/js/model/MondrianResult";
 import { TestData } from "../../_data/TestData";
 import { MondrianResultTableModel } from "../../../src/js/ui/model/MondrianResultTable";
@@ -79,7 +94,7 @@ test('header rows 2m2r1c', () => {
   expect(tableModel.headerRows).toHaveLength(2);
   expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
   expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
-  expect(tableModel.headerRows[0][0]).toBeNull(); 
+  expect(tableModel.headerRows[0][0]).toBeNull();
   expect(tableModel.topLeftEmptyColumnCount).toBe(1);
   expect(tableModel.headerRows[0][1]).toBe("Store Type");
   expect(tableModel.headerRows[0][2]).toBe("Deluxe Supermarket");
@@ -128,8 +143,8 @@ test('header rows 2m2r2c', () => {
   expect(tableModel.headerRows[0]).toHaveLength(tableModel.headerRows[1].length);
   expect(tableModel.headerRows[1]).toHaveLength(tableModel.headerRows[2].length);
   expect(tableModel.headerRows[0]).toHaveLength(result.rowCaptions.length + result.columnAxis.positions.length);
-  expect(tableModel.headerRows[0][0]).toBeNull(); 
-  expect(tableModel.headerRows[1][0]).toBeNull(); 
+  expect(tableModel.headerRows[0][0]).toBeNull();
+  expect(tableModel.headerRows[1][0]).toBeNull();
   expect(tableModel.topLeftEmptyColumnCount).toBe(1);
   expect(tableModel.headerRows[0][1]).toBe("Store State");
   expect(tableModel.headerRows[0][2]).toBe("CA");

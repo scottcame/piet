@@ -1,3 +1,18 @@
+// Copyright 2020 National Police Foundation
+// Copyright 2020 Scott Came Consulting LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.cascadia_analytics.piet.domain;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -7,21 +22,21 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:mvn-resources-application.properties")
 public class PietConfiguration {
-	
+
 	public static final String DEFAULT_APPLICATION_TITLE = "Piet";
 	public static final String DEFAULT_LOGO_IMAGE_URL = "img/piet-logo.jpg";
 	public static final String DEFAULT_LOG_LEVEL = "error";
 	public static final String DEFAULT_MONDRIAN_REST_URL = "/mondrian-rest";
-	
+
 	@Value("${piet.ui.applicationTitle:" + DEFAULT_APPLICATION_TITLE + "}")
 	private String applicationTitle;
-	
+
 	@Value("${piet.ui.logoImageUrl:" + DEFAULT_LOGO_IMAGE_URL + "}")
 	private String logoImageUrl;
-	
+
 	@Value("${piet.ui.logLevel:" + DEFAULT_LOG_LEVEL + "}")
 	private String logLevel;
-	
+
 	@Value("${piet.ui.apiVersion}")
 	private String apiVersion;
 
@@ -67,5 +82,5 @@ public class PietConfiguration {
 	public void setMondrianRestUrl(String mondrianRestUrl) {
 		this.mondrianRestUrl = mondrianRestUrl;
 	}
-	
+
 }

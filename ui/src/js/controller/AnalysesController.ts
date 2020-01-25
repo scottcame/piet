@@ -1,3 +1,18 @@
+// Copyright 2020 National Police Foundation
+// Copyright 2020 Scott Came Consulting LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import { Repository, RepositoryError, RepositoryErrorType } from "../model/Repository";
 import { Workspace } from "../model/Workspace";
 import { DropdownModel } from "../ui/model/Dropdown";
@@ -88,14 +103,14 @@ export class AnalysesController {
         this.datasetsDropdownModel = new DropdownModel(this.datasets, "label");
         this.browseAnalysesTableModel = new TableModel<Analysis>(AnalysisAdapterFactory.COLUMN_LABELS);
         this.analysesDropdownModel  = new DropdownModel(this.workspace.analyses, "name");
-    
+
         /* eslint-disable @typescript-eslint/no-this-alias */
         const self = this;
-    
+
         this.viewPropertyUpdater.update("errorModalMessage", null);
         this.viewPropertyUpdater.update("executingQuery", false);
         this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
-    
+
         this.workspace.analyses.addChangeEventListener({
           listChanged(_event: ListChangeEvent): Promise<void> {
             self.viewPropertyUpdater.update("analysesInWorkspace", self.workspace.analyses.length);
@@ -105,15 +120,15 @@ export class AnalysesController {
             return Promise.resolve();
           }
         });
-    
+
         this.analysesDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => this.handleAnalysisSelection(e)));
-    
+
         this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
           this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
         }));
 
       });
-  
+
     }).catch((error: RepositoryError) => {
       this.viewPropertyUpdater.update("errorModalMessage", error.message);
     });
@@ -266,7 +281,7 @@ export class AnalysesController {
         return this.repository.saveAnalysis(this.currentAnalysis).then(async (newId) => {
           if (!this.currentAnalysis.id) {
             this.currentAnalysis.id = newId;
-            // have to call these explicitly because this.currentAnalysisEditListener wont pick up edits to the id (it's not observed) 
+            // have to call these explicitly because this.currentAnalysisEditListener wont pick up edits to the id (it's not observed)
             this.updateSaveAnalysisMenuItem();
             this.updateCancelEditsMenuItem();
           }

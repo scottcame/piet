@@ -1,3 +1,18 @@
+// Copyright 2020 National Police Foundation
+// Copyright 2020 Scott Came Consulting LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.cascadia_analytics.piet;
 
 import static org.junit.Assert.assertEquals;
@@ -23,33 +38,33 @@ import com.cascadia_analytics.piet.domain.PietConfiguration;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties={"piet.ui.logLevel=info"})
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD) // forces recreation of repository with fresh database after each test
 public class PietRestControllerTest {
-	
+
 	private static final Log log = LogFactory.getLog(PietRestControllerTest.class);
-	
+
 	@LocalServerPort
 	private int port;
-	
+
 	@Autowired
     private TestRestTemplate restTemplate;
-	
+
 	@BeforeAll
 	public static void beforeAll() {
 		log.trace("Before " + PietRestControllerTest.class.getName());
 	}
-	
+
 	@Test
 	public void testGetConfiguration() throws Exception {
 		PietConfiguration pietConfiguration = restTemplate.getForObject("http://localhost:" + port + "/config", PietConfiguration.class);
 		assertEquals(PietConfiguration.DEFAULT_APPLICATION_TITLE, pietConfiguration.getApplicationTitle());
 		assertEquals("info", pietConfiguration.getLogLevel()); // note properties override on @SpringBootTest above
 	}
-	
+
 	@Test
 	public void testGetAnalyses() throws Exception {
 		Analysis[] analyses = restTemplate.getForObject("http://localhost:" + port + "/analyses", Analysis[].class);
 	    assertEquals(analyses.length, 0);
 	}
-	
+
 	@Test
 	public void testSaveAnalysis() throws Exception {
 		Analysis analysis = getDemoAnalysis();
@@ -68,7 +83,7 @@ public class PietRestControllerTest {
 		assertNotEquals(foundAnalysis2.getCreateDateTime(), foundAnalysis2.getUpdateDateTime());
 		assertEquals(2, foundAnalysis2.getReadCounter());
 	}
-	
+
 	@Test
 	public void testReadCounter() throws Exception {
 		Analysis analysis = getDemoAnalysis();
@@ -81,7 +96,7 @@ public class PietRestControllerTest {
 		foundAnalysis = restTemplate.getForObject("http://localhost:" + port + "/analysis?id=" + id.getId(), Analysis.class);
 		assertEquals(3, foundAnalysis.getReadCounter());
 	}
-	
+
 	@Test
 	public void testDeleteAnalysis() throws Exception {
 		Analysis analysis = getDemoAnalysis();
@@ -90,7 +105,7 @@ public class PietRestControllerTest {
 		Analysis[] analyses = restTemplate.getForObject("http://localhost:" + port + "/analyses", Analysis[].class);
 	    assertEquals(analyses.length, 0);
 	}
-	
+
 	private static final Analysis getDemoAnalysis() {
 		Analysis analysis = new Analysis();
 		analysis.setName("Analysis 1");

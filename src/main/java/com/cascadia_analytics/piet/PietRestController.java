@@ -1,3 +1,18 @@
+// Copyright 2020 National Police Foundation
+// Copyright 2020 Scott Came Consulting LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 package com.cascadia_analytics.piet;
 
 import java.util.Date;
@@ -20,25 +35,25 @@ import com.cascadia_analytics.piet.repository.AnalysisRepository;
 
 @RestController
 public class PietRestController {
-	
+
 	private final Log log = LogFactory.getLog(PietRestController.class);
-	
+
 	@Autowired
 	private AnalysisRepository analysisRepository;
-	
+
 	@Autowired
 	private PietConfiguration pietConfiguration;
-	
+
 	public PietRestController() {
 		log.trace("Created " + this.getClass().getName());
 //		pietConfiguration = new PietConfiguration();
 	}
-	
+
 	@GetMapping(path="/config", produces="application/json")
 	public PietConfiguration getConfiguration() throws Exception {
 		return pietConfiguration;
 	}
-	
+
 	@GetMapping(path="/analyses", produces="application/json")
 	public Analysis[] getAnalyses() throws Exception {
 		Analysis[] ret = analysisRepository.findAll().toArray(new Analysis[0]);
@@ -46,7 +61,7 @@ public class PietRestController {
 		//  on browseAnalyses(), then use GET /analysis by id to get the specific one requested by user.
 		return ret;
 	}
-	
+
 	@GetMapping(path="/analysis", produces="application/json")
 	public Analysis getAnalysis(String id) throws Exception {
 		Analysis ret = null;
@@ -56,7 +71,7 @@ public class PietRestController {
 		}
 		return ret;
 	}
-	
+
 	@PostMapping(path="/analysis", consumes="application/json", produces="application/json")
 	public IdContainer saveAnalysis(@RequestBody Analysis analysis) throws Exception {
 		Analysis savedAnalysis = saveAnalysis(analysis, false, true);
@@ -77,12 +92,12 @@ public class PietRestController {
 		Analysis savedAnalysis = analysisRepository.save(analysis);
 		return savedAnalysis;
 	}
-	
+
 	@DeleteMapping(path="/analysis/{id}")
 	public void deleteAnalysis(@PathVariable String id) throws Exception {
 		analysisRepository.deleteById(id);
 	}
-	
-	
+
+
 
 }

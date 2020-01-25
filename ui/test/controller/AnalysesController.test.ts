@@ -1,3 +1,18 @@
+// Copyright 2020 National Police Foundation
+// Copyright 2020 Scott Came Consulting LLC
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import { LocalRepository } from "../../src/js/model/Repository";
 import { AnalysesController } from "../../src/js/controller/AnalysesController";
 import { DatasetAdapterFactory } from "../../src/js/ui/adapters/DatasetAdapterFactory";
@@ -36,7 +51,7 @@ beforeEach(async () => {
         repository.log.info("Controller initialization complete");
       });
     });
-  }); 
+  });
 });
 
 test('initial state', () => {
@@ -151,7 +166,7 @@ test('workspace persistence', async () => {
       expect(controller.currentAnalysis.dirty).toBe(true);
       await controller.saveCurrentAnalysis().then(async () => {
         expect(repository.workspace.analyses.get(0).description).toEqual('A description...');
-        return repository.getPersistedWorkspace().then((w: Workspace) => { 
+        return repository.getPersistedWorkspace().then((w: Workspace) => {
           expect(w.analyses.get(0).description).toEqual('A description...');
         });
       });
@@ -181,7 +196,7 @@ test('Basic browse', async () => {
           });
         });
       });
-    }); 
+    });
   });
 });
 
@@ -197,7 +212,7 @@ test('Saving makes clean', async () => {
           expect(controller.getMenuItemForLabel(AnalysesController.SAVE_MENU_ITEM_LABEL).enabled).toBe(false);
         });
       });
-    }); 
+    });
   });
 });
 
@@ -249,25 +264,25 @@ test('Dataset tree node workspace persistence', async () => {
     const queryMeasure = new QueryMeasure(controller.currentAnalysis.query);
     queryMeasure.setUniqueName("[Measures].[F1_M1]");
     await controller.currentAnalysis.query.measures.add(queryMeasure).then(async () => {
-      await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+      await repository.getPersistedWorkspace().then(async (w: Workspace) => {
         expect(w.analyses.get(0).query.measures).toHaveLength(1);
         const queryLevel = new QueryLevel(controller.currentAnalysis.query);
         queryLevel.setUniqueName("[D1].[D1].[D1_DESCRIPTION");
         queryLevel.setRowOrientation(true);
         await controller.currentAnalysis.query.levels.add(queryLevel).then(async () => {
-          await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+          await repository.getPersistedWorkspace().then(async (w: Workspace) => {
             expect(w.analyses.get(0).query.measures).toHaveLength(1);
             expect(w.analyses.get(0).query.levels).toHaveLength(1);
             expect(w.analyses.get(0).query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
             expect(w.analyses.get(0).query.levels.get(0).rowOrientation).toBe(true);
             await queryLevel.setRowOrientation(false).then(async () => {
-              await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+              await repository.getPersistedWorkspace().then(async (w: Workspace) => {
                 expect(w.analyses.get(0).query.measures).toHaveLength(1);
                 expect(w.analyses.get(0).query.levels).toHaveLength(1);
                 expect(w.analyses.get(0).query.levels.get(0).uniqueName).toBe(queryLevel.uniqueName);
                 expect(w.analyses.get(0).query.levels.get(0).rowOrientation).toBe(false);
                 await controller.currentAnalysis.query.levels.removeAt(0).then(async () => {
-                  await repository.getPersistedWorkspace().then(async (w: Workspace) => { 
+                  await repository.getPersistedWorkspace().then(async (w: Workspace) => {
                     expect(w.analyses.get(0).query.measures).toHaveLength(1);
                     expect(w.analyses.get(0).query.levels).toHaveLength(0);
                   });
@@ -360,4 +375,3 @@ test('execute query with error', async () => {
     });
   });
 });
-
