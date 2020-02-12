@@ -119,6 +119,9 @@
     Query timed out, click <span class="underline cursor-pointer" on:click={undoLastAnalysisEdit}>here</span> to continue.
   {:else}
     Query error, click <span class="underline cursor-pointer" on:click={undoLastAnalysisEdit}>here</span> to continue.
+    {#if viewProperties.currentAnalysis && !viewProperties.currentAnalysis.undoAvailable}
+    (Unfortunately, error is unrecoverable; current analysis will be closed without saving.)
+    {/if}
   {/if}
 </div>
 

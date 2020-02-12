@@ -433,9 +433,14 @@ export class AnalysesController {
   }
 
   async undoLastAnalysisEdit(): Promise<void> {
-    return this.currentAnalysis.undo().then(async () => {
-      this.viewPropertyUpdater.update("executeQueryErrorModalType", null);
-      return this.executeQuery();
+    if (this.currentAnalysis.undoAvailable) {
+      return this.currentAnalysis.undo().then(async () => {
+        this.viewPropertyUpdater.update("executeQueryErrorModalType", null);
+        return this.executeQuery();
+      });
+    }
+    return this.repository.workspace.analyses.remove(this.currentAnalysis).then(async () => {
+      return Promise.resolve();
     });
   }
 

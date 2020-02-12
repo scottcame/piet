@@ -46,12 +46,21 @@ export class Analysis implements Identifiable, Serializable<Analysis>, Editable 
     this._query = new Query(this);
 
     this.initQueryComponentListListeners();
-    this.undoAction = (): Promise<void> => { return Promise.resolve(); };
+    this.undoAction = null;
 
   }
 
   async undo(): Promise<void> {
-    return this.undoAction();
+    if (this.undoAction === null) {
+      return Promise.resolve();
+    }
+    const action = this.undoAction();
+    this.undoAction = null;
+    return action;
+  }
+
+  get undoAvailable(): boolean {
+    return this.undoAction !== null;
   }
 
   serialize(repository: Repository): any {

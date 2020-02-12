@@ -36,7 +36,7 @@ beforeAll(async () => {
 
 beforeEach(async () => {
   repository.simulateBrowseDatasetsError = false;
-  repository.simulateQueryExecutionError = false;
+  repository.simulateQueryExecutionError = (_mdx: string): boolean => { return false; };
   await repository.clearWorkspace().then(async () => {
     await repository.refreshDatabase().then(async () => {
       controller = new AnalysesController(repository, {
@@ -367,11 +367,32 @@ test('controller init browseDatasets error', async () => {
 test('execute query with error', async () => {
   controller.newAnalysis();
   controller.datasetsDropdownModel.selectedIndex.value = 0;
-  await controller.chooseNewAnalysisDataset().then(async () => {
+  return controller.chooseNewAnalysisDataset().then(async () => {
+    expect(controller.currentAnalysis.query.measures).toHaveLength(0);
     const event = new TreeMeasureNodeEvent("[Measures].[F1_M1]", true);
-    repository.simulateQueryExecutionError = true;
-    await controller.handleDatasetTreeNodeEvent(event).then(async () => {
+    repository.simulateQueryExecutionError = (_mdx: string): boolean => { return true; };
+    return controller.handleDatasetTreeNodeEvent(event).then(async () => {
       expect(viewProperties.executeQueryErrorModalType).toBe("parse");
+      expect(controller.currentAnalysis.query.measures).toHaveLength(1);
+      expect(controller.currentAnalysis.undoAvailable).toBe(true); // undo is available, so we can try undoing our way out of the query error
+      return controller.undoLastAnalysisEdit().then(async () => {
+        expect(controller.currentAnalysis.query.measures).toHaveLength(0);
+        repository.simulateQueryExecutionError = (_mdx: string): boolean => { return false; };
+        return controller.handleDatasetTreeNodeEvent(event).then(async () => {
+          return repository.init().then(async () => {
+            expect(controller.currentAnalysis.query.measures).toHaveLength(1);
+            expect(controller.currentAnalysis.undoAvailable).toBe(false); // undo is not available
+            repository.simulateQueryExecutionError = (_mdx: string): boolean => { return true; }; // but oops, we get an error!
+            expect(viewProperties.executeQueryErrorModalType).toBe("parse"); // show the dialog
+            return controller.undoLastAnalysisEdit().then(async () => {
+              // now when we undo it, we have no choice but to close the analysis (without saving, as noted on the dialog that pops)
+              // this keeps us out of the "query error death trap" where we get in an endless loop of "an error occurred, click here...an error occurred, click here... ..."
+              expect(controller.currentAnalysis).toBeNull();
+              expect(repository.workspace.analyses).toHaveLength(0);
+            });
+          });
+        });
+      });
     });
   });
 });

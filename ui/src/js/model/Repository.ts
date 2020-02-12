@@ -168,7 +168,7 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   private db: RepositoryDatabase;
 
   simulateBrowseDatasetsError = false;
-  simulateQueryExecutionError = false;
+  simulateQueryExecutionError = (_mdx: string): boolean => { return false; };
 
   constructor(logLevel = LogLevel.DEBUG) {
     super(logLevel);
@@ -287,7 +287,8 @@ export class LocalRepository extends AbstractBaseRepository implements Repositor
   }
 
   async executeQuery(mdx: string, _dataset: Dataset): Promise<MondrianResult> {
-    if (this.simulateQueryExecutionError) {
+    const simulateError = this.simulateQueryExecutionError(mdx);
+    if (simulateError) {
       this.log.info("Simulating executeQuery error");
       return Promise.reject(new RepositoryError(RepositoryErrorType.QUERY_ERROR, "Local Repository simulated executeQuery error"));
     }
