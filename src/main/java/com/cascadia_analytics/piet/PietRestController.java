@@ -21,6 +21,8 @@ import java.util.Optional;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.retry.annotation.Retryable;
+import org.springframework.retry.annotation.Backoff;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,16 +39,22 @@ import com.cascadia_analytics.piet.repository.AnalysisRepository;
 public class PietRestController {
 
 	private final Log log = LogFactory.getLog(PietRestController.class);
+	private static final int MONGO_RETRY_ATTEMPTS = 3;
+	private static final int MONGO_RETRY_WAIT = 3000;
 
-	@Autowired
 	private AnalysisRepository analysisRepository;
 
-	@Autowired
 	private PietConfiguration pietConfiguration;
 
 	public PietRestController() {
-		log.trace("Created " + this.getClass().getName());
-//		pietConfiguration = new PietConfiguration();
+		log.info("PietRestController initializing.");
+		log.info("NOTE: If mongodb is not available, you will see a stack trace in the logs immediately below. " + MONGO_RETRY_ATTEMPTS + " reconnection attempt(s) will be made every " + MONGO_RETRY_WAIT + " milliseconds. (This typically happens when running under docker-compose).");
+	}
+	
+	@Autowired
+	@Retryable(value={Exception.class}, maxAttempts=MONGO_RETRY_ATTEMPTS, backoff=@Backoff(value=MONGO_RETRY_WAIT))
+	public void setAnalysisRepository(AnalysisRepository repository) {
+		this.analysisRepository = repository;
 	}
 
 	@GetMapping(path="/config", produces="application/json")
