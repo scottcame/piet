@@ -23,7 +23,7 @@
   import { currentView } from '../js/Stores';
   import { List } from '../js/collections/List';
   import { Workspace } from '../js/model/Workspace';
-  import { LocalRepository, RemoteRepository } from '../js/model/Repository';
+  import { LocalRepository, RemoteRepository, RepositoryError } from '../js/model/Repository';
 
   export let remote;
 
@@ -49,6 +49,8 @@
       reason = "The analyses in your workspace are out of sync with available datasets and cannot be restored. Refresh the page to continue.";
       repository.clearWorkspace();
       includeErrorRefreshHint = false;
+    } else if (reason instanceof RepositoryError) {
+      reason = reason.message;
     }
     initializationFailureMessage = reason;
   });
