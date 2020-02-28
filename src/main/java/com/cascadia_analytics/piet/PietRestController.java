@@ -44,6 +44,7 @@ public class PietRestController {
 
 	private AnalysisRepository analysisRepository;
 
+	@Autowired
 	private PietConfiguration pietConfiguration;
 
 	public PietRestController() {
