@@ -100,6 +100,41 @@
     controller.undoLastAnalysisEdit();
   }
 
+  const sidebarResizeClickListener = (e) => {
+    sidebarCollapsed = !sidebarCollapsed;
+    const sidebarInside = document.querySelector("#sidebar-inside");
+    const sidebar = document.querySelector("#sidebar");
+    if (sidebarCollapsed) {
+      sidebarInside.classList.add("invisible");
+      sidebar.classList.remove("w-1/4");
+      sidebar.classList.add("w-0");
+      main.classList.remove("w-3/4");
+      main.classList.add("w-full");
+    } else {
+      sidebarInside.classList.remove("invisible");
+      sidebar.classList.remove("w-0");
+      sidebar.classList.add("w-1/4");
+      main.classList.add("w-3/4");
+      main.classList.remove("w-full");
+      sidebar.style.cursor = "default";
+      sidebar.removeEventListener("click", sidebarResizeClickListener);
+    }
+  };
+
+  let sidebarCollapsed = false;
+
+  function sidebarMousemove(e) {
+    const sidebarDiv = e.target;
+    const rect = sidebarDiv.getBoundingClientRect();
+    if (Math.abs(e.clientX - rect.right) < 5) {
+      sidebarDiv.style.cursor = "col-resize";
+      sidebarDiv.addEventListener("click", sidebarResizeClickListener);
+    } else {
+      sidebarDiv.style.cursor = "default";
+      sidebarDiv.removeEventListener("click", sidebarResizeClickListener);
+    }
+  }
+
 </script>
 
 {#await initPromise}
@@ -126,13 +161,15 @@
 </div>
 
 <div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
-  <div class="w-1/4 h-full select-none pt-2 pr-2 border-2 overflow-y-auto {viewProperties.executingQuery ? 'opacity-75' : ''}">
-    <div class="flex flex-inline items-center justify-between mb-2">
-      <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true" initialSelectionIndex={viewProperties.analysesInWorkspace ? 0 : null} enabled={!viewProperties.executingQuery}/>
+  <div id="sidebar" class="w-1/4 h-full select-none pt-2 pr-2 border-2 overflow-y-auto {viewProperties.executingQuery ? 'opacity-75' : ''}" on:mousemove|self="{sidebarMousemove}">
+    <div class="w-full h-full" id="sidebar-inside">
+      <div class="flex flex-inline items-center justify-between mb-2 cursor-default">
+        <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true" initialSelectionIndex={viewProperties.analysesInWorkspace ? 0 : null} enabled={!viewProperties.executingQuery}/>
+      </div>
+      <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis} enabled={!viewProperties.executingQuery}/>
     </div>
-    <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis} enabled={!viewProperties.executingQuery}/>
   </div>
-  <div class="w-3/4 flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
+  <div id="main" class="w-3/4 flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
       <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
       <div class="flex flex-inline">
