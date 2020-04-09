@@ -21,6 +21,7 @@
   import AnalysesView from './AnalysesView.svelte';
   import DatasetsView from './DatasetsView.svelte';
   import DashboardsView from './DashboardsView.svelte';
+  import SettingsView from './SettingsView.svelte';
 
   export let repository;
 
@@ -32,6 +33,8 @@
     },
     handleBrowseAnalyses: function(e) {
       analysesNavBarController.handleBrowseAnalyses(e);
+    },
+    handleSettings: function(e) {
     }
   };
 
@@ -40,9 +43,12 @@
 <div class="h-full {$currentView === 'analyses' ? '' : 'hidden'}">
   <AnalysesView repository={repository} bind:navBarController={analysesNavBarController}/>
 </div>
-<div class="{$currentView === 'dashboards' ? '' : 'hidden'}">
+<div class="h-full {$currentView === 'dashboards' ? '' : 'hidden'}">
   <DashboardsView/>
 </div>
-<div class="{$currentView === 'datasets' ? '' : 'hidden'}">
+<div class="h-full {$currentView === 'datasets' ? '' : 'hidden'}">
   <DatasetsView/>
+</div>
+<div class="h-full {$currentView === 'settings' ? '' : 'hidden'}">
+  <SettingsView repository={repository}/>
 </div>

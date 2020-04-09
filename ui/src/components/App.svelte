@@ -75,6 +75,7 @@
     logoImageUrl={logoImageUrl}
     on:nav-new-analysis="{e => navBarController.handleNewAnalysis(e)}"
     on:nav-browse-analyses="{e => navBarController.handleBrowseAnalyses(e)}"
+    on:nav-settings="{e => navBarController.handleSettings(e)}"
   />
   <MainContainer repository={repository} bind:navBarController={navBarController}/>
   {/if}

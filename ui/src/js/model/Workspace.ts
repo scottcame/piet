@@ -17,6 +17,7 @@ import { Analysis } from './Analysis';
 import { List, ListChangeEventListener, ListChangeEvent } from '../collections/List';
 import { Serializable, EditEventListener, EditEvent, PropertyEditEvent } from './Persistence';
 import { Repository } from './Repository';
+import { Settings } from './Settings';
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -24,14 +25,17 @@ export class Workspace implements Serializable<Workspace> {
 
   readonly analyses: List<Analysis>;
   readonly name: string;
+  private _settings: Settings;
   private workspaceChangeListener: WorkspaceChangeListener;
   _autosaveChanges: boolean;
 
   constructor(repository: Repository, autosaveChanges = true) {
     this.analyses = new List<Analysis>();
+    this._settings = new Settings();
     this.name = "Default";
     this.workspaceChangeListener = new WorkspaceChangeListener(repository);
     this.analyses.addChangeEventListener(this.workspaceChangeListener);
+    this._settings.addEditEventListener(this.workspaceChangeListener);
     this.autosaveChanges = autosaveChanges;
   }
 
@@ -44,6 +48,10 @@ export class Workspace implements Serializable<Workspace> {
     this.workspaceChangeListener.emitNotifications = value;
   }
 
+  get settings(): Settings {
+    return this._settings;
+  }
+
   serialize(repository: Repository): any {
     const analyses = [];
     this.analyses.forEach((analysis: Analysis): void => {
@@ -51,19 +59,27 @@ export class Workspace implements Serializable<Workspace> {
     });
     return {
       name: this.name,
-      analyses: analyses
+      analyses: analyses,
+      settings: this._settings.serialize(repository)
     };
   }
 
   async deserialize(o: any, repository: Repository): Promise<Workspace> {
     const ret = new Workspace(repository);
     ret.workspaceChangeListener.emitNotifications = false;
-    const promises: Promise<Analysis>[] = [];
+    const promises: Promise<Analysis|Settings>[] = [];
     o.analyses.forEach((analysis: any): void => {
       promises.push(new Analysis().deserialize(analysis, repository).then(analysis => {
         return ret.analyses.add(analysis);
       }));
     });
+    if (o.settings) {
+      promises.push(new Settings().deserialize(o.settings, repository).then(settings => {
+        ret._settings = settings;
+        ret._settings.addEditEventListener(this.workspaceChangeListener);
+        return Promise.resolve(settings);
+      }));
+    }
     return Promise.all(promises).then(() => {
       ret.workspaceChangeListener.emitNotifications = true;
       return Promise.resolve(ret);

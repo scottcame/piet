@@ -36,7 +36,8 @@
     {
       name: "analyses",
       disabled: false,
-      active: true,
+      active: false,
+      action: () => {},
       subnav: [
         {
           name: "New",
@@ -52,6 +53,7 @@
       name: "dashboards",
       disabled: true,
       active: false,
+      action: () => {},
       subnav: [
         {
           name: "New",
@@ -67,8 +69,16 @@
       name: "datasets",
       disabled: true,
       active: false,
+      action: () => {},
       subnav: []
     },
+    {
+      name: "settings",
+      disabled: false,
+      active: true,
+      action: settings,
+      subnav: []
+    }
   ];
 
   let activeNav = navs.filter(nav => nav.active)[0];
@@ -80,6 +90,7 @@
     nav.active = true;
     activeNav = nav;
     navs = navs;
+    nav.action()
 	}
 
   function newAnalysis() {
@@ -96,6 +107,10 @@
 
   function browseDashboards() {
     console.log("Browse dashboards");
+  }
+
+  function settings() {
+    dispatch('nav-settings', {});
   }
 
 </script>

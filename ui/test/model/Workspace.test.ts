@@ -68,6 +68,16 @@ test('minimizing workspace saves', async () => {
   });
 });
 
+test('settings', async() => {
+  const mock = new MockRepository();
+  return mock.init().then(async () => {
+    return mock.workspace.settings.setRowHighlight(true).then(() => {
+      expect(mock.saveWorkspace).toHaveBeenCalledTimes(1);
+      expect(mock.workspace.settings.rowHighlight).toBe(true);
+    });
+  });
+});
+
 class MockRepository implements Repository {
 
   analyses: List<Analysis>;
