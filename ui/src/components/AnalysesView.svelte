@@ -104,14 +104,17 @@
     sidebarCollapsed = !sidebarCollapsed;
     const sidebarInside = document.querySelector("#sidebar-inside");
     const sidebar = document.querySelector("#sidebar");
+    const main = document.querySelector("#main");
     if (sidebarCollapsed) {
       sidebarInside.classList.add("invisible");
+      sidebarInside.classList.remove("visible");
       sidebar.classList.remove("w-1/4");
       sidebar.classList.add("w-0");
       main.classList.remove("w-3/4");
       main.classList.add("w-full");
     } else {
       sidebarInside.classList.remove("invisible");
+      sidebarInside.classList.add("visible");
       sidebar.classList.remove("w-0");
       sidebar.classList.add("w-1/4");
       main.classList.add("w-3/4");
@@ -161,7 +164,7 @@
 </div>
 
 <div class="mt-2 p-2 h-full bg-gray-100 flex flex-inline {viewProperties.analysesInWorkspace ? '' : 'hidden'}">
-  <div id="sidebar" class="w-1/4 h-full select-none pt-2 pr-2 border-2 overflow-y-auto {viewProperties.executingQuery ? 'opacity-75' : ''}" on:mousemove|self="{sidebarMousemove}">
+  <div id="sidebar" class="{sidebarCollapsed ? 'w-0' : 'w-1/4'} h-full select-none pt-2 pr-2 border-2 overflow-y-auto {viewProperties.executingQuery ? 'opacity-75' : ''}" on:mousemove|self="{sidebarMousemove}">
     <div class="w-full h-full" id="sidebar-inside">
       <div class="flex flex-inline items-center justify-between mb-2 cursor-default">
         <Dropdown dropdownModel={controller.analysesDropdownModel} showCaret="true" initialSelectionIndex={viewProperties.analysesInWorkspace ? 0 : null} enabled={!viewProperties.executingQuery}/>
@@ -169,7 +172,7 @@
       <TreeContainerNode treeModelNode={viewProperties.datasetRootTreeModelNode} collapsable={false} on:nodeEvent={handleDatasetTreeNodeEvent} currentAnalysis={viewProperties.currentAnalysis} enabled={!viewProperties.executingQuery}/>
     </div>
   </div>
-  <div id="main" class="w-3/4 flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
+  <div id="main" class="{sidebarCollapsed ? 'w-full' : 'w-3/4'} flex flex-col ml-1 mt-1 {viewProperties.currentAnalysis === null ? 'hidden' : ''}">
     <div class="w-full flex flex-inline justify-between mb-1 border-gray-500 border-b pb-1">
       <div class="w-full p-1 font-medium">{currentAnalysisDescriptionDisplay}</div>
       <div class="flex flex-inline">
