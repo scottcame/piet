@@ -18,6 +18,7 @@
 <script>
 
   export let tableModel;
+  export let rowHighlight;
 
   tableModel.addMondrianTableModelChangeListener({
     mondrianTableModelChanged: function(event) {
@@ -83,7 +84,7 @@
               {/each}
             {/if}
             {#each columnIterator as columnIndex}
-              <td class="border-2 text-right bg-gray-100 pr-1">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
+              <td class="border-2 text-right pr-1 {rowHighlight && rowIndex % 2 ? 'bg-gray-300' : 'bg-gray-100'}">{tableModel.getFormattedValueAt(rowIndex, columnIndex)}</td>
             {/each}
           </tr>
         {/each}

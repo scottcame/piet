@@ -36,7 +36,7 @@
     {
       name: "analyses",
       disabled: false,
-      active: false,
+      active: true,
       action: () => {},
       subnav: [
         {
@@ -75,7 +75,7 @@
     {
       name: "settings",
       disabled: false,
-      active: true,
+      active: false,
       action: settings,
       subnav: []
     }

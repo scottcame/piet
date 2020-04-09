@@ -46,7 +46,8 @@ export class AnalysesController {
     showQueryFilterModal: false,
     errorModalMessage: null,
     executeQueryErrorModalType: null,
-    executingQuery: false
+    executingQuery: false,
+    rowHighlight: null
   };
 
   static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
@@ -110,6 +111,7 @@ export class AnalysesController {
         this.viewPropertyUpdater.update("errorModalMessage", null);
         this.viewPropertyUpdater.update("executingQuery", false);
         this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
+        this.viewPropertyUpdater.update("rowHighlight", self.repository.workspace.settings.rowHighlight);
 
         this.workspace.analyses.addChangeEventListener({
           listChanged(_event: ListChangeEvent): Promise<void> {
@@ -126,6 +128,21 @@ export class AnalysesController {
         this.datasetsDropdownModel.selectedIndex.addChangeEventListener(new DefaultObservableChangeEventListener(e => {
           this.viewPropertyUpdater.update("datasetSelected", e.newValue !== null);
         }));
+
+        this.repository.workspace.settings.addEditEventListener({
+          notifyEdit(_event: EditEvent): Promise<void> {
+            return Promise.resolve();
+          },
+          notifyPendingPropertyEdit(_event: PropertyEditEvent): Promise<void> {
+            return Promise.resolve();
+          },
+          notifyPropertyEdit(event: PropertyEditEvent): Promise<void> {
+            if (event.propertyName==="rowHighlight") {
+              self.viewPropertyUpdater.update("rowHighlight", self.repository.workspace.settings.rowHighlight);
+            }
+            return Promise.resolve();
+          }
+        });
 
       });
 
