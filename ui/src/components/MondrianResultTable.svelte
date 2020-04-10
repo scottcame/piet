@@ -61,7 +61,7 @@
 
 </script>
 
-<div class="text-xxs m-0">
+<div class="text-xs m-0">
   {#if rowIterator.length}
     <table class="border w-full overflow-x-auto overflow-y-auto">
       <thead class="border border-b-2 border-t-2 border-l-2 border-r-2 border-gray-500">
