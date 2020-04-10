@@ -15,6 +15,8 @@
 
 FROM tomcat:9.0-jdk8
 
+ENV JAVA_OPTS="-Xms1024M -Xmx2048M"
+
 COPY server.xml /usr/local/tomcat/conf/
 
 RUN mkdir -p /opt/tomcat/shared/config/
