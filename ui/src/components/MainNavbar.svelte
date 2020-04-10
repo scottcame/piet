@@ -132,7 +132,7 @@
             class="relative block inline-block mr-5 cursor-default {nav.disabled ? '' : (nav.active ? 'text-gray-900' : 'hover:text-gray-900 cursor-pointer')}"
             on:click={nav.disabled ? () => {} : () => {selectNav(nav)}}>
             <div>{nav.name}</div>
-            <div class="text-sm mt-1 underline border-t absolute inset-below justify-between flex flex-row {nav.active ? '' : 'hidden'}">
+            <div class="mt-1 underline border-t absolute inset-below justify-between flex flex-row {nav.active ? '' : 'hidden'}">
               {#each nav.subnav as subnav, idx}
                 <div class="px-8 {idx===0 ? 'pl-0' : ''} {idx===(nav.subnav.length-1) ? 'pr-0' : ''} cursor-pointer" on:click={subnav.action}>{subnav.name}</div>
               {/each}
@@ -142,7 +142,7 @@
       </div>
       <div class="flex inline items-center ml-2 bg-white pl-2">
         <IconSearch/>
-        <input class="text-sm p-2" type="search" placeholder="Search..." disabled>
+        <input class="p-2" type="search" placeholder="Search..." disabled>
       </div>
     </div>
   {/if}
