@@ -47,7 +47,8 @@ export class AnalysesController {
     errorModalMessage: null,
     executeQueryErrorModalType: null,
     executingQuery: false,
-    rowHighlight: null
+    rowHighlight: null,
+    tableFontIncrease: 1
   };
 
   static CANCEL_EDITS_MENU_ITEM_LABEL = "Cancel edits";
@@ -112,6 +113,7 @@ export class AnalysesController {
         this.viewPropertyUpdater.update("executingQuery", false);
         this.viewPropertyUpdater.update("analysesInWorkspace", this.workspace.analyses.length);
         this.viewPropertyUpdater.update("rowHighlight", self.repository.workspace.settings.rowHighlight);
+        this.viewPropertyUpdater.update("tableFontIncrease", self.repository.workspace.settings.tableFontIncrease);
 
         this.workspace.analyses.addChangeEventListener({
           listChanged(_event: ListChangeEvent): Promise<void> {
@@ -139,6 +141,10 @@ export class AnalysesController {
           notifyPropertyEdit(event: PropertyEditEvent): Promise<void> {
             if (event.propertyName==="rowHighlight") {
               self.viewPropertyUpdater.update("rowHighlight", self.repository.workspace.settings.rowHighlight);
+            } else if (event.propertyName==="tableFontIncrease") {
+              // eslint-disable-next-line no-console
+              console.log("firing tfi");
+              self.viewPropertyUpdater.update("tableFontIncrease", self.repository.workspace.settings.tableFontIncrease);
             }
             return Promise.resolve();
           }

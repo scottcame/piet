@@ -79,7 +79,6 @@ test('settings', async() => {
 });
 
 class MockRepository implements Repository {
-
   analyses: List<Analysis>;
   workspace: Workspace;
   readonly pietConfiguration = new PietConfiguration();

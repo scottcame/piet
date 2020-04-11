@@ -52,6 +52,12 @@ export class Workspace implements Serializable<Workspace> {
     return this._settings;
   }
 
+  set settings(value: Settings) {
+    this._settings.removeEditEventListener(this.workspaceChangeListener);
+    this._settings = value;
+    this._settings.addEditEventListener(this.workspaceChangeListener);
+  }
+
   serialize(repository: Repository): any {
     const analyses = [];
     this.analyses.forEach((analysis: Analysis): void => {

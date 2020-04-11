@@ -19,6 +19,9 @@
 
   export let tableModel;
   export let rowHighlight;
+  export let tableFontIncrease = 1;
+  const textClasses = ["text-xs","text-sm","text-base"];
+  let textClass;
 
   tableModel.addMondrianTableModelChangeListener({
     mondrianTableModelChanged: function(event) {
@@ -33,6 +36,7 @@
     columnIterator = [...Array(tableModel.dataColumnCount).keys()];
     topLeftRightBorderCellIndex = tableModel.columnCount - tableModel.dataColumnCount - 1;
     headerRows = tableModel.headerRows;
+    textClass = textClasses[tableFontIncrease-1];
   }
 
   const rightCaret = '\u25B6';
@@ -61,7 +65,7 @@
 
 </script>
 
-<div class="text-xs m-0">
+<div class="{textClass} m-0">
   {#if rowIterator.length}
     <table class="border w-full overflow-x-auto overflow-y-auto">
       <thead class="border border-b-2 border-t-2 border-l-2 border-r-2 border-gray-500">

@@ -18,6 +18,7 @@ import { Repository } from "./Repository";
 export class Settings implements Serializable<Settings>, Editable {
 
   private _rowHighlight = true;
+  private _tableFontIncrease: 1|2|3 = 1;
   private editEventListeners: EditEventListener[] = [];
   dirty: boolean;
 
@@ -30,15 +31,30 @@ export class Settings implements Serializable<Settings>, Editable {
     return this._rowHighlight;
   }
 
-  serialize(_repository: Repository): { rowHighlight: boolean } {
+  setTableFontIncrease(value: 1|2|3): Promise<void> {
+    this._tableFontIncrease = value;
+    return this.notifyOfPropertyEdit("tableFontIncrease");
+  }
+
+  get tableFontIncrease(): 1|2|3 {
+    return this._tableFontIncrease;
+  }
+
+  serialize(_repository: Repository): { rowHighlight: boolean; tableFontIncrease: 1|2|3 } {
     return {
-      rowHighlight: this._rowHighlight
+      rowHighlight: this._rowHighlight,
+      tableFontIncrease: this._tableFontIncrease
     };
   }
 
-  deserialize(o: { rowHighlight: boolean }, _repository: Repository): Promise<Settings> {
+  deserialize(o: { rowHighlight: boolean; tableFontIncrease: 1|2|3 }, _repository: Repository): Promise<Settings> {
+    let tfi: 1|2|3 = 1;
+    if (o.tableFontIncrease) {
+      tfi = o.tableFontIncrease;
+    }
     const ret = new Settings();
     ret._rowHighlight = o.rowHighlight;
+    ret._tableFontIncrease = tfi;
     return Promise.resolve(ret);
   }
 

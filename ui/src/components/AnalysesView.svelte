@@ -192,7 +192,7 @@
     {#if viewProperties.executingQuery}
       <div class="p-2">Executing query...</div>
     {:else if resultsViewMode === "table"}
-      <MondrianResultTable tableModel={controller.mondrianResultTableModel} rowHighlight={viewProperties.rowHighlight}/>
+      <MondrianResultTable tableModel={controller.mondrianResultTableModel} rowHighlight={viewProperties.rowHighlight} tableFontIncrease={viewProperties.tableFontIncrease}/>
     {:else}
       <MondrianResultViz mondrianResultVegaViz={controller.mondrianResultVegaViz}/>
     {/if}

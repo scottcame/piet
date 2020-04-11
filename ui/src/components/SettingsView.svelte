@@ -20,6 +20,7 @@
 
   export let repository;
   let rowHighlightValue = repository.workspace.settings.rowHighlight;
+  let tableFontIncrease = repository.workspace.settings.tableFontIncrease;
 
   repository.workspace.settings.addEditEventListener({
     notifyEdit: (event) => {
@@ -29,6 +30,8 @@
     notifyPropertyEdit: (event) => {
       if (event.propertyName==="rowHighlight") {
         rowHighlightValue = repository.workspace.settings.rowHighlight;
+      } else if (event.propertyName==="tableFontIncrease") {
+        tableFontIncrease = repository.workspace.settings.tableFontIncrease;
       }
     },
   });
@@ -37,11 +40,26 @@
     repository.workspace.settings.setRowHighlight(!repository.workspace.settings.rowHighlight);
   }
 
+  function setTableFontIncrease(value) {
+    repository.workspace.settings.setTableFontIncrease(value);
+  }
+
 </script>
 
 <div class="h-full w-full bg-gray-100">
   <div class="p-4 mt-1">
     <div class="text-xl mb-8">Piet Application Settings</div>
-    <LabeledCheckbox value={rowHighlightValue} on:click={ e => toggleRowHighlightValue() } label="Highlight alternating rows in data tables"/>
+    <div class="flex flex-col w-full border border-gray-800 p-4">
+      <div class="text-lg mb-2 underline">Results Table Formatting</div>
+      <div class="w-full mb-2 ml-2">
+        <LabeledCheckbox value={rowHighlightValue} on:click={ e => toggleRowHighlightValue() } label="Highlight alternating rows"/>
+      </div>
+      <div class="flex flex-inline w-full ml-2">
+        <div>Font size:</div>
+        <div class="ml-2"><LabeledCheckbox value={tableFontIncrease===1} on:click={ e => setTableFontIncrease(1) } label="Normal"/></div>
+        <div class="ml-2"><LabeledCheckbox value={tableFontIncrease===2} on:click={ e => setTableFontIncrease(2) } label="Large"/></div>
+        <div class="ml-2"><LabeledCheckbox value={tableFontIncrease===3} on:click={ e => setTableFontIncrease(3) } label="X-Large"/></div>
+      </div>
+    </div>
   </div>
 </div>

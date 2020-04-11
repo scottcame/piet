@@ -128,6 +128,7 @@ export abstract class AbstractBaseRepository implements Repository {
             this.log.info("...restored " + savedWorkspace.analyses.length + " analyses");
             this._workspace.autosaveChanges = false;
             this._workspace.analyses.setFromList(savedWorkspace.analyses);
+            this._workspace.settings = savedWorkspace.settings;
             this._workspace.autosaveChanges = true;
           }
         });
