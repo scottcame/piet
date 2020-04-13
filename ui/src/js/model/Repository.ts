@@ -40,6 +40,7 @@ export class PietConfiguration {
   logLevel = "error";
   apiVersion: string = null;
   mondrianRestUrl = "/mondrian-rest";
+  tableFontIncrease: 1|2|3 = 1;
 }
 
 export class RepositoryQuery {
@@ -132,6 +133,8 @@ export abstract class AbstractBaseRepository implements Repository {
             this._workspace.autosaveChanges = true;
           }
         });
+      } else {
+        this._workspace.settings.setTableFontIncrease(this._pietConfiguration.tableFontIncrease);
       }
       return ret;
     });
@@ -364,6 +367,7 @@ export class RemoteRepository extends AbstractBaseRepository {
         pc.logoImageUrl = json.logoImageUrl;
         pc.logLevel = json.logLevel;
         pc.mondrianRestUrl = json.mondrianRestUrl;
+        pc.tableFontIncrease = json.tableFontIncrease;
         return Promise.resolve(pc);
       });
     });

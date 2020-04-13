@@ -27,6 +27,7 @@ public class PietConfiguration {
 	public static final String DEFAULT_LOGO_IMAGE_URL = "img/piet-logo.jpg";
 	public static final String DEFAULT_LOG_LEVEL = "error";
 	public static final String DEFAULT_MONDRIAN_REST_URL = "/mondrian-rest";
+	public static final int DEFAULT_TABLE_FONT_INCREASE = 1;
 
 	@Value("${piet.ui.applicationTitle:" + DEFAULT_APPLICATION_TITLE + "}")
 	private String applicationTitle;
@@ -42,7 +43,10 @@ public class PietConfiguration {
 
 	@Value("${piet.ui.mondrian.rest.url:" + DEFAULT_MONDRIAN_REST_URL + "}")
 	private String mondrianRestUrl;
-
+	
+	@Value("${piet.ui.tableFontIncrease:" + DEFAULT_TABLE_FONT_INCREASE + "}")
+	private int tableFontIncrease;
+	
 	public String getApplicationTitle() {
 		return applicationTitle;
 	}
@@ -81,6 +85,14 @@ public class PietConfiguration {
 
 	public void setMondrianRestUrl(String mondrianRestUrl) {
 		this.mondrianRestUrl = mondrianRestUrl;
+	}
+
+	public int getTableFontIncrease() {
+		return tableFontIncrease;
+	}
+
+	public void setTableFontIncrease(int tableFontIncrease) {
+		this.tableFontIncrease = tableFontIncrease;
 	}
 
 }

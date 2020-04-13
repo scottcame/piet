@@ -19,7 +19,7 @@
 
   export let tableModel;
   export let rowHighlight;
-  export let tableFontIncrease = 1;
+  export let tableFontIncrease;
   const textClasses = ["text-xs","text-sm","text-base"];
   let textClass;
 
