@@ -132,6 +132,12 @@ export abstract class AbstractBaseRepository implements Repository {
             this._workspace.settings = savedWorkspace.settings;
             this._workspace.autosaveChanges = true;
           }
+        }, reason => {
+          // eslint-disable-next-line no-console
+          console.error("There was an issue restoring the workspaces indexeddb. Removing locally-saved workspaces.")
+          // eslint-disable-next-line no-console
+          console.error(reason);
+          ret = Promise.reject(reason);
         });
       } else {
         this._workspace.settings.setTableFontIncrease(this._pietConfiguration.tableFontIncrease);
