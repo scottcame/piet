@@ -37,7 +37,7 @@
   // default nav
   currentView.set("analyses");
 
-  const repository = remote ? new RemoteRepository("/piet") : new LocalRepository();
+  const repository = remote ? new RemoteRepository("") : new LocalRepository();
 
   repository.init().then(() => {
     initialized = true;

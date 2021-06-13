@@ -134,7 +134,7 @@ export abstract class AbstractBaseRepository implements Repository {
           }
         }, reason => {
           // eslint-disable-next-line no-console
-          console.error("There was an issue restoring the workspaces indexeddb. Removing locally-saved workspaces.")
+          console.error("There was an issue restoring the workspaces indexeddb. Removing locally-saved workspaces.");
           // eslint-disable-next-line no-console
           console.error(reason);
           ret = Promise.reject(reason);
@@ -358,7 +358,7 @@ export class RemoteRepository extends AbstractBaseRepository {
 
   private async getConfig(): Promise<PietConfiguration> {
     let ret = Promise.resolve(null);
-    ret = fetch(this.remoteRepositoryUrl + "/config").then(async (response: Response) => {
+    ret = fetch(this.remoteRepositoryUrl + "config").then(async (response: Response) => {
       if (response.redirected) {
         location.reload(true);
         return Promise.reject(new RepositoryError(RepositoryErrorType.GENERIC, "Your session has timed out. Reloading application."));
