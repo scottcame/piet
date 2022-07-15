@@ -44,7 +44,7 @@
     "rollup-plugin-terser": "^5.1.2",
     "rollup-plugin-typescript": "^1.0.1",
     "sirv-cli": "^0.4.5",
-    "svelte": "^3.16.0",
+    "svelte": "^3.49.0",
     "svelte-preprocess": "^3.2.6",
     "tailwindcss": "^1.1.4",
     "ts-jest": "^24.2.0",
